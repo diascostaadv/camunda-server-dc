@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" 
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" 
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI" 
+                  xmlns:camunda="http://camunda.org/schema/1.0/bpmn" 
+                  id="Definitions_1" 
+                  targetNamespace="http://bpmn.io/schema/bpmn">
+  
+  <bpmn:process id="processar_movimentacao_judicial" name="Processar Movimentação Judicial" isExecutable="true">
+    
+    <!-- Evento de Início -->
+    <bpmn:startEvent id="iniciar_processamento" name="Nova Movimentação Judicial">
+      <bpmn:outgoing>flow_para_processar</bpmn:outgoing>
+    </bpmn:startEvent>
+    
+    <!-- Tarefa Externa: Processar Publicação -->
+    <bpmn:serviceTask id="processar_publicacao" 
+                      name="Processar Publicação (Step 1)" 
+                      camunda:type="external" 
+                      camunda:topic="nova_publicacao">
+      <bpmn:incoming>flow_para_processar</bpmn:incoming>
+      <bpmn:outgoing>flow_processar_para_gateway</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <!-- Gateway Exclusivo: Verificar Resultado -->
+    <bpmn:exclusiveGateway id="gateway_resultado" name="Processamento OK?">
+      <bpmn:incoming>flow_processar_para_gateway</bpmn:incoming>
+      <bpmn:outgoing>flow_sucesso</bpmn:outgoing>
+      <bpmn:outgoing>flow_erro</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    
+    <!-- Tarefa de Log de Sucesso -->
+    <bpmn:serviceTask id="log_sucesso" 
+                      name="Log Processamento Sucesso" 
+                      camunda:type="external" 
+                      camunda:topic="log_processamento">
+      <bpmn:incoming>flow_sucesso</bpmn:incoming>
+      <bpmn:outgoing>flow_sucesso_para_fim</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <!-- Tarefa de Log de Erro -->
+    <bpmn:serviceTask id="log_erro" 
+                      name="Log Processamento Erro" 
+                      camunda:type="external" 
+                      camunda:topic="log_processamento">
+      <bpmn:incoming>flow_erro</bpmn:incoming>
+      <bpmn:outgoing>flow_erro_para_fim</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <!-- Evento de Fim - Sucesso -->
+    <bpmn:endEvent id="fim_sucesso" name="Movimentação Processada">
+      <bpmn:incoming>flow_sucesso_para_fim</bpmn:incoming>
+    </bpmn:endEvent>
+    
+    <!-- Evento de Fim - Erro -->
+    <bpmn:endEvent id="fim_erro" name="Erro no Processamento">
+      <bpmn:incoming>flow_erro_para_fim</bpmn:incoming>
+    </bpmn:endEvent>
+    
+    <!-- Fluxos de Sequência -->
+    <bpmn:sequenceFlow id="flow_para_processar" sourceRef="iniciar_processamento" targetRef="processar_publicacao" />
+    <bpmn:sequenceFlow id="flow_processar_para_gateway" sourceRef="processar_publicacao" targetRef="gateway_resultado" />
+    
+    <!-- Condições do Gateway -->
+    <bpmn:sequenceFlow id="flow_sucesso" sourceRef="gateway_resultado" targetRef="log_sucesso">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        ${status_processamento == "step_1_complete"}
+      </bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    
+    <bpmn:sequenceFlow id="flow_erro" sourceRef="gateway_resultado" targetRef="log_erro">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        ${status_processamento != "step_1_complete"}
+      </bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    
+    <bpmn:sequenceFlow id="flow_sucesso_para_fim" sourceRef="log_sucesso" targetRef="fim_sucesso" />
+    <bpmn:sequenceFlow id="flow_erro_para_fim" sourceRef="log_erro" targetRef="fim_erro" />
+    
+  </bpmn:process>
+  
+  <!-- Diagrama Visual (posicionamento dos elementos) -->
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="processar_movimentacao_judicial">
+      
+      <!-- Start Event -->
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="iniciar_processamento">
+        <dc:Bounds x="100" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="143" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      
+      <!-- Service Task -->
+      <bpmndi:BPMNShape id="Activity_processar_publicacao" bpmnElement="processar_publicacao">
+        <dc:Bounds x="200" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <!-- Gateway -->
+      <bpmndi:BPMNShape id="Gateway_resultado" bpmnElement="gateway_resultado" isMarkerVisible="true">
+        <dc:Bounds x="375" y="93" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="358" y="63" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      
+      <!-- Log Sucesso -->
+      <bpmndi:BPMNShape id="Activity_log_sucesso" bpmnElement="log_sucesso">
+        <dc:Bounds x="500" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <!-- Log Erro -->
+      <bpmndi:BPMNShape id="Activity_log_erro" bpmnElement="log_erro">
+        <dc:Bounds x="500" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      
+      <!-- End Event Sucesso -->
+      <bpmndi:BPMNShape id="Event_fim_sucesso" bpmnElement="fim_sucesso">
+        <dc:Bounds x="682" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="665" y="143" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      
+      <!-- End Event Erro -->
+      <bpmndi:BPMNShape id="Event_fim_erro" bpmnElement="fim_erro">
+        <dc:Bounds x="682" y="222" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="658" y="265" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      
+      <!-- Sequence Flows -->
+      <bpmndi:BPMNEdge id="Flow_para_processar" bpmnElement="flow_para_processar">
+        <di:waypoint x="136" y="118" />
+        <di:waypoint x="200" y="118" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_processar_para_gateway" bpmnElement="flow_processar_para_gateway">
+        <di:waypoint x="300" y="118" />
+        <di:waypoint x="375" y="118" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_sucesso" bpmnElement="flow_sucesso">
+        <di:waypoint x="425" y="118" />
+        <di:waypoint x="500" y="118" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="450" y="100" width="43" y="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_erro" bpmnElement="flow_erro">
+        <di:waypoint x="400" y="143" />
+        <di:waypoint x="400" y="240" />
+        <di:waypoint x="500" y="240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="415" y="180" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_sucesso_para_fim" bpmnElement="flow_sucesso_para_fim">
+        <di:waypoint x="600" y="118" />
+        <di:waypoint x="682" y="118" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="Flow_erro_para_fim" bpmnElement="flow_erro_para_fim">
+        <di:waypoint x="600" y="240" />
+        <di:waypoint x="682" y="240" />
+      </bpmndi:BPMNEdge>
+      
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  
+</bpmn:definitions>

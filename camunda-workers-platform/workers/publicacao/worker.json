@@ -1,0 +1,28 @@
+{
+  "name": "publicacao",
+  "description": "Publicação Worker - Handles publication import and processing",
+  "entry_point": "main.py",
+  "port": 8002,
+  "topics": [
+    "nova_publicacao"
+  ],
+  "depends_on": [
+    "camunda"
+  ],
+  "environment": {
+    "INTIMATION_USER": "${INTIMATION_USER:-100049}",
+    "INTIMATION_PASSWORD": "${INTIMATION_PASSWORD:-DcDpW@24}"
+  },
+  "max_tasks": 1,
+  "lock_duration": 60000,
+  "async_response_timeout": 30000,
+  "retries": 3,
+  "retry_timeout": 5000,
+  "sleep_seconds": 30,
+  "log_level": "INFO",
+  "metrics_enabled": true,
+  "replicas": 1,
+  "version": "1.0.0",
+  "author": "Camunda Team",
+  "created_at": "2025-01-30T00:00:00"
+}

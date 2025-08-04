@@ -1,0 +1,8 @@
+### Camunda REST API - Get Engine Information
+GET http://localhost:8080/engine-rest/engine
+
+### Camunda REST API - Get Process Definitions
+GET http://localhost:8080/engine-rest/process-definition
+
+### Camunda REST API - Get Tasks
+GET http://localhost:8080/engine-rest/task

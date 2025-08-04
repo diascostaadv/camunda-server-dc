@@ -1,0 +1,27 @@
+{
+  "name": "{{WORKER_NAME}}",
+  "description": "{{WORKER_DESCRIPTION}}",
+  "entry_point": "main.py",
+  "port": {{WORKER_PORT}},
+  "topics": [
+    "{{WORKER_TOPIC}}"
+  ],
+  "depends_on": [
+    "camunda"
+  ],
+  "environment": {
+    "WORKER_SPECIFIC_VAR": "default_value"
+  },
+  "max_tasks": 1,
+  "lock_duration": 60000,
+  "async_response_timeout": 30000,
+  "retries": 3,
+  "retry_timeout": 5000,
+  "sleep_seconds": 30,
+  "log_level": "INFO",
+  "metrics_enabled": true,
+  "replicas": 1,
+  "version": "1.0.0",
+  "author": "Camunda Team",
+  "created_at": "{{CREATION_DATE}}"
+}

@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install only requests
+RUN pip install requests==2.31.0
+
+# Copy only the simple worker
+COPY simple_hello_worker.py .
+
+# Create non-root user
+RUN useradd --create-home --shell /bin/bash worker && \
+    chown -R worker:worker /app
+
+USER worker
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "import requests, os; port=os.getenv('METRICS_PORT', '8001'); requests.get(f'http://localhost:{port}/health', timeout=5)" || exit 1
+
+CMD ["python", "simple_hello_worker.py"]

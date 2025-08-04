@@ -1,0 +1,10 @@
+*/.claude
+*.claude
+*.claude.*
+*.claude-*
+*.claude-**
+*.claude-**
+*.claude-**.claude-*
+*.claude-**.claude-**.claude
+*.claude-**.claude.*
+*CLAUDE.md

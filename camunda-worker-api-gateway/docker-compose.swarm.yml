@@ -1,0 +1,113 @@
+version: "3.9"
+
+services:
+  # MongoDB for task storage
+  mongodb:
+    image: mongo:7.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-admin123}
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE:-worker_gateway}
+    ports:
+      - "${MONGODB_PORT:-27017}:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks: [backend]
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
+
+  # RabbitMQ for task queuing
+  rabbitmq:
+    image: rabbitmq:3.12.12-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-admin}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-admin123}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-worker_gateway}
+    ports:
+      - "${RABBITMQ_PORT:-5672}:5672"
+      - "${RABBITMQ_MGMT_PORT:-15672}:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks: [backend]
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  # Redis for caching
+  redis:
+    image: redis:7.2-alpine
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks: [backend]
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    command: redis-server --appendonly yes
+
+  # Worker API Gateway
+  gateway:
+    image: worker-api-gateway:latest
+    environment:
+      # Application Configuration
+      - PORT=${GATEWAY_PORT:-8000}
+      - DEBUG=${DEBUG:-false}
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      
+      # MongoDB Configuration
+      - MONGODB_URI=mongodb://${MONGO_USERNAME:-admin}:${MONGO_PASSWORD:-admin123}@mongodb:27017/${MONGODB_DATABASE:-worker_gateway}?authSource=admin
+      - MONGODB_DATABASE=${MONGODB_DATABASE:-worker_gateway}
+      
+      # RabbitMQ Configuration
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER:-admin}:${RABBITMQ_PASSWORD:-admin123}@rabbitmq:5672/${RABBITMQ_VHOST:-worker_gateway}
+      - RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE:-worker_gateway}
+      
+      # Task Configuration
+      - TASK_TIMEOUT=${TASK_TIMEOUT:-300}
+      - TASK_RETRY_LIMIT=${TASK_RETRY_LIMIT:-3}
+      - TASK_RETRY_DELAY=${TASK_RETRY_DELAY:-60}
+      
+      # Logging
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      
+      # Metrics
+      - METRICS_ENABLED=${METRICS_ENABLED:-true}
+      - METRICS_PORT=${METRICS_PORT:-9000}
+    ports:
+      - "${GATEWAY_PORT:-8000}:8000"
+      - "${METRICS_PORT:-9000}:9000"
+    depends_on:
+      - mongodb
+      - rabbitmq
+      - redis
+    networks: [backend]
+    deploy:
+      replicas: ${GATEWAY_REPLICAS:-2}
+      restart_policy:
+        condition: on-failure
+      update_config:
+        parallelism: 1
+        delay: 10s
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mongodb_data:
+  rabbitmq_data:
+  redis_data:
+
+networks:
+  backend:
+    driver: overlay
+    attachable: true

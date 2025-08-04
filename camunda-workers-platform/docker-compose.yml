@@ -1,0 +1,89 @@
+version: "3.9"
+
+# Workers-only docker-compose for local development
+# Connects to external Camunda server via URL
+
+services:
+  # Hello World Worker
+  worker-hello-world:
+    image: camunda-workers/hello-world:latest
+    deploy:
+      replicas: ${WORKER_HELLO_REPLICAS:-1}
+    environment:
+      # Camunda Connection (External)
+      - CAMUNDA_URL=${CAMUNDA_URL:-http://201.23.67.197:8080/engine-rest}
+      - CAMUNDA_USERNAME=${CAMUNDA_USERNAME:-demo}
+      - CAMUNDA_PASSWORD=${CAMUNDA_PASSWORD:-demo}
+      
+      # Worker Configuration
+      - WORKER_ID=hello-world-worker
+      - MAX_TASKS=${MAX_TASKS:-1}
+      - LOCK_DURATION=${LOCK_DURATION:-60000}
+      - ASYNC_RESPONSE_TIMEOUT=${ASYNC_RESPONSE_TIMEOUT:-30000}
+      - RETRIES=${RETRIES:-3}
+      - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
+      - SLEEP_SECONDS=${SLEEP_SECONDS:-30}
+      
+      # Gateway Integration (Optional)
+      - GATEWAY_ENABLED=${GATEWAY_ENABLED:-false}
+      - GATEWAY_URL=${GATEWAY_URL:-http://localhost:8000}
+      - GATEWAY_COMMUNICATION_MODE=${GATEWAY_COMMUNICATION_MODE:-http}
+      - GATEWAY_HTTP_TIMEOUT=${GATEWAY_HTTP_TIMEOUT:-30}
+      
+      # Monitoring
+      - METRICS_PORT=8001
+      - METRICS_ENABLED=${METRICS_ENABLED:-true}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - ENVIRONMENT=${ENVIRONMENT:-local}
+    ports:
+      - "8001"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8001/metrics', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Publicacao Worker
+  worker-publicacao:
+    image: camunda-workers/publicacao:latest
+    deploy:
+      replicas: ${WORKER_PUBLICACAO_REPLICAS:-1}
+    environment:
+      # Camunda Connection (External)
+      - CAMUNDA_URL=${CAMUNDA_URL:-http://201.23.67.197:8080/engine-rest}
+      - CAMUNDA_USERNAME=${CAMUNDA_USERNAME:-demo}
+      - CAMUNDA_PASSWORD=${CAMUNDA_PASSWORD:-demo}
+      
+      # Worker Configuration
+      - WORKER_ID=publicacao-worker
+      - MAX_TASKS=${MAX_TASKS:-1}
+      - LOCK_DURATION=${LOCK_DURATION:-60000}
+      - ASYNC_RESPONSE_TIMEOUT=${ASYNC_RESPONSE_TIMEOUT:-30000}
+      - RETRIES=${RETRIES:-3}
+      - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
+      - SLEEP_SECONDS=${SLEEP_SECONDS:-30}
+      
+      # Gateway Integration (Optional)
+      - GATEWAY_ENABLED=${GATEWAY_ENABLED:-false}
+      - GATEWAY_URL=${GATEWAY_URL:-http://localhost:8000}
+      - GATEWAY_COMMUNICATION_MODE=${GATEWAY_COMMUNICATION_MODE:-http}
+      - GATEWAY_HTTP_TIMEOUT=${GATEWAY_HTTP_TIMEOUT:-30}
+      
+      # Intimation API Configuration
+      - INTIMATION_USER=${INTIMATION_USER:-100049}
+      - INTIMATION_PASSWORD=${INTIMATION_PASSWORD:-DcDpW@24}
+      
+      # Monitoring
+      - METRICS_PORT=8002
+      - METRICS_ENABLED=${METRICS_ENABLED:-true}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - ENVIRONMENT=${ENVIRONMENT:-local}
+    ports:
+      - "8002"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8002/metrics', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

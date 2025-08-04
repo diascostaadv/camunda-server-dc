@@ -1,0 +1,71 @@
+rules:
+  # Camunda Engine Metrics
+  - pattern: "org.camunda.bpm.engine<type=(.+), name=(.+)><>Value"
+    name: "camunda_$1_$2"
+    type: GAUGE
+    labels:
+      engine: "$1"
+      metric: "$2"
+
+  # Process Instance Metrics
+  - pattern: "org.camunda.bpm<type=ProcessEngine, name=(.+)><>processInstanceCount"
+    name: "camunda_process_instances_total"
+    type: GAUGE
+    labels:
+      engine: "$1"
+
+  # Job Executor Metrics  
+  - pattern: "org.camunda.bpm<type=JobExecutor, name=(.+)><>(.+)"
+    name: "camunda_job_executor_$2"
+    type: GAUGE
+    labels:
+      engine: "$1"
+
+  # Activity Instance Metrics
+  - pattern: "org.camunda.bpm<type=ActivityInstance, name=(.+)><>(.+)"
+    name: "camunda_activity_instance_$2"
+    type: GAUGE
+    labels:
+      engine: "$1"
+
+  # JVM Memory Metrics
+  - pattern: "java.lang<type=Memory><HeapMemoryUsage>(.+)"
+    name: "jvm_memory_heap_$1"
+    type: GAUGE
+
+  - pattern: "java.lang<type=Memory><NonHeapMemoryUsage>(.+)"
+    name: "jvm_memory_nonheap_$1"
+    type: GAUGE
+
+  # JVM Threading Metrics
+  - pattern: "java.lang<type=Threading><>(.+)"
+    name: "jvm_threading_$1"
+    type: GAUGE
+
+  # JVM GarbageCollector Metrics
+  - pattern: "java.lang<type=GarbageCollector, name=(.+)><>(.+)"
+    name: "jvm_gc_$2"
+    type: GAUGE
+    labels:
+      gc: "$1"
+
+  # Tomcat Connector Metrics
+  - pattern: "Catalina<type=Connector, port=(.+)><>(.+)"
+    name: "tomcat_connector_$2"
+    type: GAUGE
+    labels:
+      port: "$1"
+
+  # Tomcat Thread Pool Metrics
+  - pattern: "Catalina<type=Executor, name=(.+)><>(.+)"
+    name: "tomcat_executor_$2"
+    type: GAUGE
+    labels:
+      executor: "$1"
+
+  # Database Connection Pool Metrics (if available)
+  - pattern: "com.zaxxer.hikari<type=Pool \\((.+)\\)><>(.+)"
+    name: "hikari_pool_$2"
+    type: GAUGE
+    labels:
+      pool: "$1"

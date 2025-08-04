@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" 
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" 
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+                  id="Definitions_FluxoPublicacao" 
+                  targetNamespace="http://bpmn.io/schema/bpmn" 
+                  exporter="Camunda Modeler" 
+                  exporterVersion="5.33.1">
+  
+  <bpmn:process id="FluxoPublicacao" name="Fluxo de Publicação" isExecutable="true" camunda:historyTimeToLive="30">
+    
+    <!-- Start Event -->
+    <bpmn:startEvent id="StartEvent_IniciarPublicacao" name="Iniciar Publicação">
+      <bpmn:outgoing>SequenceFlow_ParaValidacao</bpmn:outgoing>
+    </bpmn:startEvent>
+    
+    <!-- Validar Documento -->
+    <bpmn:serviceTask id="Task_ValidarDocumento" 
+                      name="Validar Documento" 
+                      camunda:type="external" 
+                      camunda:topic="validate_document">
+      <bpmn:incoming>SequenceFlow_ParaValidacao</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_ParaGateway</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <!-- Gateway de Decisão -->
+    <bpmn:exclusiveGateway id="Gateway_ValidacaoOK" name="Validação OK?">
+      <bpmn:incoming>SequenceFlow_ParaGateway</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_ValidacaoOK</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_ValidacaoNOK</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    
+    <!-- Processamento dos Dados -->
+    <bpmn:serviceTask id="Task_ProcessarDados" 
+                      name="Processar Dados" 
+                      camunda:type="external" 
+                      camunda:topic="process_data">
+      <bpmn:incoming>SequenceFlow_ValidacaoOK</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_ParaPublicacao</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <!-- Publicar Conteúdo -->
+    <bpmn:serviceTask id="Task_PublicarConteudo" 
+                      name="Publicar Conteúdo" 
+                      camunda:type="external" 
+                      camunda:topic="publish_content">
+      <bpmn:incoming>SequenceFlow_ParaPublicacao</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_ParaNotificacao</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <!-- Enviar Notificação -->
+    <bpmn:serviceTask id="Task_EnviarNotificacao" 
+                      name="Enviar Notificação" 
+                      camunda:type="external" 
+                      camunda:topic="send_notification">
+      <bpmn:incoming>SequenceFlow_ParaNotificacao</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_ParaSucesso</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <!-- End Event - Sucesso -->
+    <bpmn:endEvent id="EndEvent_PublicacaoSucesso" name="Publicação Concluída">
+      <bpmn:incoming>SequenceFlow_ParaSucesso</bpmn:incoming>
+    </bpmn:endEvent>
+    
+    <!-- Tratamento de Erro -->
+    <bpmn:serviceTask id="Task_TratarErro" 
+                      name="Tratar Erro de Validação" 
+                      camunda:type="external" 
+                      camunda:topic="handle_validation_error">
+      <bpmn:incoming>SequenceFlow_ValidacaoNOK</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_ParaErro</bpmn:outgoing>
+    </bpmn:serviceTask>
+    
+    <!-- End Event - Erro -->
+    <bpmn:endEvent id="EndEvent_PublicacaoErro" name="Publicação Rejeitada">
+      <bpmn:incoming>SequenceFlow_ParaErro</bpmn:incoming>
+    </bpmn:endEvent>
+    
+    <!-- Sequence Flows -->
+    <bpmn:sequenceFlow id="SequenceFlow_ParaValidacao" 
+                       sourceRef="StartEvent_IniciarPublicacao" 
+                       targetRef="Task_ValidarDocumento" />
+    
+    <bpmn:sequenceFlow id="SequenceFlow_ParaGateway" 
+                       sourceRef="Task_ValidarDocumento" 
+                       targetRef="Gateway_ValidacaoOK" />
+    
+    <bpmn:sequenceFlow id="SequenceFlow_ValidacaoOK" 
+                       name="Válido" 
+                       sourceRef="Gateway_ValidacaoOK" 
+                       targetRef="Task_ProcessarDados">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" 
+                                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        ${validation_result == 'approved'}
+      </bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    
+    <bpmn:sequenceFlow id="SequenceFlow_ValidacaoNOK" 
+                       name="Inválido" 
+                       sourceRef="Gateway_ValidacaoOK" 
+                       targetRef="Task_TratarErro">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" 
+                                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        ${validation_result != 'approved'}
+      </bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    
+    <bpmn:sequenceFlow id="SequenceFlow_ParaPublicacao" 
+                       sourceRef="Task_ProcessarDados" 
+                       targetRef="Task_PublicarConteudo" />
+    
+    <bpmn:sequenceFlow id="SequenceFlow_ParaNotificacao" 
+                       sourceRef="Task_PublicarConteudo" 
+                       targetRef="Task_EnviarNotificacao" />
+    
+    <bpmn:sequenceFlow id="SequenceFlow_ParaSucesso" 
+                       sourceRef="Task_EnviarNotificacao" 
+                       targetRef="EndEvent_PublicacaoSucesso" />
+    
+    <bpmn:sequenceFlow id="SequenceFlow_ParaErro" 
+                       sourceRef="Task_TratarErro" 
+                       targetRef="EndEvent_PublicacaoErro" />
+    
+  </bpmn:process>
+  
+  <!-- BPMN Diagram (Visual Layout) -->
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="FluxoPublicacao">
+      
+      <!-- Start Event -->
+      <bpmndi:BPMNShape id="StartEvent_IniciarPublicacao_di" bpmnElement="StartEvent_IniciarPublicacao">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="133" y="145" width="74" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      
+      <!-- Validar Documento -->
+      <bpmndi:BPMNShape id="Task_ValidarDocumento_di" bpmnElement="Task_ValidarDocumento">
+        <dc:Bounds x="240" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      
+      <!-- Gateway -->
+      <bpmndi:BPMNShape id="Gateway_ValidacaoOK_di" bpmnElement="Gateway_ValidacaoOK" isMarkerVisible="true">
+        <dc:Bounds x="395" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="384" y="65" width="72" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      
+      <!-- Processar Dados -->
+      <bpmndi:BPMNShape id="Task_ProcessarDados_di" bpmnElement="Task_ProcessarDados">
+        <dc:Bounds x="500" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      
+      <!-- Publicar Conteúdo -->
+      <bpmndi:BPMNShape id="Task_PublicarConteudo_di" bpmnElement="Task_PublicarConteudo">
+        <dc:Bounds x="650" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      
+      <!-- Enviar Notificação -->
+      <bpmndi:BPMNShape id="Task_EnviarNotificacao_di" bpmnElement="Task_EnviarNotificacao">
+        <dc:Bounds x="800" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      
+      <!-- End Success -->
+      <bpmndi:BPMNShape id="EndEvent_PublicacaoSucesso_di" bpmnElement="EndEvent_PublicacaoSucesso">
+        <dc:Bounds x="952" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="935" y="145" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      
+      <!-- Tratar Erro -->
+      <bpmndi:BPMNShape id="Task_TratarErro_di" bpmnElement="Task_TratarErro">
+        <dc:Bounds x="370" y="200" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      
+      <!-- End Error -->
+      <bpmndi:BPMNShape id="EndEvent_PublicacaoErro_di" bpmnElement="EndEvent_PublicacaoErro">
+        <dc:Bounds x="522" y="222" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="502" y="265" width="76" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      
+      <!-- Sequence Flows -->
+      <bpmndi:BPMNEdge id="SequenceFlow_ParaValidacao_di" bpmnElement="SequenceFlow_ParaValidacao">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="240" y="120" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="SequenceFlow_ParaGateway_di" bpmnElement="SequenceFlow_ParaGateway">
+        <di:waypoint x="340" y="120" />
+        <di:waypoint x="395" y="120" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="SequenceFlow_ValidacaoOK_di" bpmnElement="SequenceFlow_ValidacaoOK">
+        <di:waypoint x="445" y="120" />
+        <di:waypoint x="500" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="463" y="102" width="30" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="SequenceFlow_ValidacaoNOK_di" bpmnElement="SequenceFlow_ValidacaoNOK">
+        <di:waypoint x="420" y="145" />
+        <di:waypoint x="420" y="200" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="423" y="170" width="34" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="SequenceFlow_ParaPublicacao_di" bpmnElement="SequenceFlow_ParaPublicacao">
+        <di:waypoint x="600" y="120" />
+        <di:waypoint x="650" y="120" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="SequenceFlow_ParaNotificacao_di" bpmnElement="SequenceFlow_ParaNotificacao">
+        <di:waypoint x="750" y="120" />
+        <di:waypoint x="800" y="120" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="SequenceFlow_ParaSucesso_di" bpmnElement="SequenceFlow_ParaSucesso">
+        <di:waypoint x="900" y="120" />
+        <di:waypoint x="952" y="120" />
+      </bpmndi:BPMNEdge>
+      
+      <bpmndi:BPMNEdge id="SequenceFlow_ParaErro_di" bpmnElement="SequenceFlow_ParaErro">
+        <di:waypoint x="470" y="240" />
+        <di:waypoint x="522" y="240" />
+      </bpmndi:BPMNEdge>
+      
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  
+</bpmn:definitions>

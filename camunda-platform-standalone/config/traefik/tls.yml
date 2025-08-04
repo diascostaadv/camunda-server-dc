@@ -1,0 +1,45 @@
+# Configuração TLS dinâmica para Traefik
+# Este arquivo define certificados customizados e opções TLS
+
+tls:
+  # Certificados customizados
+  certificates:
+    - certFile: /etc/ssl/camunda/certs/fullchain.pem
+      keyFile: /etc/ssl/camunda/private/privkey.pem
+      stores:
+        - default
+
+  # Opções TLS
+  options:
+    default:
+      minVersion: "VersionTLS12"
+      maxVersion: "VersionTLS13"
+      sslProtocols:
+        - "TLSv1.2"
+        - "TLSv1.3"
+      cipherSuites:
+        # TLS 1.3
+        - "TLS_AES_256_GCM_SHA384"
+        - "TLS_AES_128_GCM_SHA256"
+        - "TLS_CHACHA20_POLY1305_SHA256"
+        # TLS 1.2
+        - "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+        - "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+        - "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
+        - "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
+        - "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+        - "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305"
+      curvePreferences:
+        - "CurveP521"
+        - "CurveP384"
+        - "CurveP256"
+      alpnProtocols:
+        - "h2"
+        - "http/1.1"
+
+  # Store padrão
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/ssl/camunda/certs/fullchain.pem
+        keyFile: /etc/ssl/camunda/private/privkey.pem

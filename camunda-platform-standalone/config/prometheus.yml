@@ -1,0 +1,37 @@
+global:
+  scrape_interval: 30s
+  evaluation_interval: 30s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'camunda-jmx'
+    static_configs:
+      - targets: ['camunda:9404']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  - job_name: 'camunda-workers'
+    static_configs:
+      - targets: 
+        - 'worker-validation:8001'
+        - 'worker-processing:8002'
+        - 'worker-publication:8003'
+        - 'worker-notification:8004'
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+
+  - job_name: 'postgres-exporter'
+    static_configs:
+      - targets: ['db:5432']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    scrape_timeout: 10s

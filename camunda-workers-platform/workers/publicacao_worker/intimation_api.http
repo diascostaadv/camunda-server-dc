@@ -1,0 +1,231 @@
+### API de Intimações - Testes HTTP
+### Base URL: https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+### Credenciais de teste: usuário=100049, senha=DcDpW@24
+
+### 1. Buscar publicações não exportadas
+POST https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/getPublicacoesNaoExportadas"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <getPublicacoesNaoExportadas xmlns="http://tempuri.org/">
+            <strUsuario>100049</strUsuario>
+            <strSenha>DcDpW@24</strSenha>
+            <intCodGrupo>5</intCodGrupo>
+        </getPublicacoesNaoExportadas>
+    </soap:Body>
+</soap:Envelope>
+
+###
+
+### 2. Buscar publicações não exportadas com versão
+POST https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/getPublicacoesNaoExportadasV"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <getPublicacoesNaoExportadasV xmlns="http://tempuri.org/">
+            <strUsuario>100049</strUsuario>
+            <strSenha>DcDpW@24</strSenha>
+            <intCodGrupo>0</intCodGrupo>
+            <numVersao>5</numVersao>
+        </getPublicacoesNaoExportadasV>
+    </soap:Body>
+</soap:Envelope>
+
+###
+
+### 3. Buscar publicações por período
+POST https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/getPublicacoes"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <getPublicacoes xmlns="http://tempuri.org/">
+            <strUsuario>100049</strUsuario>
+            <strSenha>DcDpW@24</strSenha>
+            <dteDataInicial>2025-07-01</dteDataInicial>
+            <dteDataFinal>2025-07-31</dteDataFinal>
+            <intCodGrupo>6</intCodGrupo>
+            <intExportada>0</intExportada>
+        </getPublicacoes>
+    </soap:Body>
+</soap:Envelope>
+
+###
+
+### 4. Buscar publicações por período com versão
+POST https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/getPublicacoesV"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <getPublicacoesV xmlns="http://tempuri.org/">
+            <strUsuario>100049</strUsuario>
+            <strSenha>DcDpW@24</strSenha>
+            <dteDataInicial>2024-01-01</dteDataInicial>
+            <dteDataFinal>2025-01-31</dteDataFinal>
+            <intCodGrupo>0</intCodGrupo>
+            <intExportada>0</intExportada>
+            <numVersao>5</numVersao>
+        </getPublicacoesV>
+    </soap:Body>
+</soap:Envelope>
+
+###
+
+### 5. Marcar publicações como exportadas
+POST https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/setPublicacoes"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <setPublicacoes xmlns="http://tempuri.org/">
+            <strUsuario>100049</strUsuario>
+            <strSenha>DcDpW@24</strSenha>
+            <strPublicacoes>2010560550|201050655|</strPublicacoes>
+        </setPublicacoes>
+    </soap:Body>
+</soap:Envelope>
+
+###
+
+### 6. Marcar publicações como exportadas por grupo
+POST https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/setPublicacoesGrupo"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <setPublicacoesGrupo xmlns="http://tempuri.org/">
+            <strUsuario>100049</strUsuario>
+            <strSenha>DcDpW@24</strSenha>
+            <intCodGrupo>0</intCodGrupo>
+            <strPublicacoes>2010560550|201050655|</strPublicacoes>
+        </setPublicacoesGrupo>
+    </soap:Body>
+</soap:Envelope>
+
+###
+
+### 7. Obter estatísticas de publicações (geral)
+POST https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/getEstatisticasPublicacoes"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <getEstatisticasPublicacoes xmlns="http://tempuri.org/">
+            <strUsuario>100049</strUsuario>
+            <strSenha>DcDpW@24</strSenha>
+            <dteData>2025-07-24</dteData>
+            <intCodGrupo>0</intCodGrupo>
+            <strTipoAgrupamento></strTipoAgrupamento>
+            <numVersao>1</numVersao>
+        </getEstatisticasPublicacoes>
+    </soap:Body>
+</soap:Envelope>
+
+###
+
+### 8. Obter estatísticas de publicações agrupadas por UF
+POST https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/getEstatisticasPublicacoes"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <getEstatisticasPublicacoes xmlns="http://tempuri.org/">
+            <strUsuario>100049</strUsuario>
+            <strSenha>DcDpW@24</strSenha>
+            <dteData>2025-01-15</dteData>
+            <intCodGrupo>0</intCodGrupo>
+            <strTipoAgrupamento>uf</strTipoAgrupamento>
+            <numVersao>1</numVersao>
+        </getEstatisticasPublicacoes>
+    </soap:Body>
+</soap:Envelope>
+
+###
+
+### 9. Obter estatísticas de publicações agrupadas por caderno
+POST https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "http://tempuri.org/getEstatisticasPublicacoes"
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <getEstatisticasPublicacoes xmlns="http://tempuri.org/">
+            <strUsuario>100049</strUsuario>
+            <strSenha>DcDpW@24</strSenha>
+            <dteData>2024-01-15</dteData>
+            <intCodGrupo>0</intCodGrupo>
+            <strTipoAgrupamento>cad</strTipoAgrupamento>
+            <numVersao>1</numVersao>
+        </getEstatisticasPublicacoes>
+    </soap:Body>
+</soap:Envelope>
+
+###
+
+### 10. Verificar WSDL da API
+GET https://intimation-panel.azurewebsites.net/wsPublicacao.asmx?WSDL
+
+###
+
+### 11. Listar métodos disponíveis
+GET https://intimation-panel.azurewebsites.net/wsPublicacao.asmx
+
+###
+
+### Notas de uso:
+# - Todos os métodos usam as credenciais de teste: usuário=100049, senha=DcDpW@24
+# - As datas devem estar no formato yyyy-mm-dd
+# - Para marcar como exportadas, use códigos reais obtidos das consultas anteriores
+# - O intCodGrupo=0 é o valor padrão para o grupo principal
+# - Para setPublicacoes, os códigos devem ser separados por | e terminar com |
+# - Exemplo: "2010560550|201050655|"
+
+### Fluxo recomendado de uso:
+# 1. Chame getPublicacoesNaoExportadas para obter intimações
+# 2. Processe as intimações em seu sistema
+# 3. Chame setPublicacoes com os códigos das intimações processadas
+# 4. Repita o processo até que não haja mais intimações (< 700 retornadas)
+
+### Para automação, recomenda-se:
+# - Executar pelo menos 8 vezes por dia
+# - Sempre marcar como exportadas após importar com sucesso
+# - Monitorar logs para identificar erros
+# - Usar a versão mais recente da API (versão 5)

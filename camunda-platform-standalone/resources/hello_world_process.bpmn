@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_HelloWorld" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.33.1">
+  <bpmn:process id="HelloWorldProcess" name="Hello World Process" isExecutable="true" camunda:historyTimeToLive="30">
+    <bpmn:startEvent id="StartEvent_HelloWorld" name="Start Hello World">
+      <bpmn:outgoing>Flow_ToSayHello</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="Task_SayHello" name="Say Hello" camunda:type="external" camunda:topic="say_hello">
+      <bpmn:incoming>Flow_ToSayHello</bpmn:incoming>
+      <bpmn:outgoing>Flow_ToEnd</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_HelloWorld" name="Hello World Complete">
+      <bpmn:incoming>Flow_0uovdmp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_ToSayHello" sourceRef="StartEvent_HelloWorld" targetRef="Task_SayHello" />
+    <bpmn:sequenceFlow id="Flow_ToEnd" sourceRef="Task_SayHello" targetRef="Activity_0l44u7u" />
+    <bpmn:sequenceFlow id="Flow_0uovdmp" sourceRef="Activity_0l44u7u" targetRef="EndEvent_HelloWorld" />
+    <bpmn:userTask id="Activity_0l44u7u" name="Verificar payload">
+      <bpmn:incoming>Flow_ToEnd</bpmn:incoming>
+      <bpmn:outgoing>Flow_0uovdmp</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_HelloWorld">
+    <bpmndi:BPMNPlane id="BPMNPlane_HelloWorld" bpmnElement="HelloWorldProcess">
+      <bpmndi:BPMNShape id="StartEvent_HelloWorld_di" bpmnElement="StartEvent_HelloWorld">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="162" y="142" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_SayHello_di" bpmnElement="Task_SayHello">
+        <dc:Bounds x="280" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_HelloWorld_di" bpmnElement="EndEvent_HelloWorld">
+        <dc:Bounds x="742" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="732" y="142" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0npvid5_di" bpmnElement="Activity_0l44u7u">
+        <dc:Bounds x="510" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_ToSayHello_di" bpmnElement="Flow_ToSayHello">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="280" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ToEnd_di" bpmnElement="Flow_ToEnd">
+        <di:waypoint x="380" y="117" />
+        <di:waypoint x="430" y="140" />
+        <di:waypoint x="510" y="126" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uovdmp_di" bpmnElement="Flow_0uovdmp">
+        <di:waypoint x="610" y="117" />
+        <di:waypoint x="742" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

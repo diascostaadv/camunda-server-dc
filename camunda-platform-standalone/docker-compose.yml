@@ -1,0 +1,95 @@
+version: "3.9"
+
+services:
+  # PostgreSQL (only when EXTERNAL_DATABASE_MODE=false)
+  db:
+    profiles: ["local-db"]
+    image: postgres:16.3
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-camunda}
+      POSTGRES_USER: ${POSTGRES_USER:-camunda}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-camunda}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks: [backend]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-camunda}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  camunda:
+    image: camunda/camunda-bpm-platform:run-7.23.0
+    environment:
+      DB_DRIVER: org.postgresql.Driver
+      DB_URL: ${DATABASE_URL}
+      DB_USERNAME: ${POSTGRES_USER:-camunda}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-camunda}
+      # Only wait for local DB when using local mode
+      WAIT_FOR: ${EXTERNAL_DATABASE_MODE:-false}
+      TZ: ${TZ:-America/Sao_Paulo}
+      JAVA_OPTS: -javaagent:/camunda/javaagent/jmx_prometheus_javaagent.jar=${CAMUNDA_JMX_PORT:-9404}:/camunda/config/prometheus-jmx.yml ${JAVA_OPTS_EXTRA:-}
+      # Database connection pool settings
+      DB_CONNECTION_TIMEOUT: ${DB_CONNECTION_TIMEOUT:-30000}
+      DB_IDLE_TIMEOUT: ${DB_IDLE_TIMEOUT:-600000}
+      DB_MAX_LIFETIME: ${DB_MAX_LIFETIME:-1800000}
+      DB_MAXIMUM_POOL_SIZE: ${DB_MAXIMUM_POOL_SIZE:-10}
+    ports:
+      - "${CAMUNDA_PORT:-8080}:8080"
+      - "${CAMUNDA_JMX_PORT:-9404}:${CAMUNDA_JMX_PORT:-9404}"
+    volumes:
+      - ./config/prometheus-jmx.yml:/camunda/config/prometheus-jmx.yml
+      - ./resources:/camunda/webapps/engine-rest/WEB-INF/classes/
+    # Conditional dependency: only depend on db when using local database
+    depends_on: []
+    networks: [backend]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/camunda/app/welcome/default/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks: [backend]
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "${GRAFANA_PORT:-3001}:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD:-admin}
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER:-admin}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks: [backend]
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  backend:
+    driver: ${NETWORK_DRIVER:-bridge}

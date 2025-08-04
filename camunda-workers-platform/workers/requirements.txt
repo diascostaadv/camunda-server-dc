@@ -1,0 +1,6 @@
+camunda-external-task-client-python3==4.5.0
+requests==2.31.0
+python-dotenv==1.0.1
+prometheus-client==0.20.0
+pydantic==2.8.2
+pika==1.3.2
