@@ -87,3 +87,47 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  # Publicacao Unified Worker
+  worker-publicacao-unified:
+    image: camunda-workers/publicacao_unified:latest
+    deploy:
+      replicas: ${WORKER_PUBLICACAO_UNIFIED_REPLICAS:-1}
+    environment:
+      # Camunda Connection (External)
+      - CAMUNDA_URL=${CAMUNDA_URL:-http://201.23.67.197:8080/engine-rest}
+      - CAMUNDA_USERNAME=${CAMUNDA_USERNAME:-demo}
+      - CAMUNDA_PASSWORD=${CAMUNDA_PASSWORD:-demo}
+      
+      # Worker Configuration
+      - WORKER_ID=publicacao-unified-worker
+      - MAX_TASKS=${MAX_TASKS:-2}
+      - LOCK_DURATION=${LOCK_DURATION:-60000}
+      - ASYNC_RESPONSE_TIMEOUT=${ASYNC_RESPONSE_TIMEOUT:-30000}
+      - RETRIES=${RETRIES:-3}
+      - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
+      - SLEEP_SECONDS=${SLEEP_SECONDS:-30}
+      
+      # Gateway Integration (Required for unified worker)
+      - GATEWAY_ENABLED=${GATEWAY_ENABLED:-true}
+      - GATEWAY_URL=${GATEWAY_URL:-http://localhost:8000}
+      - GATEWAY_COMMUNICATION_MODE=${GATEWAY_COMMUNICATION_MODE:-http}
+      - GATEWAY_HTTP_TIMEOUT=${GATEWAY_HTTP_TIMEOUT:-30}
+      
+      # Intimation API Configuration
+      - INTIMATION_USER=${INTIMATION_USER:-100049}
+      - INTIMATION_PASSWORD=${INTIMATION_PASSWORD:-DcDpW@24}
+      
+      # Monitoring
+      - METRICS_PORT=8003
+      - METRICS_ENABLED=${METRICS_ENABLED:-true}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - ENVIRONMENT=${ENVIRONMENT:-local}
+    ports:
+      - "8003"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8003/metrics', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

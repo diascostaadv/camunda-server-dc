@@ -137,6 +137,21 @@ class BaseWorker:
         self.camunda_worker.subscribe(topic, wrapped_handler)
         self.logger.info(f"Subscribed to topic: {topic}")
     
+    def subscribe_multiple(self, topic_handlers: Dict[str, Any]):
+        """
+        Subscribe to multiple topics with their respective handlers
+        
+        Args:
+            topic_handlers: Dictionary mapping topic names to handler functions
+                          Format: {"topic_name": handler_function}
+        """
+        self.logger.info(f"Subscribing to {len(topic_handlers)} topics: {list(topic_handlers.keys())}")
+        
+        for topic, handler_func in topic_handlers.items():
+            self.subscribe(topic, handler_func)
+        
+        self.logger.info("✅ Multi-topic subscription completed")
+    
     def _handle_task_via_gateway(self, task, topic: str):
         """
         Handle task via Worker API Gateway

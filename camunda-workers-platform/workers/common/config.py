@@ -134,6 +134,7 @@ class Topics:
     
     # Topicos DC
     NOVA_PUBLICACAO = "nova_publicacao"
+    BUSCAR_PUBLICACOES = "BuscarPublicacoes"
     
     # Complex workflow topics (archived)
     VALIDATE_DOCUMENT = "validate_document"

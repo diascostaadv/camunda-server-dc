@@ -17,6 +17,46 @@
         "documentation": {}
     },
     {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Literal",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Dict",
         "importPath": "typing",
         "description": "typing",
@@ -66,6 +106,30 @@
     },
     {
         "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -137,6 +201,134 @@
         "documentation": {}
     },
     {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Dict",
         "importPath": "typing",
         "description": "typing",
@@ -290,6 +482,30 @@
     },
     {
         "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -465,6 +681,30 @@
         "documentation": {}
     },
     {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "List",
         "importPath": "typing",
         "description": "typing",
@@ -585,6 +825,30 @@
         "documentation": {}
     },
     {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "List",
         "importPath": "typing",
         "description": "typing",
@@ -689,6 +953,30 @@
         "documentation": {}
     },
     {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
@@ -706,6 +994,46 @@
     },
     {
         "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -785,6 +1113,14 @@
         "documentation": {}
     },
     {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "date",
         "importPath": "datetime",
         "description": "datetime",
@@ -794,6 +1130,14 @@
     },
     {
         "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -854,6 +1198,38 @@
         "description": "datetime",
         "isExtraImport": true,
         "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "field_validator",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
         "documentation": {}
     },
     {
@@ -910,6 +1286,47 @@
         "description": "enum",
         "isExtraImport": true,
         "detail": "enum",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "BackgroundTasks",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
         "documentation": {}
     },
     {
@@ -982,6 +1399,86 @@
         "description": "fastapi",
         "isExtraImport": true,
         "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "BuscarPublicacoesRequest",
+        "importPath": "models.buscar_request",
+        "description": "models.buscar_request",
+        "isExtraImport": true,
+        "detail": "models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "BuscarPublicacoesResponse",
+        "importPath": "models.buscar_request",
+        "description": "models.buscar_request",
+        "isExtraImport": true,
+        "detail": "models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "TaskDataRequest",
+        "importPath": "models.buscar_request",
+        "description": "models.buscar_request",
+        "isExtraImport": true,
+        "detail": "models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "PublicacaoParaProcessamento",
+        "importPath": "models.buscar_request",
+        "description": "models.buscar_request",
+        "isExtraImport": true,
+        "detail": "models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "PublicacaoProcessingResult",
+        "importPath": "models.buscar_request",
+        "description": "models.buscar_request",
+        "isExtraImport": true,
+        "detail": "models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "BuscarPublicacoesStatus",
+        "importPath": "models.buscar_request",
+        "description": "models.buscar_request",
+        "isExtraImport": true,
+        "detail": "models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "get_process_starter",
+        "importPath": "services.process_starter",
+        "description": "services.process_starter",
+        "isExtraImport": true,
+        "detail": "services.process_starter",
+        "documentation": {}
+    },
+    {
+        "label": "ProcessStarter",
+        "importPath": "services.process_starter",
+        "description": "services.process_starter",
+        "isExtraImport": true,
+        "detail": "services.process_starter",
+        "documentation": {}
+    },
+    {
+        "label": "get_intimation_client",
+        "importPath": "services.intimation_service",
+        "description": "services.intimation_service",
+        "isExtraImport": true,
+        "detail": "services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationService",
+        "importPath": "services.intimation_service",
+        "description": "services.intimation_service",
+        "isExtraImport": true,
+        "detail": "services.intimation_service",
         "documentation": {}
     },
     {
@@ -1145,21 +1642,241 @@
         "documentation": {}
     },
     {
-        "label": "logging",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "logging",
-        "description": "logging",
-        "detail": "logging",
-        "documentation": {}
-    },
-    {
         "label": "hashlib",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "hashlib",
         "description": "hashlib",
         "detail": "hashlib",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "traceback",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "traceback",
+        "description": "traceback",
+        "detail": "traceback",
+        "documentation": {}
+    },
+    {
+        "label": "xml.etree.ElementTree",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "xml.etree.ElementTree",
+        "description": "xml.etree.ElementTree",
+        "detail": "xml.etree.ElementTree",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "asdict",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "asdict",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "asdict",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "asdict",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "asdict",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "asdict",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "dataclass",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "asdict",
+        "importPath": "dataclasses",
+        "description": "dataclasses",
+        "isExtraImport": true,
+        "detail": "dataclasses",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPAdapter",
+        "importPath": "requests.adapters",
+        "description": "requests.adapters",
+        "isExtraImport": true,
+        "detail": "requests.adapters",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPAdapter",
+        "importPath": "requests.adapters",
+        "description": "requests.adapters",
+        "isExtraImport": true,
+        "detail": "requests.adapters",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPAdapter",
+        "importPath": "requests.adapters",
+        "description": "requests.adapters",
+        "isExtraImport": true,
+        "detail": "requests.adapters",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPAdapter",
+        "importPath": "requests.adapters",
+        "description": "requests.adapters",
+        "isExtraImport": true,
+        "detail": "requests.adapters",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPAdapter",
+        "importPath": "requests.adapters",
+        "description": "requests.adapters",
+        "isExtraImport": true,
+        "detail": "requests.adapters",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPAdapter",
+        "importPath": "requests.adapters",
+        "description": "requests.adapters",
+        "isExtraImport": true,
+        "detail": "requests.adapters",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPAdapter",
+        "importPath": "requests.adapters",
+        "description": "requests.adapters",
+        "isExtraImport": true,
+        "detail": "requests.adapters",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPAdapter",
+        "importPath": "requests.adapters",
+        "description": "requests.adapters",
+        "isExtraImport": true,
+        "detail": "requests.adapters",
         "documentation": {}
     },
     {
@@ -1316,21 +2033,20 @@
         "documentation": {}
     },
     {
+        "label": "Retry",
+        "importPath": "urllib3.util.retry",
+        "description": "urllib3.util.retry",
+        "isExtraImport": true,
+        "detail": "urllib3.util.retry",
+        "documentation": {}
+    },
+    {
         "label": "asyncio",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "asyncio",
         "description": "asyncio",
         "detail": "asyncio",
-        "documentation": {}
-    },
-    {
-        "label": "json",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
         "documentation": {}
     },
     {
@@ -1571,21 +2287,20 @@
         "documentation": {}
     },
     {
+        "label": "buscar_publicacoes",
+        "importPath": "routers",
+        "description": "routers",
+        "isExtraImport": true,
+        "detail": "routers",
+        "documentation": {}
+    },
+    {
         "label": "sys",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "sys",
         "description": "sys",
         "detail": "sys",
-        "documentation": {}
-    },
-    {
-        "label": "time",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "time",
-        "description": "time",
-        "detail": "time",
         "documentation": {}
     },
     {
@@ -1754,6 +2469,54 @@
         "documentation": {}
     },
     {
+        "label": "BaseWorker",
+        "importPath": "common.base_worker",
+        "description": "common.base_worker",
+        "isExtraImport": true,
+        "detail": "common.base_worker",
+        "documentation": {}
+    },
+    {
+        "label": "BaseWorker",
+        "importPath": "common.base_worker",
+        "description": "common.base_worker",
+        "isExtraImport": true,
+        "detail": "common.base_worker",
+        "documentation": {}
+    },
+    {
+        "label": "WorkerConfig",
+        "importPath": "common.config",
+        "description": "common.config",
+        "isExtraImport": true,
+        "detail": "common.config",
+        "documentation": {}
+    },
+    {
+        "label": "Topics",
+        "importPath": "common.config",
+        "description": "common.config",
+        "isExtraImport": true,
+        "detail": "common.config",
+        "documentation": {}
+    },
+    {
+        "label": "WorkerConfig",
+        "importPath": "common.config",
+        "description": "common.config",
+        "isExtraImport": true,
+        "detail": "common.config",
+        "documentation": {}
+    },
+    {
+        "label": "Topics",
+        "importPath": "common.config",
+        "description": "common.config",
+        "isExtraImport": true,
+        "detail": "common.config",
+        "documentation": {}
+    },
+    {
         "label": "WorkerConfig",
         "importPath": "common.config",
         "description": "common.config",
@@ -2103,6 +2866,54 @@
         "description": "common.utils",
         "isExtraImport": true,
         "detail": "common.utils",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
         "documentation": {}
     },
     {
@@ -2154,93 +2965,12 @@
         "documentation": {}
     },
     {
-        "label": "requests",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "requests",
-        "description": "requests",
-        "detail": "requests",
-        "documentation": {}
-    },
-    {
         "label": "pika",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "pika",
         "description": "pika",
         "detail": "pika",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "asdict",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "asdict",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "asdict",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "dataclass",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
-        "documentation": {}
-    },
-    {
-        "label": "asdict",
-        "importPath": "dataclasses",
-        "description": "dataclasses",
-        "isExtraImport": true,
-        "detail": "dataclasses",
         "documentation": {}
     },
     {
@@ -2297,72 +3027,6 @@
         "description": "intimation_api",
         "isExtraImport": true,
         "detail": "intimation_api",
-        "documentation": {}
-    },
-    {
-        "label": "traceback",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "traceback",
-        "description": "traceback",
-        "detail": "traceback",
-        "documentation": {}
-    },
-    {
-        "label": "xml.etree.ElementTree",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "xml.etree.ElementTree",
-        "description": "xml.etree.ElementTree",
-        "detail": "xml.etree.ElementTree",
-        "documentation": {}
-    },
-    {
-        "label": "HTTPAdapter",
-        "importPath": "requests.adapters",
-        "description": "requests.adapters",
-        "isExtraImport": true,
-        "detail": "requests.adapters",
-        "documentation": {}
-    },
-    {
-        "label": "HTTPAdapter",
-        "importPath": "requests.adapters",
-        "description": "requests.adapters",
-        "isExtraImport": true,
-        "detail": "requests.adapters",
-        "documentation": {}
-    },
-    {
-        "label": "HTTPAdapter",
-        "importPath": "requests.adapters",
-        "description": "requests.adapters",
-        "isExtraImport": true,
-        "detail": "requests.adapters",
-        "documentation": {}
-    },
-    {
-        "label": "HTTPAdapter",
-        "importPath": "requests.adapters",
-        "description": "requests.adapters",
-        "isExtraImport": true,
-        "detail": "requests.adapters",
-        "documentation": {}
-    },
-    {
-        "label": "ExternalTask",
-        "importPath": "camunda.external_task.external_task",
-        "description": "camunda.external_task.external_task",
-        "isExtraImport": true,
-        "detail": "camunda.external_task.external_task",
-        "documentation": {}
-    },
-    {
-        "label": "log_with_context",
-        "importPath": "camunda.utils.log_utils",
-        "description": "camunda.utils.log_utils",
-        "isExtraImport": true,
-        "detail": "camunda.utils.log_utils",
         "documentation": {}
     },
     {
@@ -2439,6 +3103,60 @@
         "description": "camunda-worker-api-gateway.app.core.config",
         "peekOfCode": "settings = Settings()\n# Validation\ndef validate_settings():\n    \"\"\"Validate required settings\"\"\"\n    required_vars = []\n    if not settings.MONGODB_URI or settings.MONGODB_URI == \"mongodb://localhost:27017\":\n        if settings.is_production():\n            required_vars.append(\"MONGODB_URI\")\n    if not settings.RABBITMQ_URL or settings.RABBITMQ_URL == \"amqp://guest:guest@localhost:5672/\":\n        if settings.is_production():",
         "detail": "camunda-worker-api-gateway.app.core.config",
+        "documentation": {}
+    },
+    {
+        "label": "BuscarPublicacoesRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
+        "description": "camunda-worker-api-gateway.app.models.buscar_request",
+        "peekOfCode": "class BuscarPublicacoesRequest(BaseModel):\n    \"\"\"Modelo para requisição de busca de publicações\"\"\"\n    # Parâmetros de busca\n    cod_grupo: int = Field(default=5, description=\"Código do grupo para busca\")\n    data_inicial: Optional[str] = Field(None, description=\"Data inicial para busca (YYYY-MM-DD)\")\n    data_final: Optional[str] = Field(None, description=\"Data final para busca (YYYY-MM-DD)\")\n    # Configurações de processamento\n    limite_publicacoes: int = Field(default=50, ge=1, le=1000, description=\"Limite de publicações a processar\")\n    timeout_soap: int = Field(default=90, ge=30, le=300, description=\"Timeout para chamadas SOAP em segundos\")\n    max_retries: int = Field(default=3, ge=1, le=10, description=\"Máximo de tentativas em caso de erro\")",
+        "detail": "camunda-worker-api-gateway.app.models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "PublicacaoProcessingResult",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
+        "description": "camunda-worker-api-gateway.app.models.buscar_request",
+        "peekOfCode": "class PublicacaoProcessingResult(BaseModel):\n    \"\"\"Resultado do processamento de uma publicação individual\"\"\"\n    cod_publicacao: int = Field(..., description=\"Código da publicação\")\n    numero_processo: Optional[str] = Field(None, description=\"Número do processo judicial\")\n    status: Literal[\"success\", \"error\", \"skipped\"] = Field(..., description=\"Status do processamento\")\n    instance_id: Optional[str] = Field(None, description=\"ID da instância do processo criada\")\n    business_key: Optional[str] = Field(None, description=\"Business key utilizada\")\n    error_message: Optional[str] = Field(None, description=\"Mensagem de erro, se houver\")\n    timestamp: datetime = Field(default_factory=datetime.now, description=\"Timestamp do processamento\")\nclass BuscarPublicacoesResponse(BaseModel):",
+        "detail": "camunda-worker-api-gateway.app.models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "BuscarPublicacoesResponse",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
+        "description": "camunda-worker-api-gateway.app.models.buscar_request",
+        "peekOfCode": "class BuscarPublicacoesResponse(BaseModel):\n    \"\"\"Resposta da busca de publicações\"\"\"\n    # Informações da execução\n    timestamp_inicio: datetime = Field(..., description=\"Timestamp do início da busca\")\n    timestamp_fim: datetime = Field(..., description=\"Timestamp do fim da busca\")\n    duracao_segundos: float = Field(..., description=\"Duração total em segundos\")\n    # Estatísticas da busca SOAP\n    total_encontradas: int = Field(..., description=\"Total de publicações encontradas na API SOAP\")\n    total_processadas: int = Field(..., description=\"Total de publicações que tentaram ser processadas\")\n    total_filtradas: int = Field(..., description=\"Total de publicações filtradas/ignoradas\")",
+        "detail": "camunda-worker-api-gateway.app.models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "BuscarPublicacoesStatus",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
+        "description": "camunda-worker-api-gateway.app.models.buscar_request",
+        "peekOfCode": "class BuscarPublicacoesStatus(BaseModel):\n    \"\"\"Status atual de uma operação de busca em andamento\"\"\"\n    operacao_id: str = Field(..., description=\"ID único da operação\")\n    status: Literal[\"running\", \"completed\", \"error\", \"cancelled\"] = Field(..., description=\"Status atual\")\n    timestamp_inicio: datetime = Field(..., description=\"Quando a operação iniciou\")\n    timestamp_ultima_atualizacao: datetime = Field(default_factory=datetime.now, description=\"Última atualização\")\n    # Progresso\n    total_esperado: Optional[int] = Field(None, description=\"Total de itens esperados para processar\")\n    total_processado: int = Field(default=0, description=\"Total de itens já processados\")\n    progresso_percentual: Optional[float] = Field(None, description=\"Progresso em percentual (0.0 a 1.0)\")",
+        "detail": "camunda-worker-api-gateway.app.models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "TaskDataRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
+        "description": "camunda-worker-api-gateway.app.models.buscar_request",
+        "peekOfCode": "class TaskDataRequest(BaseModel):\n    \"\"\"Modelo para dados de tarefa recebidos do Camunda worker\"\"\"\n    task_id: str = Field(..., description=\"ID da tarefa\")\n    process_instance_id: str = Field(..., description=\"ID da instância do processo\")\n    business_key: Optional[str] = Field(None, description=\"Business key da instância\")\n    # Variáveis da tarefa (parâmetros de busca)\n    variables: Dict[str, Any] = Field(default_factory=dict, description=\"Variáveis da tarefa\")\n    # Metadados\n    topic_name: str = Field(..., description=\"Nome do tópico\")\n    worker_id: str = Field(..., description=\"ID do worker que enviou\")",
+        "detail": "camunda-worker-api-gateway.app.models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "PublicacaoParaProcessamento",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
+        "description": "camunda-worker-api-gateway.app.models.buscar_request",
+        "peekOfCode": "class PublicacaoParaProcessamento(BaseModel):\n    \"\"\"Modelo para publicação convertida para processamento\"\"\"\n    # Dados obrigatórios para MovimentacaoJudicial\n    numero_processo: str = Field(..., description=\"Número do processo judicial\")\n    data_publicacao: str = Field(..., description=\"Data de publicação no formato dd/mm/yyyy\")\n    texto_publicacao: str = Field(..., description=\"Texto integral da movimentação\")\n    fonte: Literal[\"dw\", \"manual\", \"escavador\"] = Field(..., description=\"Fonte da movimentação\")\n    tribunal: str = Field(..., description=\"Tribunal origem\")\n    instancia: str = Field(..., description=\"Instância judicial\")\n    # Metadados da API SOAP",
+        "detail": "camunda-worker-api-gateway.app.models.buscar_request",
         "documentation": {}
     },
     {
@@ -2565,6 +3283,24 @@
         "description": "camunda-worker-api-gateway.app.models.task",
         "peekOfCode": "class TaskStatistics(BaseModel):\n    \"\"\"Model for task processing statistics\"\"\"\n    total_tasks: int\n    by_status: Dict[str, int]\n    by_topic: Dict[str, int]\n    by_worker: Dict[str, int]\n    average_processing_time_ms: Optional[float] = None\n    success_rate: float",
         "detail": "camunda-worker-api-gateway.app.models.task",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
+        "description": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/buscar-publicacoes\", tags=[\"Buscar Publicações\"])\n# Storage simples para status de operações (em produção usar Redis/DB)\n_operations_status: Dict[str, BuscarPublicacoesStatus] = {}\n@router.post(\"/processar\", response_model=BuscarPublicacoesResponse)\nasync def processar_busca_publicacoes(\n    request: BuscarPublicacoesRequest,\n    background_tasks: BackgroundTasks,\n    process_starter: ProcessStarter = Depends(get_process_starter),\n    soap_client: IntimationService = Depends(get_intimation_client)",
+        "detail": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
+        "description": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
+        "peekOfCode": "router = APIRouter(prefix=\"/buscar-publicacoes\", tags=[\"Buscar Publicações\"])\n# Storage simples para status de operações (em produção usar Redis/DB)\n_operations_status: Dict[str, BuscarPublicacoesStatus] = {}\n@router.post(\"/processar\", response_model=BuscarPublicacoesResponse)\nasync def processar_busca_publicacoes(\n    request: BuscarPublicacoesRequest,\n    background_tasks: BackgroundTasks,\n    process_starter: ProcessStarter = Depends(get_process_starter),\n    soap_client: IntimationService = Depends(get_intimation_client)\n):",
+        "detail": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "documentation": {}
     },
     {
@@ -2721,6 +3457,159 @@
         "documentation": {}
     },
     {
+        "label": "Publicacao",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_api",
+        "description": "camunda-worker-api-gateway.app.services.intimation_api",
+        "peekOfCode": "class Publicacao:\n    \"\"\"Representa uma publicação/intimação da API\"\"\"\n    ano_publicacao: int = 0\n    cod_publicacao: int = 0\n    edicao_diario: int = 0\n    descricao_diario: str = \"\"\n    pagina_inicial: int = 0\n    pagina_final: int = 0\n    data_publicacao: str = \"\"\n    data_divulgacao: str = \"\"",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "EstatisticasPublicacoes",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_api",
+        "description": "camunda-worker-api-gateway.app.services.intimation_api",
+        "peekOfCode": "class EstatisticasPublicacoes:\n    \"\"\"Representa estatísticas de publicações\"\"\"\n    grupo: str = \"\"\n    total_publicacoes: int = 0\n    total_nao_importadas: int = 0\n    detalhamento: Optional[List['EstatisticasPublicacoes']] = None\n    def to_json(self) -> str:\n        \"\"\"Converte estatísticas para JSON\"\"\"\n        return json.dumps(asdict(self), ensure_ascii=False, indent=2)\n    def to_dict(self) -> Dict[str, Any]:",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationAPIClient",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_api",
+        "description": "camunda-worker-api-gateway.app.services.intimation_api",
+        "peekOfCode": "class IntimationAPIClient:\n    \"\"\"Cliente para integração com o WebService de Intimações\"\"\"\n    DEFAULT_URL = \"https://intimation-panel.azurewebsites.net/wsPublicacao.asmx\"\n    def __init__(self, usuario: str, senha: str, **kwargs):\n        \"\"\"\n        Inicializa o cliente da API\n        Args:\n            usuario: Usuário para autenticação\n            senha: Senha para autenticação\n            **kwargs: Configurações opcionais:",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_api",
+        "description": "camunda-worker-api-gateway.app.services.intimation_api",
+        "peekOfCode": "logger = logging.getLogger(__name__)\n@dataclass\nclass Publicacao:\n    \"\"\"Representa uma publicação/intimação da API\"\"\"\n    ano_publicacao: int = 0\n    cod_publicacao: int = 0\n    edicao_diario: int = 0\n    descricao_diario: str = \"\"\n    pagina_inicial: int = 0\n    pagina_final: int = 0",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "Publicacao",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_client",
+        "description": "camunda-worker-api-gateway.app.services.intimation_client",
+        "peekOfCode": "class Publicacao:\n    \"\"\"Representa uma publicação/intimação da API\"\"\"\n    ano_publicacao: int = 0\n    cod_publicacao: int = 0\n    edicao_diario: int = 0\n    descricao_diario: str = \"\"\n    pagina_inicial: int = 0\n    pagina_final: int = 0\n    data_publicacao: str = \"\"\n    data_divulgacao: str = \"\"",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_client",
+        "documentation": {}
+    },
+    {
+        "label": "EstatisticasPublicacoes",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_client",
+        "description": "camunda-worker-api-gateway.app.services.intimation_client",
+        "peekOfCode": "class EstatisticasPublicacoes:\n    \"\"\"Representa estatísticas de publicações\"\"\"\n    grupo: str = \"\"\n    total_publicacoes: int = 0\n    total_nao_importadas: int = 0\n    detalhamento: Optional[List['EstatisticasPublicacoes']] = None\n    def to_json(self) -> str:\n        \"\"\"Converte estatísticas para JSON\"\"\"\n        return json.dumps(asdict(self), ensure_ascii=False, indent=2)\n    def to_dict(self) -> Dict[str, Any]:",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_client",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationAPIClient",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_client",
+        "description": "camunda-worker-api-gateway.app.services.intimation_client",
+        "peekOfCode": "class IntimationAPIClient:\n    \"\"\"Cliente para integração com o WebService de Intimações\"\"\"\n    DEFAULT_URL = \"https://intimation-panel.azurewebsites.net/wsPublicacao.asmx\"\n    def __init__(self, usuario: str, senha: str, **kwargs):\n        \"\"\"\n        Inicializa o cliente da API\n        Args:\n            usuario: Usuário para autenticação\n            senha: Senha para autenticação\n            **kwargs: Configurações opcionais:",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_client",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_client",
+        "description": "camunda-worker-api-gateway.app.services.intimation_client",
+        "peekOfCode": "logger = logging.getLogger(__name__)\n@dataclass\nclass Publicacao:\n    \"\"\"Representa uma publicação/intimação da API\"\"\"\n    ano_publicacao: int = 0\n    cod_publicacao: int = 0\n    edicao_diario: int = 0\n    descricao_diario: str = \"\"\n    pagina_inicial: int = 0\n    pagina_final: int = 0",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_client",
+        "documentation": {}
+    },
+    {
+        "label": "Publicacao",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
+        "description": "camunda-worker-api-gateway.app.services.intimation_service",
+        "peekOfCode": "class Publicacao:\n    \"\"\"Representa uma publicação/intimação da API\"\"\"\n    ano_publicacao: int = 0\n    cod_publicacao: int = 0\n    edicao_diario: int = 0\n    descricao_diario: str = \"\"\n    pagina_inicial: int = 0\n    pagina_final: int = 0\n    data_publicacao: str = \"\"\n    data_divulgacao: str = \"\"",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "EstatisticasPublicacoes",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
+        "description": "camunda-worker-api-gateway.app.services.intimation_service",
+        "peekOfCode": "class EstatisticasPublicacoes:\n    \"\"\"Representa estatísticas de publicações\"\"\"\n    grupo: str = \"\"\n    total_publicacoes: int = 0\n    total_nao_importadas: int = 0\n    detalhamento: Optional[List['EstatisticasPublicacoes']] = None\n    def to_json(self) -> str:\n        \"\"\"Converte estatísticas para JSON\"\"\"\n        return json.dumps(asdict(self), ensure_ascii=False, indent=2)\n    def to_dict(self) -> Dict[str, Any]:",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationServiceError",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
+        "description": "camunda-worker-api-gateway.app.services.intimation_service",
+        "peekOfCode": "class IntimationServiceError(Exception):\n    \"\"\"Exceção customizada para erros do IntimationService\"\"\"\n    pass\nclass IntimationService:\n    \"\"\"\n    Serviço consolidado para integração com WebService de Intimações\n    Combina as melhores funcionalidades dos clientes existentes em um serviço\n    único, robusto e bem testado para uso no Gateway.\n    \"\"\"\n    DEFAULT_URL = \"https://intimation-panel.azurewebsites.net/wsPublicacao.asmx\"",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationService",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
+        "description": "camunda-worker-api-gateway.app.services.intimation_service",
+        "peekOfCode": "class IntimationService:\n    \"\"\"\n    Serviço consolidado para integração com WebService de Intimações\n    Combina as melhores funcionalidades dos clientes existentes em um serviço\n    único, robusto e bem testado para uso no Gateway.\n    \"\"\"\n    DEFAULT_URL = \"https://intimation-panel.azurewebsites.net/wsPublicacao.asmx\"\n    def __init__(self, usuario: str = None, senha: str = None, **kwargs):\n        \"\"\"\n        Inicializa o serviço de intimações",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_intimation_service",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
+        "description": "camunda-worker-api-gateway.app.services.intimation_service",
+        "peekOfCode": "def get_intimation_service(usuario: str = None, senha: str = None,\n                          timeout: int = None) -> IntimationService:\n    \"\"\"\n    Factory function para obter instância do IntimationService\n    Args:\n        usuario: Usuário SOAP (opcional, usa env se não fornecido)\n        senha: Senha SOAP (opcional, usa env se não fornecido)\n        timeout: Timeout personalizado (opcional)\n    Returns:\n        IntimationService: Instância configurada",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_intimation_client",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
+        "description": "camunda-worker-api-gateway.app.services.intimation_service",
+        "peekOfCode": "def get_intimation_client() -> IntimationService:\n    \"\"\"\n    Dependency function para FastAPI\n    Returns:\n        IntimationService: Instância para uso como dependency\n    \"\"\"\n    return get_intimation_service()\n# Para compatibilidade com código existente, expor classe principal\nIntimationAPIClient = IntimationService",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
+        "description": "camunda-worker-api-gateway.app.services.intimation_service",
+        "peekOfCode": "logger = logging.getLogger(__name__)\n@dataclass\nclass Publicacao:\n    \"\"\"Representa uma publicação/intimação da API\"\"\"\n    ano_publicacao: int = 0\n    cod_publicacao: int = 0\n    edicao_diario: int = 0\n    descricao_diario: str = \"\"\n    pagina_inicial: int = 0\n    pagina_final: int = 0",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "_intimation_service_instance",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
+        "description": "camunda-worker-api-gateway.app.services.intimation_service",
+        "peekOfCode": "_intimation_service_instance = None\ndef get_intimation_service(usuario: str = None, senha: str = None,\n                          timeout: int = None) -> IntimationService:\n    \"\"\"\n    Factory function para obter instância do IntimationService\n    Args:\n        usuario: Usuário SOAP (opcional, usa env se não fornecido)\n        senha: Senha SOAP (opcional, usa env se não fornecido)\n        timeout: Timeout personalizado (opcional)\n    Returns:",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationAPIClient",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
+        "description": "camunda-worker-api-gateway.app.services.intimation_service",
+        "peekOfCode": "IntimationAPIClient = IntimationService",
+        "detail": "camunda-worker-api-gateway.app.services.intimation_service",
+        "documentation": {}
+    },
+    {
         "label": "MovimentacaoService",
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.movimentacao_service",
@@ -2745,6 +3634,51 @@
         "description": "camunda-worker-api-gateway.app.services.movimentacao_service",
         "peekOfCode": "movimentacao_service = MovimentacaoService()",
         "detail": "camunda-worker-api-gateway.app.services.movimentacao_service",
+        "documentation": {}
+    },
+    {
+        "label": "ProcessStarterError",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.process_starter",
+        "description": "camunda-worker-api-gateway.app.services.process_starter",
+        "peekOfCode": "class ProcessStarterError(Exception):\n    \"\"\"Exceção customizada para erros do ProcessStarter\"\"\"\n    pass\nclass ProcessStarter:\n    \"\"\"\n    Cliente para iniciar instâncias de processo no Camunda\n    Responsabilidades:\n    - Conectar com Camunda REST API\n    - Iniciar instâncias de processo com variáveis\n    - Tratar erros e retry automático",
+        "detail": "camunda-worker-api-gateway.app.services.process_starter",
+        "documentation": {}
+    },
+    {
+        "label": "ProcessStarter",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.process_starter",
+        "description": "camunda-worker-api-gateway.app.services.process_starter",
+        "peekOfCode": "class ProcessStarter:\n    \"\"\"\n    Cliente para iniciar instâncias de processo no Camunda\n    Responsabilidades:\n    - Conectar com Camunda REST API\n    - Iniciar instâncias de processo com variáveis\n    - Tratar erros e retry automático\n    - Monitorar status das instâncias criadas\n    \"\"\"\n    def __init__(self, camunda_url: str = \"http://localhost:8080\", ",
+        "detail": "camunda-worker-api-gateway.app.services.process_starter",
+        "documentation": {}
+    },
+    {
+        "label": "get_process_starter",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.services.process_starter",
+        "description": "camunda-worker-api-gateway.app.services.process_starter",
+        "peekOfCode": "def get_process_starter(camunda_url: str = None, username: str = None, password: str = None) -> ProcessStarter:\n    \"\"\"\n    Factory function para obter instância do ProcessStarter\n    Args:\n        camunda_url: URL do Camunda (opcional, usa padrão se None)\n        username: Usuário (opcional)\n        password: Senha (opcional)\n    Returns:\n        ProcessStarter: Instância configurada\n    \"\"\"",
+        "detail": "camunda-worker-api-gateway.app.services.process_starter",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.process_starter",
+        "description": "camunda-worker-api-gateway.app.services.process_starter",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass ProcessStarterError(Exception):\n    \"\"\"Exceção customizada para erros do ProcessStarter\"\"\"\n    pass\nclass ProcessStarter:\n    \"\"\"\n    Cliente para iniciar instâncias de processo no Camunda\n    Responsabilidades:\n    - Conectar com Camunda REST API\n    - Iniciar instâncias de processo com variáveis",
+        "detail": "camunda-worker-api-gateway.app.services.process_starter",
+        "documentation": {}
+    },
+    {
+        "label": "_process_starter_instance",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.process_starter",
+        "description": "camunda-worker-api-gateway.app.services.process_starter",
+        "peekOfCode": "_process_starter_instance = None\ndef get_process_starter(camunda_url: str = None, username: str = None, password: str = None) -> ProcessStarter:\n    \"\"\"\n    Factory function para obter instância do ProcessStarter\n    Args:\n        camunda_url: URL do Camunda (opcional, usa padrão se None)\n        username: Usuário (opcional)\n        password: Senha (opcional)\n    Returns:\n        ProcessStarter: Instância configurada",
+        "detail": "camunda-worker-api-gateway.app.services.process_starter",
         "documentation": {}
     },
     {
@@ -2788,7 +3722,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.task_processor",
         "description": "camunda-worker-api-gateway.app.services.task_processor",
-        "peekOfCode": "class TaskProcessor:\n    \"\"\"Task processing service with topic-specific handlers\"\"\"\n    def __init__(self, task_manager: TaskManager):\n        self.task_manager = task_manager\n        # Map topics to their processing methods\n        self.topic_handlers = {\n            \"nova_publicacao\": self._process_nova_publicacao,\n            \"say_hello\": self._process_say_hello,\n            \"validate_document\": self._process_validate_document,\n            \"process_data\": self._process_process_data,",
+        "peekOfCode": "class TaskProcessor:\n    \"\"\"Task processing service with topic-specific handlers\"\"\"\n    def __init__(self, task_manager: TaskManager):\n        self.task_manager = task_manager\n        # Map topics to their processing methods\n        self.topic_handlers = {\n            \"nova_publicacao\": self._process_nova_publicacao,\n            \"BuscarPublicacoes\": self._process_buscar_publicacoes,\n            \"say_hello\": self._process_say_hello,\n            \"validate_document\": self._process_validate_document,",
         "detail": "camunda-worker-api-gateway.app.services.task_processor",
         "documentation": {}
     },
@@ -2797,7 +3731,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.services.task_processor",
         "description": "camunda-worker-api-gateway.app.services.task_processor",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nclass TaskProcessor:\n    \"\"\"Task processing service with topic-specific handlers\"\"\"\n    def __init__(self, task_manager: TaskManager):\n        self.task_manager = task_manager\n        # Map topics to their processing methods\n        self.topic_handlers = {\n            \"nova_publicacao\": self._process_nova_publicacao,\n            \"say_hello\": self._process_say_hello,\n            \"validate_document\": self._process_validate_document,",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass TaskProcessor:\n    \"\"\"Task processing service with topic-specific handlers\"\"\"\n    def __init__(self, task_manager: TaskManager):\n        self.task_manager = task_manager\n        # Map topics to their processing methods\n        self.topic_handlers = {\n            \"nova_publicacao\": self._process_nova_publicacao,\n            \"BuscarPublicacoes\": self._process_buscar_publicacoes,\n            \"say_hello\": self._process_say_hello,",
         "detail": "camunda-worker-api-gateway.app.services.task_processor",
         "documentation": {}
     },
@@ -2991,6 +3925,33 @@
         "documentation": {}
     },
     {
+        "label": "BuscarPublicacoesWorker",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.buscar_publicacoes.main",
+        "description": "camunda-workers-platform.workers.buscar_publicacoes.main",
+        "peekOfCode": "class BuscarPublicacoesWorker(BaseWorker):\n    \"\"\"\n    Worker orquestrador para busca automatizada de publicações\n    RESPONSABILIDADES (seguindo padrão arquitetural):\n    - Receber tasks de busca agendadas do Camunda\n    - Validar parâmetros de busca\n    - Submeter para Worker API Gateway para processamento\n    - Monitorar status e retornar resultados para Camunda\n    IMPORTANTE: Este worker NÃO contém lógica de negócio!\n    Toda lógica de busca e processamento está no Worker API Gateway.",
+        "detail": "camunda-workers-platform.workers.buscar_publicacoes.main",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "camunda-workers-platform.workers.buscar_publicacoes.main",
+        "description": "camunda-workers-platform.workers.buscar_publicacoes.main",
+        "peekOfCode": "def main():\n    \"\"\"Função principal para executar o worker\"\"\"\n    try:\n        # Configurar logging\n        logging.basicConfig(\n            level=logging.INFO,\n            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',\n            handlers=[\n                logging.StreamHandler()\n            ]",
+        "detail": "camunda-workers-platform.workers.buscar_publicacoes.main",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.buscar_publicacoes.main",
+        "description": "camunda-workers-platform.workers.buscar_publicacoes.main",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass BuscarPublicacoesWorker(BaseWorker):\n    \"\"\"\n    Worker orquestrador para busca automatizada de publicações\n    RESPONSABILIDADES (seguindo padrão arquitetural):\n    - Receber tasks de busca agendadas do Camunda\n    - Validar parâmetros de busca\n    - Submeter para Worker API Gateway para processamento\n    - Monitorar status e retornar resultados para Camunda\n    IMPORTANTE: Este worker NÃO contém lógica de negócio!",
+        "detail": "camunda-workers-platform.workers.buscar_publicacoes.main",
+        "documentation": {}
+    },
+    {
         "label": "BaseWorker",
         "kind": 6,
         "importPath": "camunda-workers-platform.workers.common.base_worker",
@@ -3049,7 +4010,7 @@
         "kind": 6,
         "importPath": "camunda-workers-platform.workers.common.config",
         "description": "camunda-workers-platform.workers.common.config",
-        "peekOfCode": "class Topics:\n    \"\"\"Centralized topic names for external tasks\"\"\"\n    # Simple Hello World topic\n    SAY_HELLO = \"say_hello\"\n    # Topicos DC\n    NOVA_PUBLICACAO = \"nova_publicacao\"\n    # Complex workflow topics (archived)\n    VALIDATE_DOCUMENT = \"validate_document\"\n    PROCESS_DATA = \"process_data\" \n    PUBLISH_CONTENT = \"publish_content\"",
+        "peekOfCode": "class Topics:\n    \"\"\"Centralized topic names for external tasks\"\"\"\n    # Simple Hello World topic\n    SAY_HELLO = \"say_hello\"\n    # Topicos DC\n    NOVA_PUBLICACAO = \"nova_publicacao\"\n    BUSCAR_PUBLICACOES = \"BuscarPublicacoes\"\n    # Complex workflow topics (archived)\n    VALIDATE_DOCUMENT = \"validate_document\"\n    PROCESS_DATA = \"process_data\" ",
         "detail": "camunda-workers-platform.workers.common.config",
         "documentation": {}
     },
@@ -3423,6 +4384,33 @@
         "documentation": {}
     },
     {
+        "label": "PublicacaoUnifiedWorker",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.publicacao_unified.main",
+        "description": "camunda-workers-platform.workers.publicacao_unified.main",
+        "peekOfCode": "class PublicacaoUnifiedWorker(BaseWorker):\n    \"\"\"\n    Worker unificado para processamento de publicações judiciais\n    RESPONSABILIDADES:\n    1. Processar movimentações judiciais individuais (nova_publicacao)\n    2. Orquestrar busca automatizada de publicações (BuscarPublicacoes)\n    PADRÃO ARQUITETURAL:\n    - Worker orquestrador (NÃO contém lógica de negócio)\n    - Toda lógica de processamento está no Worker API Gateway\n    - Validação básica no worker, processamento no Gateway",
+        "detail": "camunda-workers-platform.workers.publicacao_unified.main",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "camunda-workers-platform.workers.publicacao_unified.main",
+        "description": "camunda-workers-platform.workers.publicacao_unified.main",
+        "peekOfCode": "def main():\n    \"\"\"Função principal para executar o worker unificado\"\"\"\n    try:\n        # Configurar logging\n        logging.basicConfig(\n            level=logging.INFO,\n            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',\n            handlers=[\n                logging.StreamHandler()\n            ]",
+        "detail": "camunda-workers-platform.workers.publicacao_unified.main",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.publicacao_unified.main",
+        "description": "camunda-workers-platform.workers.publicacao_unified.main",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass PublicacaoUnifiedWorker(BaseWorker):\n    \"\"\"\n    Worker unificado para processamento de publicações judiciais\n    RESPONSABILIDADES:\n    1. Processar movimentações judiciais individuais (nova_publicacao)\n    2. Orquestrar busca automatizada de publicações (BuscarPublicacoes)\n    PADRÃO ARQUITETURAL:\n    - Worker orquestrador (NÃO contém lógica de negócio)\n    - Toda lógica de processamento está no Worker API Gateway",
+        "detail": "camunda-workers-platform.workers.publicacao_unified.main",
+        "documentation": {}
+    },
+    {
         "label": "exemplo_conversao_soap_json",
         "kind": 2,
         "importPath": "camunda-workers-platform.workers.publicacao_worker.example_soap_to_json",
@@ -3600,6 +4588,33 @@
         "description": "test-scripts.monitor_execucao",
         "peekOfCode": "def main():\n    \"\"\"Função principal com interface CLI\"\"\"\n    parser = argparse.ArgumentParser(description=\"Monitor de execução Camunda VM\")\n    parser.add_argument(\"--url\", default=\"http://201.23.67.197:8080\",\n                       help=\"URL do Camunda (default: http://201.23.67.197:8080)\")\n    subparsers = parser.add_subparsers(dest=\"command\", help=\"Comandos disponíveis\")\n    # Comando: status\n    status_parser = subparsers.add_parser(\"status\", help=\"Mostra status atual\")\n    status_parser.add_argument(\"--process\", help=\"Chave do processo específico\")\n    # Comando: monitor",
         "detail": "test-scripts.monitor_execucao",
+        "documentation": {}
+    },
+    {
+        "label": "BuscarPublicacoesTester",
+        "kind": 6,
+        "importPath": "test-scripts.test_buscar_publicacoes",
+        "description": "test-scripts.test_buscar_publicacoes",
+        "peekOfCode": "class BuscarPublicacoesTester:\n    \"\"\"Tester para o fluxo de busca automatizada de publicações\"\"\"\n    def __init__(self, camunda_url: str = \"http://201.23.67.197:8080\", \n                 gateway_url: str = \"http://localhost:8001\"):\n        self.camunda_url = camunda_url\n        self.gateway_url = gateway_url\n        # Cliente para Camunda\n        self.process_starter = ProcessStarter(\n            camunda_url=camunda_url,\n            username=\"demo\",",
+        "detail": "test-scripts.test_buscar_publicacoes",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "test-scripts.test_buscar_publicacoes",
+        "description": "test-scripts.test_buscar_publicacoes",
+        "peekOfCode": "def main():\n    \"\"\"Função principal\"\"\"\n    print(\"🎯 Teste de Busca Automatizada de Publicações\")\n    print(\"=\" * 70)\n    # URLs configuráveis via argumentos\n    camunda_url = \"http://201.23.67.197:8080\"\n    gateway_url = \"http://localhost:8001\"\n    if len(sys.argv) > 1:\n        if \"--local-camunda\" in sys.argv:\n            camunda_url = \"http://localhost:8080\"",
+        "detail": "test-scripts.test_buscar_publicacoes",
+        "documentation": {}
+    },
+    {
+        "label": "script_dir",
+        "kind": 5,
+        "importPath": "test-scripts.test_buscar_publicacoes",
+        "description": "test-scripts.test_buscar_publicacoes",
+        "peekOfCode": "script_dir = os.path.dirname(__file__)\nsys.path.append(os.path.join(script_dir, '..', 'camunda-worker-api-gateway', 'app'))\ntry:\n    from services.process_starter import ProcessStarter\n    from models.buscar_request import BuscarPublicacoesRequest, PublicacaoParaProcessamento\nexcept ImportError as e:\n    print(f\"❌ Erro ao importar módulos: {e}\")\n    print(\"💡 Execute do diretório test-scripts\")\n    sys.exit(1)\nclass BuscarPublicacoesTester:",
+        "detail": "test-scripts.test_buscar_publicacoes",
         "documentation": {}
     },
     {

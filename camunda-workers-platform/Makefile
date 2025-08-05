@@ -96,8 +96,8 @@ build-worker:
 .PHONY: local-up
 local-up: build-workers
 	@echo "🚀 Starting Workers Platform locally..."
-	@echo "📊 Using replicas: Hello=${WORKER_HELLO_REPLICAS:-1}, Publicacao=${WORKER_PUBLICACAO_REPLICAS:-1}"
-	ENVIRONMENT=local docker compose -f docker-compose.yml --env-file .env.local up -d --scale worker-hello-world=$${WORKER_HELLO_REPLICAS:-1} --scale worker-publicacao=$${WORKER_PUBLICACAO_REPLICAS:-1}
+	@echo "📊 Using replicas: Hello=${WORKER_HELLO_REPLICAS:-0}, Publicacao=${WORKER_PUBLICACAO_REPLICAS:-0}, Unified=${WORKER_PUBLICACAO_UNIFIED_REPLICAS:-1}"
+	ENVIRONMENT=local docker compose -f docker-compose.yml --env-file .env.local up -d --scale worker-hello-world=$${WORKER_HELLO_REPLICAS:-0} --scale worker-publicacao=$${WORKER_PUBLICACAO_REPLICAS:-0} --scale worker-publicacao-unified=$${WORKER_PUBLICACAO_UNIFIED_REPLICAS:-1}
 	@echo "✅ Workers Platform started locally"
 	@$(MAKE) local-status
 
@@ -106,6 +106,15 @@ local-down:
 	@echo "⏹️ Stopping Workers Platform locally..."
 	docker compose -f docker-compose.yml --env-file .env.local down
 	@echo "✅ Workers Platform stopped locally"
+
+# Aliases para compatibilidade com documentação
+.PHONY: workers-up
+workers-up: local-up
+	@echo "ℹ️ workers-up is an alias for local-up"
+
+.PHONY: workers-down
+workers-down: local-down
+	@echo "ℹ️ workers-down is an alias for local-down"
 
 .PHONY: local-logs
 local-logs:
@@ -165,8 +174,9 @@ remote-status:
 	@echo "📊 Checking remote status..."
 	$(SSH) "cd $(REMOTE_DIR) && echo '=== DOCKER STACK STATUS ===' && docker stack ps $(STACK) 2>/dev/null || (echo '=== DOCKER COMPOSE STATUS ===' && docker compose --env-file .env.production ps)"
 	@echo "\n🌐 === WORKER METRICS (REMOTE) ==="
-	@echo "Hello World Worker: http://$(VM_HOST):8001/metrics"
-	@echo "Publicacao Worker:  http://$(VM_HOST):8002/metrics"
+	@echo "Hello World Worker:     http://$(VM_HOST):8001/metrics"
+	@echo "Publicacao Worker:      http://$(VM_HOST):8002/metrics"
+	@echo "Publicacao Unified:     http://$(VM_HOST):8003/metrics"
 
 .PHONY: remote-scale
 remote-scale:
@@ -211,9 +221,11 @@ test-worker-connection:
 worker-metrics:
 	@echo "📊 Fetching worker metrics..."
 	@echo "=== Hello World Worker ==="
-	@curl -s http://localhost:8001/metrics | head -20
+	@curl -s http://localhost:8001/metrics | head -20 2>/dev/null || echo "Worker not running"
 	@echo "\n=== Publicacao Worker ==="
-	@curl -s http://localhost:8002/metrics | head -20
+	@curl -s http://localhost:8002/metrics | head -20 2>/dev/null || echo "Worker not running"
+	@echo "\n=== Publicacao Unified Worker ==="
+	@curl -s http://localhost:8003/metrics | head -20 2>/dev/null || echo "Worker not running"
 
 # ---------------- UTILITÁRIOS DE DESENVOLVIMENTO ----------------------------
 

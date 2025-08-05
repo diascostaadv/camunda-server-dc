@@ -1,0 +1,38 @@
+{
+  "name": "publicacao-unified",
+  "description": "Worker unificado para processamento de publicações judiciais - nova_publicacao e BuscarPublicacoes",
+  "version": "1.0.0",
+  "entry_point": "main.py",
+  "port": 8003,
+  "topics": [
+    "nova_publicacao",
+    "BuscarPublicacoes"
+  ],
+  "environment": {
+    "GATEWAY_ENABLED": "true",
+    "GATEWAY_URL": "http://camunda-worker-api-gateway:8001",
+    "GATEWAY_TIMEOUT": "300",
+    "CAMUNDA_URL": "http://camunda:8080/engine-rest",
+    "CAMUNDA_USERNAME": "demo",
+    "CAMUNDA_PASSWORD": "demo",
+    "MAX_TASKS": "2",
+    "LOCK_DURATION": "60000",
+    "METRICS_PORT": "8000",
+    "LOG_LEVEL": "INFO"
+  },
+  "healthcheck": {
+    "endpoint": "/health",
+    "interval": "30s",
+    "timeout": "10s",
+    "retries": 3
+  },
+  "resources": {
+    "memory": "512Mi",
+    "cpu": "500m"
+  },
+  "scaling": {
+    "min_replicas": 1,
+    "max_replicas": 3,
+    "target_cpu_utilization": 70
+  }
+}

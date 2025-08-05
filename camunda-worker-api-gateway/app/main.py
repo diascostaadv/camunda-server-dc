@@ -14,6 +14,7 @@ from services.rabbitmq_consumer import RabbitMQConsumer
 from core.config import settings
 from routes import health_router, tasks_router
 from routes.dependencies import set_task_manager, set_rabbitmq_consumer
+from routers import buscar_publicacoes
 
 
 # Task Manager global instance
@@ -76,6 +77,7 @@ app.add_middleware(
 # Include routers
 app.include_router(health_router)
 app.include_router(tasks_router)
+app.include_router(buscar_publicacoes.router)
 
 
 
