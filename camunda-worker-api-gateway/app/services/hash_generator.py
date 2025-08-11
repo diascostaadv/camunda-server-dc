@@ -23,7 +23,6 @@ class HashGenerator:
         numero_processo: str, 
         data_publicacao: str, 
         texto_original: str,
-        tribunal: str,
         encoding: str = 'utf-8'
     ) -> str:
         """
@@ -52,8 +51,6 @@ class HashGenerator:
         if not texto_original or not texto_original.strip():
             raise ValueError("Texto original é obrigatório para hash")
         
-        if not tribunal or not tribunal.strip():
-            raise ValueError("Tribunal é obrigatório para hash")
         
         try:
             logger.debug(f"Gerando hash para processo {numero_processo}")
@@ -62,14 +59,12 @@ class HashGenerator:
             numero_normalizado = numero_processo.strip().lower()
             data_normalizada = data_publicacao.strip()
             texto_normalizado = texto_original.strip()
-            tribunal_normalizado = tribunal.strip().lower()
             
             # Constrói a string para hash com separadores consistentes
             hash_input = self._construir_string_hash(
                 numero_normalizado,
                 data_normalizada, 
                 texto_normalizado,
-                tribunal_normalizado
             )
             
             # Gera hash
@@ -89,7 +84,6 @@ class HashGenerator:
         numero_processo: str,
         data_publicacao: str,
         texto_original: str,
-        tribunal: str
     ) -> str:
         """
         Constrói string padronizada para geração de hash
@@ -111,7 +105,6 @@ class HashGenerator:
             numero_processo,
             data_publicacao,
             texto_original,
-            tribunal
         ])
         
         return hash_string
@@ -137,7 +130,6 @@ class HashGenerator:
         numero_processo: str,
         data_publicacao: str,
         texto_limpo: str,  # Usando texto limpo ao invés do original
-        tribunal: str,
         encoding: str = 'utf-8'
     ) -> str:
         """
@@ -160,14 +152,13 @@ class HashGenerator:
             numero_normalizado = numero_processo.strip().lower()
             data_normalizada = data_publicacao.strip()
             texto_normalizado = texto_limpo.strip().lower()
-            tribunal_normalizado = tribunal.strip().lower()
+
             
             # Constrói string para hash alternativa
             hash_input = self._construir_string_hash(
                 numero_normalizado,
                 data_normalizada,
                 texto_normalizado,
-                tribunal_normalizado
             )
             
             # Adiciona prefixo para diferençar da hash principal
@@ -295,7 +286,6 @@ def gerar_hash_unica(
     numero_processo: str,
     data_publicacao: str, 
     texto_original: str,
-    tribunal: str
 ) -> str:
     """
     Função de conveniência para geração de hash única
@@ -310,7 +300,7 @@ def gerar_hash_unica(
         str: Hash SHA256 única
     """
     return hash_generator.gerar_hash_unica(
-        numero_processo, data_publicacao, texto_original, tribunal
+        numero_processo, data_publicacao, texto_original
     )
 
 

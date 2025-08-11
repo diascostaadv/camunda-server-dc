@@ -513,30 +513,6 @@
         "documentation": {}
     },
     {
-        "label": "Dict",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Any",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
         "label": "Optional",
         "importPath": "typing",
         "description": "typing",
@@ -1066,14 +1042,6 @@
     },
     {
         "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -2469,54 +2437,6 @@
         "documentation": {}
     },
     {
-        "label": "BaseWorker",
-        "importPath": "common.base_worker",
-        "description": "common.base_worker",
-        "isExtraImport": true,
-        "detail": "common.base_worker",
-        "documentation": {}
-    },
-    {
-        "label": "BaseWorker",
-        "importPath": "common.base_worker",
-        "description": "common.base_worker",
-        "isExtraImport": true,
-        "detail": "common.base_worker",
-        "documentation": {}
-    },
-    {
-        "label": "WorkerConfig",
-        "importPath": "common.config",
-        "description": "common.config",
-        "isExtraImport": true,
-        "detail": "common.config",
-        "documentation": {}
-    },
-    {
-        "label": "Topics",
-        "importPath": "common.config",
-        "description": "common.config",
-        "isExtraImport": true,
-        "detail": "common.config",
-        "documentation": {}
-    },
-    {
-        "label": "WorkerConfig",
-        "importPath": "common.config",
-        "description": "common.config",
-        "isExtraImport": true,
-        "detail": "common.config",
-        "documentation": {}
-    },
-    {
-        "label": "Topics",
-        "importPath": "common.config",
-        "description": "common.config",
-        "isExtraImport": true,
-        "detail": "common.config",
-        "documentation": {}
-    },
-    {
         "label": "WorkerConfig",
         "importPath": "common.config",
         "description": "common.config",
@@ -2834,86 +2754,6 @@
         "description": "common.utils",
         "isExtraImport": true,
         "detail": "common.utils",
-        "documentation": {}
-    },
-    {
-        "label": "log_task_start",
-        "importPath": "common.utils",
-        "description": "common.utils",
-        "isExtraImport": true,
-        "detail": "common.utils",
-        "documentation": {}
-    },
-    {
-        "label": "log_task_complete",
-        "importPath": "common.utils",
-        "description": "common.utils",
-        "isExtraImport": true,
-        "detail": "common.utils",
-        "documentation": {}
-    },
-    {
-        "label": "log_task_error",
-        "importPath": "common.utils",
-        "description": "common.utils",
-        "isExtraImport": true,
-        "detail": "common.utils",
-        "documentation": {}
-    },
-    {
-        "label": "get_timestamp",
-        "importPath": "common.utils",
-        "description": "common.utils",
-        "isExtraImport": true,
-        "detail": "common.utils",
-        "documentation": {}
-    },
-    {
-        "label": "ExternalTask",
-        "importPath": "camunda.external_task.external_task",
-        "description": "camunda.external_task.external_task",
-        "isExtraImport": true,
-        "detail": "camunda.external_task.external_task",
-        "documentation": {}
-    },
-    {
-        "label": "ExternalTask",
-        "importPath": "camunda.external_task.external_task",
-        "description": "camunda.external_task.external_task",
-        "isExtraImport": true,
-        "detail": "camunda.external_task.external_task",
-        "documentation": {}
-    },
-    {
-        "label": "ExternalTask",
-        "importPath": "camunda.external_task.external_task",
-        "description": "camunda.external_task.external_task",
-        "isExtraImport": true,
-        "detail": "camunda.external_task.external_task",
-        "documentation": {}
-    },
-    {
-        "label": "log_with_context",
-        "importPath": "camunda.utils.log_utils",
-        "description": "camunda.utils.log_utils",
-        "isExtraImport": true,
-        "detail": "camunda.utils.log_utils",
-        "documentation": {}
-    },
-    {
-        "label": "log_with_context",
-        "importPath": "camunda.utils.log_utils",
-        "description": "camunda.utils.log_utils",
-        "isExtraImport": true,
-        "detail": "camunda.utils.log_utils",
-        "documentation": {}
-    },
-    {
-        "label": "log_with_context",
-        "importPath": "camunda.utils.log_utils",
-        "description": "camunda.utils.log_utils",
-        "isExtraImport": true,
-        "detail": "camunda.utils.log_utils",
         "documentation": {}
     },
     {
@@ -3027,6 +2867,38 @@
         "description": "intimation_api",
         "isExtraImport": true,
         "detail": "intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
         "documentation": {}
     },
     {
@@ -3925,33 +3797,6 @@
         "documentation": {}
     },
     {
-        "label": "BuscarPublicacoesWorker",
-        "kind": 6,
-        "importPath": "camunda-workers-platform.workers.buscar_publicacoes.main",
-        "description": "camunda-workers-platform.workers.buscar_publicacoes.main",
-        "peekOfCode": "class BuscarPublicacoesWorker(BaseWorker):\n    \"\"\"\n    Worker orquestrador para busca automatizada de publicações\n    RESPONSABILIDADES (seguindo padrão arquitetural):\n    - Receber tasks de busca agendadas do Camunda\n    - Validar parâmetros de busca\n    - Submeter para Worker API Gateway para processamento\n    - Monitorar status e retornar resultados para Camunda\n    IMPORTANTE: Este worker NÃO contém lógica de negócio!\n    Toda lógica de busca e processamento está no Worker API Gateway.",
-        "detail": "camunda-workers-platform.workers.buscar_publicacoes.main",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": "camunda-workers-platform.workers.buscar_publicacoes.main",
-        "description": "camunda-workers-platform.workers.buscar_publicacoes.main",
-        "peekOfCode": "def main():\n    \"\"\"Função principal para executar o worker\"\"\"\n    try:\n        # Configurar logging\n        logging.basicConfig(\n            level=logging.INFO,\n            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',\n            handlers=[\n                logging.StreamHandler()\n            ]",
-        "detail": "camunda-workers-platform.workers.buscar_publicacoes.main",
-        "documentation": {}
-    },
-    {
-        "label": "logger",
-        "kind": 5,
-        "importPath": "camunda-workers-platform.workers.buscar_publicacoes.main",
-        "description": "camunda-workers-platform.workers.buscar_publicacoes.main",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nclass BuscarPublicacoesWorker(BaseWorker):\n    \"\"\"\n    Worker orquestrador para busca automatizada de publicações\n    RESPONSABILIDADES (seguindo padrão arquitetural):\n    - Receber tasks de busca agendadas do Camunda\n    - Validar parâmetros de busca\n    - Submeter para Worker API Gateway para processamento\n    - Monitorar status e retornar resultados para Camunda\n    IMPORTANTE: Este worker NÃO contém lógica de negócio!",
-        "detail": "camunda-workers-platform.workers.buscar_publicacoes.main",
-        "documentation": {}
-    },
-    {
         "label": "BaseWorker",
         "kind": 6,
         "importPath": "camunda-workers-platform.workers.common.base_worker",
@@ -4183,24 +4028,6 @@
         "description": "camunda-workers-platform.workers.common.utils",
         "peekOfCode": "def transform_document_data(document: Dict[str, Any]) -> Dict[str, Any]:\n    \"\"\"Transform document data for processing\"\"\"\n    return {\n        \"id\": document.get(\"id\"),\n        \"title\": document.get(\"title\", \"\").strip(),\n        \"content\": document.get(\"content\", \"\").strip(),\n        \"author\": document.get(\"author\", \"\").strip(),\n        \"created_at\": document.get(\"created_at\") or get_timestamp(),\n        \"file_type\": document.get(\"file_type\", \"\").lower(),\n        \"file_size\": document.get(\"file_size\", 0)",
         "detail": "camunda-workers-platform.workers.common.utils",
-        "documentation": {}
-    },
-    {
-        "label": "HelloWorldWorker",
-        "kind": 6,
-        "importPath": "camunda-workers-platform.workers.hello-world.main",
-        "description": "camunda-workers-platform.workers.hello-world.main",
-        "peekOfCode": "class HelloWorldWorker(BaseWorker):\n    \"\"\"Worker simples que processa cumprimentos\"\"\"\n    def __init__(self):\n        super().__init__(\n            worker_id=\"hello-world-worker\",\n            base_url=WorkerConfig.CAMUNDA_URL,\n            auth=WorkerConfig.get_auth()\n        )\n        # Subscribe to hello world topic\n        self.subscribe(Topics.SAY_HELLO, self.say_hello)",
-        "detail": "camunda-workers-platform.workers.hello-world.main",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": "camunda-workers-platform.workers.hello-world.main",
-        "description": "camunda-workers-platform.workers.hello-world.main",
-        "peekOfCode": "def main():\n    \"\"\"Main entry point for the hello world worker\"\"\"\n    try:\n        # Validate configuration\n        WorkerConfig.validate_config()\n        # Create and start worker\n        worker = HelloWorldWorker()\n        print(\"🚀 Starting Hello World Worker...\")\n        print(f\"📡 Connecting to Camunda at: {WorkerConfig.CAMUNDA_URL}\")\n        print(f\"🎯 Subscribed to topic: {Topics.SAY_HELLO}\")",
-        "detail": "camunda-workers-platform.workers.hello-world.main",
         "documentation": {}
     },
     {

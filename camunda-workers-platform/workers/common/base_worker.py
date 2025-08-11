@@ -50,7 +50,7 @@ class BaseWorker:
         else:
             self.logger.info(f"Direct Camunda processing mode for {worker_id}")
         
-        # Initialize Camunda worker
+        # Initialize primary Camunda worker
         self._init_camunda_worker()
         
         # Start Prometheus metrics server
@@ -74,7 +74,7 @@ class BaseWorker:
         return logging.getLogger(f'CamundaWorker-{self.worker_id}')
     
     def _init_camunda_worker(self):
-        """Initialize the Camunda external task worker"""
+        """Initialize the primary Camunda external task worker"""
         from .config import WorkerConfig
         
         config = {
@@ -86,13 +86,14 @@ class BaseWorker:
             "sleepSeconds": WorkerConfig.SLEEP_SECONDS
         }
         
+        # Primary worker for backward compatibility
         self.camunda_worker = ExternalTaskWorker(
             worker_id=self.worker_id,
             base_url=self.base_url,
             config=config
         )
         
-        self.logger.info(f"Initialized Camunda worker {self.worker_id} connecting to {self.base_url}")
+        self.logger.info(f"Initialized primary Camunda worker {self.worker_id} connecting to {self.base_url}")
     
     def _start_metrics_server(self):
         """Start Prometheus metrics HTTP server"""
@@ -139,7 +140,8 @@ class BaseWorker:
     
     def subscribe_multiple(self, topic_handlers: Dict[str, Any]):
         """
-        Subscribe to multiple topics with their respective handlers
+        Subscribe to multiple topics with their respective handlers.
+        Uses a single subscribe call with multiple topics.
         
         Args:
             topic_handlers: Dictionary mapping topic names to handler functions
@@ -147,10 +149,80 @@ class BaseWorker:
         """
         self.logger.info(f"Subscribing to {len(topic_handlers)} topics: {list(topic_handlers.keys())}")
         
-        for topic, handler_func in topic_handlers.items():
-            self.subscribe(topic, handler_func)
+        # Store handlers for later use
+        self.topic_handlers = topic_handlers
         
-        self.logger.info("✅ Multi-topic subscription completed")
+        # Create a unified handler that dispatches to the correct handler based on topic
+        def unified_handler(task):
+            """Unified handler that dispatches to the correct topic handler"""
+            topic = task.get_topic_name()
+            start_time = time.time()
+            task_id = task.get_task_id()
+            
+            self.logger.debug(f"Received task {task_id} for topic {topic}")
+            
+            # Update active tasks metric
+            ACTIVE_TASKS.labels(topic=topic).inc()
+            
+            try:
+                # Find the appropriate handler for this topic
+                if topic in self.topic_handlers:
+                    handler_func = self.topic_handlers[topic]
+                    
+                    if self.gateway_enabled:
+                        # Gateway mode: Check task status and handle accordingly
+                        return self._handle_task_via_gateway(task, topic)
+                    else:
+                        # Direct mode: Process task immediately using handler_func
+                        return self._handle_task_direct(task, topic, handler_func)
+                else:
+                    self.logger.error(f"No handler found for topic {topic}")
+                    return self.fail_task(task, f"No handler configured for topic {topic}")
+                    
+            finally:
+                # Update metrics
+                duration = time.time() - start_time
+                TASK_DURATION.labels(topic=topic).observe(duration)
+                ACTIVE_TASKS.labels(topic=topic).dec()
+        
+        # Subscribe to all topics at once with the unified handler
+        topic_list = list(topic_handlers.keys())
+        self.camunda_worker.subscribe(topic_list, unified_handler)
+        self.logger.info(f"✅ Subscribed to all topics: {topic_list}")
+    
+    def _subscribe_worker_to_topic(self, worker: ExternalTaskWorker, topic: str, handler_func):
+        """
+        Subscribe a specific worker to a topic with monitoring and error handling
+        
+        Args:
+            worker: The ExternalTaskWorker instance
+            topic: The topic name to subscribe to
+            handler_func: Function to handle the task
+        """
+        def wrapped_handler(task):
+            """Wrapper function with Gateway integration or direct processing"""
+            start_time = time.time()
+            task_id = task.get_task_id()
+            
+            # Update active tasks metric
+            ACTIVE_TASKS.labels(topic=topic).inc()
+            
+            try:
+                if self.gateway_enabled:
+                    # Gateway mode: Check task status and handle accordingly
+                    return self._handle_task_via_gateway(task, topic)
+                else:
+                    # Direct mode: Process task immediately using handler_func
+                    return self._handle_task_direct(task, topic, handler_func)
+                    
+            finally:
+                # Update metrics
+                duration = time.time() - start_time
+                TASK_DURATION.labels(topic=topic).observe(duration)
+                ACTIVE_TASKS.labels(topic=topic).dec()
+        
+        # Subscribe to the topic - this should not block
+        worker.subscribe(topic, wrapped_handler)
     
     def _handle_task_via_gateway(self, task, topic: str):
         """
@@ -184,12 +256,19 @@ class BaseWorker:
                 if self.gateway_client.submit_task(task_id, topic, variables):
                     GATEWAY_TASKS.labels(topic=topic, status='submitted').inc()
                     self.logger.info(f"Task {task_id} submitted to Gateway successfully")
+                    # Return empty (don't complete task yet - gateway will handle it)
+                    return None
                 else:
                     GATEWAY_TASKS.labels(topic=topic, status='submit_failed').inc()
                     self.logger.error(f"Failed to submit task {task_id} to Gateway")
-                
-                # Return empty (don't complete task yet)
-                return None
+                    # Gateway is unavailable - fail the task with retries
+                    return self.fail_task(
+                        task, 
+                        "Worker API Gateway is unavailable", 
+                        "Gateway connection failed - will retry",
+                        retries=5,
+                        retry_timeout=60000  # Retry after 1 minute
+                    )
             
             elif task_status.status == "sucesso":
                 # Task completed successfully - complete in Camunda
@@ -219,8 +298,14 @@ class BaseWorker:
             self.logger.error(f"Error handling task {task_id} via Gateway: {e}")
             GATEWAY_TASKS.labels(topic=topic, status='error').inc()
             
-            # Fallback: fail the task
-            return self.fail_task(task, f"Gateway communication error: {str(e)}")
+            # Fallback: fail the task with retries
+            return self.fail_task(
+                task, 
+                f"Gateway communication error: {str(e)}",
+                "Gateway error - will retry",
+                retries=5,
+                retry_timeout=60000  # Retry after 1 minute
+            )
     
     def _handle_task_direct(self, task, topic: str, handler_func):
         """
@@ -274,8 +359,16 @@ class BaseWorker:
                 self.logger.info(f"Gateway health check passed: {health['response_time_ms']:.1f}ms")
         
         try:
-            # This is a blocking call
+            # Log topics being monitored
+            if hasattr(self, 'topic_handlers') and self.topic_handlers:
+                topics = list(self.topic_handlers.keys())
+                self.logger.info(f"Starting worker monitoring {len(topics)} topic(s): {topics}")
+            else:
+                self.logger.info("Starting worker in single-topic mode")
+            
+            # Start the primary worker which handles all subscribed topics
             self.camunda_worker.start()
+                
         except KeyboardInterrupt:
             self.logger.info("Received interrupt signal, shutting down...")
             self._cleanup()

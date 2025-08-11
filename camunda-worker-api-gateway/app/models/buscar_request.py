@@ -208,6 +208,27 @@ class PublicacaoParaProcessamento(BaseModel):
             "tribunal": self.tribunal,
             "instancia": self.instancia
         }
+        
+        
+        
+        # execucao = {
+        #     "_id": str, 
+        #     "data_inicio": datetime, 
+        #     "data_fim": Optional[datetime], 
+        #     "status": Literal["running", "completed", "error", "cancelled"],
+        #     "total_encontradas": int,
+        # }
+        
+        # publicacao = {
+        #     "_id_execucao": str,
+        #     "numero_processo": str,
+        #     "data_publicacao": str,
+        #     "texto_publicacao": str,
+        #     "fonte": str,
+        #     "tribunal": str,
+        #     "instancia": str,
+        #     "cod_publicacao": int,
+        # }
     
     @classmethod
     def from_soap_publicacao(cls, publicacao, fonte: str = "dw") -> "PublicacaoParaProcessamento":

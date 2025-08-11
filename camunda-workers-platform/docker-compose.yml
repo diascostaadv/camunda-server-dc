@@ -91,6 +91,9 @@ services:
   # Publicacao Unified Worker
   worker-publicacao-unified:
     image: camunda-workers/publicacao_unified:latest
+    networks:
+      - default
+      - gateway_network
     deploy:
       replicas: ${WORKER_PUBLICACAO_UNIFIED_REPLICAS:-1}
     environment:
@@ -108,9 +111,9 @@ services:
       - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
       - SLEEP_SECONDS=${SLEEP_SECONDS:-30}
       
-      # Gateway Integration (Required for unified worker)
+      # Gateway Integration
       - GATEWAY_ENABLED=${GATEWAY_ENABLED:-true}
-      - GATEWAY_URL=${GATEWAY_URL:-http://localhost:8000}
+      - GATEWAY_URL=${GATEWAY_URL:-http://camunda-worker-api-gateway-gateway-1:8000}
       - GATEWAY_COMMUNICATION_MODE=${GATEWAY_COMMUNICATION_MODE:-http}
       - GATEWAY_HTTP_TIMEOUT=${GATEWAY_HTTP_TIMEOUT:-30}
       
@@ -131,3 +134,10 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+networks:
+  default:
+    driver: bridge
+  gateway_network:
+    external: true
+    name: camunda-worker-api-gateway_backend

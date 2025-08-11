@@ -10,16 +10,12 @@
   
   <bpmn:process id="buscar_publicacoes_automatico" name="Buscar Publicações Automático" isExecutable="true">
     
-    <!-- Evento de Início com Timer -->
     <bpmn:startEvent id="timer_inicio" name="Timer Diário (18:00)">
       <bpmn:outgoing>flow_timer_para_busca</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <!-- Cron: Todos os dias às 18:00 -->
         <bpmn:timeCycle>0 0 18 * * ?</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
-    
-    <!-- Tarefa Externa: Buscar Publicações -->
     <bpmn:serviceTask id="buscar_publicacoes_task" 
                       name="Buscar Publicações SOAP" 
                       camunda:type="external" 
@@ -28,14 +24,12 @@
       <bpmn:outgoing>flow_busca_para_gateway</bpmn:outgoing>
     </bpmn:serviceTask>
     
-    <!-- Gateway Exclusivo: Verificar Resultado da Busca -->
     <bpmn:exclusiveGateway id="gateway_resultado_busca" name="Busca OK?">
       <bpmn:incoming>flow_busca_para_gateway</bpmn:incoming>
       <bpmn:outgoing>flow_busca_sucesso</bpmn:outgoing>
       <bpmn:outgoing>flow_busca_erro</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     
-    <!-- Tarefa de Log: Sucesso -->
     <bpmn:serviceTask id="log_busca_sucesso" 
                       name="Log Busca Sucesso" 
                       camunda:type="external" 
@@ -44,7 +38,6 @@
       <bpmn:outgoing>flow_sucesso_para_estatisticas</bpmn:outgoing>
     </bpmn:serviceTask>
     
-    <!-- Tarefa de Log: Erro -->
     <bpmn:serviceTask id="log_busca_erro" 
                       name="Log Busca Erro" 
                       camunda:type="external" 
@@ -52,24 +45,19 @@
       <bpmn:incoming>flow_busca_erro</bpmn:incoming>
       <bpmn:outgoing>flow_erro_para_fim</bpmn:outgoing>
     </bpmn:serviceTask>
-    
-    <!-- Tarefa Script: Calcular Estatísticas -->
     <bpmn:scriptTask id="calcular_estatisticas" 
                      name="Calcular Estatísticas" 
                      scriptFormat="javascript">
       <bpmn:incoming>flow_sucesso_para_estatisticas</bpmn:incoming>
       <bpmn:outgoing>flow_stats_para_gateway_stats</bpmn:outgoing>
-      <bpmn:script>
-        // Calcular estatísticas da busca
+      <bpmn:script><![CDATA[
         var totalEncontradas = execution.getVariable("total_encontradas") || 0;
         var instanciasCriadas = execution.getVariable("instancias_criadas") || 0;
         var instanciasComErro = execution.getVariable("instancias_com_erro") || 0;
         var duracaoSegundos = execution.getVariable("duracao_segundos") || 0;
         
-        // Calcular taxa de sucesso
         var taxaSucesso = totalEncontradas > 0 ? (instanciasCriadas / totalEncontradas) * 100 : 100;
         
-        // Definir nível de sucesso
         var nivelSucesso = "alto";
         if (taxaSucesso < 50) {
           nivelSucesso = "baixo";
@@ -77,29 +65,25 @@
           nivelSucesso = "medio";
         }
         
-        // Criar resumo
         var resumo = "Busca automática concluída: " + 
                     totalEncontradas + " encontradas, " +
                     instanciasCriadas + " processadas com sucesso, " +
                     instanciasComErro + " com erro. " +
                     "Taxa de sucesso: " + taxaSucesso.toFixed(1) + "%";
         
-        // Definir variáveis
         execution.setVariable("taxa_sucesso", taxaSucesso);
         execution.setVariable("nivel_sucesso", nivelSucesso);
         execution.setVariable("resumo_busca", resumo);
         execution.setVariable("timestamp_calculo", new Date().toISOString());
-      </bpmn:script>
+      ]]></bpmn:script>
     </bpmn:scriptTask>
     
-    <!-- Gateway: Verificar Nível de Sucesso -->
     <bpmn:exclusiveGateway id="gateway_nivel_sucesso" name="Sucesso Alto?">
       <bpmn:incoming>flow_stats_para_gateway_stats</bpmn:incoming>
       <bpmn:outgoing>flow_sucesso_alto</bpmn:outgoing>
       <bpmn:outgoing>flow_sucesso_baixo</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     
-    <!-- Tarefa: Notificação Sucesso -->
     <bpmn:serviceTask id="notificar_sucesso" 
                       name="Notificar Sucesso" 
                       camunda:type="external" 
@@ -108,7 +92,6 @@
       <bpmn:outgoing>flow_notif_sucesso_para_fim</bpmn:outgoing>
     </bpmn:serviceTask>
     
-    <!-- Tarefa: Notificação Problema -->
     <bpmn:serviceTask id="notificar_problema" 
                       name="Notificar Problema" 
                       camunda:type="external" 
@@ -116,8 +99,6 @@
       <bpmn:incoming>flow_sucesso_baixo</bpmn:incoming>
       <bpmn:outgoing>flow_notif_problema_para_fim</bpmn:outgoing>
     </bpmn:serviceTask>
-    
-    <!-- Eventos de Fim -->
     <bpmn:endEvent id="fim_sucesso" name="Busca Completa - Sucesso">
       <bpmn:incoming>flow_notif_sucesso_para_fim</bpmn:incoming>
     </bpmn:endEvent>
@@ -130,11 +111,8 @@
       <bpmn:incoming>flow_erro_para_fim</bpmn:incoming>
     </bpmn:endEvent>
     
-    <!-- Fluxos de Sequência -->
     <bpmn:sequenceFlow id="flow_timer_para_busca" sourceRef="timer_inicio" targetRef="buscar_publicacoes_task" />
     <bpmn:sequenceFlow id="flow_busca_para_gateway" sourceRef="buscar_publicacoes_task" targetRef="gateway_resultado_busca" />
-    
-    <!-- Condições do Gateway Principal -->
     <bpmn:sequenceFlow id="flow_busca_sucesso" sourceRef="gateway_resultado_busca" targetRef="log_busca_sucesso">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">
         ${status_busca == "success"}
@@ -150,7 +128,6 @@
     <bpmn:sequenceFlow id="flow_sucesso_para_estatisticas" sourceRef="log_busca_sucesso" targetRef="calcular_estatisticas" />
     <bpmn:sequenceFlow id="flow_stats_para_gateway_stats" sourceRef="calcular_estatisticas" targetRef="gateway_nivel_sucesso" />
     
-    <!-- Condições do Gateway de Estatísticas -->
     <bpmn:sequenceFlow id="flow_sucesso_alto" sourceRef="gateway_nivel_sucesso" targetRef="notificar_sucesso">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">
         ${nivel_sucesso == "alto"}
@@ -162,19 +139,14 @@
         ${nivel_sucesso != "alto"}
       </bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    
-    <!-- Fluxos para Fim -->
     <bpmn:sequenceFlow id="flow_notif_sucesso_para_fim" sourceRef="notificar_sucesso" targetRef="fim_sucesso" />
     <bpmn:sequenceFlow id="flow_notif_problema_para_fim" sourceRef="notificar_problema" targetRef="fim_problema" />
     <bpmn:sequenceFlow id="flow_erro_para_fim" sourceRef="log_busca_erro" targetRef="fim_erro" />
     
   </bpmn:process>
   
-  <!-- Diagrama Visual -->
   <bpmndi:BPMNDiagram id="BPMNDiagram_BuscarPublicacoes">
     <bpmndi:BPMNPlane id="BPMNPlane_BuscarPublicacoes" bpmnElement="buscar_publicacoes_automatico">
-      
-      <!-- Timer Start Event -->
       <bpmndi:BPMNShape id="StartEvent_Timer" bpmnElement="timer_inicio">
         <dc:Bounds x="100" y="200" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -182,12 +154,10 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       
-      <!-- Buscar Publicações Task -->
       <bpmndi:BPMNShape id="ServiceTask_BuscarPubs" bpmnElement="buscar_publicacoes_task">
         <dc:Bounds x="200" y="178" width="100" height="80" />
       </bpmndi:BPMNShape>
       
-      <!-- Gateway Resultado -->
       <bpmndi:BPMNShape id="Gateway_Resultado" bpmnElement="gateway_resultado_busca" isMarkerVisible="true">
         <dc:Bounds x="375" y="193" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -195,22 +165,18 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       
-      <!-- Log Sucesso -->
       <bpmndi:BPMNShape id="ServiceTask_LogSucesso" bpmnElement="log_busca_sucesso">
         <dc:Bounds x="500" y="100" width="100" height="80" />
       </bpmndi:BPMNShape>
       
-      <!-- Log Erro -->
       <bpmndi:BPMNShape id="ServiceTask_LogErro" bpmnElement="log_busca_erro">
         <dc:Bounds x="500" y="300" width="100" height="80" />
       </bpmndi:BPMNShape>
       
-      <!-- Script Task Estatísticas -->
       <bpmndi:BPMNShape id="ScriptTask_Stats" bpmnElement="calcular_estatisticas">
         <dc:Bounds x="680" y="100" width="100" height="80" />
       </bpmndi:BPMNShape>
       
-      <!-- Gateway Nível -->
       <bpmndi:BPMNShape id="Gateway_Nivel" bpmnElement="gateway_nivel_sucesso" isMarkerVisible="true">
         <dc:Bounds x="855" y="115" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -218,17 +184,14 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       
-      <!-- Notificar Sucesso -->
       <bpmndi:BPMNShape id="ServiceTask_NotifSucesso" bpmnElement="notificar_sucesso">
         <dc:Bounds x="980" y="60" width="100" height="80" />
       </bpmndi:BPMNShape>
       
-      <!-- Notificar Problema -->
       <bpmndi:BPMNShape id="ServiceTask_NotifProblema" bpmnElement="notificar_problema">
         <dc:Bounds x="980" y="180" width="100" height="80" />
       </bpmndi:BPMNShape>
       
-      <!-- End Events -->
       <bpmndi:BPMNShape id="EndEvent_Sucesso" bpmnElement="fim_sucesso">
         <dc:Bounds x="1162" y="82" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -250,7 +213,6 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       
-      <!-- Sequence Flows -->
       <bpmndi:BPMNEdge id="Flow_TimerParaBusca" bpmnElement="flow_timer_para_busca">
         <di:waypoint x="136" y="218" />
         <di:waypoint x="200" y="218" />
