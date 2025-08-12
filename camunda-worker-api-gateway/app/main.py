@@ -7,6 +7,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import uvicorn
+import logging
+import sys
 from typing import Optional
 
 from services.task_manager import TaskManager
@@ -14,8 +16,42 @@ from services.rabbitmq_consumer import RabbitMQConsumer
 from core.config import settings
 from routes import health_router, tasks_router
 from routes.dependencies import set_task_manager, set_rabbitmq_consumer
-from routers import buscar_publicacoes
+from routers import buscar_publicacoes, publicacoes
 
+# Configure logging
+def configure_logging():
+    """Configure logging for the application"""
+    log_level = settings.LOG_LEVEL.upper()
+    log_format = settings.LOG_FORMAT
+    
+    # Configure root logger
+    logging.basicConfig(
+        level=getattr(logging, log_level, logging.INFO),
+        format=log_format,
+        handlers=[
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
+    
+    # Set specific loggers
+    logging.getLogger("uvicorn").setLevel(getattr(logging, log_level, logging.INFO))
+    logging.getLogger("uvicorn.access").setLevel(getattr(logging, log_level, logging.INFO))
+    logging.getLogger("uvicorn.error").setLevel(getattr(logging, log_level, logging.INFO))
+    
+    # Set app loggers
+    app_loggers = [
+        "services",
+        "routers",
+        "core",
+        "routes",
+        "models"
+    ]
+    for logger_name in app_loggers:
+        logging.getLogger(logger_name).setLevel(getattr(logging, log_level, logging.INFO))
+    
+    logger = logging.getLogger(__name__)
+    logger.info(f"Logging configured with level: {log_level}")
+    return logger
 
 # Task Manager global instance
 task_manager: Optional[TaskManager] = None
@@ -27,8 +63,11 @@ async def lifespan(app: FastAPI):
     """Application lifespan management"""
     global task_manager, rabbitmq_consumer
     
+    # Configure logging first
+    logger = configure_logging()
+    
     # Startup
-    print("🚀 Starting Worker API Gateway...")
+    logger.info("🚀 Starting Worker API Gateway...")
     
     # Initialize Task Manager
     task_manager = TaskManager()
@@ -42,19 +81,19 @@ async def lifespan(app: FastAPI):
     set_task_manager(task_manager)
     set_rabbitmq_consumer(rabbitmq_consumer)
     
-    print(f"✅ Worker API Gateway started on port {settings.PORT}")
-    print(f"📊 MongoDB connected: {settings.MONGODB_URI}")
-    print(f"🐰 RabbitMQ connected: {settings.RABBITMQ_URL}")
+    logger.info(f"✅ Worker API Gateway started on port {settings.PORT}")
+    logger.info(f"📊 MongoDB connected: {settings.MONGODB_URI}")
+    logger.info(f"🐰 RabbitMQ connected: {settings.RABBITMQ_URL}")
     
     yield
     
     # Shutdown
-    print("⏹️ Shutting down Worker API Gateway...")
+    logger.info("⏹️ Shutting down Worker API Gateway...")
     if rabbitmq_consumer:
         await rabbitmq_consumer.stop()
     if task_manager:
         await task_manager.disconnect()
-    print("👋 Worker API Gateway stopped")
+    logger.info("👋 Worker API Gateway stopped")
 
 
 # FastAPI application
@@ -78,15 +117,19 @@ app.add_middleware(
 app.include_router(health_router)
 app.include_router(tasks_router)
 app.include_router(buscar_publicacoes.router)
+app.include_router(publicacoes.router)
 
 
 
 
 if __name__ == "__main__":
+    # Configure logging before starting uvicorn
+    configure_logging()
+    
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
         port=settings.PORT,
         reload=settings.DEBUG,
-        log_level="info"
+        log_level=settings.LOG_LEVEL.lower()
     )

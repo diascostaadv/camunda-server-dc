@@ -36,7 +36,7 @@ class GatewayClient:
         self.worker_id = worker_id
         
         # Gateway configuration
-        self.gateway_url = os.getenv('GATEWAY_URL', 'http://worker-api-gateway:8000')
+        self.gateway_url = os.getenv('GATEWAY_URL', 'http://camunda-worker-api-gateway-gateway-1:8000')
         self.communication_mode = os.getenv('GATEWAY_COMMUNICATION_MODE', 'http')  # 'http' or 'rabbitmq'
         
         # HTTP configuration

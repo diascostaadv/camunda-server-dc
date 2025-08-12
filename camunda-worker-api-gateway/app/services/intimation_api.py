@@ -397,6 +397,7 @@ class IntimationAPIClient:
         }
         
         response = self._make_request('getEstatisticasPublicacoes', params)
+        print("Estatísticas obtidas com sucesso 3", params, response) 
         return self._parse_estatisticas(response)
     
     def _parse_publicacoes(self, root: ET.Element) -> List[Publicacao]:
@@ -530,7 +531,7 @@ class IntimationAPIClient:
                     total_nao_importadas=self._get_int_value(stats_elem, 'totalNaoImportadas')
                 )
             else:
-                logger.warning("Elemento de estatísticas não encontrado")
+                logger.warning("Elemento de estatísticas não encontrado 1")
                 return EstatisticasPublicacoes()
                 
         except Exception as e:
@@ -699,7 +700,7 @@ if __name__ == "__main__":
         
         # Teste de estatísticas
         print("\n=== Teste: Estatísticas ===")
-        stats = client.get_estatisticas_publicacoes("2025-07-24", cod_grupo=0)
+        stats = client.get_estatisticas_publicacoes("2025-05-01", cod_grupo=0)
         print(f"Estatísticas: {stats.to_json()}")
         
     except Exception as e:

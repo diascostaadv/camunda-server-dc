@@ -6,3 +6,57 @@ GET http://localhost:8080/engine-rest/process-definition
 
 ### Camunda REST API - Get Tasks
 GET http://localhost:8080/engine-rest/task
+
+### TESTE
+POST http://localhost:8000/buscar-publicacoes/processar-task-v2
+
+ {                                                             
+   "task_id": "test-task-123",                                 
+   "process_instance_id": "test-process-456",                  
+   "business_key": "test-key",                                 
+   "topic_name": "buscar_publicacoes",                         
+   "worker_id": "test-worker",                                 
+   "variables": {                                              
+     "cod_grupo": 0,                                           
+     "data_inicial": "2025-05-01",                             
+     "data_final": "2025-05-01",                               
+     "limite_publicacoes": 100,                                
+     "timeout_soap": 120                                       
+   }                                                           
+ }  
+
+### Gateway API - Buscar Lote por ID (sem publicações)
+GET http://localhost:8000/publicacoes/buscar-lote/689abb24304519fe480f5243
+
+### Gateway API - Buscar Lote por ID (com publicações incluídas)
+GET http://localhost:8000/publicacoes/buscar-lote/lote-123?incluir_publicacoes=true
+
+### Gateway API - Processar Task de Buscar Lote
+POST http://localhost:8000/publicacoes/processar-task-lote
+Content-Type: application/json
+
+{
+  "task_id": "test-task-789",
+  "process_instance_id": "test-process-101",
+  "business_key": "buscar-lote-test",
+  "topic_name": "buscar_lote_por_id",
+  "worker_id": "test-worker",
+  "variables": {
+    "lote_id": "lote-123"
+  }
+}
+
+### Gateway API - Processar Task de Tratar Publicação
+POST http://localhost:8000/publicacoes/processar-task-publicacao
+Content-Type: application/json
+
+{
+  "task_id": "test-task-456",
+  "process_instance_id": "test-process-789",
+  "business_key": "tratar-publicacao-test",
+  "topic_name": "tratar_publicacao",
+  "worker_id": "test-worker",
+  "variables": {
+    "publicacao_id": "689abb24304519fe480f524f"
+  }
+}

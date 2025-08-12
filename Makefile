@@ -8,7 +8,7 @@
 # 2. camunda-worker-api-gateway       (Gateway)  
 # 3. camunda-workers-platform         (Workers)
 # ============================================================================
-
+include Makefile.config
 # Configuração
 PLATFORM_DIR := camunda-platform-standalone
 GATEWAY_DIR := camunda-worker-api-gateway

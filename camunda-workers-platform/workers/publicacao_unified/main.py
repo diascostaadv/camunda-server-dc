@@ -59,12 +59,18 @@ class PublicacaoUnifiedWorker(BaseWorker):
         # Subscribe a múltiplos tópicos usando o novo método
         self.subscribe_multiple({
             Topics.NOVA_PUBLICACAO: self.handle_nova_publicacao,
-            Topics.BUSCAR_PUBLICACOES: self.handle_buscar_publicacoes
+            Topics.BUSCAR_PUBLICACOES: self.handle_buscar_publicacoes,
+            Topics.BUSCAR_LOTE_POR_ID: self.handle_buscar_lote_por_id,
+            Topics.TRATAR_PUBLICACAO: self.handle_tratar_publicacao,
+            Topics.CLASSIFICAR_PUBLICACAO: self.handle_classificar_publicacao
         })
         
         self.logger.info("🔍 PublicacaoUnifiedWorker iniciado - aguardando tarefas nos tópicos:")
         self.logger.info(f"  • {Topics.NOVA_PUBLICACAO} - Processamento individual")
         self.logger.info(f"  • {Topics.BUSCAR_PUBLICACOES} - Busca automatizada")
+        self.logger.info(f"  • {Topics.BUSCAR_LOTE_POR_ID} - Busca lote por ID")
+        self.logger.info(f"  • {Topics.TRATAR_PUBLICACAO} - Tratamento e higienização")
+        self.logger.info(f"  • {Topics.CLASSIFICAR_PUBLICACAO} - Classificação de publicações")
 
     def handle_nova_publicacao(self, task: ExternalTask):
         """
@@ -129,10 +135,13 @@ class PublicacaoUnifiedWorker(BaseWorker):
             
             # ETAPA 2: Processar de acordo com o modo configurado
             if self.gateway_enabled:
-                log_with_context("📤 Processamento será delegado ao Gateway pelo BaseWorker", log_context)
-                # Não retornar nada aqui - deixar o BaseWorker processar via Gateway
-                # O retorno será tratado pelo unified_handler no BaseWorker
-                return
+                log_with_context("📤 Processando via Worker API Gateway", log_context)
+                # Usar o helper para processar via Gateway
+                return self.process_via_gateway(
+                    task=task,
+                    endpoint="/publicacoes/processar-nova",
+                    timeout=60
+                )
             else:
                 # Modo direto - processar localmente
                 log_with_context("⚙️ Processando em modo direto (sem Gateway)", log_context)
@@ -186,6 +195,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
         }
         
         log_with_context("🔍 Iniciando busca automatizada de publicações", log_context)
+        self.logger.info(f"DEBUG: handle_buscar_publicacoes chamado para task {task.get_task_id()}")
         
         try:
             # 1. Extrair e validar variáveis da tarefa
@@ -196,7 +206,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 variables = {
                     "cod_grupo": 5,
                     "data_inicial": "2023-01-01",
-                    "data_final": "2024-12-31",
+                    "data_final": "2025-12-31",
                     "limite_publicacoes": 100,
                     "timeout_soap": 120,
                 }
@@ -217,13 +227,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 error_msg = f"Parâmetros inválidos: {', '.join(validation_errors)}"
                 log_with_context(f"❌ Validação falhou: {error_msg}", log_context)
                 
-                return task.complete({
-                    "status_busca": "error",
-                    "erro_validacao": error_msg,
-                    "timestamp_processamento": start_time.isoformat(),
-                    "total_encontradas": 0,
-                    "instancias_criadas": 0
-                })
+                return self.fail_task(task, error_msg, retries=0)
             
             # 2. Log dos parâmetros validados
             log_with_context(
@@ -232,7 +236,19 @@ class PublicacaoUnifiedWorker(BaseWorker):
             )
             
             # 3. Processar de acordo com o modo configurado
-            if not self.gateway_enabled:
+            if self.gateway_enabled:
+                # Usar o helper para processar via Gateway
+                log_with_context("📤 Processando via Worker API Gateway", log_context)
+                
+                # Timeout adicional para operações SOAP
+                total_timeout = timeout_soap + 30
+                
+                return self.process_via_gateway(
+                    task=task,
+                    endpoint="/buscar-publicacoes/processar-task-v2",
+                    timeout=total_timeout
+                )
+            else:
                 # Modo direto - processar localmente (simulação)
                 log_with_context("⚙️ Processando busca em modo direto (sem Gateway)", log_context)
                 
@@ -252,27 +268,13 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 }
                 
                 log_with_context(f"✅ Busca concluída em modo direto", log_context)
-                return task.complete(result_data)
-            
-            # 4. Chamar Gateway diretamente para processamento
-            log_with_context("📤 Enviando tarefa para Worker API Gateway", log_context)
-            
-            gateway_response = self._call_gateway_buscar_publicacoes(task, variables, log_context)
-            
-            # 5. Processar resposta do Gateway e completar tarefa
-            return self._complete_task_with_gateway_response(task, gateway_response, start_time, log_context)
+                return self.complete_task(task, result_data)
                 
         except Exception as e:
             error_msg = f"Erro inesperado durante busca de publicações: {e}"
             log_with_context(f"💥 Exceção no worker: {error_msg}", log_context)
             
-            return task.complete({
-                "status_busca": "error",
-                "erro_processamento": error_msg,
-                "timestamp_processamento": start_time.isoformat(),
-                "total_encontradas": 0,
-                "instancias_criadas": 0
-            })
+            return self.fail_task(task, error_msg, retries=3)
 
     def _validate_busca_parameters(self, cod_grupo: int, data_inicial: str, 
                                   data_final: str, limite_publicacoes: int, 
@@ -328,122 +330,178 @@ class PublicacaoUnifiedWorker(BaseWorker):
             "timestamp": datetime.now().isoformat()
         }
     
-    def _call_gateway_buscar_publicacoes(self, task: ExternalTask, variables: Dict[str, Any], log_context: Dict[str, str]) -> Dict[str, Any]:
+    def handle_buscar_lote_por_id(self, task: ExternalTask):
         """
-        Chama o Worker API Gateway para processar busca de publicações
+        Manipula tarefas de buscar lote por ID
         
-        Args:
-            task: Tarefa do Camunda
-            variables: Variáveis validadas da tarefa
-            log_context: Contexto de log
-            
-        Returns:
-            dict: Resposta do Gateway
+        Parâmetros esperados:
+        - lote_id: ID do lote a buscar
         """
+        log_context = {
+            "WORKER_ID": task.get_worker_id(),
+            "TASK_ID": task.get_task_id(),
+            "TOPIC": task.get_topic_name(),
+            "BUSINESS_KEY": task.get_business_key(),
+            "HANDLER": "buscar_lote_por_id"
+        }
+        
+        log_with_context("🔍 Buscando lote por ID", log_context)
+        
         try:
-            # URL do Gateway (configurável via environment)
-            gateway_base_url = os.getenv('GATEWAY_BASE_URL', 'http://localhost:8000')
-            gateway_url = f"{gateway_base_url}/buscar-publicacoes/processar-task"
+            variables = task.get_variables()
+            lote_id = variables.get('lote_id')
             
-            # Preparar payload para o Gateway
-            payload = {
-                "task_id": task.get_task_id(),
-                "process_instance_id": task.get_process_instance_id(),
-                "variables": variables
-            }
+            if not lote_id:
+                error_msg = "lote_id não fornecido nas variáveis"
+                log_with_context(f"❌ {error_msg}", log_context)
+                return self.fail_task(task, error_msg, retries=0)
             
-            log_with_context(f"🌐 Chamando Gateway: {gateway_url}", log_context)
+            log_with_context(f"📦 Buscando lote {lote_id}", log_context)
             
-            # Fazer chamada HTTP com timeout
-            timeout_seconds = variables.get('timeout_soap', 90) + 30  # Buffer adicional
-            
-            response = requests.post(
-                gateway_url,
-                json=payload,
-                timeout=timeout_seconds,
-                headers={'Content-Type': 'application/json'}
-            )
-            
-            response.raise_for_status()  # Lança exceção se status HTTP for erro
-            
-            gateway_response = response.json()
-            log_with_context(f"✅ Gateway respondeu: {gateway_response.get('status', 'unknown')}", log_context)
-            
-            return gateway_response
-            
-        except requests.exceptions.Timeout:
-            error_msg = f"Timeout na chamada do Gateway (>{timeout_seconds}s)"
-            log_with_context(f"⏱️ {error_msg}", log_context)
-            return {"status": "error", "message": error_msg}
-            
-        except requests.exceptions.RequestException as e:
-            error_msg = f"Erro de rede ao chamar Gateway: {e}"
-            log_with_context(f"🌐❌ {error_msg}", log_context)
-            return {"status": "error", "message": error_msg}
-            
+            if self.gateway_enabled:
+                # Usar o helper para processar via Gateway
+                log_with_context("📤 Processando via Gateway", log_context)
+                return self.process_via_gateway(
+                    task=task,
+                    endpoint=f"/publicacoes/buscar-lote/{lote_id}",
+                    timeout=60
+                )
+            else:
+                # Modo direto - apenas simula
+                result = {
+                    "status": "success",
+                    "lote_id": lote_id,
+                    "total_publicacoes": 0,
+                    "publicacoes_ids": [],
+                    "modo": "direto",
+                    "message": "Busca simulada em modo direto"
+                }
+                return self.complete_task(task, result)
+                
         except Exception as e:
-            error_msg = f"Erro inesperado ao chamar Gateway: {e}"
-            log_with_context(f"💥 {error_msg}", log_context)
-            return {"status": "error", "message": error_msg}
+            error_msg = f"Erro ao buscar lote: {str(e)}"
+            log_with_context(f"❌ {error_msg}", log_context)
+            return self.fail_task(task, error_msg, retries=3)
     
-    def _complete_task_with_gateway_response(
-        self, 
-        task: ExternalTask, 
-        gateway_response: Dict[str, Any], 
-        start_time: datetime, 
-        log_context: Dict[str, str]
-    ):
+    def handle_tratar_publicacao(self, task: ExternalTask):
         """
-        Completa a tarefa do Camunda com base na resposta do Gateway
+        Manipula tarefas de tratamento de publicação
         
-        Args:
-            task: Tarefa do Camunda
-            gateway_response: Resposta do Worker API Gateway
-            start_time: Timestamp de início da tarefa
-            log_context: Contexto de log
+        Parâmetros esperados:
+        - publicacao_id: ID da publicação a tratar
+        - executar_classificacao: Se deve classificar (default: True)
+        - executar_deduplicacao: Se deve verificar duplicatas (default: True)
         """
-        timestamp_fim = datetime.now()
-        duracao = (timestamp_fim - start_time).total_seconds()
+        log_context = {
+            "WORKER_ID": task.get_worker_id(),
+            "TASK_ID": task.get_task_id(),
+            "TOPIC": task.get_topic_name(),
+            "BUSINESS_KEY": task.get_business_key(),
+            "HANDLER": "tratar_publicacao"
+        }
         
-        if gateway_response.get("status") == "success":
-            # Sucesso - extrair dados da resposta do Gateway
-            result_data = {
-                "status_busca": "success",
-                "timestamp_processamento": start_time.isoformat(),
-                "timestamp_fim": timestamp_fim.isoformat(),
-                "duracao_segundos": duracao,
-                "total_encontradas": gateway_response.get("total_encontradas", 0),
-                "total_processadas": gateway_response.get("total_processadas", 0),
-                "instancias_criadas": gateway_response.get("instancias_criadas", 0),
-                "instancias_com_erro": gateway_response.get("instancias_com_erro", 0),
-                "gateway_task_id": gateway_response.get("task_id"),
-                "message": gateway_response.get("message", "Busca processada com sucesso")
-            }
+        log_with_context("🧹 Iniciando tratamento de publicação", log_context)
+        
+        try:
+            variables = task.get_variables()
+            publicacao_id = variables.get('publicacao_id')
+            
+            if not publicacao_id:
+                error_msg = "publicacao_id não fornecido nas variáveis"
+                log_with_context(f"❌ {error_msg}", log_context)
+                return self.fail_task(task, error_msg, retries=0)
+            
+            executar_classificacao = variables.get('executar_classificacao', True)
+            executar_deduplicacao = variables.get('executar_deduplicacao', True)
             
             log_with_context(
-                f"✅ Busca concluída: {result_data['instancias_criadas']} instâncias criadas em {duracao:.2f}s", 
+                f"📋 Tratando publicação {publicacao_id} - Classificar: {executar_classificacao}, Deduplicar: {executar_deduplicacao}",
                 log_context
             )
             
-        else:
-            # Erro - preparar dados de erro
-            result_data = {
-                "status_busca": "error",
-                "timestamp_processamento": start_time.isoformat(),
-                "timestamp_fim": timestamp_fim.isoformat(),
-                "duracao_segundos": duracao,
-                "total_encontradas": 0,
-                "instancias_criadas": 0,
-                "erro_gateway": gateway_response.get("message", "Erro desconhecido no Gateway"),
-                "gateway_task_id": gateway_response.get("task_id")
-            }
-            
-            log_with_context(
-                f"❌ Busca falhou após {duracao:.2f}s: {result_data['erro_gateway']}", 
-                log_context
-            )
+            if self.gateway_enabled:
+                # Usar o helper para processar via Gateway
+                log_with_context("📤 Processando via Gateway", log_context)
+                return self.process_via_gateway(
+                    task=task,
+                    endpoint="/publicacoes/processar-task-publicacao",
+                    timeout=90
+                )
+            else:
+                # Modo direto - apenas simula
+                result = {
+                    "status": "success",
+                    "publicacao_id": publicacao_id,
+                    "status_publicacao": "nova_publicacao_inedita",
+                    "score_similaridade": 0.0,
+                    "modo": "direto",
+                    "message": "Tratamento simulado em modo direto"
+                }
+                return self.complete_task(task, result)
+                
+        except Exception as e:
+            error_msg = f"Erro ao tratar publicação: {str(e)}"
+            log_with_context(f"❌ {error_msg}", log_context)
+            return self.fail_task(task, error_msg, retries=3)
+    
+    def handle_classificar_publicacao(self, task: ExternalTask):
+        """
+        Manipula tarefas de classificação de publicação
         
-        return task.complete(result_data)
+        Parâmetros esperados:
+        - publicacao_id: ID da publicação a classificar
+        - texto_publicacao: Texto da publicação (opcional se ID fornecido)
+        """
+        log_context = {
+            "WORKER_ID": task.get_worker_id(),
+            "TASK_ID": task.get_task_id(),
+            "TOPIC": task.get_topic_name(),
+            "BUSINESS_KEY": task.get_business_key(),
+            "HANDLER": "classificar_publicacao"
+        }
+        
+        log_with_context("📊 Iniciando classificação de publicação", log_context)
+        
+        try:
+            variables = task.get_variables()
+            publicacao_id = variables.get('publicacao_id')
+            texto_publicacao = variables.get('texto_publicacao')
+            
+            if not publicacao_id and not texto_publicacao:
+                error_msg = "publicacao_id ou texto_publicacao deve ser fornecido"
+                log_with_context(f"❌ {error_msg}", log_context)
+                return self.fail_task(task, error_msg, retries=0)
+            
+            log_with_context(f"🏷️ Classificando publicação {publicacao_id or 'com texto fornecido'}", log_context)
+            
+            if self.gateway_enabled:
+                # Usar o helper para processar via Gateway
+                log_with_context("📤 Processando via Gateway", log_context)
+                return self.process_via_gateway(
+                    task=task,
+                    endpoint="/publicacoes/classificar",
+                    timeout=60
+                )
+            else:
+                # Modo direto - apenas simula
+                result = {
+                    "status": "success",
+                    "publicacao_id": publicacao_id,
+                    "classificacao": {
+                        "tipo": "outros",
+                        "urgente": False,
+                        "prazo_dias": None,
+                        "confianca": 0.5
+                    },
+                    "modo": "direto",
+                    "message": "Classificação simulada em modo direto"
+                }
+                return self.complete_task(task, result)
+                
+        except Exception as e:
+            error_msg = f"Erro ao classificar publicação: {str(e)}"
+            log_with_context(f"❌ {error_msg}", log_context)
+            return self.fail_task(task, error_msg, retries=3)
 
 
 def main():

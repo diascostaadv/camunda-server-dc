@@ -51,11 +51,25 @@ local-up-external: build-image
 	@echo "✅ Worker API Gateway started in external mode"
 	@$(MAKE) local-status
 
+.PHONY: local-up-atlas
+local-up-atlas: build-image
+	@echo "🚀 Starting Worker API Gateway with MongoDB Atlas..."
+	@echo "☁️ Using MongoDB Atlas - will connect to cloud database"
+	docker compose -f docker-compose.atlas.yml --env-file .env.atlas up -d
+	@echo "✅ Worker API Gateway started with Atlas"
+	@$(MAKE) local-status
+
 .PHONY: local-down
 local-down:
 	@echo "⏹️ Stopping Worker API Gateway locally..."
 	docker compose --env-file .env.local down
 	@echo "✅ Worker API Gateway stopped locally"
+
+.PHONY: local-down-atlas
+local-down-atlas:
+	@echo "⏹️ Stopping Worker API Gateway (Atlas mode)..."
+	docker compose -f docker-compose.atlas.yml --env-file .env.atlas down
+	@echo "✅ Worker API Gateway (Atlas) stopped"
 
 .PHONY: local-logs
 local-logs:

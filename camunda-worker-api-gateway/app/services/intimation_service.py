@@ -411,6 +411,7 @@ class IntimationService:
         
         try:
             response = self._make_request('getEstatisticasPublicacoes', params)
+            logger.debug("Estatísticas obtidas com sucesso - params: %s", params)
             return self._parse_estatisticas(response)
         except Exception as exc:
             raise IntimationServiceError(

@@ -23,6 +23,10 @@ class Settings(BaseSettings):
         "MONGODB_URI",
         "mongodb://localhost:27017"  # Fallback for development
     )
+    MONGODB_CONNECTION_STRING: str = os.getenv(
+        "MONGODB_CONNECTION_STRING",
+        os.getenv("MONGODB_URI", "mongodb://localhost:27017")  # Alias for MONGODB_URI
+    )
     MONGODB_DATABASE: str = os.getenv("MONGODB_DATABASE", "worker_gateway")
     MONGODB_COLLECTION_TASKS: str = "tasks"
     
@@ -125,6 +129,11 @@ class Settings(BaseSettings):
 
 # Global settings instance
 settings = Settings()
+
+
+def get_settings() -> Settings:
+    """Get settings instance"""
+    return settings
 
 
 # Validation

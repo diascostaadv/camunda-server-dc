@@ -34,7 +34,7 @@ async def wait_for_rabbitmq(url: str, max_attempts: int = 30, delay: int = 2) ->
 
 def wait_for_mongodb(uri: str, max_attempts: int = 30, delay: int = 2) -> bool:
     """Wait for MongoDB to be ready"""
-    print(f"🍃 Waiting for MongoDB at {uri}")
+    print(f"🍃 Waiting for MongoDB at : xxxxxxx")
     
     for attempt in range(max_attempts):
         try:
@@ -83,6 +83,9 @@ def wait_for_redis(uri: str, max_attempts: int = 30, delay: int = 2) -> bool:
 
 async def wait_for_all_services() -> bool:
     """Wait for all required services"""
+    # Check if using external services
+    external_mode = os.getenv('EXTERNAL_SERVICES_MODE', 'false').lower() == 'true'
+    
     # Get service URLs from environment
     rabbitmq_url = os.getenv('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672/')
     mongodb_uri = os.getenv('MONGODB_URI', 'mongodb://localhost:27017')
@@ -90,17 +93,37 @@ async def wait_for_all_services() -> bool:
     
     print("🚀 Waiting for all services to be ready...")
     
-    # Check critical services (RabbitMQ was the main issue)
-    services_ready = []
-    
-    # Wait for MongoDB (sync)
-    services_ready.append(wait_for_mongodb(mongodb_uri))
-    
-    # Wait for RabbitMQ (async) - this was the main problem
-    services_ready.append(await wait_for_rabbitmq(rabbitmq_url))
-    
-    # Skip Redis for now as it's not critical for basic functionality
-    # services_ready.append(wait_for_redis(redis_uri))
+    if external_mode:
+        print("📡 Using external services mode - checking MongoDB Atlas connection...")
+        # For external mode, only check MongoDB Atlas
+        if 'mongodb+srv' in mongodb_uri or 'mongodb.net' in mongodb_uri:
+            print(f"☁️ Connecting to MongoDB Atlas...")
+            services_ready = [wait_for_mongodb(mongodb_uri)]
+        else:
+            print(f"🗄️ Connecting to MongoDB: {mongodb_uri[:50]}...")
+            services_ready = [wait_for_mongodb(mongodb_uri)]
+        
+        # Check if RabbitMQ is local (not external)
+        if 'rabbitmq' in rabbitmq_url or 'localhost' not in rabbitmq_url:
+            print(f"🐰 Waiting for local RabbitMQ at {rabbitmq_url[:50]}...")
+            rabbit_ready = await wait_for_rabbitmq(rabbitmq_url)
+            services_ready.append(rabbit_ready)
+        else:
+            print("⏭️ Skipping RabbitMQ check (using external service)")
+            services_ready.append(True)
+    else:
+        print("🗄️ Using local services mode - checking all containers...")
+        # Check critical services
+        services_ready = []
+        
+        # Wait for MongoDB (sync)
+        services_ready.append(wait_for_mongodb(mongodb_uri))
+        
+        # Wait for RabbitMQ (async) - this was the main problem
+        services_ready.append(await wait_for_rabbitmq(rabbitmq_url))
+        
+        # Skip Redis for now as it's not critical for basic functionality
+        # services_ready.append(wait_for_redis(redis_uri))
     
     if all(services_ready):
         print("✅ All services are ready! Starting application...")

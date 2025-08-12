@@ -178,6 +178,14 @@ class TaskDataRequest(BaseModel):
             params['data_final'] = self.variables['data_final']
         if 'limite_publicacoes' in self.variables:
             params['limite_publicacoes'] = self.variables['limite_publicacoes']
+        if 'timeout_soap' in self.variables:
+            params['timeout_soap'] = self.variables['timeout_soap']
+        if 'apenas_nao_exportadas' in self.variables:
+            params['apenas_nao_exportadas'] = self.variables['apenas_nao_exportadas']
+        
+        # Se datas são fornecidas, automaticamente desabilitar apenas_nao_exportadas
+        if 'data_inicial' in params and 'data_final' in params:
+            params['apenas_nao_exportadas'] = False
             
         return BuscarPublicacoesRequest(**params)
 

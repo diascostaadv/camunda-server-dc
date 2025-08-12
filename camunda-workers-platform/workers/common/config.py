@@ -132,9 +132,12 @@ class Topics:
     # Simple Hello World topic
     SAY_HELLO = "say_hello"
     
-    # Topicos DC
+    # Topicos DC - Publicações
     NOVA_PUBLICACAO = "nova_publicacao"
-    BUSCAR_PUBLICACOES = "BuscarPublicacoes"
+    BUSCAR_PUBLICACOES = "buscar_publicacoes"
+    BUSCAR_LOTE_POR_ID = "buscar_lote_por_id"
+    TRATAR_PUBLICACAO = "tratar_publicacao"
+    CLASSIFICAR_PUBLICACAO = "classificar_publicacao"
     
     # Complex workflow topics (archived)
     VALIDATE_DOCUMENT = "validate_document"

@@ -6,7 +6,10 @@ Endpoint para processar tarefas de busca automatizada de publicações
 import logging
 from datetime import datetime
 from typing import Dict, Any, List
-from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends
+from fastapi import APIRouter, HTTPException, Depends
+
+from pymongo import MongoClient
+from bson import ObjectId
 
 from models.buscar_request import (
     BuscarPublicacoesRequest,
@@ -16,8 +19,11 @@ from models.buscar_request import (
     PublicacaoProcessingResult,
     BuscarPublicacoesStatus
 )
+from models.publicacao import PublicacaoBronze, Lote
 from services.process_starter import get_process_starter, ProcessStarter
 from services.intimation_service import get_intimation_client, IntimationService
+from services.lote_service import LoteService
+from core.config import Settings, get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -26,13 +32,23 @@ router = APIRouter(prefix="/buscar-publicacoes", tags=["Buscar Publicações"])
 # Storage simples para status de operações (em produção usar Redis/DB)
 _operations_status: Dict[str, BuscarPublicacoesStatus] = {}
 
+# Configurações
+settings = get_settings()
+
+def get_mongo_client() -> MongoClient:
+    """Obtém cliente MongoDB"""
+    return MongoClient(settings.MONGODB_CONNECTION_STRING)
+
+def get_lote_service(client: MongoClient = Depends(get_mongo_client)) -> LoteService:
+    """Obtém serviço de lotes"""
+    return LoteService(client, database_name=settings.MONGODB_DATABASE)
+
 
 
 
 @router.post("/processar", response_model=BuscarPublicacoesResponse)
 async def processar_busca_publicacoes(
     request: BuscarPublicacoesRequest,
-    background_tasks: BackgroundTasks,
     process_starter: ProcessStarter = Depends(get_process_starter),
     soap_client: IntimationService = Depends(get_intimation_client)
 ):
@@ -393,6 +409,209 @@ async def testar_conexao_soap(soap_client: IntimationService = Depends(get_intim
         return {
             "status": "error",
             "message": f"Erro ao testar SOAP: {str(e)}",
+            "timestamp": datetime.now().isoformat()
+        }
+
+
+@router.post("/processar-task-v2", response_model=Dict[str, Any])
+async def processar_task_camunda_v2(
+    task_data: TaskDataRequest,
+    soap_client: IntimationService = Depends(get_intimation_client),
+    lote_service: LoteService = Depends(get_lote_service),
+    mongo_client: MongoClient = Depends(get_mongo_client)
+):
+    """
+    Versão 2: Processa tarefa seguindo o fluxo BPMN correto
+    
+    Fluxo:
+    1. Busca publicações via SOAP
+    2. Cria execução no MongoDB
+    3. Cria lote e salva publicações bronze
+    4. Retorna lote_id para processamento posterior
+    
+    Este endpoint é chamado pelo worker quando recebe uma tarefa
+    do tópico 'BuscarPublicacoes' e segue o padrão Bronze/Prata.
+    """
+    logger.info(f"Processando tarefa Camunda V2 - Task ID: {task_data.task_id}")
+
+    timestamp_inicio = datetime.now()
+    db = mongo_client[settings.MONGODB_DATABASE]
+    
+    try:
+        # 1. Converter dados da tarefa para request
+        buscar_request = task_data.get_buscar_request()
+        
+        # 2. Testar conexão SOAP
+        if not soap_client.test_connection():
+            return {
+                "status": "error",
+                "message": "Falha na conexão com API SOAP",
+                "task_id": task_data.task_id,
+                "timestamp": timestamp_inicio.isoformat()
+            }
+        
+        # 3. Criar execução no MongoDB
+        execucao = db.execucoes.insert_one({
+            "data_inicio": timestamp_inicio,
+            "data_fim": None,
+            "status": "running",
+            "total_encontradas": 0,
+            "total_processadas": 0,
+            "configuracao": {
+                "cod_grupo": buscar_request.cod_grupo,
+                "limite_publicacoes": buscar_request.limite_publicacoes,
+                "task_id": task_data.task_id,
+                "process_instance_id": task_data.process_instance_id
+            }
+        })
+        execucao_id = str(execucao.inserted_id)
+        
+        logger.info(f"Execução criada: {execucao_id}")
+        logger.info(f"Request: {buscar_request}")
+        logger.info(f"Request details - apenas_nao_exportadas: {buscar_request.apenas_nao_exportadas}, data_inicial: {buscar_request.data_inicial}, data_final: {buscar_request.data_final}")
+        
+        # 4. Buscar publicações via SOAP
+        publicacoes = []
+        
+        if buscar_request.apenas_nao_exportadas:
+            logger.info(f"Branch 1: Buscando publicações não exportadas - Grupo: {buscar_request.cod_grupo}")
+            publicacoes = soap_client.get_publicacoes_nao_exportadas(
+                cod_grupo=buscar_request.cod_grupo
+            )
+            logger.info(f"Branch 1 result: {len(publicacoes)} publicações encontradas")
+        elif buscar_request.data_inicial and buscar_request.data_final:
+            logger.info(f"Branch 2: Buscando por período: {buscar_request.data_inicial} a {buscar_request.data_final}")
+            publicacoes = soap_client.get_publicacoes_periodo_safe(
+                data_inicial=buscar_request.data_inicial,
+                data_final=buscar_request.data_final,
+                cod_grupo=buscar_request.cod_grupo,
+                timeout_override=buscar_request.timeout_soap
+            )
+            logger.info(f"Branch 2 result: {len(publicacoes)} publicações encontradas")
+        else:
+            logger.info("Branch 3: Nenhum critério de busca fornecido, buscando período padrão")
+            publicacoes = soap_client.get_publicacoes_periodo_safe(
+                data_inicial="2025-05-01",
+                data_final="2025-05-01",  # Dia específico para ser mais rápido
+                cod_grupo=0,
+                timeout_override=120  # Timeout específico para este período
+            )
+            logger.info(f"Branch 3 result: {len(publicacoes)} publicações encontradas")
+            
+        total_encontradas = len(publicacoes)
+        logger.info(f"Encontradas {total_encontradas} publicações")
+        
+        # 5. Se não encontrou publicações, finalizar
+        if total_encontradas == 0:
+            timestamp_fim = datetime.now()
+            
+            # Atualizar execução
+            db.execucoes.update_one(
+                {"_id": ObjectId(execucao_id)},
+                {
+                    "$set": {
+                        "data_fim": timestamp_fim,
+                        "status": "completed",
+                        "total_encontradas": 0,
+                        "total_processadas": 0
+                    }
+                }
+            )
+            
+            return {
+                "status": "success",
+                "message": "Nenhuma publicação encontrada",
+                "task_id": task_data.task_id,
+                "execucao_id": execucao_id,
+                "total_encontradas": 0,
+                "lote_id": None,
+                "timestamp": timestamp_fim.isoformat()
+            }
+        
+        # 6. Aplicar limite se configurado
+        publicacoes_para_processar = publicacoes[:buscar_request.limite_publicacoes]
+        
+        # 7. Converter publicações para formato bronze
+        publicacoes_bronze = []
+        for pub in publicacoes_para_processar:
+            try:
+                pub_convertida = PublicacaoParaProcessamento.from_soap_publicacao(pub, fonte="dw")
+                publicacoes_bronze.append({
+                    "cod_publicacao": pub_convertida.cod_publicacao,
+                    "numero_processo": pub_convertida.numero_processo,
+                    "data_publicacao": pub_convertida.data_publicacao,
+                    "texto_publicacao": pub_convertida.texto_publicacao,
+                    "fonte": pub_convertida.fonte,
+                    "tribunal": pub_convertida.tribunal,
+                    "instancia": pub_convertida.instancia,
+                    "descricao_diario": pub_convertida.descricao_diario,
+                    "uf_publicacao": pub_convertida.uf_publicacao
+                })
+            except Exception as e:
+                logger.error(f"Erro ao converter publicação {pub.cod_publicacao}: {e}")
+        
+        # 8. Criar lote usando LoteService
+        lote_id = lote_service.criar_lote(
+            execucao_id=execucao_id,
+            publicacoes=publicacoes_bronze,
+            cod_grupo=buscar_request.cod_grupo,
+            data_inicial=buscar_request.data_inicial,
+            data_final=buscar_request.data_final
+        )
+        
+        logger.info(f"Lote criado: {lote_id} com {len(publicacoes_bronze)} publicações")
+        
+        # 9. Atualizar execução com sucesso
+        timestamp_fim = datetime.now()
+        db.execucoes.update_one(
+            {"_id": ObjectId(execucao_id)},
+            {
+                "$set": {
+                    "data_fim": timestamp_fim,
+                    "status": "completed",
+                    "total_encontradas": total_encontradas,
+                    "total_processadas": len(publicacoes_bronze),
+                    "lote_id": lote_id
+                }
+            }
+        )
+        
+        duracao = (timestamp_fim - timestamp_inicio).total_seconds()
+        
+        # 10. Retornar resultado com lote_id
+        return {
+            "status": "success",
+            "message": f"Lote criado com {len(publicacoes_bronze)} publicações",
+            "task_id": task_data.task_id,
+            "process_instance_id": task_data.process_instance_id,
+            "execucao_id": execucao_id,
+            "lote_id": lote_id,
+            "total_encontradas": total_encontradas,
+            "total_processadas": len(publicacoes_bronze),
+            "duracao_segundos": duracao,
+            "timestamp": timestamp_fim.isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Erro ao processar tarefa V2 {task_data.task_id}: {e}")
+        
+        # Atualizar execução com erro
+        if 'execucao_id' in locals():
+            db.execucoes.update_one(
+                {"_id": ObjectId(execucao_id)},
+                {
+                    "$set": {
+                        "data_fim": datetime.now(),
+                        "status": "error",
+                        "erro": str(e)
+                    }
+                }
+            )
+        
+        return {
+            "status": "error",
+            "message": f"Erro durante processamento: {str(e)}",
+            "task_id": task_data.task_id,
             "timestamp": datetime.now().isoformat()
         }
 

@@ -10,7 +10,7 @@
   ],
   "environment": {
     "GATEWAY_ENABLED": "true",
-    "GATEWAY_URL": "http://camunda-worker-api-gateway:8001",
+    "GATEWAY_URL": "http://camunda-worker-api-gateway-gateway-1:8000",
     "GATEWAY_TIMEOUT": "300",
     "CAMUNDA_URL": "http://camunda:8080/engine-rest",
     "CAMUNDA_USERNAME": "demo",

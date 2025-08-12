@@ -44,9 +44,11 @@ class BaseWorker:
         # Initialize Gateway Client
         self.gateway_enabled = os.getenv('GATEWAY_ENABLED', 'false').lower() == 'true'
         self.gateway_client = GatewayClient(worker_id) if self.gateway_enabled else None
+        self.gateway_base_url = os.getenv('GATEWAY_URL', 'http://camunda-worker-api-gateway-gateway-1:8000')
         
         if self.gateway_enabled:
             self.logger.info(f"Worker API Gateway integration enabled for {worker_id}")
+            self.logger.info(f"Gateway URL: {self.gateway_base_url}")
         else:
             self.logger.info(f"Direct Camunda processing mode for {worker_id}")
         
@@ -138,7 +140,7 @@ class BaseWorker:
         self.camunda_worker.subscribe(topic, wrapped_handler)
         self.logger.info(f"Subscribed to topic: {topic}")
     
-    def subscribe_multiple(self, topic_handlers: Dict[str, Any]):
+    def subscribe_multiple(self, topic_handlers: Dict[str, Any], handler_manages_gateway: bool = True):
         """
         Subscribe to multiple topics with their respective handlers.
         Uses a single subscribe call with multiple topics.
@@ -146,11 +148,14 @@ class BaseWorker:
         Args:
             topic_handlers: Dictionary mapping topic names to handler functions
                           Format: {"topic_name": handler_function}
+            handler_manages_gateway: If True, handlers manage their own Gateway calls (new pattern)
+                                   If False, BaseWorker manages Gateway (old pattern)
         """
         self.logger.info(f"Subscribing to {len(topic_handlers)} topics: {list(topic_handlers.keys())}")
         
         # Store handlers for later use
         self.topic_handlers = topic_handlers
+        self.handler_manages_gateway = handler_manages_gateway
         
         # Create a unified handler that dispatches to the correct handler based on topic
         def unified_handler(task):
@@ -159,25 +164,36 @@ class BaseWorker:
             start_time = time.time()
             task_id = task.get_task_id()
             
-            self.logger.debug(f"Received task {task_id} for topic {topic}")
+            self.logger.info(f"Executing external task for Topic: {topic}, Task ID: {task_id}")
             
             # Update active tasks metric
             ACTIVE_TASKS.labels(topic=topic).inc()
             
             try:
                 # Find the appropriate handler for this topic
-                if topic in self.topic_handlers:
-                    handler_func = self.topic_handlers[topic]
-                    
-                    if self.gateway_enabled:
-                        # Gateway mode: Check task status and handle accordingly
-                        return self._handle_task_via_gateway(task, topic)
-                    else:
-                        # Direct mode: Process task immediately using handler_func
-                        return self._handle_task_direct(task, topic, handler_func)
-                else:
+                if topic not in self.topic_handlers:
                     self.logger.error(f"No handler found for topic {topic}")
                     return self.fail_task(task, f"No handler configured for topic {topic}")
+                
+                handler_func = self.topic_handlers[topic]
+                
+                # Always call the handler - it decides how to process
+                # The handler will use process_via_gateway() if needed
+                result = handler_func(task)
+                
+                # Log result type for debugging
+                if result is not None:
+                    self.logger.debug(f"Handler returned result for task {task_id}")
+                else:
+                    self.logger.debug(f"Handler returned None for task {task_id}")
+                
+                return result
+                    
+            except Exception as e:
+                self.logger.error(f"Error in handler for task {task_id}: {str(e)}")
+                import traceback
+                traceback.print_exc()
+                return self.fail_task(task, f"Handler error: {str(e)}", retries=3)
                     
             finally:
                 # Update metrics
@@ -385,6 +401,81 @@ class BaseWorker:
                 self.logger.info("Gateway client connection closed")
         except Exception as e:
             self.logger.error(f"Error during cleanup: {e}")
+    
+    def process_via_gateway(self, task, endpoint: str, timeout: int = 90) -> Any:
+        """
+        Helper method to process tasks via Gateway
+        
+        Args:
+            task: Camunda external task
+            endpoint: Gateway API endpoint to call
+            timeout: Request timeout in seconds
+            
+        Returns:
+            Task completion result (complete or fail)
+        """
+        import requests
+        
+        try:
+            gateway_url = f"{self.gateway_base_url}{endpoint}"
+            
+            # Prepare payload
+            payload = {
+                "task_id": task.get_task_id(),
+                "process_instance_id": task.get_process_instance_id(),
+                "business_key": task.get_business_key(),
+                "topic_name": task.get_topic_name(),
+                "worker_id": self.worker_id,
+                "variables": task.get_variables()
+            }
+            
+            self.logger.info(f"Calling Gateway: {gateway_url}")
+            
+            # Make request to Gateway
+            response = requests.post(
+                gateway_url,
+                json=payload,
+                timeout=timeout,
+                headers={'Content-Type': 'application/json'}
+            )
+            response.raise_for_status()
+            
+            result = response.json()
+            
+            # Process response
+            if result.get("status") == "success":
+                # Extract relevant data for Camunda
+                camunda_variables = {
+                    k: v for k, v in result.items() 
+                    if k not in ['status', 'message', 'task_id', 'timestamp']
+                }
+                self.logger.info(f"Task {task.get_task_id()} processed successfully via Gateway")
+                GATEWAY_TASKS.labels(topic=task.get_topic_name(), status='success').inc()
+                return self.complete_task(task, camunda_variables)
+            else:
+                # Task failed
+                error_msg = result.get("message", "Gateway processing failed")
+                self.logger.error(f"Task {task.get_task_id()} failed in Gateway: {error_msg}")
+                GATEWAY_TASKS.labels(topic=task.get_topic_name(), status='failed').inc()
+                return self.fail_task(task, error_msg, retries=3)
+                
+        except requests.exceptions.Timeout:
+            error_msg = f"Gateway timeout after {timeout}s for endpoint {endpoint}"
+            self.logger.error(error_msg)
+            GATEWAY_TASKS.labels(topic=task.get_topic_name(), status='timeout').inc()
+            return self.fail_task(task, error_msg, retries=3)
+            
+        except requests.exceptions.RequestException as e:
+            error_msg = f"Gateway request failed: {str(e)}"
+            self.logger.error(error_msg)
+            GATEWAY_TASKS.labels(topic=task.get_topic_name(), status='error').inc()
+            return self.fail_task(task, error_msg, retries=3)
+            
+        except Exception as e:
+            error_msg = f"Unexpected error calling Gateway: {str(e)}"
+            self.logger.error(error_msg)
+            GATEWAY_TASKS.labels(topic=task.get_topic_name(), status='error').inc()
+            return self.fail_task(task, error_msg, retries=3)
     
     def get_variable(self, task, name: str, default: Any = None) -> Any:
         """Safely get a variable from the task"""
