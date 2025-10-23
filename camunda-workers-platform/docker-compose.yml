@@ -22,7 +22,7 @@ services:
       - ASYNC_RESPONSE_TIMEOUT=${ASYNC_RESPONSE_TIMEOUT:-30000}
       - RETRIES=${RETRIES:-3}
       - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
-      - SLEEP_SECONDS=${SLEEP_SECONDS:-30}
+      - SLEEP_SECONDS=${SLEEP_SECONDS:-120}
 
       # Gateway Integration (Optional)
       - GATEWAY_ENABLED=${GATEWAY_ENABLED:-false}
@@ -33,7 +33,7 @@ services:
       # Monitoring
       - METRICS_PORT=8001
       - METRICS_ENABLED=${METRICS_ENABLED:-true}
-      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - LOG_LEVEL=${LOG_LEVEL:-WARNING}
       - ENVIRONMENT=${ENVIRONMENT:-local}
     ports:
       - "8001"
@@ -68,7 +68,7 @@ services:
       - ASYNC_RESPONSE_TIMEOUT=${ASYNC_RESPONSE_TIMEOUT:-30000}
       - RETRIES=${RETRIES:-3}
       - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
-      - SLEEP_SECONDS=${SLEEP_SECONDS:-30}
+      - SLEEP_SECONDS=${SLEEP_SECONDS:-120}
 
       # Gateway Integration (Optional)
       - GATEWAY_ENABLED=${GATEWAY_ENABLED:-false}
@@ -83,7 +83,7 @@ services:
       # Monitoring
       - METRICS_PORT=8002
       - METRICS_ENABLED=${METRICS_ENABLED:-true}
-      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - LOG_LEVEL=${LOG_LEVEL:-WARNING}
       - ENVIRONMENT=${ENVIRONMENT:-local}
     ports:
       - "8002"
@@ -123,7 +123,7 @@ services:
       - ASYNC_RESPONSE_TIMEOUT=${ASYNC_RESPONSE_TIMEOUT:-30000}
       - RETRIES=${RETRIES:-3}
       - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
-      - SLEEP_SECONDS=${SLEEP_SECONDS:-30}
+      - SLEEP_SECONDS=${SLEEP_SECONDS:-120}
 
       # Gateway Integration
       - GATEWAY_ENABLED=${GATEWAY_ENABLED:-true}
@@ -138,7 +138,7 @@ services:
       # Monitoring
       - METRICS_PORT=8003
       - METRICS_ENABLED=${METRICS_ENABLED:-true}
-      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - LOG_LEVEL=${LOG_LEVEL:-WARNING}
       - ENVIRONMENT=${ENVIRONMENT:-local}
     ports:
       - "8003"

@@ -20,7 +20,8 @@ class Settings(BaseSettings):
 
     # MongoDB Configuration (External Cluster)
     MONGODB_URI: str = os.getenv(
-        "MONGODB_URI", "mongodb://localhost:27017"  # Fallback for development
+        "MONGODB_URI",
+        "mongodb+srv://camunda:Rqt0wVmEZhcME7HC@camundadc.os1avun.mongodb.net/",  # Hardcoded for production
     )
     MONGODB_CONNECTION_STRING: str = os.getenv(
         "MONGODB_CONNECTION_STRING",
@@ -102,7 +103,6 @@ class Settings(BaseSettings):
                 {
                     "retryWrites": True,
                     "w": "majority",
-                    "readConcern": {"level": "majority"},
                     "ssl": True,
                 }
             )
@@ -128,12 +128,7 @@ def validate_settings():
         if settings.is_production():
             required_vars.append("MONGODB_URI")
 
-    if (
-        not settings.RABBITMQ_URL
-        or settings.RABBITMQ_URL == "amqp://guest:guest@localhost:5672/"
-    ):
-        if settings.is_production():
-            required_vars.append("RABBITMQ_URL")
+    # RABBITMQ_URL validation removed - no longer used
 
     if required_vars:
         raise ValueError(

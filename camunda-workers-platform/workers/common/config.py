@@ -39,14 +39,16 @@ class WorkerConfig:
     )  # ms
     RETRIES: int = int(os.getenv("RETRIES", "3"))
     RETRY_TIMEOUT: int = int(os.getenv("RETRY_TIMEOUT", "5000"))  # ms
-    SLEEP_SECONDS: int = int(os.getenv("SLEEP_SECONDS", "30"))
+    SLEEP_SECONDS: int = int(
+        os.getenv("SLEEP_SECONDS", "120")
+    )  # Aumentado para 2 minutos
 
     # Metrics Configuration
     METRICS_PORT: int = int(os.getenv("METRICS_PORT", "8000"))
     METRICS_ENABLED: bool = os.getenv("METRICS_ENABLED", "true").lower() == "true"
 
     # Logging Configuration
-    LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
+    LOG_LEVEL: str = os.getenv("LOG_LEVEL", "WARNING")  # Reduzido para WARNING
     LOG_FILE_PATH: str = os.getenv("LOG_FILE_PATH", "/var/log")
 
     # External APIs Configuration

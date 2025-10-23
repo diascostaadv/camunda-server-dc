@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="tabela_configuracoes_iniciais" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.33.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <decision id="DMN_configuracoes_iniciais" name="Configurações iniciais" camunda:historyTimeToLive="30">
+    <decisionTable id="DecisionTable_0zjb84p" hitPolicy="COLLECT">
+      <output id="OutputClause_0ggqbhk" label="nome_variavel" name="nome_variavel" typeRef="" biodi:width="343" />
+      <output id="Output_1" label="valor_variavel" name="valor_variavel" typeRef="" biodi:width="257" />
+      <rule id="DecisionRule_0wir9s6">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_1q5zd0s">
+          <text>"numero_processo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ew15kr">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1dwb6es">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_107daag">
+          <text>"orgao_tramitacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1tdzo6a">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0pylrgg">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_1aue9g8">
+          <text>"uf_tramitacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0883coo">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0pducad">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_1u18ieo">
+          <text>"instancia_tramitacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_09hh2db">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1unquhg">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_1cijhci">
+          <text>"parte_autora_ou_recorrente"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vdmlem">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_00izu37">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_1ew7i0c">
+          <text>"parte_re_ou_recorrida"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_15euz22">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08xzu4e">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_1kwfg95">
+          <text>"nome_cliente"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03jmlsu">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1trn266">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_11aezmi">
+          <text>"cliente"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1p3oukd">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07ehmyi">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_0889ow1">
+          <text>"cliente_corrigido"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_15apdlc">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09xynl8">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_0y6p9kn">
+          <text>"destinatario_publicacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0d4cwr4">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_16w0mgr">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_0heo8ub">
+          <text>"advogado_habiltiado"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ojtptv">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06majvq">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_1qmznn8">
+          <text>"advogado_habiltiado_justificativa"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1913mbl">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1366quw">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_1k15lum">
+          <text>"advogado_habilitado"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jilvg9">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1e0bcge">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_1b41h6s">
+          <text>"advogado_habilitado_justificativa"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1k65vta">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_00yzzkd">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_1fqtv9a">
+          <text>"data_disponibilizacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_10xlk27">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07qr7ky">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_0dcfw0k">
+          <text>"data_disponibilizacao_convertida"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0lzvjhb">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07cmp9t">
+        <description>Dados do process / publicacao</description>
+        <outputEntry id="LiteralExpression_1i9lkr7">
+          <text>"pbl_fora_sla"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0692ycv">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1uo6qek">
+        <description>Dados do processo / publicacao</description>
+        <outputEntry id="LiteralExpression_127p0jq">
+          <text>"diario_nome"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rlcphk">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_01q8r6a">
+        <description>Classificação da IA</description>
+        <outputEntry id="LiteralExpression_1iv0ed0">
+          <text>"classificacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17uulm3">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0jqr9oj">
+        <description>Classificação da IA</description>
+        <outputEntry id="LiteralExpression_0o3zhfb">
+          <text>"justificativa_classificacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1k9maiq">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02zbx10">
+        <description>Classificação da IA</description>
+        <outputEntry id="LiteralExpression_1eg5wl9">
+          <text>"justificativa_nova_classificacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1mcxggq">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_033h1mm">
+        <description>Classificação da IA</description>
+        <outputEntry id="LiteralExpression_0x2ud1l">
+          <text>"trecho_literal_utilizado"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nmie62">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0sfy94d">
+        <description>Classificação da IA</description>
+        <outputEntry id="LiteralExpression_0s4ynef">
+          <text>"mencao_fato_critico"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1w7ots4">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0wi4yrx">
+        <description>Classificação da IA</description>
+        <outputEntry id="LiteralExpression_02gz274">
+          <text>"nivel_confianca"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1i7uyyh">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1bra1zi">
+        <description>Classificação da IA</description>
+        <outputEntry id="LiteralExpression_0x4o8z2">
+          <text>"tipo_providencia"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_10q1hrj">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1yg31fj">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_14ijwa0">
+          <text>"fluxo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1w5lshv">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_12e9nd3">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_0v75tj3">
+          <text>"fluxo_corrigido"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qzu8uv">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0l5ylfx">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_1wkklet">
+          <text>"prazo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1fbactg">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0mi70yt">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_13kbns6">
+          <text>"texto_atividade"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0uylrwp">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06np64x">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_00ip7hx">
+          <text>"nome_atividade"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_16ddosg">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17kk3gb">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_1t3ejcf">
+          <text>"iniciar_fluxo_audiencia"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dijc05">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0uj8pnu">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_14hchhl">
+          <text>"iniciar_fluxo_sessao_julgamento"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wtbjfi">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zz76ud">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_0gp1lrh">
+          <text>"iniciar_fluxo_contestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1eho7t0">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06qzsq7">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_148dbop">
+          <text>"iniciar_fluxo_impunacao_contestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vrler0">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1581sl1">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_0vvinug">
+          <text>"inciar_fluxo_manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wzliyg">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jl71s3">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_1iv5gnv">
+          <text>"iniciar_fluxo_sentenca"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06ky6ai">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0tjad0r">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_0fhd5cg">
+          <text>"iniciar_fluxo_acordao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ovyj4t">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1g1xzyj">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_0j04hp0">
+          <text>"iniciar_fluxo_cumprimento_sentenca"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wbnu8a">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07gcmcd">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_00wceng">
+          <text>"iniciar_fluxo_encerramento_pasta"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19dco1p">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1umnal6">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_0folamp">
+          <text>"iniciar_fluxo_publicacao_indice"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dgr01j">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_06okrx3">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_0dc4qb2">
+          <text>"iniciar_fluxo_protocolo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1r7zsem">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1fwgp0j">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_15kep54">
+          <text>"iniciar_fluxo_publicacao_indice"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1pemmhi">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09zyamq">
+        <description>Variáveis de fluxo</description>
+        <outputEntry id="LiteralExpression_12bu361">
+          <text>"classificacao_corrigida"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ypatoo">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02gq74q">
+        <description>Protocolo</description>
+        <outputEntry id="LiteralExpression_07o8xpj">
+          <text>"pedido_protocolo_correto"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0w8ncze">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pe59h5">
+        <description>Protocolo</description>
+        <outputEntry id="LiteralExpression_0hc2sq3">
+          <text>"protocolo_realizado_sucesso"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wm19g3">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1hfeb64">
+        <description>Usuários e responsabilidades</description>
+        <outputEntry id="LiteralExpression_14gfspa">
+          <text>"grupo_responsavel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ggtl2s">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1fol4ey">
+        <description>Usuários e responsabilidades</description>
+        <outputEntry id="LiteralExpression_021sgjz">
+          <text>"coordenador_responsavel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1v635tt">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ctqqbi">
+        <description>Usuários e responsabilidades</description>
+        <outputEntry id="LiteralExpression_1w0qbbb">
+          <text>"grupo_trabalho"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gdl2z0">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1doq1a9">
+        <description>Usuários e responsabilidades</description>
+        <outputEntry id="LiteralExpression_1hdxc56">
+          <text>"responsavel"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0cm26el">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0yax6sx">
+        <description>Usuários e responsabilidades</description>
+        <outputEntry id="LiteralExpression_018izzg">
+          <text>"usuario_anterior"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1a1pug7">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1sdggvf">
+        <description>Formulário base</description>
+        <outputEntry id="LiteralExpression_0hce0ze">
+          <text>"nome_tarefa"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0m1h0dg">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1f8pb5q">
+        <description>Formulário base</description>
+        <outputEntry id="LiteralExpression_0jacu0y">
+          <text>"tarefa_atual"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0urwizt">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0c6yg8l">
+        <description>Formulário base</description>
+        <outputEntry id="LiteralExpression_00nizau">
+          <text>"decisao_tomada"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ndlncd">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_029pmfx">
+        <description>Formulário base</description>
+        <outputEntry id="LiteralExpression_0pyf5zx">
+          <text>"descricao_atividade"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0toph6r">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1v4msop">
+        <description>Formulário base</description>
+        <outputEntry id="LiteralExpression_0zb1kpy">
+          <text>"aceitacao_termos"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1jkqxwa">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_057kte9">
+        <description>Controle de exibição de formulário</description>
+        <outputEntry id="LiteralExpression_1xg52at">
+          <text>"exibir_assumir_tarefa"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_12dzw5x">
+          <text>"Sim"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0pza0iw">
+        <description>Controle de exibição de formulário</description>
+        <outputEntry id="LiteralExpression_0xzg38c">
+          <text>"exibir_descricao_tarefa"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0bd24o0">
+          <text>"Sim"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ait0w5">
+        <description>Controle de exibição de formulário</description>
+        <outputEntry id="LiteralExpression_0fv1ydl">
+          <text>"exibir_providencia"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1wsdul5">
+          <text>"Sim"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18czr0o">
+        <description>Controle de exibição de formulário</description>
+        <outputEntry id="LiteralExpression_0epo00b">
+          <text>"exibir_validacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0b1zokv">
+          <text>"Sim"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1rleg33">
+        <description>Controle de exibição de formulário</description>
+        <outputEntry id="LiteralExpression_1dd2k5g">
+          <text>"exibir_classificacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02h4xsl">
+          <text>"Sim"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1drffg4">
+        <description>Controle de exibição de formulário</description>
+        <outputEntry id="LiteralExpression_1waopq1">
+          <text>"exibir_alerta"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jzy7hp">
+          <text>"Sim"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="DMN_configuracoes_iniciais">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

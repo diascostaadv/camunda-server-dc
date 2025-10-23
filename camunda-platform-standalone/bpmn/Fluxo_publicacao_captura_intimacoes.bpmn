@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1vdp74i" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.40.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <bpmn:collaboration id="Collaboration_0abzsae">
+    <bpmn:participant id="Participant_02u3w3b" name="Carregamento de novas publicações" processRef="fluxo_buscar_publicacoes_diarias" />
+    <bpmn:textAnnotation id="TextAnnotation_12ej7cz">
+      <bpmn:text>Aciona o worker que conecta ao webservice do fornecedor e faz o download das publicações do dia</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1hldmtv">
+      <bpmn:text>Neste subprocesso multinstance, cada Id_publicação do lote é iterado.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1l4vgtb">
+      <bpmn:text>Contem as id´s de todas as publicações que deverão ser lidas</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0dwex72" associationDirection="None" sourceRef="Activity_0lpw51a" targetRef="TextAnnotation_1hldmtv" />
+    <bpmn:association id="Association_05r55nz" associationDirection="None" sourceRef="Activity_01sx4ib" targetRef="TextAnnotation_12ej7cz" />
+    <bpmn:association id="Association_0xazxcy" associationDirection="None" sourceRef="DataObjectReference_165ucgk" targetRef="TextAnnotation_1l4vgtb" />
+  </bpmn:collaboration>
+  <bpmn:process id="fluxo_buscar_publicacoes_diarias" name="Fluxo - Buscar publicações diárias" isExecutable="true" camunda:historyTimeToLive="30">
+    <bpmn:sequenceFlow id="Flow_0ixo3fl" sourceRef="StartEvent_1" targetRef="Activity_01sx4ib" />
+    <bpmn:sequenceFlow id="Flow_108fvxg" sourceRef="Activity_0lpw51a" targetRef="Event_19hqzas" />
+    <bpmn:startEvent id="StartEvent_1" name="A cada 3 horas">
+      <bpmn:outgoing>Flow_0ixo3fl</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_10m1f05" sourceRef="Activity_01sx4ib" targetRef="Activity_0lpw51a" />
+    <bpmn:subProcess id="Activity_0lpw51a" name="Classificação da publicação">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_10m1f05</bpmn:incoming>
+      <bpmn:outgoing>Flow_108fvxg</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics camunda:collection="${publicacoes_ids}" camunda:elementVariable="publicacao_id" />
+      <bpmn:startEvent id="Event_1k3vkol" name="Publicação individualizada" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false">
+        <bpmn:outgoing>Flow_0tno4rt</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="Activity_03qeljg" name="Verificar score de similaridade da publicação" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false" camunda:type="external" camunda:topic="tratar_publicacao">
+        <bpmn:extensionElements />
+        <bpmn:incoming>Flow_0tno4rt</bpmn:incoming>
+        <bpmn:outgoing>Flow_0rimojl</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="Flow_0tno4rt" sourceRef="Event_1k3vkol" targetRef="Activity_03qeljg" />
+      <bpmn:sequenceFlow id="Flow_0rimojl" sourceRef="Activity_03qeljg" targetRef="Event_1of08cj" />
+      <bpmn:sequenceFlow id="Flow_0tzi6wy" sourceRef="Event_1of08cj" targetRef="Event_16hfztv" />
+      <bpmn:endEvent id="Event_16hfztv">
+        <bpmn:incoming>Flow_0tzi6wy</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:intermediateThrowEvent id="Event_1of08cj" name="Envio de publicação">
+        <bpmn:extensionElements>
+          <camunda:executionListener event="start">
+            <camunda:script scriptFormat="Groovy">// Recupera o runtimeService
+def runtimeService = execution.getProcessEngineServices().getRuntimeService()
+
+// Monta as variáveis que vão para o novo processo
+def vars = new HashMap()
+vars.put("publicacao_id", execution.getVariable("publicacao_id"))
+vars.put("score_similaridade", execution.getVariable("score_similaridade"))
+vars.put("numero_processo", execution.getVariable("numero_processo"))
+
+// Define a businessKey (pode ser qualquer variável, ex: numero_processo)
+def bk = execution.getVariable("numero_processo")
+
+// Inicia o processo com mensagem + businessKey + variáveis
+runtimeService.startProcessInstanceByMessage("Nova_publicacao", bk, vars)</camunda:script>
+          </camunda:executionListener>
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_0rimojl</bpmn:incoming>
+        <bpmn:outgoing>Flow_0tzi6wy</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_09ptqxa" messageRef="Message_3i14d8l" />
+      </bpmn:intermediateThrowEvent>
+    </bpmn:subProcess>
+    <bpmn:serviceTask id="Activity_01sx4ib" name="Buscar publicações" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:exclusive="false" camunda:type="external" camunda:topic="buscar_publicacoes">
+      <bpmn:incoming>Flow_0ixo3fl</bpmn:incoming>
+      <bpmn:outgoing>Flow_10m1f05</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:dataObjectReference id="DataObjectReference_165ucgk" name="Lote de publicações" dataObjectRef="DataObject_0mjxzqb" />
+    <bpmn:dataObject id="DataObject_0mjxzqb" />
+    <bpmn:endEvent id="Event_19hqzas">
+      <bpmn:incoming>Flow_108fvxg</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1isidtj" name="Processo_novo" />
+  <bpmn:message id="Message_3i14d8l" name="Nova_publicacao" />
+  <bpmn:signal id="Signal_25rfsk5" name="nova_publicacao" />
+  <bpmn:message id="Message_2r1ua2i" name="id_publicacao" />
+  <bpmn:escalation id="Escalation_24tl0tm" name="nova_publicacao" escalationCode="45" />
+  <bpmn:message id="Message_0ad4u9l" name="fluxo_sentenca" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0abzsae">
+      <bpmndi:BPMNShape id="Participant_02u3w3b_di" bpmnElement="Participant_02u3w3b" isHorizontal="true">
+        <dc:Bounds x="160" y="120" width="1100" height="380" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1q6wyiq_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="262" y="312" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="244" y="355" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0lpw51a_di" bpmnElement="Activity_0lpw51a" isExpanded="true">
+        <dc:Bounds x="520" y="225" width="490" height="175" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1k3vkol_di" bpmnElement="Event_1k3vkol">
+        <dc:Bounds x="582" y="292" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="564" y="335" width="73" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0knkune_di" bpmnElement="Activity_03qeljg">
+        <dc:Bounds x="690" y="270" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1fwt30k_di" bpmnElement="Event_16hfztv">
+        <dc:Bounds x="932" y="292" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0z53zae_di" bpmnElement="Event_1of08cj">
+        <dc:Bounds x="862" y="292" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="854" y="262" width="53" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0tno4rt_di" bpmnElement="Flow_0tno4rt">
+        <di:waypoint x="618" y="310" />
+        <di:waypoint x="690" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rimojl_di" bpmnElement="Flow_0rimojl">
+        <di:waypoint x="790" y="310" />
+        <di:waypoint x="862" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0tzi6wy_di" bpmnElement="Flow_0tzi6wy">
+        <di:waypoint x="898" y="310" />
+        <di:waypoint x="932" y="310" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_11tf31y_di" bpmnElement="Activity_01sx4ib">
+        <dc:Bounds x="340" y="290" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_165ucgk_di" bpmnElement="DataObjectReference_165ucgk">
+        <dc:Bounds x="382" y="195" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="371" y="252" width="59" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0on4n68_di" bpmnElement="Event_19hqzas">
+        <dc:Bounds x="1092" y="295" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ixo3fl_di" bpmnElement="Flow_0ixo3fl">
+        <di:waypoint x="298" y="330" />
+        <di:waypoint x="340" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_108fvxg_di" bpmnElement="Flow_108fvxg">
+        <di:waypoint x="1010" y="313" />
+        <di:waypoint x="1092" y="313" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10m1f05_di" bpmnElement="Flow_10m1f05">
+        <di:waypoint x="440" y="330" />
+        <di:waypoint x="520" y="330" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_12ej7cz_di" bpmnElement="TextAnnotation_12ej7cz">
+        <dc:Bounds x="340" y="410" width="200" height="60" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1hldmtv_di" bpmnElement="TextAnnotation_1hldmtv">
+        <dc:Bounds x="818" y="150" width="215" height="41" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1l4vgtb_di" bpmnElement="TextAnnotation_1l4vgtb">
+        <dc:Bounds x="440" y="147" width="280" height="44" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0dwex72_di" bpmnElement="Association_0dwex72">
+        <di:waypoint x="868" y="220" />
+        <di:waypoint x="868" y="191" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_05r55nz_di" bpmnElement="Association_05r55nz">
+        <di:waypoint x="390" y="370" />
+        <di:waypoint x="390" y="410" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0xazxcy_di" bpmnElement="Association_0xazxcy">
+        <di:waypoint x="418" y="211" />
+        <di:waypoint x="455" y="191" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -9,6 +9,122 @@
         "documentation": {}
     },
     {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "glob",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "glob",
+        "description": "glob",
+        "detail": "glob",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "time",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "time",
+        "description": "time",
+        "detail": "time",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
         "label": "Optional",
         "importPath": "typing",
         "description": "typing",
@@ -2659,15 +2775,6 @@
         "documentation": {}
     },
     {
-        "label": "requests",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "requests",
-        "description": "requests",
-        "detail": "requests",
-        "documentation": {}
-    },
-    {
         "label": "SequenceMatcher",
         "importPath": "difflib",
         "description": "difflib",
@@ -2700,15 +2807,6 @@
         "importPath": "json",
         "description": "json",
         "detail": "json",
-        "documentation": {}
-    },
-    {
-        "label": "time",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "time",
-        "description": "time",
-        "detail": "time",
         "documentation": {}
     },
     {
@@ -3264,15 +3362,6 @@
         "documentation": {}
     },
     {
-        "label": "sys",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "sys",
-        "description": "sys",
-        "detail": "sys",
-        "documentation": {}
-    },
-    {
         "label": "health_router",
         "importPath": "routes",
         "description": "routes",
@@ -3338,78 +3427,6 @@
         "documentation": {}
     },
     {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
-        "isExtraImport": true,
-        "detail": "pathlib",
-        "documentation": {}
-    },
-    {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
-        "isExtraImport": true,
-        "detail": "pathlib",
-        "documentation": {}
-    },
-    {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
-        "isExtraImport": true,
-        "detail": "pathlib",
-        "documentation": {}
-    },
-    {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
-        "isExtraImport": true,
-        "detail": "pathlib",
-        "documentation": {}
-    },
-    {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
-        "isExtraImport": true,
-        "detail": "pathlib",
-        "documentation": {}
-    },
-    {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
-        "isExtraImport": true,
-        "detail": "pathlib",
-        "documentation": {}
-    },
-    {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
-        "isExtraImport": true,
-        "detail": "pathlib",
-        "documentation": {}
-    },
-    {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
-        "isExtraImport": true,
-        "detail": "pathlib",
-        "documentation": {}
-    },
-    {
-        "label": "Path",
-        "importPath": "pathlib",
-        "description": "pathlib",
-        "isExtraImport": true,
-        "detail": "pathlib",
-        "documentation": {}
-    },
-    {
         "label": "WorkerDiscovery",
         "importPath": "worker_discovery",
         "description": "worker_discovery",
@@ -3433,15 +3450,6 @@
         "importPath": "argparse",
         "description": "argparse",
         "detail": "argparse",
-        "documentation": {}
-    },
-    {
-        "label": "glob",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "glob",
-        "description": "glob",
-        "detail": "glob",
         "documentation": {}
     },
     {
@@ -4047,6 +4055,33 @@
         "documentation": {}
     },
     {
+        "label": "deploy_bpmn_files",
+        "kind": 2,
+        "importPath": "camunda-platform-standalone.scripts.deploy_bpmns",
+        "description": "camunda-platform-standalone.scripts.deploy_bpmns",
+        "peekOfCode": "def deploy_bpmn_files():\n    \"\"\"Deploy BPMN files to Camunda Platform\"\"\"\n    # Configuração\n    CAMUNDA_BASE_URL = os.getenv(\"CAMUNDA_BASE_URL\", \"http://localhost:8080\")\n    CAMUNDA_USERNAME = os.getenv(\"CAMUNDA_USERNAME\", \"admin\")\n    CAMUNDA_PASSWORD = os.getenv(\"CAMUNDA_PASSWORD\", \"admin\")\n    # Diretório dos BPMNs\n    BPMN_DIR = os.getenv(\"BPMN_DIR\", \"bpmn\")\n    print(\"🚀 Starting BPMN deployment...\")\n    print(f\"📁 BPMN Directory: {BPMN_DIR}\")",
+        "detail": "camunda-platform-standalone.scripts.deploy_bpmns",
+        "documentation": {}
+    },
+    {
+        "label": "wait_for_camunda",
+        "kind": 2,
+        "importPath": "camunda-platform-standalone.scripts.deploy_bpmns",
+        "description": "camunda-platform-standalone.scripts.deploy_bpmns",
+        "peekOfCode": "def wait_for_camunda(base_url, username, password, max_attempts=30):\n    \"\"\"Wait for Camunda to be available\"\"\"\n    print(\"⏳ Waiting for Camunda to be available...\")\n    for attempt in range(max_attempts):\n        try:\n            response = requests.get(\n                f\"{base_url}/engine-rest/version\", auth=(username, password), timeout=5\n            )\n            if response.status_code == 200:\n                print(\"✅ Camunda is available!\")",
+        "detail": "camunda-platform-standalone.scripts.deploy_bpmns",
+        "documentation": {}
+    },
+    {
+        "label": "deploy_single_bpmn",
+        "kind": 2,
+        "importPath": "camunda-platform-standalone.scripts.deploy_bpmns",
+        "description": "camunda-platform-standalone.scripts.deploy_bpmns",
+        "peekOfCode": "def deploy_single_bpmn(bpmn_file, base_url, username, password):\n    \"\"\"Deploy a single BPMN file\"\"\"\n    with open(bpmn_file, \"rb\") as f:\n        files = {\n            \"deployment-name\": f\"deployment-{Path(bpmn_file).stem}\",\n            \"deployment-source\": \"python-script\",\n            \"file\": (Path(bpmn_file).name, f, \"application/xml\"),\n        }\n        response = requests.post(\n            f\"{base_url}/engine-rest/deployment/create\",",
+        "detail": "camunda-platform-standalone.scripts.deploy_bpmns",
+        "documentation": {}
+    },
+    {
         "label": "Settings",
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.core.config",
@@ -4069,7 +4104,7 @@
         "kind": 2,
         "importPath": "camunda-worker-api-gateway.app.core.config",
         "description": "camunda-worker-api-gateway.app.core.config",
-        "peekOfCode": "def validate_settings():\n    \"\"\"Validate required settings\"\"\"\n    required_vars = []\n    if not settings.MONGODB_URI or settings.MONGODB_URI == \"mongodb://localhost:27017\":\n        if settings.is_production():\n            required_vars.append(\"MONGODB_URI\")\n    if (\n        not settings.RABBITMQ_URL\n        or settings.RABBITMQ_URL == \"amqp://guest:guest@localhost:5672/\"\n    ):",
+        "peekOfCode": "def validate_settings():\n    \"\"\"Validate required settings\"\"\"\n    required_vars = []\n    if not settings.MONGODB_URI or settings.MONGODB_URI == \"mongodb://localhost:27017\":\n        if settings.is_production():\n            required_vars.append(\"MONGODB_URI\")\n    # RABBITMQ_URL validation removed - no longer used\n    if required_vars:\n        raise ValueError(\n            f\"Missing required production configuration: {', '.join(required_vars)}\"",
         "detail": "camunda-worker-api-gateway.app.core.config",
         "documentation": {}
     },
@@ -4087,7 +4122,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
         "description": "camunda-worker-api-gateway.app.models.buscar_request",
-        "peekOfCode": "class BuscarPublicacoesRequest(BaseModel):\n    \"\"\"Modelo para requisição de busca de publicações\"\"\"\n    # Parâmetros de busca\n    cod_grupo: int = Field(default=5, description=\"Código do grupo para busca\")\n    data_inicial: Optional[str] = Field(None, description=\"Data inicial para busca (YYYY-MM-DD)\")\n    data_final: Optional[str] = Field(None, description=\"Data final para busca (YYYY-MM-DD)\")\n    # Configurações de processamento\n    limite_publicacoes: int = Field(default=50, ge=1, le=1000, description=\"Limite de publicações a processar\")\n    timeout_soap: int = Field(default=90, ge=30, le=300, description=\"Timeout para chamadas SOAP em segundos\")\n    max_retries: int = Field(default=3, ge=1, le=10, description=\"Máximo de tentativas em caso de erro\")",
+        "peekOfCode": "class BuscarPublicacoesRequest(BaseModel):\n    \"\"\"Modelo para requisição de busca de publicações\"\"\"\n    # Parâmetros de busca\n    cod_grupo: int = Field(default=5, description=\"Código do grupo para busca\")\n    data_inicial: Optional[str] = Field(\n        None, description=\"Data inicial para busca (YYYY-MM-DD)\"\n    )\n    data_final: Optional[str] = Field(\n        None, description=\"Data final para busca (YYYY-MM-DD)\"\n    )",
         "detail": "camunda-worker-api-gateway.app.models.buscar_request",
         "documentation": {}
     },
@@ -4096,7 +4131,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
         "description": "camunda-worker-api-gateway.app.models.buscar_request",
-        "peekOfCode": "class PublicacaoProcessingResult(BaseModel):\n    \"\"\"Resultado do processamento de uma publicação individual\"\"\"\n    cod_publicacao: int = Field(..., description=\"Código da publicação\")\n    numero_processo: Optional[str] = Field(None, description=\"Número do processo judicial\")\n    status: Literal[\"success\", \"error\", \"skipped\"] = Field(..., description=\"Status do processamento\")\n    instance_id: Optional[str] = Field(None, description=\"ID da instância do processo criada\")\n    business_key: Optional[str] = Field(None, description=\"Business key utilizada\")\n    error_message: Optional[str] = Field(None, description=\"Mensagem de erro, se houver\")\n    timestamp: datetime = Field(default_factory=datetime.now, description=\"Timestamp do processamento\")\nclass BuscarPublicacoesResponse(BaseModel):",
+        "peekOfCode": "class PublicacaoProcessingResult(BaseModel):\n    \"\"\"Resultado do processamento de uma publicação individual\"\"\"\n    cod_publicacao: int = Field(..., description=\"Código da publicação\")\n    numero_processo: Optional[str] = Field(\n        None, description=\"Número do processo judicial\"\n    )\n    status: Literal[\"success\", \"error\", \"skipped\"] = Field(\n        ..., description=\"Status do processamento\"\n    )\n    instance_id: Optional[str] = Field(",
         "detail": "camunda-worker-api-gateway.app.models.buscar_request",
         "documentation": {}
     },
@@ -4105,7 +4140,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
         "description": "camunda-worker-api-gateway.app.models.buscar_request",
-        "peekOfCode": "class BuscarPublicacoesResponse(BaseModel):\n    \"\"\"Resposta da busca de publicações\"\"\"\n    # Informações da execução\n    timestamp_inicio: datetime = Field(..., description=\"Timestamp do início da busca\")\n    timestamp_fim: datetime = Field(..., description=\"Timestamp do fim da busca\")\n    duracao_segundos: float = Field(..., description=\"Duração total em segundos\")\n    # Estatísticas da busca SOAP\n    total_encontradas: int = Field(..., description=\"Total de publicações encontradas na API SOAP\")\n    total_processadas: int = Field(..., description=\"Total de publicações que tentaram ser processadas\")\n    total_filtradas: int = Field(..., description=\"Total de publicações filtradas/ignoradas\")",
+        "peekOfCode": "class BuscarPublicacoesResponse(BaseModel):\n    \"\"\"Resposta da busca de publicações\"\"\"\n    # Informações da execução\n    timestamp_inicio: datetime = Field(..., description=\"Timestamp do início da busca\")\n    timestamp_fim: datetime = Field(..., description=\"Timestamp do fim da busca\")\n    duracao_segundos: float = Field(..., description=\"Duração total em segundos\")\n    # Estatísticas da busca SOAP\n    total_encontradas: int = Field(\n        ..., description=\"Total de publicações encontradas na API SOAP\"\n    )",
         "detail": "camunda-worker-api-gateway.app.models.buscar_request",
         "documentation": {}
     },
@@ -4114,7 +4149,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
         "description": "camunda-worker-api-gateway.app.models.buscar_request",
-        "peekOfCode": "class BuscarPublicacoesStatus(BaseModel):\n    \"\"\"Status atual de uma operação de busca em andamento\"\"\"\n    operacao_id: str = Field(..., description=\"ID único da operação\")\n    status: Literal[\"running\", \"completed\", \"error\", \"cancelled\"] = Field(..., description=\"Status atual\")\n    timestamp_inicio: datetime = Field(..., description=\"Quando a operação iniciou\")\n    timestamp_ultima_atualizacao: datetime = Field(default_factory=datetime.now, description=\"Última atualização\")\n    # Progresso\n    total_esperado: Optional[int] = Field(None, description=\"Total de itens esperados para processar\")\n    total_processado: int = Field(default=0, description=\"Total de itens já processados\")\n    progresso_percentual: Optional[float] = Field(None, description=\"Progresso em percentual (0.0 a 1.0)\")",
+        "peekOfCode": "class BuscarPublicacoesStatus(BaseModel):\n    \"\"\"Status atual de uma operação de busca em andamento\"\"\"\n    operacao_id: str = Field(..., description=\"ID único da operação\")\n    status: Literal[\"running\", \"completed\", \"error\", \"cancelled\"] = Field(\n        ..., description=\"Status atual\"\n    )\n    timestamp_inicio: datetime = Field(..., description=\"Quando a operação iniciou\")\n    timestamp_ultima_atualizacao: datetime = Field(\n        default_factory=datetime.now, description=\"Última atualização\"\n    )",
         "detail": "camunda-worker-api-gateway.app.models.buscar_request",
         "documentation": {}
     },
@@ -4123,7 +4158,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
         "description": "camunda-worker-api-gateway.app.models.buscar_request",
-        "peekOfCode": "class TaskDataRequest(BaseModel):\n    \"\"\"Modelo para dados de tarefa recebidos do Camunda worker\"\"\"\n    task_id: str = Field(..., description=\"ID da tarefa\")\n    process_instance_id: str = Field(..., description=\"ID da instância do processo\")\n    business_key: Optional[str] = Field(None, description=\"Business key da instância\")\n    # Variáveis da tarefa (parâmetros de busca)\n    variables: Dict[str, Any] = Field(default_factory=dict, description=\"Variáveis da tarefa\")\n    # Metadados\n    topic_name: str = Field(..., description=\"Nome do tópico\")\n    worker_id: str = Field(..., description=\"ID do worker que enviou\")",
+        "peekOfCode": "class TaskDataRequest(BaseModel):\n    \"\"\"Modelo para dados de tarefa recebidos do Camunda worker\"\"\"\n    task_id: str = Field(..., description=\"ID da tarefa\")\n    process_instance_id: str = Field(..., description=\"ID da instância do processo\")\n    business_key: Optional[str] = Field(None, description=\"Business key da instância\")\n    # Variáveis da tarefa (parâmetros de busca)\n    variables: Dict[str, Any] = Field(\n        default_factory=dict, description=\"Variáveis da tarefa\"\n    )\n    # Metadados",
         "detail": "camunda-worker-api-gateway.app.models.buscar_request",
         "documentation": {}
     },
@@ -4132,7 +4167,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
         "description": "camunda-worker-api-gateway.app.models.buscar_request",
-        "peekOfCode": "class PublicacaoParaProcessamento(BaseModel):\n    \"\"\"Modelo para publicação convertida para processamento\"\"\"\n    # Dados obrigatórios para MovimentacaoJudicial\n    numero_processo: str = Field(..., description=\"Número do processo judicial\")\n    data_publicacao: str = Field(..., description=\"Data de publicação no formato dd/mm/yyyy\")\n    texto_publicacao: str = Field(..., description=\"Texto integral da movimentação\")\n    fonte: Literal[\"dw\", \"manual\", \"escavador\"] = Field(..., description=\"Fonte da movimentação\")\n    tribunal: str = Field(..., description=\"Tribunal origem\")\n    instancia: str = Field(..., description=\"Instância judicial\")\n    # Metadados da API SOAP",
+        "peekOfCode": "class PublicacaoParaProcessamento(BaseModel):\n    \"\"\"Modelo para publicação convertida para processamento\"\"\"\n    # Dados obrigatórios para MovimentacaoJudicial\n    numero_processo: str = Field(..., description=\"Número do processo judicial\")\n    data_publicacao: str = Field(\n        ..., description=\"Data de publicação no formato dd/mm/yyyy\"\n    )\n    texto_publicacao: str = Field(..., description=\"Texto integral da movimentação\")\n    fonte: Literal[\"dw\", \"manual\", \"escavador\"] = Field(\n        ..., description=\"Fonte da movimentação\"",
         "detail": "camunda-worker-api-gateway.app.models.buscar_request",
         "documentation": {}
     },
@@ -4357,7 +4392,7 @@
         "kind": 2,
         "importPath": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "description": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
-        "peekOfCode": "def get_lote_service(client: MongoClient = Depends(get_mongo_client)) -> LoteService:\n    \"\"\"Obtém serviço de lotes\"\"\"\n    return LoteService(client, database_name=settings.MONGODB_DATABASE)\n@router.post(\"/processar\", response_model=BuscarPublicacoesResponse)\nasync def processar_busca_publicacoes(\n    request: BuscarPublicacoesRequest,\n    process_starter: ProcessStarter = Depends(get_process_starter),\n    soap_client: IntimationService = Depends(get_intimation_client)\n):\n    \"\"\"",
+        "peekOfCode": "def get_lote_service(client: MongoClient = Depends(get_mongo_client)) -> LoteService:\n    \"\"\"Obtém serviço de lotes\"\"\"\n    return LoteService(client, database_name=settings.MONGODB_DATABASE)\n@router.post(\"/processar\", response_model=BuscarPublicacoesResponse)\nasync def processar_busca_publicacoes(\n    request: BuscarPublicacoesRequest,\n    process_starter: ProcessStarter = Depends(get_process_starter),\n    soap_client: IntimationService = Depends(get_intimation_client),\n):\n    \"\"\"",
         "detail": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "documentation": {}
     },
@@ -4618,7 +4653,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.deduplicacao_service",
         "description": "camunda-worker-api-gateway.app.services.deduplicacao_service",
-        "peekOfCode": "class DeduplicacaoService:\n    \"\"\"Serviço para deduplicação de publicações\"\"\"\n    def __init__(self, mongo_client: MongoClient, database_name: str = \"camunda_publicacoes\"):\n        \"\"\"\n        Inicializa o serviço de deduplicação\n        Args:\n            mongo_client: Cliente MongoDB\n            database_name: Nome do banco de dados\n        \"\"\"\n        self.client = mongo_client",
+        "peekOfCode": "class DeduplicacaoService:\n    \"\"\"Serviço para deduplicação de publicações\"\"\"\n    def __init__(\n        self, mongo_client: MongoClient, database_name: str = \"camunda_publicacoes\"\n    ):\n        \"\"\"\n        Inicializa o serviço de deduplicação\n        Args:\n            mongo_client: Cliente MongoDB\n            database_name: Nome do banco de dados",
         "detail": "camunda-worker-api-gateway.app.services.deduplicacao_service",
         "documentation": {}
     },
@@ -4627,7 +4662,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.services.deduplicacao_service",
         "description": "camunda-worker-api-gateway.app.services.deduplicacao_service",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nclass DeduplicacaoService:\n    \"\"\"Serviço para deduplicação de publicações\"\"\"\n    def __init__(self, mongo_client: MongoClient, database_name: str = \"camunda_publicacoes\"):\n        \"\"\"\n        Inicializa o serviço de deduplicação\n        Args:\n            mongo_client: Cliente MongoDB\n            database_name: Nome do banco de dados\n        \"\"\"",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass DeduplicacaoService:\n    \"\"\"Serviço para deduplicação de publicações\"\"\"\n    def __init__(\n        self, mongo_client: MongoClient, database_name: str = \"camunda_publicacoes\"\n    ):\n        \"\"\"\n        Inicializa o serviço de deduplicação\n        Args:\n            mongo_client: Cliente MongoDB",
         "detail": "camunda-worker-api-gateway.app.services.deduplicacao_service",
         "documentation": {}
     },
@@ -4771,7 +4806,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
         "description": "camunda-worker-api-gateway.app.services.intimation_service",
-        "peekOfCode": "class EstatisticasPublicacoes:\n    \"\"\"Representa estatísticas de publicações\"\"\"\n    grupo: str = \"\"\n    total_publicacoes: int = 0\n    total_nao_importadas: int = 0\n    detalhamento: Optional[List['EstatisticasPublicacoes']] = None\n    def to_json(self) -> str:\n        \"\"\"Converte estatísticas para JSON\"\"\"\n        return json.dumps(asdict(self), ensure_ascii=False, indent=2)\n    def to_dict(self) -> Dict[str, Any]:",
+        "peekOfCode": "class EstatisticasPublicacoes:\n    \"\"\"Representa estatísticas de publicações\"\"\"\n    grupo: str = \"\"\n    total_publicacoes: int = 0\n    total_nao_importadas: int = 0\n    detalhamento: Optional[List[\"EstatisticasPublicacoes\"]] = None\n    def to_json(self) -> str:\n        \"\"\"Converte estatísticas para JSON\"\"\"\n        return json.dumps(asdict(self), ensure_ascii=False, indent=2)\n    def to_dict(self) -> Dict[str, Any]:",
         "detail": "camunda-worker-api-gateway.app.services.intimation_service",
         "documentation": {}
     },
@@ -4798,7 +4833,7 @@
         "kind": 2,
         "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
         "description": "camunda-worker-api-gateway.app.services.intimation_service",
-        "peekOfCode": "def get_intimation_service(usuario: str = None, senha: str = None,\n                          timeout: int = None) -> IntimationService:\n    \"\"\"\n    Factory function para obter instância do IntimationService\n    Args:\n        usuario: Usuário SOAP (opcional, usa env se não fornecido)\n        senha: Senha SOAP (opcional, usa env se não fornecido)\n        timeout: Timeout personalizado (opcional)\n    Returns:\n        IntimationService: Instância configurada",
+        "peekOfCode": "def get_intimation_service(\n    usuario: str = None, senha: str = None, timeout: int = None\n) -> IntimationService:\n    \"\"\"\n    Factory function para obter instância do IntimationService\n    Args:\n        usuario: Usuário SOAP (opcional, usa env se não fornecido)\n        senha: Senha SOAP (opcional, usa env se não fornecido)\n        timeout: Timeout personalizado (opcional)\n    Returns:",
         "detail": "camunda-worker-api-gateway.app.services.intimation_service",
         "documentation": {}
     },
@@ -4825,7 +4860,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.services.intimation_service",
         "description": "camunda-worker-api-gateway.app.services.intimation_service",
-        "peekOfCode": "_intimation_service_instance = None\ndef get_intimation_service(usuario: str = None, senha: str = None,\n                          timeout: int = None) -> IntimationService:\n    \"\"\"\n    Factory function para obter instância do IntimationService\n    Args:\n        usuario: Usuário SOAP (opcional, usa env se não fornecido)\n        senha: Senha SOAP (opcional, usa env se não fornecido)\n        timeout: Timeout personalizado (opcional)\n    Returns:",
+        "peekOfCode": "_intimation_service_instance = None\ndef get_intimation_service(\n    usuario: str = None, senha: str = None, timeout: int = None\n) -> IntimationService:\n    \"\"\"\n    Factory function para obter instância do IntimationService\n    Args:\n        usuario: Usuário SOAP (opcional, usa env se não fornecido)\n        senha: Senha SOAP (opcional, usa env se não fornecido)\n        timeout: Timeout personalizado (opcional)",
         "detail": "camunda-worker-api-gateway.app.services.intimation_service",
         "documentation": {}
     },
@@ -5176,7 +5211,7 @@
         "kind": 2,
         "importPath": "camunda-worker-api-gateway.app.wait-for-services",
         "description": "camunda-worker-api-gateway.app.wait-for-services",
-        "peekOfCode": "def wait_for_all_services() -> bool:\n    \"\"\"Wait for all required services\"\"\"\n    # Check if using external services\n    external_mode = os.getenv(\"EXTERNAL_SERVICES_MODE\", \"false\").lower() == \"true\"\n    # Get service URLs from environment\n    mongodb_uri = os.getenv(\"MONGODB_URI\", \"mongodb://localhost:27017\")\n    print(\"🚀 Waiting for all services to be ready...\")\n    if external_mode:\n        print(\"📡 Using external services mode - checking MongoDB Atlas connection...\")\n        # For external mode, only check MongoDB Atlas",
+        "peekOfCode": "def wait_for_all_services() -> bool:\n    \"\"\"Wait for all required services\"\"\"\n    # Check if using external services\n    external_mode = os.getenv(\"EXTERNAL_SERVICES_MODE\", \"false\").lower() == \"true\"\n    # Get service URLs from environment\n    mongodb_uri = os.getenv(\n        \"MONGODB_URI\",\n        \"mongodb+srv://camunda:Rqt0wVmEZhcME7HC@camundadc.os1avun.mongodb.net/\",\n    )\n    print(\"🚀 Waiting for all services to be ready...\")",
         "detail": "camunda-worker-api-gateway.app.wait-for-services",
         "documentation": {}
     },
@@ -5257,7 +5292,7 @@
         "kind": 5,
         "importPath": "camunda-workers-platform.workers.common.base_worker",
         "description": "camunda-workers-platform.workers.common.base_worker",
-        "peekOfCode": "TASK_COUNTER = Counter('camunda_tasks_total', 'Total number of tasks processed', ['topic', 'status'])\nTASK_DURATION = Histogram('camunda_task_duration_seconds', 'Time spent processing tasks', ['topic'])\nACTIVE_TASKS = Gauge('camunda_active_tasks', 'Number of currently active tasks', ['topic'])\nGATEWAY_TASKS = Counter('gateway_tasks_total', 'Total number of tasks sent to gateway', ['topic', 'status'])\nclass BaseWorker:\n    \"\"\"Base class for all Camunda external task workers\"\"\"\n    def __init__(self, worker_id: str, base_url: str = None, auth: tuple = None):\n        \"\"\"\n        Initialize the base worker\n        Args:",
+        "peekOfCode": "TASK_COUNTER = Counter(\n    \"camunda_tasks_total\", \"Total number of tasks processed\", [\"topic\", \"status\"]\n)\nTASK_DURATION = Histogram(\n    \"camunda_task_duration_seconds\", \"Time spent processing tasks\", [\"topic\"]\n)\nACTIVE_TASKS = Gauge(\n    \"camunda_active_tasks\", \"Number of currently active tasks\", [\"topic\"]\n)\nGATEWAY_TASKS = Counter(",
         "detail": "camunda-workers-platform.workers.common.base_worker",
         "documentation": {}
     },
@@ -5266,7 +5301,7 @@
         "kind": 5,
         "importPath": "camunda-workers-platform.workers.common.base_worker",
         "description": "camunda-workers-platform.workers.common.base_worker",
-        "peekOfCode": "TASK_DURATION = Histogram('camunda_task_duration_seconds', 'Time spent processing tasks', ['topic'])\nACTIVE_TASKS = Gauge('camunda_active_tasks', 'Number of currently active tasks', ['topic'])\nGATEWAY_TASKS = Counter('gateway_tasks_total', 'Total number of tasks sent to gateway', ['topic', 'status'])\nclass BaseWorker:\n    \"\"\"Base class for all Camunda external task workers\"\"\"\n    def __init__(self, worker_id: str, base_url: str = None, auth: tuple = None):\n        \"\"\"\n        Initialize the base worker\n        Args:\n            worker_id: Unique identifier for this worker instance",
+        "peekOfCode": "TASK_DURATION = Histogram(\n    \"camunda_task_duration_seconds\", \"Time spent processing tasks\", [\"topic\"]\n)\nACTIVE_TASKS = Gauge(\n    \"camunda_active_tasks\", \"Number of currently active tasks\", [\"topic\"]\n)\nGATEWAY_TASKS = Counter(\n    \"gateway_tasks_total\", \"Total number of tasks sent to gateway\", [\"topic\", \"status\"]\n)\nclass BaseWorker:",
         "detail": "camunda-workers-platform.workers.common.base_worker",
         "documentation": {}
     },
@@ -5275,7 +5310,7 @@
         "kind": 5,
         "importPath": "camunda-workers-platform.workers.common.base_worker",
         "description": "camunda-workers-platform.workers.common.base_worker",
-        "peekOfCode": "ACTIVE_TASKS = Gauge('camunda_active_tasks', 'Number of currently active tasks', ['topic'])\nGATEWAY_TASKS = Counter('gateway_tasks_total', 'Total number of tasks sent to gateway', ['topic', 'status'])\nclass BaseWorker:\n    \"\"\"Base class for all Camunda external task workers\"\"\"\n    def __init__(self, worker_id: str, base_url: str = None, auth: tuple = None):\n        \"\"\"\n        Initialize the base worker\n        Args:\n            worker_id: Unique identifier for this worker instance\n            base_url: Camunda engine REST API URL",
+        "peekOfCode": "ACTIVE_TASKS = Gauge(\n    \"camunda_active_tasks\", \"Number of currently active tasks\", [\"topic\"]\n)\nGATEWAY_TASKS = Counter(\n    \"gateway_tasks_total\", \"Total number of tasks sent to gateway\", [\"topic\", \"status\"]\n)\nclass BaseWorker:\n    \"\"\"Base class for all Camunda external task workers\"\"\"\n    def __init__(self, worker_id: str, base_url: str = None, auth: tuple = None):\n        \"\"\"",
         "detail": "camunda-workers-platform.workers.common.base_worker",
         "documentation": {}
     },
@@ -5284,7 +5319,7 @@
         "kind": 5,
         "importPath": "camunda-workers-platform.workers.common.base_worker",
         "description": "camunda-workers-platform.workers.common.base_worker",
-        "peekOfCode": "GATEWAY_TASKS = Counter('gateway_tasks_total', 'Total number of tasks sent to gateway', ['topic', 'status'])\nclass BaseWorker:\n    \"\"\"Base class for all Camunda external task workers\"\"\"\n    def __init__(self, worker_id: str, base_url: str = None, auth: tuple = None):\n        \"\"\"\n        Initialize the base worker\n        Args:\n            worker_id: Unique identifier for this worker instance\n            base_url: Camunda engine REST API URL\n            auth: Tuple of (username, password) for basic auth",
+        "peekOfCode": "GATEWAY_TASKS = Counter(\n    \"gateway_tasks_total\", \"Total number of tasks sent to gateway\", [\"topic\", \"status\"]\n)\nclass BaseWorker:\n    \"\"\"Base class for all Camunda external task workers\"\"\"\n    def __init__(self, worker_id: str, base_url: str = None, auth: tuple = None):\n        \"\"\"\n        Initialize the base worker\n        Args:\n            worker_id: Unique identifier for this worker instance",
         "detail": "camunda-workers-platform.workers.common.base_worker",
         "documentation": {}
     },
@@ -5671,7 +5706,7 @@
         "kind": 2,
         "importPath": "camunda-workers-platform.workers.publicacao_unified.main",
         "description": "camunda-workers-platform.workers.publicacao_unified.main",
-        "peekOfCode": "def main():\n    \"\"\"Função principal para executar o worker unificado\"\"\"\n    try:\n        # Configurar logging\n        logging.basicConfig(\n            level=logging.INFO,\n            format=\"%(asctime)s - %(name)s - %(levelname)s - %(message)s\",\n            handlers=[logging.StreamHandler()],\n        )\n        logger.info(\"🚀 Iniciando PublicacaoUnifiedWorker...\")",
+        "peekOfCode": "def main():\n    \"\"\"Função principal para executar o worker unificado\"\"\"\n    try:\n        # Configurar logging dinâmico\n        log_level = getattr(logging, WorkerConfig.LOG_LEVEL.upper(), logging.WARNING)\n        logging.basicConfig(\n            level=log_level,\n            format=\"%(asctime)s - %(name)s - %(levelname)s - %(message)s\",\n            handlers=[logging.StreamHandler()],\n        )",
         "detail": "camunda-workers-platform.workers.publicacao_unified.main",
         "documentation": {}
     },

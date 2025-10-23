@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_0iujjs0" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.33.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <decision id="DMN_grupo_trabalho_proc" name="Escolher grupo de trabalho" camunda:historyTimeToLive="30">
+    <decisionTable id="DecisionTable_1psoz1e" hitPolicy="FIRST">
+      <input id="Input_1" label="grupo_trabalho" biodi:width="150" camunda:inputVariable="grupo_trabalho">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>proc.grupo_trabalho</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="grupo_responsavel" name="grupo_responsavel" typeRef="string" biodi:width="203" />
+      <output id="OutputClause_0ut5b8z" name="coordenador_resposavel" typeRef="string" biodi:width="251" />
+      <rule id="DecisionRule_1tqpdaw">
+        <inputEntry id="UnaryTests_00s7mux">
+          <text>"35"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0gnlcj4">
+          <text>"equipeSantander"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_14gbylt">
+          <text>"coordenacaoSantander"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18pwz3m">
+        <inputEntry id="UnaryTests_0i5d70l">
+          <text>"2"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_09swjc3">
+          <text>"equipeOmni"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0b8pf1m">
+          <text>"coordenacaoOmni"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0wzgwxd">
+        <inputEntry id="UnaryTests_0ms4ysk">
+          <text>"48"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0b7ieyu">
+          <text>"equipeBmg"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_09pqjjn">
+          <text>"coordenacaoBmg"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0fvkdoy">
+        <inputEntry id="UnaryTests_1ntgnse">
+          <text>"41"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0yp6pgv">
+          <text>"equipeMercantil"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xc4i1y">
+          <text>"coordenacaoMercantil"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_01v17hh">
+        <inputEntry id="UnaryTests_1p8diuw">
+          <text>"60"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0yhthvv">
+          <text>"equipeBv"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0w13csi">
+          <text>"coordenacaoBv"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1wu8vob">
+        <inputEntry id="UnaryTests_07urup7">
+          <text>"59"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0i5ep4n">
+          <text>"equipeBradesco"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1owuv38">
+          <text>"coordenacaoBradesco"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1yzz6g9">
+        <inputEntry id="UnaryTests_1xlw3q9">
+          <text>"57"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ye8yw0">
+          <text>"equipeAzul"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1bk84ak">
+          <text>"coordenacaoAzul"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pyjox5">
+        <inputEntry id="UnaryTests_1oiwt4p">
+          <text>"81"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0gbpcsn">
+          <text>"equipePan"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1k6kde5">
+          <text>"coordenacaoPan"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0gcefhb">
+        <inputEntry id="UnaryTests_0dk3lnc">
+          <text>"78"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qss49k">
+          <text>"equipeDaycoval"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jgj6wi">
+          <text>"coordenacaoDaycoval"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1vohrpj">
+        <description></description>
+        <inputEntry id="UnaryTests_1l8tenz">
+          <text>"87"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1666a34">
+          <text>"equipeLocaliza"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0kcdsy4">
+          <text>"coordenacaoLocaliza"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1wvuczt">
+        <inputEntry id="UnaryTests_16bssw3">
+          <text>"77"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0p2c67q">
+          <text>"equipeEletrobras"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17aev0h">
+          <text>"coordenacaoEletrobras"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0lzt9dt">
+        <inputEntry id="UnaryTests_0yvh9bi">
+          <text>"3"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16rq1fj">
+          <text>"equipeSemear"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1jsun0b">
+          <text>"coordenacaoSemear"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_11ybhxp">
+        <inputEntry id="UnaryTests_1bl6190">
+          <text>"79"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18f1jxo">
+          <text>"equipeItau"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0459w85">
+          <text>"coordenacaoItau"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0352kff">
+        <inputEntry id="UnaryTests_170a42q">
+          <text>"80"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1u70hdx">
+          <text>"equipeClaro"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1q7ynfg">
+          <text>"coordenacaoClaro"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_10ga7bw">
+        <inputEntry id="UnaryTests_1nc999n">
+          <text>"51"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04e7dr6">
+          <text>"equipeInter"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1haqagh">
+          <text>"coordenacaoInter"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1f2ps0t">
+        <inputEntry id="UnaryTests_09rsz4k">
+          <text>"77"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1v18d2y">
+          <text>"equipeVivo"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1l7xvw4">
+          <text>"coordenacaoVivo"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_116k6hp">
+        <inputEntry id="UnaryTests_03jndez">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_06bef4i">
+          <text>"naoIdentificado"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_026akkc">
+          <text>"naoIdentificado"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="DMN_grupo_trabalho_proc">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

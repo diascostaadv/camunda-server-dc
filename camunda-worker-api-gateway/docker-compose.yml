@@ -64,36 +64,38 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
+    env_file:
+      - .env.production
     environment:
       # Application Configuration
       - PORT=${GATEWAY_PORT:-8000}
       - DEBUG=${DEBUG:-false}
       - ENVIRONMENT=${ENVIRONMENT:-local}
-      
+
       # External Services Mode
-      - EXTERNAL_SERVICES_MODE=${EXTERNAL_SERVICES_MODE:-false}
-      
-      # Database/Services URIs (URI-based configuration) 
-      - MONGODB_URI=${MONGODB_URI}
+      - EXTERNAL_SERVICES_MODE=true
+
+      # Database/Services URIs (URI-based configuration)
+      - MONGODB_URI=mongodb+srv://camunda:Rqt0wVmEZhcME7HC@camundadc.os1avun.mongodb.net/
       - MONGODB_DATABASE=${MONGODB_DATABASE:-worker_gateway}
       - RABBITMQ_URL=${RABBITMQ_URL}
       - RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE:-worker_gateway}
       - REDIS_URI=redis://redis:6379
-      
+
       # Task Configuration
       - TASK_TIMEOUT=${TASK_TIMEOUT:-300}
       - TASK_RETRY_LIMIT=${TASK_RETRY_LIMIT:-3}
       - TASK_RETRY_DELAY=${TASK_RETRY_DELAY:-60}
-      
+
       # Connection timeouts (for Azure services)
       - MONGODB_CONNECT_TIMEOUT=${MONGODB_CONNECT_TIMEOUT:-30000}
       - MONGODB_SERVER_SELECTION_TIMEOUT=${MONGODB_SERVER_SELECTION_TIMEOUT:-30000}
       - REDIS_CONNECT_TIMEOUT=${REDIS_CONNECT_TIMEOUT:-10000}
       - RABBITMQ_CONNECTION_TIMEOUT=${RABBITMQ_CONNECTION_TIMEOUT:-30000}
-      
+
       # Logging
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
-      
+
       # Metrics
       - METRICS_ENABLED=${METRICS_ENABLED:-true}
       - METRICS_PORT=${METRICS_PORT:-9000}
@@ -105,7 +107,13 @@ services:
     networks: [backend]
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import requests; requests.get('http://localhost:8000/health')",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3

@@ -467,17 +467,18 @@ class PublicacaoUnifiedWorker(BaseWorker):
                     endpoint="/publicacoes/processar-task-publicacao",
                     timeout=90,
                 )
-            else:
-                # Modo direto - apenas simula
-                result = {
-                    "status": "success",
-                    "publicacao_id": publicacao_id,
-                    "status_publicacao": "nova_publicacao_inedita",
-                    "score_similaridade": 0.0,
-                    "modo": "direto",
-                    "message": "Tratamento simulado em modo direto",
-                }
-                return self.complete_task(task, result)
+            # else:
+            #     # Modo direto - apenas simula
+            #     result = {
+            #         "status": "success",
+            #         # "numero_processo": variables.get("numero_processo"),
+            #         "publicacao_id": publicacao_id,
+            #         "status_publicacao": "nova_publicacao_inedita",
+            #         "score_similaridade": 0.0,
+            #         "modo": "direto",
+            #         "message": "Tratamento simulado em modo direto",
+            #     }
+            #     return self.complete_task(task, result)
 
         except Exception as e:
             error_msg = f"Erro ao tratar publicação: {str(e)}"
@@ -598,9 +599,10 @@ class PublicacaoUnifiedWorker(BaseWorker):
 def main():
     """Função principal para executar o worker unificado"""
     try:
-        # Configurar logging
+        # Configurar logging dinâmico
+        log_level = getattr(logging, WorkerConfig.LOG_LEVEL.upper(), logging.WARNING)
         logging.basicConfig(
-            level=logging.INFO,
+            level=log_level,
             format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
             handlers=[logging.StreamHandler()],
         )

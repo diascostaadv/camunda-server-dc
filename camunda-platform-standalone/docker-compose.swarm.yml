@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.3"
 
 services:
   # PostgreSQL (only when EXTERNAL_DATABASE_MODE=false)
@@ -30,7 +30,7 @@ services:
     image: camunda/camunda-bpm-platform:run-7.23.0
     environment:
       DB_DRIVER: org.postgresql.Driver
-      DB_URL: ${DATABASE_URL}
+      DB_URL: jdbc:postgresql://camunda-platform-v2_db:5432/camunda
       DB_USERNAME: ${POSTGRES_USER:-camunda}
       DB_PASSWORD: ${POSTGRES_PASSWORD:-camunda}
       # Skip WAIT_FOR in Swarm mode with external database
@@ -73,7 +73,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-      start_period: 60s
 
   prometheus:
     image: prom/prometheus:latest

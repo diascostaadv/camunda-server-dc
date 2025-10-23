@@ -1,0 +1,386 @@
+{
+  "components": [
+    {
+      "label": "",
+      "components": [
+        {
+          "text": "# Análise da Providência",
+          "type": "text",
+          "layout": {
+            "row": "Row_0ke8bxh",
+            "columns": null
+          },
+          "id": "Field_055vi2o"
+        },
+        {
+          "text": "Na análise do agendamento, o responsável deve verificar se a publicação realmente gera prazo e se o tipo de agendamento está correto, conferindo também se o destinatário da intimação é o cliente correto e se a atribuição da tarefa foi feita para a equipe adequada. Se tudo estiver certo, deve-se selecionar a opção **Iniciar fluxo de cumprimento do prazo**, permitindo que o prazo seja efetivamente controlado e cumprido. \n\nCaso o tipo de agendamento esteja errado e não seja possível aproveitá-lo sem alterações substanciais, a opção correta será **Declinar por erro de classificação**, com a devida justificativa do tipo correto e da necessidade de novo agendamento. Se o erro estiver na atribuição da tarefa para equipe ou cliente errado a decisão deverá ser **Declinar por erro de atribuição**, indicando a equipe correta. Quando a publicação tiver sido destinada à parte contrária, sem qualquer providência para o cliente, a opção a ser escolhida será **Prazo destinado à parte contrária**, encerrando o agendamento com a justificativa pertinente. \n\nPor fim, quando a publicação não gerar nenhuma providência, tratar-se de mero expediente ou não houver peça a elaborar, a escolha deve ser **Nada a se fazer**, registrando objetivamente o motivo. \n\nEm todos os casos, **é obrigatório descrever de forma clara e objetiva a justificativa** e, quando aplicável, indicar as correções necessárias para o devido prosseguimento.",
+          "type": "text",
+          "layout": {
+            "row": "Row_19ffqb2",
+            "columns": null
+          },
+          "id": "Field_1g6xjdf"
+        },
+        {
+          "label": "Selecione uma providência",
+          "values": [
+            {
+              "label": "Declinar por erro de classificação",
+              "value": "erro_classificacao"
+            },
+            {
+              "label": "Declinar por erro de atribuição",
+              "value": "erro_atribuicao"
+            },
+            {
+              "label": "Nada a se fazer",
+              "value": "sem_providencia"
+            },
+            {
+              "label": "Iniciar fluxo de cumprimento",
+              "value": "iniciar_fluxo"
+            },
+            {
+              "label": "Publicação para outra parte",
+              "value": "publicacao_exadversa"
+            }
+          ],
+          "type": "select",
+          "layout": {
+            "row": "Row_1v2u57v",
+            "columns": null
+          },
+          "id": "Field_07vhvsj",
+          "key": "tipo_providencia",
+          "defaultValue": "iniciar_fluxo",
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "label": "Justificativa",
+          "type": "textarea",
+          "layout": {
+            "row": "Row_0etxtsb",
+            "columns": null
+          },
+          "id": "Field_1aqf7tm",
+          "key": "justificativa_providencia",
+          "validate": {
+            "required": true
+          }
+        }
+      ],
+      "showOutline": true,
+      "type": "group",
+      "layout": {
+        "row": "Row_0tsuggz",
+        "columns": null
+      },
+      "id": "Field_0p8y77e",
+      "conditional": {
+        "hide": "=exibir_providencia =\"Não\""
+      }
+    },
+    {
+      "label": "",
+      "components": [
+        {
+          "label": "",
+          "components": [
+            {
+              "text": "### Tarefa: {{nome_atividade}}",
+              "type": "text",
+              "layout": {
+                "row": "Row_1fi2t0d",
+                "columns": null
+              },
+              "id": "Field_0e55i5o"
+            },
+            {
+              "text": "=texto_atividade",
+              "type": "text",
+              "layout": {
+                "row": "Row_1sik36n",
+                "columns": null
+              },
+              "id": "Field_17ym6go"
+            }
+          ],
+          "showOutline": true,
+          "type": "group",
+          "layout": {
+            "row": "Row_12tvmbx",
+            "columns": null
+          },
+          "id": "Field_0pgdn3s",
+          "conditional": {
+            "hide": "=exibir_descricao_tarefa = \"Não\""
+          }
+        },
+        {
+          "label": "",
+          "components": [
+            {
+              "text": "### Dados da publicação",
+              "type": "text",
+              "layout": {
+                "row": "Row_1awf8di",
+                "columns": null
+              },
+              "id": "Field_1dfwshs"
+            },
+            {
+              "label": "Data Disponibilização",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_0x4sctp",
+                "columns": 5
+              },
+              "id": "Field_0lm48gs",
+              "key": "data_disponibilizacao",
+              "readonly": true
+            },
+            {
+              "label": "Número do Processo",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_0x4sctp",
+                "columns": 11
+              },
+              "id": "Field_1cepk1s",
+              "key": "numero_processo",
+              "disabled": false,
+              "defaultValue": "=parte_re_ou_recorridax",
+              "readonly": true
+            },
+            {
+              "label": "Nome da parte autora/recorrente",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_0aijvrx",
+                "columns": 8
+              },
+              "id": "Field_1xcveyn",
+              "key": "parte_autora_ou_recorrente",
+              "defaultValue": "=parte_autora_ou_recorrente",
+              "readonly": true
+            },
+            {
+              "label": "Nome da parte ré/recorrida",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_0aijvrx",
+                "columns": 8
+              },
+              "id": "Field_03ay3cq",
+              "key": "parte_re_ou_recorrida",
+              "defaultValue": "=parte_re_ou_recorrida",
+              "readonly": true
+            },
+            {
+              "label": "Diário Oficial",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_08rbfag",
+                "columns": 6
+              },
+              "id": "Field_1lteqzh",
+              "key": "diario_nome",
+              "defaultValue": "=diario_nome",
+              "readonly": true
+            },
+            {
+              "label": "UF",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_08rbfag",
+                "columns": 3
+              },
+              "id": "Field_1874z76",
+              "key": "uf_tramitacao",
+              "defaultValue": "=uf_tramitacao",
+              "readonly": true
+            },
+            {
+              "label": "Órgão de Tramitação",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_08rbfag",
+                "columns": 7
+              },
+              "id": "Field_0e4a5ae",
+              "key": "orgao_tramitacao",
+              "defaultValue": "=orgao_tramitacao",
+              "readonly": true
+            },
+            {
+              "label": "Provável Instância",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_0loxjt3",
+                "columns": 6
+              },
+              "id": "Field_0prypzw",
+              "key": "instancia_tramitacao",
+              "defaultValue": "=instancia_tramitacao",
+              "readonly": true
+            },
+            {
+              "label": "Destinatário publicação",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_0loxjt3",
+                "columns": null
+              },
+              "id": "Field_1p3rurf",
+              "key": "destinatario_publicacao",
+              "defaultValue": "=destinatario_publicacao",
+              "readonly": true
+            },
+            {
+              "label": "Inteiro Teor",
+              "type": "textarea",
+              "layout": {
+                "row": "Row_1oldkhf",
+                "columns": null
+              },
+              "id": "Field_0bizb27",
+              "key": "texto_limpo",
+              "defaultValue": "=texto_limpo",
+              "readonly": true
+            }
+          ],
+          "showOutline": true,
+          "type": "group",
+          "layout": {
+            "row": "Row_0r697tq",
+            "columns": null
+          },
+          "id": "Field_0mw86e0"
+        },
+        {
+          "label": "",
+          "components": [
+            {
+              "text": "### Classificação por IA",
+              "type": "text",
+              "layout": {
+                "row": "Row_18i2uss",
+                "columns": null
+              },
+              "id": "Field_1mrvrdr"
+            },
+            {
+              "label": "Classificação",
+              "type": "textarea",
+              "layout": {
+                "row": "Row_12g0adu",
+                "columns": 16
+              },
+              "id": "Field_0ewxv4j",
+              "key": "classificacao",
+              "readonly": true,
+              "defaultValue": "=classificacao"
+            },
+            {
+              "label": "Justificativa da IA",
+              "type": "textarea",
+              "layout": {
+                "row": "Row_1blg114",
+                "columns": 16
+              },
+              "id": "Field_0gldfyy",
+              "key": "justificativa_classificacao",
+              "defaultValue": "=justificativa_classificacao",
+              "readonly": true
+            },
+            {
+              "label": "Trecho utilizado para classificação",
+              "type": "textarea",
+              "layout": {
+                "row": "Row_0ytb6zb",
+                "columns": null
+              },
+              "id": "Field_1q4wxcb",
+              "key": "trecho_literal_utilizado",
+              "defaultValue": "=trecho_literal_utilizado",
+              "readonly": true
+            },
+            {
+              "label": "Fato crítico?",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_0utkjhf",
+                "columns": null
+              },
+              "id": "Field_1ww88bb",
+              "key": "mencao_fato_critico",
+              "defaultValue": "=mencao_fato_critico",
+              "readonly": true
+            },
+            {
+              "label": "Grau de confiança",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_1xfx4nz",
+                "columns": 3
+              },
+              "id": "Field_1p73e4e",
+              "key": "nivel_confianca",
+              "defaultValue": "=nivel_confianca",
+              "readonly": true
+            },
+            {
+              "label": "Equipe candidata",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_1xfx4nz",
+                "columns": 7
+              },
+              "id": "Field_10pvbo8",
+              "key": "grupo_responsavel",
+              "defaultValue": "=grupo_responsavel",
+              "readonly": true
+            },
+            {
+              "label": "Hash da Publicacao",
+              "type": "textfield",
+              "layout": {
+                "row": "Row_1xfx4nz",
+                "columns": 6
+              },
+              "id": "Field_0u8u8pn",
+              "key": "publicacao_prata_id",
+              "defaultValue": "=publicacao_prata_id",
+              "readonly": true
+            }
+          ],
+          "showOutline": true,
+          "type": "group",
+          "layout": {
+            "row": "Row_0b34b7d",
+            "columns": null
+          },
+          "id": "Field_0gkfyh4"
+        }
+      ],
+      "showOutline": true,
+      "type": "group",
+      "layout": {
+        "row": "Row_0nz92cp",
+        "columns": null
+      },
+      "id": "Field_081py3x"
+    }
+  ],
+  "type": "default",
+  "id": "Form_analisar_providencia",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.33.1"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.22.0",
+  "schemaVersion": 18
+}

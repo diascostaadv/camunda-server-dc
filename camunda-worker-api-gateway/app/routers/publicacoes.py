@@ -483,6 +483,7 @@ async def processar_task_tratar_publicacao(
             "classificacao": pub_prata.classificacao,
             "publicacoes_similares": pub_prata.publicacoes_similares,
             "message": f"Publicação processada com status: {pub_prata.status}",
+            "numero_processo": pub_prata.numero_processo,
         }
 
     except Exception as e:

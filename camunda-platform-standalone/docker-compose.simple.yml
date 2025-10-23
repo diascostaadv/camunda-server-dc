@@ -1,7 +1,7 @@
 version: "3.3"
 
 services:
-  # PostgreSQL (only when EXTERNAL_DATABASE_MODE=false)
+  # PostgreSQL Database
   db:
     image: postgres:16.3
     environment:
@@ -14,12 +14,8 @@ services:
       - db_data:/var/lib/postgresql/data
     networks: [backend]
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-camunda}"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
+  # Camunda Platform
   camunda:
     image: camunda/camunda-bpm-platform:run-7.23.0
     environment:
@@ -27,11 +23,9 @@ services:
       DB_URL: ${DATABASE_URL}
       DB_USERNAME: ${POSTGRES_USER:-camunda}
       DB_PASSWORD: ${POSTGRES_PASSWORD:-camunda}
-      # Only wait for local DB when using local mode
       WAIT_FOR: ${EXTERNAL_DATABASE_MODE:-false}
       TZ: ${TZ:-America/Sao_Paulo}
       JAVA_OPTS: -javaagent:/camunda/javaagent/jmx_prometheus_javaagent.jar=${CAMUNDA_JMX_PORT:-9404}:/camunda/config/prometheus-jmx.yml ${JAVA_OPTS_EXTRA:-}
-      # Database connection pool settings
       DB_CONNECTION_TIMEOUT: ${DB_CONNECTION_TIMEOUT:-30000}
       DB_IDLE_TIMEOUT: ${DB_IDLE_TIMEOUT:-600000}
       DB_MAX_LIFETIME: ${DB_MAX_LIFETIME:-1800000}
@@ -43,9 +37,9 @@ services:
       - ./config/prometheus-jmx.yml:/camunda/config/prometheus-jmx.yml
       - ./resources:/camunda/webapps/engine-rest/WEB-INF/classes/
       - ./bpmn:/camunda/webapps/engine-rest/WEB-INF/classes/bpmn/
-    # Conditional dependency: only depend on db when using local database
-    depends_on: []
-    networks: [backend, traefik]
+    depends_on:
+      - db
+    networks: [backend]
     restart: unless-stopped
     healthcheck:
       test:
@@ -58,14 +52,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.camunda.rule=Host(`camunda.nutec.com.br`)"
-      - "traefik.http.routers.camunda.entrypoints=websecure"
-      - "traefik.http.routers.camunda.tls.certresolver=letsencrypt"
-      - "traefik.http.services.camunda.loadbalancer.server.port=8080"
-      - "traefik.docker.network=traefik"
 
+  # Prometheus Monitoring
   prometheus:
     image: prom/prometheus:latest
     ports:
@@ -82,6 +70,7 @@ services:
     networks: [backend]
     restart: unless-stopped
 
+  # Grafana Dashboard
   grafana:
     image: grafana/grafana:latest
     ports:
@@ -97,28 +86,6 @@ services:
     networks: [backend]
     restart: unless-stopped
 
-  # Serviço para deploy automático de BPMN files
-  bpmn-deployer:
-    image: curlimages/curl:latest
-    environment:
-      - CAMUNDA_BASE_URL=http://camunda:8080
-      - CAMUNDA_USERNAME=${CAMUNDA_USERNAME:-admin}
-      - CAMUNDA_PASSWORD=${CAMUNDA_PASSWORD:-admin}
-      - BPMN_DIR=/bpmn
-    volumes:
-      - ./bpmn:/bpmn:ro
-      - ./scripts:/scripts:ro
-    depends_on:
-      - camunda
-    networks: [backend]
-    command: >
-      sh -c "
-        echo '🚀 Starting BPMN auto-deployment...' &&
-        /scripts/init-bpmn-deploy.sh &&
-        echo '✅ BPMN deployment completed - container will exit'
-      "
-    restart: "no"
-
 volumes:
   db_data:
   prometheus_data:
@@ -126,6 +93,4 @@ volumes:
 
 networks:
   backend:
-    driver: ${NETWORK_DRIVER:-bridge}
-  traefik:
-    external: true
+    driver: bridge

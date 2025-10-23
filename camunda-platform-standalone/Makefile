@@ -147,6 +147,20 @@ psql:
 	@echo "🗄️ Connecting to PostgreSQL..."
 	$(SSH) "cd $(REMOTE_DIR) && docker exec -it \$$(docker ps --filter 'name=$(STACK)_db' --format '{{.ID}}' | head -1) psql -U camunda -d camunda"
 
+.PHONY: deploy-bpmn
+deploy-bpmn:
+	@echo "🚀 Deploying BPMN files to Camunda..."
+	@if [ -f "scripts/deploy_bpmns.py" ]; then \
+		python3 scripts/deploy_bpmns.py; \
+	else \
+		echo "❌ deploy_bpmns.py script not found"; \
+	fi
+
+.PHONY: deploy-bpmn-remote
+deploy-bpmn-remote:
+	@echo "🚀 Deploying BPMN files to remote Camunda..."
+	$(SSH) "cd $(REMOTE_DIR) && python3 scripts/deploy_bpmns.py"
+
 # ---------------- UTILITÁRIOS DE SISTEMA ------------------------------------
 
 .PHONY: install-docker
@@ -252,6 +266,8 @@ help:
 	@echo "  make backup-db     - Backup remote database"
 	@echo "  make psql          - Connect to remote PostgreSQL"
 	@echo "  make scale N=3     - Scale Camunda replicas (Swarm mode only)"
+	@echo "  make deploy-bpmn   - Deploy BPMN files to local Camunda"
+	@echo "  make deploy-bpmn-remote - Deploy BPMN files to remote Camunda"
 	@echo ""
 	@echo "EXAMPLES:"
 	@echo "  make deploy ENVIRONMENT=production  - Deploy to production"

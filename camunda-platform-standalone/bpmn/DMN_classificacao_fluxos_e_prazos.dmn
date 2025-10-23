@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_060saq2" name="DRD_prazo" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.40.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <decision id="dmn_prazos" name="Prazos e responsabilidades" camunda:historyTimeToLive="30">
+    <decisionTable id="DecisionTable_165zbeh">
+      <input id="InputClause_1afhuym" label="classificacao" biodi:width="1222" camunda:inputVariable="classificacao">
+        <inputExpression id="LiteralExpression_08w8jby" typeRef="string">
+          <text>classificacao</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_09quet1" label="prazo" name="prazo" typeRef="string" />
+      <output id="OutputClause_0mz04fg" label="fluxo" name="fluxo" typeRef="string" biodi:width="256" />
+      <output id="OutputClause_00btjdd" name="texto_atividade" typeRef="string" biodi:width="971" />
+      <output id="OutputClause_12zwmwg" name="nome_atividade" typeRef="string" />
+      <rule id="DecisionRule_15pl6o7">
+        <inputEntry id="UnaryTests_08yqgo2">
+          <text>"===============DESPACHOS DE MERO EXPEDIENTE==================="</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1at4rd2">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1yy5exg">
+          <text>"nada"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0z09w5k">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0jxixks">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1yphcdn">
+        <inputEntry id="UnaryTests_1awdlqj">
+          <text>"intimação/despacho de mero expediente"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0upt9w4">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_16sm86h">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1qndsgd">
+          <text>"Ao receber a intimação classificada como despacho de mero expediente, o advogado deverá acessar o processo indicado e verificar o teor da publicação para confirmar que se trata, de fato, de um ato ordinatório sem conteúdo decisório e que não exige manifestação ou prazo processual. Caso a análise confirme que não há providências a serem tomadas, o advogado deverá registrar no sistema interno a conclusão “sem providências” ou conforme o protocolo padrão do escritório, finalizando a tarefa para que o fluxo siga corretamente. Se, no entanto, for identificada qualquer determinação que demande manifestação ou prazo, o advogado deverá sinalizar imediatamente na própria tarefa para reclassificação, anexando print ou trecho do despacho que justifique a divergência. A análise e a conclusão devem ser realizadas no mesmo dia útil em que a tarefa for recebida, a fim de evitar atrasos no fluxo processual."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19lid2t">
+          <text>"Verificar despacho de mero expediente"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05bd0ea">
+        <inputEntry id="UnaryTests_11701xn">
+          <text>"intimação/despacho para indicação de testemunhas"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0khm80j">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0io4y6a">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_11qju57">
+          <text>"Ao receber a intimação classificada como despacho para indicação de testemunhas, o advogado deverá acessar o processo indicado e verificar o teor da publicação para confirmar se foi aberto prazo para apresentar o rol de testemunhas. Caso o prazo esteja efetivamente em curso, o advogado deverá providenciar a coleta das informações necessárias, validar com o cliente ou setor responsável quais testemunhas serão arroladas e garantir que a manifestação seja elaborada e protocolada dentro do prazo processual. Se houver dúvidas quanto à estratégia ou necessidade de confirmação adicional com o cliente, estas devem ser imediatamente sinalizadas para evitar perda de prazo. A análise e as providências iniciais devem ser realizadas no mesmo dia útil em que a tarefa for recebida, para que haja tempo hábil para elaboração da manifestação e protocolo tempestivo."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1utfuam">
+          <text>"Elaborar petição de indicação de testemunhas"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1li0fdw">
+        <inputEntry id="UnaryTests_1vl9rvc">
+          <text>"intimação/despacho para especificação de provas"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1sf71ns">
+          <text>"5"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vzpq6z">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vb51ou">
+          <text>"Ao receber a intimação classificada como despacho para especificação de provas, o advogado deverá acessar o processo indicado e verificar o teor da publicação para confirmar a abertura de prazo destinado a informar quais provas serão produzidas na demanda. Confirmada a intimação, o advogado deverá avaliar o estágio do processo e definir, junto ao cliente ou à equipe responsável, quais provas são pertinentes ao caso, como testemunhal, documental, pericial ou outras, organizando desde logo os elementos necessários para eventual manifestação. Caso exista alguma dúvida quanto à estratégia probatória ou necessidade de consulta ao cliente, essa comunicação deve ser feita imediatamente, de modo a garantir tempo hábil para a tomada de decisão e elaboração da peça. Toda a análise inicial e a definição da estratégia devem ocorrer no mesmo dia útil em que a tarefa for recebida, para assegurar o cumprimento do prazo processual sem atrasos."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1cfkfrl">
+          <text>"Elaborar petição de especificação de provas"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0lzaz7u">
+        <inputEntry id="UnaryTests_1xgvdyu">
+          <text>"intimação/despacho para apresentação de quesitos periciais"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vzy3hq">
+          <text>"5"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ut5fd7">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1q9ugwb">
+          <text>"Ao receber a intimação classificada como despacho para apresentação de quesitos periciais, o advogado deverá acessar o processo indicado e verificar o teor da publicação para confirmar a abertura de prazo destinado ao envio dos quesitos que deverão ser respondidos pelo perito judicial. Confirmada a intimação, o advogado deverá identificar o objeto da perícia e, caso necessário, alinhar com o cliente ou com o setor técnico especializado os pontos que precisam ser esclarecidos, garantindo que os quesitos sejam elaborados de forma clara, completa e estratégica. Se houver dúvidas quanto ao escopo da perícia ou necessidade de informações adicionais, estas devem ser solicitadas de imediato para evitar perda de prazo. Toda a análise inicial e a definição dos quesitos devem ocorrer no mesmo dia útil em que a tarefa for recebida, a fim de assegurar a elaboração e o protocolo tempestivo da manifestação."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1yoappc">
+          <text>"Elaborar quesitos periciais"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1slbww7">
+        <inputEntry id="UnaryTests_05sv0u7">
+          <text>"intimação/despacho dando vista sobre documentos, manifestações, cálculos, esclarecimentos periciais, ou petição juntada aos autos"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_04aeczl">
+          <text>"5"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06isdmg">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xvesjf">
+          <text>"Ao receber a intimação classificada como despacho dando vista sobre documentos, manifestações, cálculos, esclarecimentos periciais ou petição juntada aos autos, o advogado deverá acessar o processo indicado e verificar o teor da publicação para identificar o documento ou manifestação juntada e avaliar se há necessidade de resposta ou impugnação. Confirmada a abertura de vista, o advogado deverá analisar o conteúdo com atenção, verificando eventuais impactos para a defesa e, se necessário, alinhar com o cliente ou com a equipe técnica as medidas a serem tomadas, tais como manifestação sobre os cálculos, impugnação de documentos ou pedido de esclarecimentos adicionais. Caso a análise não identifique necessidade de providências, deve ser registrado no sistema interno o encerramento da tarefa como “sem manifestação”, seguindo o protocolo padrão. A avaliação inicial deve ser feita no mesmo dia útil em que a tarefa for recebida, garantindo tempo hábil para eventual elaboração de manifestação dentro do prazo processual."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1mw4bs4">
+          <text>"Elaborar manifestação"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ttijor">
+        <inputEntry id="UnaryTests_14j8cwu">
+          <text>"intimação/despacho sobre retorno de mandado judicial"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1duk8ut">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_002hm9p">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1vxqtgd">
+          <text>"Ao receber a intimação classificada como despacho sobre retorno de mandado judicial, o advogado deverá acessar o processo indicado e verificar o teor do mandado que retornou aos autos, analisando se ele foi cumprido integralmente, parcialmente ou se restou frustrado. Confirmadas essas informações, o advogado deverá avaliar se há necessidade de manifestação sobre o cumprimento, eventual pedido de renovação do mandado, complementação de informações ou adoção de providências adicionais. Se houver necessidade de alinhamento com o cliente ou com a equipe interna para definição da estratégia, isso deve ser feito imediatamente, a fim de evitar atrasos na condução do processo. A análise e a tomada de decisão devem ocorrer no mesmo dia útil em que a tarefa for recebida, garantindo a adoção tempestiva das medidas cabíveis."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1w3335o">
+          <text>"Manifestar sobre mandado juntado aos autos"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0958sy7">
+        <inputEntry id="UnaryTests_0oy1qzu">
+          <text>"intimação/despacho sobre o retorno dos autos à instância originária"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0snt3no">
+          <text>"10"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rpp26j">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0wttuhi">
+          <text>"Ao receber a intimação classificada como despacho sobre o retorno dos autos à instância originária, o advogado deverá acessar o processo indicado e confirmar a efetiva remessa dos autos ao juízo de origem. A partir dessa verificação, deverá avaliar se há providências pendentes a serem adotadas após o retorno, como acompanhamento da redistribuição, verificação de prazos em curso ou manifestação necessária junto ao juízo de origem. Caso não haja qualquer providência imediata, deverá apenas registrar no sistema interno o retorno dos autos, assegurando que o fluxo processual seja atualizado e monitorado corretamente. A análise e o registro devem ser feitos no mesmo dia útil em que a tarefa for recebida, garantindo que não haja perda de prazo ou falha no acompanhamento do processo."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qlhm2e">
+          <text>"Verificar retorno dos autos para instância de origem"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0r6ojd1">
+        <inputEntry id="UnaryTests_14dj8ce">
+          <text>"intimação/despacho sobre a suspensão do processo"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1cqh77f">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0827t7i">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13zyjii">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ip9aj3">
+          <text>"Analisar motivo da suspensão e manifestar"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0u6jin0">
+        <inputEntry id="UnaryTests_19ps8rp">
+          <text>"================AGENDAMENTOS==================================="</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0np5dnc">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1sibghf">
+          <text>"nada"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1d2lced">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0d9hjox">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1i134n6">
+        <inputEntry id="UnaryTests_1ft7hos">
+          <text>"intimação/despacho dando ciência sobre data de audiência futura"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_17z8f83">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0yoqo9y">
+          <text>"audiencia"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1jxpw4g">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_00to91x">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ubx48q">
+        <inputEntry id="UnaryTests_0u9p3wu">
+          <text>"intimação/despacho dando ciência sobre sessão de julgamento futura"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0tne8rc">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0kh0zxm">
+          <text>"sessao_julgamento"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0oy6a4e">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_07b0a0s">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0jhzubz">
+        <inputEntry id="UnaryTests_0dfjkfj">
+          <text>"intimação/despacho dando ciência de data para realização de perícia" </text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tbnrm9">
+          <text>"5"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1bg7vxw">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hzhw1o">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0tji7w1">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ur38kd">
+        <inputEntry id="UnaryTests_0duz1kc">
+          <text>"==================MANIFESTAÇÕES==================================="</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qsq7ll">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1an6lkl">
+          <text>"nada"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ik3j9q">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1825enr">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0qedpgw">
+        <inputEntry id="UnaryTests_06gwvke">
+          <text>"intimação/despacho para manifestar sobre contestação apresentada nos autos"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1r747cj">
+          <text>"5"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ci41x7">
+          <text>"impugnacao_contestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0pspemb">
+          <text>"Ao receber a intimação classificada como despacho para manifestar sobre a contestação apresentada nos autos, o advogado deverá acessar o processo indicado e analisar integralmente a defesa apresentada pela parte contrária, identificando seus principais argumentos, eventuais documentos anexados e pontos de maior relevância para a estratégia do caso. Confirmada a abertura do prazo para réplica, o advogado deverá avaliar a necessidade de impugnação de documentos, produção de novas provas ou reforço de fundamentos já expostos na petição inicial. Havendo necessidade de alinhamento com o cliente ou de coleta de informações adicionais, esse contato deve ser feito imediatamente, garantindo tempo hábil para a elaboração da manifestação. A análise e a definição das providências devem ocorrer no mesmo dia útil em que a tarefa for recebida, para assegurar a entrega tempestiva da peça de réplica dentro do prazo processual."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0dafwpg">
+          <text>"Impugnar contestação apresentada nos autos"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0cbyi4s">
+        <inputEntry id="UnaryTests_0lhnov4">
+          <text>"intimação/despacho para contrarrazoar/manifestar/responder embargos declaratórios opostos"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0v4m00f">
+          <text>"5"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_058ipx6">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1xkftra">
+          <text>"Ao receber a intimação classificada como despacho para contrarrazoar, manifestar ou responder aos embargos de declaração opostos, o advogado deverá acessar o processo indicado e analisar integralmente os fundamentos apresentados pela parte embargante, identificando eventuais omissões, contradições ou obscuridades apontadas na decisão embargada. Confirmada a abertura do prazo para manifestação, o advogado deverá avaliar, junto à equipe responsável ou ao cliente, a pertinência de impugnar os argumentos apresentados, buscando preservar o resultado favorável já obtido ou, quando necessário, apresentar esclarecimentos técnicos ao juízo. Se houver necessidade de alinhamento com o cliente ou de consulta adicional sobre aspectos fáticos ou jurídicos, isso deve ser feito de imediato, de modo a garantir tempo hábil para a elaboração da resposta. A análise e a definição da estratégia devem ocorrer no mesmo dia útil em que a tarefa for recebida, assegurando o protocolo tempestivo da manifestação dentro do prazo legal."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1w5zpzc">
+          <text>"Manifestar sobre embargos declaratórios"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_17xhon1">
+        <inputEntry id="UnaryTests_12p15sb">
+          <text>"intimação/despacho sobre pedido de desistência do processo"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0zzflql">
+          <text>"5"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nbx80k">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_17monil">
+          <text>"Ao receber a intimação classificada como despacho sobre pedido de desistência do processo, o advogado deverá acessar o processo indicado e verificar o teor da publicação para confirmar se houve manifestação da parte autora solicitando a desistência da demanda. Confirmada a informação, deverá avaliar se a homologação da desistência já ocorreu ou se ainda está pendente de análise pelo juízo, bem como verificar eventuais impactos, como extinção do processo, custas ou honorários. Se houver necessidade de manifestação da parte representada pelo escritório, o advogado deverá providenciar a comunicação imediata com o cliente e adotar as medidas necessárias dentro do prazo processual. A análise e a definição de providências devem ocorrer no mesmo dia útil em que a tarefa for recebida, a fim de assegurar resposta tempestiva e correta condução do processo."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vn2ku8">
+          <text>"Manifestar sobre pedido de desistência do processo"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kojfmf">
+        <inputEntry id="UnaryTests_13la75i">
+          <text>"intimação/despacho para apresentação de contrarrazões ao recurso interposto(apenas apelação, inominado, agravo, recurso especial ou extraordinário)"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1n0tykz">
+          <text>"10"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0cvlgxx">
+          <text>"contrarrazoes"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0z2jzfr">
+          <text>"Ao receber a intimação classificada como despacho para apresentação de contrarrazões ao recurso interposto, o advogado deverá acessar o processo indicado e confirmar o tipo de recurso apresentado — apelação, recurso inominado, agravo, recurso especial ou extraordinário — bem como a data da publicação, para cálculo do prazo processual. De posse dessa informação, deverá analisar o teor do recurso e definir, junto ao cliente ou equipe responsável, a estratégia de defesa e os argumentos a serem apresentados nas contrarrazões. Se houver necessidade de alinhamento sobre pontos específicos ou coleta de documentos complementares, essa comunicação deve ocorrer de imediato, para garantir tempo hábil para elaboração da peça. A análise inicial e a definição da estratégia devem ocorrer no mesmo dia útil em que a tarefa for recebida, de modo a assegurar a protocolização tempestiva das contrarrazões dentro do prazo legal aplicável ao recurso identificado."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0w76i0l">
+          <text>"Elaborar contrarrazões ao recurso interposto"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_069vuqp">
+        <inputEntry id="UnaryTests_1sckb1s">
+          <text>"=================DECISÕES DE MÉRITO ========================================="</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qg2ev6">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05y6j0x">
+          <text>"nada"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0cxlc4n">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ktour1">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0dawwx8">
+        <inputEntry id="UnaryTests_173m469">
+          <text>"intimação/despacho sobre sentença proferida"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_01xtyq8">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_18ny7k7">
+          <text>"sentenca"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0xt4q8i">
+          <text>"Ao receber a intimação classificada como despacho sobre sentença proferida, o advogado deverá acessar o processo indicado e analisar integralmente a decisão para identificar o resultado do julgamento, seus fundamentos e eventuais condenações impostas à parte representada pelo escritório. Confirmada a publicação da sentença, deverá avaliar se há necessidade de interposição de recurso, pedido de esclarecimentos, cumprimento de obrigações ou outras medidas processuais. Em caso de dúvida sobre a estratégia ou necessidade de alinhamento com o cliente, essa comunicação deve ser feita imediatamente, para não comprometer o prazo recursal ou qualquer providência subsequente. Toda a análise e eventual definição de medidas devem ocorrer no mesmo dia útil em que a tarefa for recebida, garantindo tempo hábil para tomada de decisão e adoção das providências cabíveis dentro do prazo legal."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dm9sw4">
+          <text>"Elaborar recurso de apelação/inominado ou embargos declaratórios"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_00eqyog">
+        <inputEntry id="UnaryTests_0jke3tr">
+          <text>"intimação/despacho sobre sentença que homologou acordo"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1wsbj9l">
+          <text>"10"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0m6fgcw">
+          <text>"sentenca"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_10mmrfp">
+          <text>"Ao receber a intimação classificada como despacho sobre sentença proferida, o advogado deverá acessar o processo indicado e analisar integralmente a decisão para identificar o resultado do julgamento, seus fundamentos e eventuais condenações impostas à parte representada pelo escritório. Confirmada a publicação da sentença, deverá avaliar se há necessidade de interposição de recurso, pedido de esclarecimentos, cumprimento de obrigações ou outras medidas processuais. Em caso de dúvida sobre a estratégia ou necessidade de alinhamento com o cliente, essa comunicação deve ser feita imediatamente, para não comprometer o prazo recursal ou qualquer providência subsequente. Toda a análise e eventual definição de medidas devem ocorrer no mesmo dia útil em que a tarefa for recebida, garantindo tempo hábil para tomada de decisão e adoção das providências cabíveis dentro do prazo legal."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kq4sgg">
+          <text>"Elaborar recurso de apelação/inominado ou embargos declaratórios"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hy6mci">
+        <inputEntry id="UnaryTests_0siw6ey">
+          <text>"intimação/despacho sobre acórdão proferido"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0dkuvcl">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0r9wiva">
+          <text>"acordao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1v9rgov">
+          <text>"Ao receber a intimação classificada como despacho sobre acórdão proferido, o advogado deverá acessar o processo indicado e analisar integralmente a decisão colegiada para identificar o resultado do julgamento, seus fundamentos e eventuais condenações impostas à parte representada pelo escritório. Confirmada a publicação do acórdão, deverá avaliar se há necessidade de interposição de recurso, pedido de esclarecimentos, cumprimento de obrigações ou outras medidas processuais cabíveis. Caso haja dúvidas sobre a estratégia recursal ou necessidade de alinhamento com o cliente, a comunicação deve ser feita imediatamente, a fim de garantir tempo hábil para deliberação e adoção das providências necessárias. Toda a análise e definição de medidas devem ocorrer no mesmo dia útil em que a tarefa for recebida, de modo a assegurar o cumprimento tempestivo dos prazos processuais."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1chjwcl">
+          <text>"Elaborar RESP/REXT, Agravo Interno ou embargos declaratórios"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1u0b1nu">
+        <inputEntry id="UnaryTests_05jnvu2">
+          <text>"intimação/despacho sobre decisão que acolheu ou rejeitou embargos declaratórios"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0spf43l">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1fnzilm">
+          <text>"sentenca"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1lkv88e">
+          <text>"Ao receber a intimação classificada como despacho sobre sentença proferida, o advogado deverá acessar o processo indicado e analisar integralmente a decisão para identificar o resultado do julgamento, seus fundamentos e eventuais condenações impostas à parte representada pelo escritório. Confirmada a publicação da sentença, deverá avaliar se há necessidade de interposição de recurso, pedido de esclarecimentos, cumprimento de obrigações ou outras medidas processuais. Em caso de dúvida sobre a estratégia ou necessidade de alinhamento com o cliente, essa comunicação deve ser feita imediatamente, para não comprometer o prazo recursal ou qualquer providência subsequente. Toda a análise e eventual definição de medidas devem ocorrer no mesmo dia útil em que a tarefa for recebida, garantindo tempo hábil para tomada de decisão e adoção das providências cabíveis dentro do prazo legal."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0iidtky">
+          <text>"Elaborar recurso de apelação/inominado ou embargos declaratórios"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_01psqts">
+        <inputEntry id="UnaryTests_1wfkwcu">
+          <text>"===================DECISÕES INTERLOCUTÓRIAS ============================"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ux2y6d">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_14779uf">
+          <text>"nada"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0b2w8a6">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1j5164w">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14h4l9f">
+        <inputEntry id="UnaryTests_1d3xrug">
+          <text>"intimação/despacho determinando a juntada de documentos aos autos"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0impdqx">
+          <text>"2"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1dpbpmk">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0202j6n">
+          <text>"Ao receber a intimação classificada como despacho determinando a juntada de documentos aos autos, o advogado deverá acessar o processo indicado e verificar o teor da publicação para identificar quais documentos foram solicitados pelo juízo. Confirmada a determinação, o advogado deverá providenciar imediatamente a coleta dos documentos junto ao cliente ou aos setores responsáveis, avaliando se há necessidade de autenticação, assinatura ou outros requisitos formais para a juntada. Caso haja dificuldade na obtenção dos documentos ou dúvida quanto à sua pertinência, isso deve ser comunicado de imediato para evitar atrasos. A análise e o início das providências devem ocorrer no mesmo dia útil em que a tarefa for recebida, garantindo tempo hábil para a juntada tempestiva dos documentos dentro do prazo processual."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0a4dxl9">
+          <text>"Elaborar petição de juntada de documentos"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0i6usx0">
+        <inputEntry id="UnaryTests_06nc1y0">
+          <text>"intimação/despacho sobre alguma tutela de urgência/liminar deferida ou indeferida"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bmxyne">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_11cod47">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0814pz1">
+          <text>"Ao receber a intimação classificada como despacho sobre tutela de urgência ou liminar, deferida ou indeferida, o advogado deverá acessar o processo indicado e verificar integralmente o teor da decisão, identificando o alcance da medida, sua fundamentação e eventuais obrigações impostas à parte representada pelo escritório. Caso a tutela tenha sido deferida, o advogado deverá avaliar imediatamente a necessidade de cumprimento das determinações, bem como a possibilidade de interposição de recurso, se aplicável. Se a tutela tiver sido indeferida, deverá analisar a viabilidade de medidas para reverter a decisão, como agravo ou pedido de reconsideração, conforme estratégia definida com o cliente. Qualquer dúvida ou necessidade de alinhamento deve ser comunicada de imediato, para garantir a adoção tempestiva das providências cabíveis dentro do prazo processual."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0l6qro4">
+          <text>"Manifestar sobre decisão que deferiu ou indeferiu liminar"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zwwi3t">
+        <inputEntry id="UnaryTests_18hciio">
+          <text>"intimação/despacho determinando citação e ou prazo para contestar ação"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0rfo9fs">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1kd93l9">
+          <text>"citacao_contestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1811nl8">
+          <text>"Ao receber a intimação classificada como despacho determinando citação e/ou prazo para contestar a ação, o advogado deverá acessar o processo indicado e verificar o teor da publicação para identificar a data de início e o prazo processual concedido para a apresentação da contestação. Confirmadas essas informações, deverá providenciar de imediato a análise da petição inicial, a coleta de documentos e informações junto ao cliente, e a definição da estratégia de defesa, garantindo que todos os pontos relevantes sejam tratados na contestação. Se houver necessidade de alinhamento com o cliente ou com outros setores internos, isso deve ser feito com urgência para não comprometer o prazo. A análise e a preparação das providências devem ser iniciadas no mesmo dia útil em que a tarefa for recebida, assegurando tempo hábil para a elaboração e o protocolo tempestivo da defesa."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1jmaxul">
+          <text>"Elaborar contestação"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0zjaiqs">
+        <inputEntry id="UnaryTests_1qtnbqg">
+          <text>"intimação/despacho que declara deserção, intempestividade, preclusão ou revelia"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1wsqa1r">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gxvzfb">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ldg150">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_15kj2hc">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ads3r0">
+        <inputEntry id="UnaryTests_13enizy">
+          <text>"================PAGAMENTOS ==========================================="</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1hqe33o">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0mtjho1">
+          <text>"nada"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05xhkfe">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06h9bfx">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09r54dg">
+        <inputEntry id="UnaryTests_0by56b0">
+          <text>"intimação/despacho determinando o pagamento de honorários do perito"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11m8y16">
+          <text>"5"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_064ne7h">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1y2gopk">
+          <text>"Ao receber a intimação classificada como despacho determinando o pagamento de honorários do perito, o advogado deverá acessar o processo indicado e verificar o teor da decisão para identificar o valor fixado, a forma de pagamento e o prazo concedido pelo juízo. Confirmadas essas informações, o advogado deverá comunicar imediatamente o cliente ou setor financeiro responsável, fornecendo todos os dados necessários para a quitação tempestiva dos honorários. Se houver dúvidas quanto ao valor, possibilidade de impugnação ou necessidade de parcelamento, essas questões devem ser alinhadas de imediato, para evitar descumprimento da determinação judicial. A análise e a comunicação com o cliente devem ocorrer no mesmo dia útil em que a tarefa for recebida, assegurando tempo hábil para o pagamento dentro do prazo processual."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ikces0">
+          <text>"Manifestar sobre honorários do perito"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1o377r5">
+        <inputEntry id="UnaryTests_001kxe4">
+          <text>"intimação/despacho determinando o pagamento de custas finais"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1mu8nul">
+          <text>"5"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03zb6ah">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0qv29uq">
+          <text>"Ao receber intimação classificada como pagamento de custas finais, o advogado deverá acessar imediatamente o processo indicado e confirmar: (i) o fundamento da cobrança (sentença/arquivamento/trânsito em julgado), (ii) o responsável pelo pagamento segundo a sucumbência e eventuais decisões supervenientes, (iii) o valor exato e eventuais complementações (inclusive atualização/juros/multa por atraso), (iv) o prazo e a forma de recolhimento (sistema e tipo de guia exigidos pelo tribunal, p.ex.: GARE/GRERJ/DARE/DUC/equivalente). Estando claras a responsabilidade e as condições, oriente o cliente/setor financeiro no mesmo dia útil com instruções completas (número do processo, código/espécie de custas, valor atualizado, guia/link de emissão, prazo-limite e comprovantes exigidos). Se houver justiça gratuita, isenção, rateio de custas, dúvida sobre a responsabilidade ou indício de cobrança indevida/excesso, alinhe internamente de imediato a estratégia (p.ex., petição de esclarecimentos/retificação/impugnação) para evitar descumprimento. Após o pagamento, junte o comprovante nos autos com petição breve, solicite a baixa/regularização que couber e monitore a pendência até a efetiva anotação de quitação no processo."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1350ngq">
+          <text>"Comprovar pagamento de custas finais"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0avzwet">
+        <inputEntry id="UnaryTests_0hrm3tr">
+          <text>"intimação/despacho determinando a complementação de custas recursais"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wl56qp">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0hjjcw7">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1eq8mnl">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02yrmw4">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tqsgrx">
+        <inputEntry id="UnaryTests_1w1moa6">
+          <text>"=================EXECUÇÃO OU CUMPRIMENTO DE SENTENÇA==================="</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0k1gh85">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_122ow2p">
+          <text>"nada"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0aaxkre">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0d8h722">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14btjb5">
+        <inputEntry id="UnaryTests_0h137zo">
+          <text>"intimação/despacho sobre o início de procedimento de cumprimento de sentença ou execução"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0gsysbq">
+          <text>"10"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0l3jjpt">
+          <text>"cumprimento"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1uqj8hd">
+          <text>"Ao receber a intimação classificada como despacho sobre tutela de urgência ou liminar, deferida ou indeferida, o advogado deverá acessar o processo indicado e verificar integralmente o teor da decisão, identificando o alcance da medida, sua fundamentação e eventuais obrigações impostas à parte representada pelo escritório. Caso a tutela tenha sido deferida, o advogado deverá avaliar imediatamente a necessidade de cumprimento das determinações, bem como a possibilidade de interposição de recurso, se aplicável. Se a tutela tiver sido indeferida, deverá analisar a viabilidade de medidas para reverter a decisão, como agravo ou pedido de reconsideração, conforme estratégia definida com o cliente. Qualquer dúvida ou necessidade de alinhamento deve ser comunicada de imediato, para garantir a adoção tempestiva das providências cabíveis dentro do prazo processual."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1v8hc8f">
+          <text>"Elaborar impugnação ao cumprimento de sentença ou comprovar pagamento"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_16riaoq">
+        <inputEntry id="UnaryTests_0n3hfs2">
+          <text>"intimação/despacho determinando o pagamento do valor da condenação"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11ed6tz">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rqbhw3">
+          <text>"cumprimento"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1repiix">
+          <text>"Ao receber a intimação classificada como despacho sobre tutela de urgência ou liminar, deferida ou indeferida, o advogado deverá acessar o processo indicado e verificar integralmente o teor da decisão, identificando o alcance da medida, sua fundamentação e eventuais obrigações impostas à parte representada pelo escritório. Caso a tutela tenha sido deferida, o advogado deverá avaliar imediatamente a necessidade de cumprimento das determinações, bem como a possibilidade de interposição de recurso, se aplicável. Se a tutela tiver sido indeferida, deverá analisar a viabilidade de medidas para reverter a decisão, como agravo ou pedido de reconsideração, conforme estratégia definida com o cliente. Qualquer dúvida ou necessidade de alinhamento deve ser comunicada de imediato, para garantir a adoção tempestiva das providências cabíveis dentro do prazo processual."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_01zhkal">
+          <text>"Elaborar impugnação ao cumprimento de sentença ou comprovar pagamento"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_16j6emk">
+        <inputEntry id="UnaryTests_1p92omm">
+          <text>"intimação/despacho determinando bloqueio on line ou penhora de ativos"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0yrodd8">
+          <text>"1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1k6ofui">
+          <text>"cumprimento"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1moy508">
+          <text>"Ao receber a intimação classificada como despacho sobre tutela de urgência ou liminar, deferida ou indeferida, o advogado deverá acessar o processo indicado e verificar integralmente o teor da decisão, identificando o alcance da medida, sua fundamentação e eventuais obrigações impostas à parte representada pelo escritório. Caso a tutela tenha sido deferida, o advogado deverá avaliar imediatamente a necessidade de cumprimento das determinações, bem como a possibilidade de interposição de recurso, se aplicável. Se a tutela tiver sido indeferida, deverá analisar a viabilidade de medidas para reverter a decisão, como agravo ou pedido de reconsideração, conforme estratégia definida com o cliente. Qualquer dúvida ou necessidade de alinhamento deve ser comunicada de imediato, para garantir a adoção tempestiva das providências cabíveis dentro do prazo processual."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_01cis4i">
+          <text>"Elaborar impugnação ao cumprimento de sentença ou comprovar pagamento"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0pzfzrm">
+        <inputEntry id="UnaryTests_17ijnvm">
+          <text>"=================SEM CONTEÚDO ESPECÍFICO ============================"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1xznkv5">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1jln0ax">
+          <text>"nada"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0xcppba">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_11sg1ws">
+          <text></text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_15uzvoi">
+        <inputEntry id="UnaryTests_0zrxm0k">
+          <text>"intimação/despacho dando ciência sobre publicação de índice sem conteúdo específico"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0nm13xa">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vcv5j5">
+          <text>"publicacao_indice"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03nh1k7">
+          <text>"Ao receber a intimação classificada como despacho dando ciência sobre publicação de índice sem conteúdo específico, o advogado deverá acessar o processo indicado e confirmar que a publicação não contém determinação, prazo ou providência a ser adotada pela parte representada pelo escritório. Após essa verificação, caso realmente não haja qualquer ato processual relevante, o advogado deverá apenas registrar no sistema interno a ciência do conteúdo, concluindo a tarefa conforme o protocolo padrão do escritório. Se, entretanto, for identificada alguma informação relevante ou divergente, deverá sinalizar de imediato para a equipe responsável, garantindo que nenhuma providência necessária deixe de ser adotada. A análise e o registro da ciência devem ser realizados no mesmo dia útil em que a tarefa for recebida, a fim de manter o fluxo processual atualizado e correto."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0d8346e">
+          <text>"Verificar publicação de índice"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14hpwxj">
+        <inputEntry id="UnaryTests_0d4q3qs">
+          <text>"O texto da intimação não contém decisão, sentença ou acórdão, apenas informa a disponibilização da intimação e que as partes devem tomar ciência do teor da intimação no sistema eletrônico, sem determinar prazo ou ato decisório."</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ptsx47">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1o5nigk">
+          <text>"publicacao_indice"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1esvstx">
+          <text>"Ao receber a intimação cujo texto não contém decisão, sentença ou acórdão, limitando-se a informar a disponibilização da intimação no sistema eletrônico para ciência das partes, sem indicar prazo, ato decisório ou providência a ser adotada, o advogado deverá apenas acessar o processo indicado, confirmar a ausência de determinação ou conteúdo relevante e registrar a ciência no sistema interno, concluindo a tarefa conforme o protocolo padrão do escritório. Caso, durante a conferência, seja identificado qualquer elemento que indique obrigação ou prazo não evidente, isso deverá ser imediatamente comunicado à equipe responsável para avaliação. A análise e o registro da ciência devem ser feitos no mesmo dia útil em que a tarefa for recebida, assegurando a atualização tempestiva do fluxo processual."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gz0ats">
+          <text>"Verificar teor da decisão no sistema do tribunal"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_03uzrts">
+        <inputEntry id="UnaryTests_0i5uviq">
+          <text>"duvidoso"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0h9bjb3">
+          <text>"0"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1o3qrvg">
+          <text>"manifestacao"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06wiq2v">
+          <text>"Atençao: A IA não conseguiu identificar o tipo de providência a ser adotada neste caso. Portanto, seja criterioso e analise com cautela o tipo de manifestação a ser adotada no presente caso. Qualquer dúvida, procure a coordenação responsável."</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1shd4eq">
+          <text>"Manifestar sobre despacho"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape id="DMNShape_135k60p" dmnElementRef="dmn_prazos">
+        <dc:Bounds height="80" width="180" x="200" y="40" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

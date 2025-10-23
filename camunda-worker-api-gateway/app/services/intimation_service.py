@@ -26,6 +26,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class Publicacao:
     """Representa uma publicação/intimação da API"""
+
     ano_publicacao: int = 0
     cod_publicacao: int = 0
     edicao_diario: int = 0
@@ -65,19 +66,20 @@ class Publicacao:
     def texto_publicacao(self) -> str:
         """Obtém o texto da publicação com fallbacks"""
         return (
-            self.despacho_publicacao or 
-            self.processo_publicacao or 
-            f"Publicação código {self.cod_publicacao}"
+            self.despacho_publicacao
+            or self.processo_publicacao
+            or f"Publicação código {self.cod_publicacao}"
         )
 
 
 @dataclass
 class EstatisticasPublicacoes:
     """Representa estatísticas de publicações"""
+
     grupo: str = ""
     total_publicacoes: int = 0
     total_nao_importadas: int = 0
-    detalhamento: Optional[List['EstatisticasPublicacoes']] = None
+    detalhamento: Optional[List["EstatisticasPublicacoes"]] = None
 
     def to_json(self) -> str:
         """Converte estatísticas para JSON"""
@@ -90,13 +92,14 @@ class EstatisticasPublicacoes:
 
 class IntimationServiceError(Exception):
     """Exceção customizada para erros do IntimationService"""
+
     pass
 
 
 class IntimationService:
     """
     Serviço consolidado para integração com WebService de Intimações
-    
+
     Combina as melhores funcionalidades dos clientes existentes em um serviço
     único, robusto e bem testado para uso no Gateway.
     """
@@ -116,19 +119,24 @@ class IntimationService:
                 - max_retries: Máximo de tentativas (3)
         """
         # Configuração com fallback para variáveis de ambiente
-        self.usuario = usuario or os.getenv('SOAP_USUARIO', '100049')
-        self.senha = senha or os.getenv('SOAP_SENHA', 'DcDpW@24')
-        
-        self.base_url = kwargs.get('base_url', 
-                                  os.getenv('SOAP_URL', self.DEFAULT_URL)).rstrip('/')
-        self.timeout = kwargs.get('timeout', int(os.getenv('SOAP_TIMEOUT', '90')))
-        self.max_retries = kwargs.get('max_retries', int(os.getenv('SOAP_MAX_RETRIES', '3')))
-        
+        self.usuario = usuario or os.getenv("SOAP_USUARIO", "100049")
+        self.senha = senha or os.getenv("SOAP_SENHA", "DcDpW@24")
+
+        self.base_url = kwargs.get(
+            "base_url", os.getenv("SOAP_URL", self.DEFAULT_URL)
+        ).rstrip("/")
+        self.timeout = kwargs.get("timeout", int(os.getenv("SOAP_TIMEOUT", "90")))
+        self.max_retries = kwargs.get(
+            "max_retries", int(os.getenv("SOAP_MAX_RETRIES", "3"))
+        )
+
         self.session = self._create_session()
-        
+
         logger.info(
             "IntimationService inicializado - URL: %s, Timeout: %ds, Retries: %d",
-            self.base_url, self.timeout, self.max_retries
+            self.base_url,
+            self.timeout,
+            self.max_retries,
         )
 
     def _create_session(self) -> requests.Session:
@@ -142,7 +150,7 @@ class IntimationService:
                 total=self.max_retries,
                 status_forcelist=[429, 500, 502, 503, 504],
                 allowed_methods=["HEAD", "GET", "OPTIONS", "POST"],
-                backoff_factor=1
+                backoff_factor=1,
             )
         except TypeError:
             # Fallback para versão mais antiga (urllib3 < 1.26.0)
@@ -150,7 +158,7 @@ class IntimationService:
                 total=self.max_retries,
                 status_forcelist=[429, 500, 502, 503, 504],
                 method_whitelist=["HEAD", "GET", "OPTIONS", "POST"],
-                backoff_factor=1
+                backoff_factor=1,
             )
 
         adapter = HTTPAdapter(max_retries=retry_strategy)
@@ -158,12 +166,14 @@ class IntimationService:
         session.mount("https://", adapter)
 
         # Headers padrão
-        session.headers.update({
-            'User-Agent': 'IntimationService/1.0',
-            'Accept': 'text/xml, application/xml',
-            'Accept-Encoding': 'gzip, deflate',
-            'Connection': 'keep-alive'
-        })
+        session.headers.update(
+            {
+                "User-Agent": "IntimationService/1.0",
+                "Accept": "text/xml, application/xml",
+                "Accept-Encoding": "gzip, deflate",
+                "Connection": "keep-alive",
+            }
+        )
 
         return session
 
@@ -182,17 +192,14 @@ class IntimationService:
             IntimationServiceError: Em caso de erro na requisição
         """
         # Adiciona credenciais aos parâmetros
-        params.update({
-            'strUsuario': self.usuario,
-            'strSenha': self.senha
-        })
+        params.update({"strUsuario": self.usuario, "strSenha": self.senha})
 
         # Monta envelope SOAP
         soap_body = self._build_soap_envelope(method, params)
 
         headers = {
-            'Content-Type': 'text/xml; charset=utf-8',
-            'SOAPAction': f'"http://tempuri.org/{method}"'
+            "Content-Type": "text/xml; charset=utf-8",
+            "SOAPAction": f'"http://tempuri.org/{method}"',
         }
 
         last_exception = None
@@ -200,46 +207,56 @@ class IntimationService:
         for tentativa in range(self.max_retries + 1):
             try:
                 if tentativa > 0:
-                    wait_time = 2 ** tentativa  # Backoff exponencial
+                    wait_time = 2**tentativa  # Backoff exponencial
                     logger.info(
                         "Tentativa %d/%d para %s. Aguardando %ds...",
-                        tentativa + 1, self.max_retries + 1, method, wait_time
+                        tentativa + 1,
+                        self.max_retries + 1,
+                        method,
+                        wait_time,
                     )
                     time.sleep(wait_time)
 
-                logger.debug("Fazendo requisição para %s (tentativa %d)", 
-                           method, tentativa + 1)
+                logger.debug(
+                    "Fazendo requisição para %s (tentativa %d)", method, tentativa + 1
+                )
 
                 response = self.session.post(
-                    self.base_url,
-                    data=soap_body,
-                    headers=headers,
-                    timeout=self.timeout
+                    self.base_url, data=soap_body, headers=headers, timeout=self.timeout
                 )
                 response.raise_for_status()
 
-                logger.debug("Requisição %s bem-sucedida após %d tentativa(s)",
-                           method, tentativa + 1)
+                logger.debug(
+                    "Requisição %s bem-sucedida após %d tentativa(s)",
+                    method,
+                    tentativa + 1,
+                )
                 return self._parse_soap_response(response.text)
 
             except requests.exceptions.Timeout as exc:
                 last_exception = exc
-                logger.warning("Timeout na tentativa %d para %s: %s",
-                             tentativa + 1, method, exc)
+                logger.warning(
+                    "Timeout na tentativa %d para %s: %s", tentativa + 1, method, exc
+                )
                 if tentativa == self.max_retries:
                     break
 
             except requests.exceptions.ConnectionError as exc:
                 last_exception = exc
-                logger.warning("Erro de conexão na tentativa %d para %s: %s",
-                             tentativa + 1, method, exc)
+                logger.warning(
+                    "Erro de conexão na tentativa %d para %s: %s",
+                    tentativa + 1,
+                    method,
+                    exc,
+                )
                 if tentativa == self.max_retries:
                     break
 
             except requests.exceptions.HTTPError as exc:
                 last_exception = exc
-                logger.error("Erro HTTP na tentativa %d para %s: %s",
-                           tentativa + 1, method, exc)
+                logger.error(
+                    "Erro HTTP na tentativa %d para %s: %s", tentativa + 1, method, exc
+                )
                 # Para erros HTTP 4xx, não tenta novamente
                 if 400 <= exc.response.status_code < 500:
                     break
@@ -248,14 +265,19 @@ class IntimationService:
 
             except requests.RequestException as exc:
                 last_exception = exc
-                logger.error("Erro inesperado na tentativa %d para %s: %s",
-                           tentativa + 1, method, exc)
+                logger.error(
+                    "Erro inesperado na tentativa %d para %s: %s",
+                    tentativa + 1,
+                    method,
+                    exc,
+                )
                 if tentativa == self.max_retries:
                     break
 
         # Se chegou aqui, todas as tentativas falharam
-        logger.error("Todas as %d tentativas falharam para %s",
-                    self.max_retries + 1, method)
+        logger.error(
+            "Todas as %d tentativas falharam para %s", self.max_retries + 1, method
+        )
         raise IntimationServiceError(
             f"Falha após {self.max_retries + 1} tentativas para {method}"
         ) from last_exception
@@ -296,24 +318,28 @@ class IntimationService:
         Returns:
             Lista de publicações não exportadas (máximo 700)
         """
-        params = {'intCodGrupo': cod_grupo}
-        
+        params = {"intCodGrupo": cod_grupo}
+
         try:
-            response = self._make_request('getPublicacoesNaoExportadas', params)
+            response = self._make_request("getPublicacoesNaoExportadas", params)
             publicacoes = self._parse_publicacoes(response)
-            
-            logger.info("Obtidas %d publicações não exportadas (grupo %d)",
-                       len(publicacoes), cod_grupo)
+
+            logger.info(
+                "Obtidas %d publicações não exportadas (grupo %d)",
+                len(publicacoes),
+                cod_grupo,
+            )
             return publicacoes
-            
+
         except Exception as exc:
             logger.error("Erro ao obter publicações não exportadas: %s", exc)
             raise IntimationServiceError(
                 f"Erro ao obter publicações não exportadas: {exc}"
             ) from exc
 
-    def get_publicacoes_nao_exportadas_v(self, cod_grupo: int = 0,
-                                        versao: int = 5) -> List[Publicacao]:
+    def get_publicacoes_nao_exportadas_v(
+        self, cod_grupo: int = 0, versao: int = 5
+    ) -> List[Publicacao]:
         """
         Versão com especificação de versão dos dados de retorno
 
@@ -324,21 +350,23 @@ class IntimationService:
         Returns:
             Lista de publicações não exportadas (máximo 700)
         """
-        params = {
-            'intCodGrupo': cod_grupo,
-            'numVersao': versao
-        }
-        
+        params = {"intCodGrupo": cod_grupo, "numVersao": versao}
+
         try:
-            response = self._make_request('getPublicacoesNaoExportadasV', params)
+            response = self._make_request("getPublicacoesNaoExportadasV", params)
             return self._parse_publicacoes(response)
         except Exception as exc:
             raise IntimationServiceError(
                 f"Erro ao obter publicações não exportadas V: {exc}"
             ) from exc
 
-    def get_publicacoes_periodo_safe(self, data_inicial: str, data_final: str,
-                                   cod_grupo: int = 0, timeout_override: int = None) -> List[Publicacao]:
+    def get_publicacoes_periodo_safe(
+        self,
+        data_inicial: str,
+        data_final: str,
+        cod_grupo: int = 0,
+        timeout_override: int = None,
+    ) -> List[Publicacao]:
         """
         Busca publicações por período com timeout otimizado
 
@@ -356,24 +384,48 @@ class IntimationService:
         if timeout_override:
             timeout_original = self.timeout
             self.timeout = timeout_override
-            logger.info("Timeout aumentado para %ds para período %s - %s",
-                       timeout_override, data_inicial, data_final)
+            logger.info(
+                "Timeout aumentado para %ds para período %s - %s",
+                timeout_override,
+                data_inicial,
+                data_final,
+            )
 
         try:
             # Usa versão V para melhor compatibilidade
             params = {
-                'dteDataInicial': data_inicial,
-                'dteDataFinal': data_final,
-                'intCodGrupo': cod_grupo,
-                'intExportada': 0,
-                'numVersao': 5
+                "dteDataInicial": data_inicial,
+                "dteDataFinal": data_final,
+                "intCodGrupo": cod_grupo,
+                "intExportada": 0,
+                "numVersao": 5,
             }
-            
-            response = self._make_request('getPublicacoesV', params)
+
+            response = self._make_request("getPublicacoesV", params)
             publicacoes = self._parse_publicacoes(response)
 
-            logger.info("Encontradas %d publicações no período %s - %s",
-                       len(publicacoes), data_inicial, data_final)
+            logger.info(
+                "Encontradas %d publicações no período %s - %s",
+                len(publicacoes),
+                data_inicial,
+                data_final,
+            )
+
+            # Log do XML bruto quando nenhuma publicação é encontrada para diagnóstico
+            if len(publicacoes) == 0:
+                try:
+                    # Converte response para string se for ElementTree
+                    if hasattr(response, "text"):
+                        xml_content = response.text
+                    else:
+                        xml_content = str(response)
+
+                    logger.warning(
+                        "XML Response (first 1000 chars): %s...", xml_content[:1000]
+                    )
+                except Exception as log_exc:
+                    logger.warning("Erro ao logar XML: %s", log_exc)
+
             return publicacoes
 
         except Exception as exc:
@@ -387,9 +439,9 @@ class IntimationService:
                 self.timeout = timeout_original
                 logger.debug("Timeout restaurado para %ds", timeout_original)
 
-    def get_estatisticas_publicacoes(self, data: str, cod_grupo: int = 0,
-                                   tipo_agrupamento: str = "",
-                                   versao: int = 1) -> EstatisticasPublicacoes:
+    def get_estatisticas_publicacoes(
+        self, data: str, cod_grupo: int = 0, tipo_agrupamento: str = "", versao: int = 1
+    ) -> EstatisticasPublicacoes:
         """
         Retorna estatísticas de publicações de uma data
 
@@ -403,20 +455,18 @@ class IntimationService:
             Estatísticas de publicações
         """
         params = {
-            'dteData': data,
-            'intCodGrupo': cod_grupo,
-            'strTipoAgrupamento': tipo_agrupamento,
-            'numVersao': versao
+            "dteData": data,
+            "intCodGrupo": cod_grupo,
+            "strTipoAgrupamento": tipo_agrupamento,
+            "numVersao": versao,
         }
-        
+
         try:
-            response = self._make_request('getEstatisticasPublicacoes', params)
+            response = self._make_request("getEstatisticasPublicacoes", params)
             logger.debug("Estatísticas obtidas com sucesso - params: %s", params)
             return self._parse_estatisticas(response)
         except Exception as exc:
-            raise IntimationServiceError(
-                f"Erro ao obter estatísticas: {exc}"
-            ) from exc
+            raise IntimationServiceError(f"Erro ao obter estatísticas: {exc}") from exc
 
     def set_publicacoes(self, codigos_publicacao: List[int]) -> bool:
         """
@@ -428,20 +478,23 @@ class IntimationService:
         Returns:
             True se sucesso, False se erro
         """
-        codigos_str = '|'.join(str(cod) for cod in codigos_publicacao) + '|'
-        params = {'strPublicacoes': codigos_str}
-        
+        codigos_str = "|".join(str(cod) for cod in codigos_publicacao) + "|"
+        params = {"strPublicacoes": codigos_str}
+
         try:
-            response = self._make_request('setPublicacoes', params)
+            response = self._make_request("setPublicacoes", params)
             result = self._parse_boolean_response(response)
-            
+
             if result:
-                logger.info("Marcadas %d publicações como exportadas", 
-                           len(codigos_publicacao))
+                logger.info(
+                    "Marcadas %d publicações como exportadas", len(codigos_publicacao)
+                )
             else:
-                logger.warning("Falha ao marcar %d publicações como exportadas", 
-                             len(codigos_publicacao))
-            
+                logger.warning(
+                    "Falha ao marcar %d publicações como exportadas",
+                    len(codigos_publicacao),
+                )
+
             return result
         except Exception as exc:
             raise IntimationServiceError(
@@ -474,55 +527,105 @@ class IntimationService:
 
         # Namespaces para busca no XML
         namespaces = {
-            'soap': 'http://schemas.xmlsoap.org/soap/envelope/',
-            'ns': 'http://tempuri.org/'
+            "soap": "http://schemas.xmlsoap.org/soap/envelope/",
+            "ns": "http://tempuri.org/",
         }
 
         try:
             # Busca por elementos de publicação usando namespaces corretos
-            publicacao_elements = root.findall('.//ns:publicacaoV2', namespaces)
+            publicacao_elements = root.findall(".//ns:publicacaoV2", namespaces)
 
             if not publicacao_elements:
                 # Fallback sem namespace
-                publicacao_elements = root.findall('.//publicacaoV2')
+                publicacao_elements = root.findall(".//publicacaoV2")
 
             if not publicacao_elements:
                 # Busca por qualquer elemento que tenha codPublicacao como filho
                 for elem in root.iter():
-                    if elem.find('.//ns:codPublicacao', namespaces) is not None:
+                    if elem.find(".//ns:codPublicacao", namespaces) is not None:
                         publicacao_elements.append(elem)
                         break
 
-            logger.debug("Encontrados %d elementos de publicação", len(publicacao_elements))
+            logger.debug(
+                "Encontrados %d elementos de publicação", len(publicacao_elements)
+            )
 
             for pub_elem in publicacao_elements:
                 publicacao = Publicacao(
-                    ano_publicacao=self._get_int_value_ns(pub_elem, 'anoPublicacao', namespaces),
-                    cod_publicacao=self._get_int_value_ns(pub_elem, 'codPublicacao', namespaces),
-                    edicao_diario=self._get_int_value_ns(pub_elem, 'edicaoDiario', namespaces),
-                    descricao_diario=self._get_text_value_ns(pub_elem, 'descricaoDiario', namespaces),
-                    pagina_inicial=self._get_int_value_ns(pub_elem, 'paginaInicial', namespaces),
-                    pagina_final=self._get_int_value_ns(pub_elem, 'paginaFinal', namespaces),
-                    data_publicacao=self._get_text_value_ns(pub_elem, 'dataPublicacao', namespaces),
-                    data_divulgacao=self._get_text_value_ns(pub_elem, 'dataDivulgacao', namespaces),
-                    data_cadastro=self._get_text_value_ns(pub_elem, 'dataCadastro', namespaces),
-                    numero_processo=self._get_text_value_ns(pub_elem, 'numeroProcesso', namespaces),
-                    uf_publicacao=self._get_text_value_ns(pub_elem, 'ufPublicacao', namespaces),
-                    cidade_publicacao=self._get_text_value_ns(pub_elem, 'cidadePublicacao', namespaces),
-                    orgao_descricao=self._get_text_value_ns(pub_elem, 'orgaoDescricao', namespaces),
-                    vara_descricao=self._get_text_value_ns(pub_elem, 'varaDescricao', namespaces),
-                    despacho_publicacao=self._get_text_value_ns(pub_elem, 'despachoPublicacao', namespaces),
-                    processo_publicacao=self._get_text_value_ns(pub_elem, 'processoPublicacao', namespaces),
-                    publicacao_corrigida=self._get_int_value_ns(pub_elem, 'publicacaoCorrigida', namespaces),
-                    cod_vinculo=self._get_int_value_ns(pub_elem, 'codVinculo', namespaces),
-                    nome_vinculo=self._get_text_value_ns(pub_elem, 'nomeVinculo', namespaces),
-                    oab_numero=self._get_int_value_ns(pub_elem, 'oABNumero', namespaces),
-                    oab_estado=self._get_text_value_ns(pub_elem, 'oABEstado', namespaces),
-                    diario_sigla_wj=self._get_text_value_ns(pub_elem, 'diarioSiglaWj', namespaces),
-                    anexo=self._get_text_value_ns(pub_elem, 'anexo', namespaces),
-                    cod_integracao=self._get_text_value_ns(pub_elem, 'codIntegracao', namespaces),
-                    publicacao_exportada=self._get_int_value_ns(pub_elem, 'publicacaoExportada', namespaces),
-                    cod_grupo=self._get_int_value_ns(pub_elem, 'codGrupo', namespaces)
+                    ano_publicacao=self._get_int_value_ns(
+                        pub_elem, "anoPublicacao", namespaces
+                    ),
+                    cod_publicacao=self._get_int_value_ns(
+                        pub_elem, "codPublicacao", namespaces
+                    ),
+                    edicao_diario=self._get_int_value_ns(
+                        pub_elem, "edicaoDiario", namespaces
+                    ),
+                    descricao_diario=self._get_text_value_ns(
+                        pub_elem, "descricaoDiario", namespaces
+                    ),
+                    pagina_inicial=self._get_int_value_ns(
+                        pub_elem, "paginaInicial", namespaces
+                    ),
+                    pagina_final=self._get_int_value_ns(
+                        pub_elem, "paginaFinal", namespaces
+                    ),
+                    data_publicacao=self._get_text_value_ns(
+                        pub_elem, "dataPublicacao", namespaces
+                    ),
+                    data_divulgacao=self._get_text_value_ns(
+                        pub_elem, "dataDivulgacao", namespaces
+                    ),
+                    data_cadastro=self._get_text_value_ns(
+                        pub_elem, "dataCadastro", namespaces
+                    ),
+                    numero_processo=self._get_text_value_ns(
+                        pub_elem, "numeroProcesso", namespaces
+                    ),
+                    uf_publicacao=self._get_text_value_ns(
+                        pub_elem, "ufPublicacao", namespaces
+                    ),
+                    cidade_publicacao=self._get_text_value_ns(
+                        pub_elem, "cidadePublicacao", namespaces
+                    ),
+                    orgao_descricao=self._get_text_value_ns(
+                        pub_elem, "orgaoDescricao", namespaces
+                    ),
+                    vara_descricao=self._get_text_value_ns(
+                        pub_elem, "varaDescricao", namespaces
+                    ),
+                    despacho_publicacao=self._get_text_value_ns(
+                        pub_elem, "despachoPublicacao", namespaces
+                    ),
+                    processo_publicacao=self._get_text_value_ns(
+                        pub_elem, "processoPublicacao", namespaces
+                    ),
+                    publicacao_corrigida=self._get_int_value_ns(
+                        pub_elem, "publicacaoCorrigida", namespaces
+                    ),
+                    cod_vinculo=self._get_int_value_ns(
+                        pub_elem, "codVinculo", namespaces
+                    ),
+                    nome_vinculo=self._get_text_value_ns(
+                        pub_elem, "nomeVinculo", namespaces
+                    ),
+                    oab_numero=self._get_int_value_ns(
+                        pub_elem, "oABNumero", namespaces
+                    ),
+                    oab_estado=self._get_text_value_ns(
+                        pub_elem, "oABEstado", namespaces
+                    ),
+                    diario_sigla_wj=self._get_text_value_ns(
+                        pub_elem, "diarioSiglaWj", namespaces
+                    ),
+                    anexo=self._get_text_value_ns(pub_elem, "anexo", namespaces),
+                    cod_integracao=self._get_text_value_ns(
+                        pub_elem, "codIntegracao", namespaces
+                    ),
+                    publicacao_exportada=self._get_int_value_ns(
+                        pub_elem, "publicacaoExportada", namespaces
+                    ),
+                    cod_grupo=self._get_int_value_ns(pub_elem, "codGrupo", namespaces),
                 )
                 publicacoes.append(publicacao)
 
@@ -533,19 +636,21 @@ class IntimationService:
             logger.error("Erro ao fazer parse das publicações: %s", exc)
             return []
 
-    def _get_text_value_ns(self, element: ET.Element, tag_name: str,
-                          namespaces: Dict[str, str]) -> str:
+    def _get_text_value_ns(
+        self, element: ET.Element, tag_name: str, namespaces: Dict[str, str]
+    ) -> str:
         """Extrai valor de texto de um elemento XML com namespaces"""
         # Tenta primeiro com namespace
-        elem = element.find(f'ns:{tag_name}', namespaces)
+        elem = element.find(f"ns:{tag_name}", namespaces)
         if elem is None:
             # Fallback sem namespace
             elem = element.find(tag_name)
 
         return elem.text.strip() if elem is not None and elem.text else ""
 
-    def _get_int_value_ns(self, element: ET.Element, tag_name: str,
-                         namespaces: Dict[str, str]) -> int:
+    def _get_int_value_ns(
+        self, element: ET.Element, tag_name: str, namespaces: Dict[str, str]
+    ) -> int:
         """Extrai valor inteiro de um elemento XML com namespaces"""
         text_value = self._get_text_value_ns(element, tag_name, namespaces)
         try:
@@ -557,7 +662,7 @@ class IntimationService:
         """Parse de resposta booleana (0=sucesso, 1=erro)"""
         try:
             # Busca pelo elemento de resultado (diferentes possibilidades)
-            for path in ['.//setPublicacoesResult', './/setPublicacoesGrupoResult']:
+            for path in [".//setPublicacoesResult", ".//setPublicacoesGrupoResult"]:
                 elem = root.find(path)
                 if elem is not None:
                     result = elem.text.strip() if elem.text else "1"
@@ -575,13 +680,17 @@ class IntimationService:
         """Parse das estatísticas da resposta XML"""
         try:
             # Busca pelo elemento de resultado das estatísticas
-            stats_elem = root.find('.//getEstatisticasPublicacoesResult')
+            stats_elem = root.find(".//getEstatisticasPublicacoesResult")
 
             if stats_elem is not None:
                 return EstatisticasPublicacoes(
-                    grupo=self._get_text_value_ns(stats_elem, 'grupo', {}),
-                    total_publicacoes=self._get_int_value_ns(stats_elem, 'totalPublicacoes', {}),
-                    total_nao_importadas=self._get_int_value_ns(stats_elem, 'totalNaoImportadas', {})
+                    grupo=self._get_text_value_ns(stats_elem, "grupo", {}),
+                    total_publicacoes=self._get_int_value_ns(
+                        stats_elem, "totalPublicacoes", {}
+                    ),
+                    total_nao_importadas=self._get_int_value_ns(
+                        stats_elem, "totalNaoImportadas", {}
+                    ),
                 )
 
             logger.warning("Elemento de estatísticas não encontrado")
@@ -593,10 +702,13 @@ class IntimationService:
 
     def publicacoes_to_json(self, publicacoes_list: List[Publicacao]) -> str:
         """Converte lista de publicações para JSON"""
-        return json.dumps([pub.to_dict() for pub in publicacoes_list],
-                         ensure_ascii=False, indent=2)
+        return json.dumps(
+            [pub.to_dict() for pub in publicacoes_list], ensure_ascii=False, indent=2
+        )
 
-    def publicacoes_to_dict(self, publicacoes_list: List[Publicacao]) -> List[Dict[str, Any]]:
+    def publicacoes_to_dict(
+        self, publicacoes_list: List[Publicacao]
+    ) -> List[Dict[str, Any]]:
         """Converte lista de publicações para lista de dicionários"""
         return [pub.to_dict() for pub in publicacoes_list]
 
@@ -605,8 +717,9 @@ class IntimationService:
 _intimation_service_instance = None
 
 
-def get_intimation_service(usuario: str = None, senha: str = None,
-                          timeout: int = None) -> IntimationService:
+def get_intimation_service(
+    usuario: str = None, senha: str = None, timeout: int = None
+) -> IntimationService:
     """
     Factory function para obter instância do IntimationService
 
@@ -623,12 +736,10 @@ def get_intimation_service(usuario: str = None, senha: str = None,
     if _intimation_service_instance is None:
         kwargs = {}
         if timeout:
-            kwargs['timeout'] = timeout
+            kwargs["timeout"] = timeout
 
         _intimation_service_instance = IntimationService(
-            usuario=usuario,
-            senha=senha,
-            **kwargs
+            usuario=usuario, senha=senha, **kwargs
         )
 
     return _intimation_service_instance

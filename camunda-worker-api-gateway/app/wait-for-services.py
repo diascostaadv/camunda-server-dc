@@ -35,7 +35,10 @@ def wait_for_all_services() -> bool:
     external_mode = os.getenv("EXTERNAL_SERVICES_MODE", "false").lower() == "true"
 
     # Get service URLs from environment
-    mongodb_uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
+    mongodb_uri = os.getenv(
+        "MONGODB_URI",
+        "mongodb+srv://camunda:Rqt0wVmEZhcME7HC@camundadc.os1avun.mongodb.net/",
+    )
 
     print("🚀 Waiting for all services to be ready...")
 
