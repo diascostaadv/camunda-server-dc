@@ -36,4 +36,4 @@ ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
 # Run the unified worker
-CMD ["python", "main.py"]
+CMD ["python", "publicacao_unified/main.py"]

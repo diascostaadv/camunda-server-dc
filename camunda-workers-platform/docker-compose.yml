@@ -14,7 +14,7 @@ services:
       - CAMUNDA_URL=${CAMUNDA_URL:-http://201.23.67.197:8080/engine-rest}
       - CAMUNDA_USERNAME=${CAMUNDA_USERNAME:-demo}
       - CAMUNDA_PASSWORD=${CAMUNDA_PASSWORD:-demo}
-      
+
       # Worker Configuration
       - WORKER_ID=hello-world-worker
       - MAX_TASKS=${MAX_TASKS:-1}
@@ -23,13 +23,13 @@ services:
       - RETRIES=${RETRIES:-3}
       - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
       - SLEEP_SECONDS=${SLEEP_SECONDS:-30}
-      
+
       # Gateway Integration (Optional)
       - GATEWAY_ENABLED=${GATEWAY_ENABLED:-false}
       - GATEWAY_URL=${GATEWAY_URL:-http://localhost:8000}
       - GATEWAY_COMMUNICATION_MODE=${GATEWAY_COMMUNICATION_MODE:-http}
       - GATEWAY_HTTP_TIMEOUT=${GATEWAY_HTTP_TIMEOUT:-30}
-      
+
       # Monitoring
       - METRICS_PORT=8001
       - METRICS_ENABLED=${METRICS_ENABLED:-true}
@@ -39,7 +39,13 @@ services:
       - "8001"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8001/metrics', timeout=5)"]
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import requests; requests.get('http://localhost:8001/metrics', timeout=5)",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -54,7 +60,7 @@ services:
       - CAMUNDA_URL=${CAMUNDA_URL:-http://201.23.67.197:8080/engine-rest}
       - CAMUNDA_USERNAME=${CAMUNDA_USERNAME:-demo}
       - CAMUNDA_PASSWORD=${CAMUNDA_PASSWORD:-demo}
-      
+
       # Worker Configuration
       - WORKER_ID=publicacao-worker
       - MAX_TASKS=${MAX_TASKS:-1}
@@ -63,17 +69,17 @@ services:
       - RETRIES=${RETRIES:-3}
       - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
       - SLEEP_SECONDS=${SLEEP_SECONDS:-30}
-      
+
       # Gateway Integration (Optional)
       - GATEWAY_ENABLED=${GATEWAY_ENABLED:-false}
       - GATEWAY_URL=${GATEWAY_URL:-http://localhost:8000}
       - GATEWAY_COMMUNICATION_MODE=${GATEWAY_COMMUNICATION_MODE:-http}
       - GATEWAY_HTTP_TIMEOUT=${GATEWAY_HTTP_TIMEOUT:-30}
-      
+
       # Intimation API Configuration
       - INTIMATION_USER=${INTIMATION_USER:-100049}
       - INTIMATION_PASSWORD=${INTIMATION_PASSWORD:-DcDpW@24}
-      
+
       # Monitoring
       - METRICS_PORT=8002
       - METRICS_ENABLED=${METRICS_ENABLED:-true}
@@ -83,14 +89,22 @@ services:
       - "8002"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8002/metrics', timeout=5)"]
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import requests; requests.get('http://localhost:8002/metrics', timeout=5)",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
 
   # Publicacao Unified Worker
   worker-publicacao-unified:
-    image: camunda-workers/publicacao_unified:latest
+    build:
+      context: ./workers
+      dockerfile: publicacao_unified/Dockerfile
     networks:
       - default
       - gateway_network
@@ -101,7 +115,7 @@ services:
       - CAMUNDA_URL=${CAMUNDA_URL:-http://201.23.67.197:8080/engine-rest}
       - CAMUNDA_USERNAME=${CAMUNDA_USERNAME:-demo}
       - CAMUNDA_PASSWORD=${CAMUNDA_PASSWORD:-demo}
-      
+
       # Worker Configuration
       - WORKER_ID=publicacao-unified-worker
       - MAX_TASKS=${MAX_TASKS:-2}
@@ -110,17 +124,17 @@ services:
       - RETRIES=${RETRIES:-3}
       - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
       - SLEEP_SECONDS=${SLEEP_SECONDS:-30}
-      
+
       # Gateway Integration
       - GATEWAY_ENABLED=${GATEWAY_ENABLED:-true}
       - GATEWAY_URL=${GATEWAY_URL:-http://camunda-worker-api-gateway-gateway-1:8000}
       - GATEWAY_COMMUNICATION_MODE=${GATEWAY_COMMUNICATION_MODE:-http}
       - GATEWAY_HTTP_TIMEOUT=${GATEWAY_HTTP_TIMEOUT:-30}
-      
+
       # Intimation API Configuration
       - INTIMATION_USER=${INTIMATION_USER:-100049}
       - INTIMATION_PASSWORD=${INTIMATION_PASSWORD:-DcDpW@24}
-      
+
       # Monitoring
       - METRICS_PORT=8003
       - METRICS_ENABLED=${METRICS_ENABLED:-true}
@@ -130,7 +144,13 @@ services:
       - "8003"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8003/metrics', timeout=5)"]
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import requests; requests.get('http://localhost:8003/metrics', timeout=5)",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3

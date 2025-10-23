@@ -45,14 +45,27 @@ services:
       - ./resources:/camunda/webapps/engine-rest/WEB-INF/classes/
     # Conditional dependency: only depend on db when using local database
     depends_on: []
-    networks: [backend]
+    networks: [backend, traefik]
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/camunda/app/welcome/default/"]
+      test:
+        [
+          "CMD",
+          "curl",
+          "-f",
+          "http://localhost:8080/camunda/app/welcome/default/",
+        ]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 60s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.camunda.rule=Host(`camunda.nutec.com.br`)"
+      - "traefik.http.routers.camunda.entrypoints=websecure"
+      - "traefik.http.routers.camunda.tls.certresolver=letsencrypt"
+      - "traefik.http.services.camunda.loadbalancer.server.port=8080"
+      - "traefik.docker.network=traefik"
 
   prometheus:
     image: prom/prometheus:latest
@@ -62,11 +75,11 @@ services:
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--web.enable-lifecycle'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--web.enable-lifecycle"
     networks: [backend]
     restart: unless-stopped
 
@@ -93,3 +106,5 @@ volumes:
 networks:
   backend:
     driver: ${NETWORK_DRIVER:-bridge}
+  traefik:
+    external: true

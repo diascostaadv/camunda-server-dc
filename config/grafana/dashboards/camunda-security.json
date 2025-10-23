@@ -1,0 +1,127 @@
+{
+    "dashboard": {
+        "id": null,
+        "title": "Camunda Security Dashboard",
+        "tags": [
+            "camunda",
+            "security"
+        ],
+        "style": "dark",
+        "timezone": "browser",
+        "panels": [
+            {
+                "id": 1,
+                "title": "Security Events",
+                "type": "stat",
+                "targets": [
+                    {
+                        "expr": "increase(camunda_security_events_total[5m])",
+                        "legendFormat": "Security Events"
+                    }
+                ],
+                "fieldConfig": {
+                    "defaults": {
+                        "color": {
+                            "mode": "thresholds"
+                        },
+                        "thresholds": {
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "yellow",
+                                    "value": 10
+                                },
+                                {
+                                    "color": "red",
+                                    "value": 50
+                                }
+                            ]
+                        }
+                    }
+                },
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 0
+                }
+            },
+            {
+                "id": 2,
+                "title": "Failed Login Attempts",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "expr": "rate(camunda_failed_logins_total[5m])",
+                        "legendFormat": "Failed Logins/sec"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 0
+                }
+            },
+            {
+                "id": 3,
+                "title": "Suspicious Requests",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "expr": "rate(camunda_suspicious_requests_total[5m])",
+                        "legendFormat": "Suspicious Requests/sec"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 24,
+                    "x": 0,
+                    "y": 8
+                }
+            },
+            {
+                "id": 4,
+                "title": "Memory Usage",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "expr": "jvm_memory_used_bytes{area=\"heap\"} / jvm_memory_max_bytes{area=\"heap\"} * 100",
+                        "legendFormat": "Heap Usage %"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 0,
+                    "y": 16
+                }
+            },
+            {
+                "id": 5,
+                "title": "Active Processes",
+                "type": "timeseries",
+                "targets": [
+                    {
+                        "expr": "camunda_active_process_instances",
+                        "legendFormat": "Active Processes"
+                    }
+                ],
+                "gridPos": {
+                    "h": 8,
+                    "w": 12,
+                    "x": 12,
+                    "y": 16
+                }
+            }
+        ],
+        "time": {
+            "from": "now-1h",
+            "to": "now"
+        },
+        "refresh": "30s"
+    }
+}

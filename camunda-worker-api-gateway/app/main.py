@@ -12,85 +12,75 @@ import sys
 from typing import Optional
 
 from services.task_manager import TaskManager
-from services.rabbitmq_consumer import RabbitMQConsumer
 from core.config import settings
 from routes import health_router, tasks_router
-from routes.dependencies import set_task_manager, set_rabbitmq_consumer
+from routes.dependencies import set_task_manager
 from routers import buscar_publicacoes, publicacoes
+
 
 # Configure logging
 def configure_logging():
     """Configure logging for the application"""
     log_level = settings.LOG_LEVEL.upper()
     log_format = settings.LOG_FORMAT
-    
+
     # Configure root logger
     logging.basicConfig(
         level=getattr(logging, log_level, logging.INFO),
         format=log_format,
-        handlers=[
-            logging.StreamHandler(sys.stdout)
-        ]
+        handlers=[logging.StreamHandler(sys.stdout)],
     )
-    
+
     # Set specific loggers
     logging.getLogger("uvicorn").setLevel(getattr(logging, log_level, logging.INFO))
-    logging.getLogger("uvicorn.access").setLevel(getattr(logging, log_level, logging.INFO))
-    logging.getLogger("uvicorn.error").setLevel(getattr(logging, log_level, logging.INFO))
-    
+    logging.getLogger("uvicorn.access").setLevel(
+        getattr(logging, log_level, logging.INFO)
+    )
+    logging.getLogger("uvicorn.error").setLevel(
+        getattr(logging, log_level, logging.INFO)
+    )
+
     # Set app loggers
-    app_loggers = [
-        "services",
-        "routers",
-        "core",
-        "routes",
-        "models"
-    ]
+    app_loggers = ["services", "routers", "core", "routes", "models"]
     for logger_name in app_loggers:
-        logging.getLogger(logger_name).setLevel(getattr(logging, log_level, logging.INFO))
-    
+        logging.getLogger(logger_name).setLevel(
+            getattr(logging, log_level, logging.INFO)
+        )
+
     logger = logging.getLogger(__name__)
     logger.info(f"Logging configured with level: {log_level}")
     return logger
 
+
 # Task Manager global instance
 task_manager: Optional[TaskManager] = None
-rabbitmq_consumer: Optional[RabbitMQConsumer] = None
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan management"""
-    global task_manager, rabbitmq_consumer
-    
+    global task_manager
+
     # Configure logging first
     logger = configure_logging()
-    
+
     # Startup
     logger.info("🚀 Starting Worker API Gateway...")
-    
+
     # Initialize Task Manager
     task_manager = TaskManager()
     await task_manager.connect()
-    
-    # Initialize RabbitMQ Consumer
-    rabbitmq_consumer = RabbitMQConsumer(task_manager)
-    await rabbitmq_consumer.start()
-    
+
     # Set dependencies for routes
     set_task_manager(task_manager)
-    set_rabbitmq_consumer(rabbitmq_consumer)
-    
+
     logger.info(f"✅ Worker API Gateway started on port {settings.PORT}")
     logger.info(f"📊 MongoDB connected: {settings.MONGODB_URI}")
-    logger.info(f"🐰 RabbitMQ connected: {settings.RABBITMQ_URL}")
-    
+
     yield
-    
+
     # Shutdown
     logger.info("⏹️ Shutting down Worker API Gateway...")
-    if rabbitmq_consumer:
-        await rabbitmq_consumer.stop()
     if task_manager:
         await task_manager.disconnect()
     logger.info("👋 Worker API Gateway stopped")
@@ -101,7 +91,7 @@ app = FastAPI(
     title="Worker API Gateway",
     description="Centralized task management for Camunda workers",
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
 # CORS middleware
@@ -120,16 +110,14 @@ app.include_router(buscar_publicacoes.router)
 app.include_router(publicacoes.router)
 
 
-
-
 if __name__ == "__main__":
     # Configure logging before starting uvicorn
     configure_logging()
-    
+
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
         port=settings.PORT,
         reload=settings.DEBUG,
-        log_level=settings.LOG_LEVEL.lower()
+        log_level=settings.LOG_LEVEL.lower(),
     )

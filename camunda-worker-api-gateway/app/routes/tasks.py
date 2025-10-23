@@ -8,8 +8,7 @@ from typing import Optional
 
 from models.task import TaskSubmission, TaskStatus
 from services.task_manager import TaskManager
-from services.rabbitmq_consumer import RabbitMQConsumer
-from .dependencies import get_task_manager, get_rabbitmq_consumer
+from .dependencies import get_task_manager
 
 
 router = APIRouter(
@@ -18,8 +17,8 @@ router = APIRouter(
     responses={
         404: {"description": "Task not found"},
         500: {"description": "Internal server error"},
-        503: {"description": "Service unavailable"}
-    }
+        503: {"description": "Service unavailable"},
+    },
 )
 
 
@@ -28,17 +27,15 @@ async def submit_task(
     task_submission: TaskSubmission,
     background_tasks: BackgroundTasks,
     task_manager: TaskManager = Depends(get_task_manager),
-    rabbitmq_consumer: Optional[RabbitMQConsumer] = Depends(get_rabbitmq_consumer)
 ):
     """
     Submit a new task for processing
-    
+
     Args:
         task_submission: Task data from worker
         background_tasks: FastAPI background tasks
         task_manager: Task manager dependency
-        rabbitmq_consumer: RabbitMQ consumer dependency
-    
+
     Returns:
         dict: Task submission confirmation
     """
@@ -48,38 +45,33 @@ async def submit_task(
             task_id=task_submission.task_id,
             worker_id=task_submission.worker_id,
             topic=task_submission.topic,
-            variables=task_submission.variables
+            variables=task_submission.variables,
         )
-        
-        # Process task in background via RabbitMQ
-        if rabbitmq_consumer:
-            await rabbitmq_consumer.publish_task(task_submission)
-        else:
-            # Fallback to direct processing
-            background_tasks.add_task(process_task_direct, task_submission, task_manager)
-        
+
+        # Process task in background directly
+        background_tasks.add_task(process_task_direct, task_submission, task_manager)
+
         return {
             "status": "submitted",
             "task_id": task_submission.task_id,
-            "message": "Task submitted for processing"
+            "message": "Task submitted for processing",
         }
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to submit task: {str(e)}")
 
 
 @router.get("/{task_id}/status")
 async def get_task_status(
-    task_id: str,
-    task_manager: TaskManager = Depends(get_task_manager)
+    task_id: str, task_manager: TaskManager = Depends(get_task_manager)
 ) -> TaskStatus:
     """
     Get task status and result
-    
+
     Args:
         task_id: Camunda task ID
         task_manager: Task manager dependency
-        
+
     Returns:
         TaskStatus: Current task status and details
     """
@@ -87,7 +79,7 @@ async def get_task_status(
         task = await task_manager.get_task(task_id)
         if not task:
             raise HTTPException(status_code=404, detail="Task not found")
-        
+
         return TaskStatus(
             task_id=task["task_id"],
             status=task["status"],
@@ -95,13 +87,15 @@ async def get_task_status(
             result=task.get("result"),
             error_message=task.get("metadata", {}).get("error_message"),
             timestamps=task["timestamps"],
-            metadata=task.get("metadata", {})
+            metadata=task.get("metadata", {}),
         )
-        
+
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to get task status: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to get task status: {str(e)}"
+        )
 
 
 @router.post("/{task_id}/retry")
@@ -109,17 +103,15 @@ async def retry_task(
     task_id: str,
     background_tasks: BackgroundTasks,
     task_manager: TaskManager = Depends(get_task_manager),
-    rabbitmq_consumer: Optional[RabbitMQConsumer] = Depends(get_rabbitmq_consumer)
 ):
     """
     Retry a failed task
-    
+
     Args:
         task_id: Camunda task ID
         background_tasks: FastAPI background tasks
         task_manager: Task manager dependency
-        rabbitmq_consumer: RabbitMQ consumer dependency
-    
+
     Returns:
         dict: Retry confirmation
     """
@@ -127,42 +119,43 @@ async def retry_task(
         task = await task_manager.get_task(task_id)
         if not task:
             raise HTTPException(status_code=404, detail="Task not found")
-        
+
         if task["status"] != "erro":
-            raise HTTPException(status_code=400, detail="Only failed tasks can be retried")
-        
+            raise HTTPException(
+                status_code=400, detail="Only failed tasks can be retried"
+            )
+
         # Reset task status
         await task_manager.update_task_status(task_id, "em_andamento", "retrying")
-        
+
         # Resubmit for processing
         task_submission = TaskSubmission(
             task_id=task["task_id"],
             worker_id=task["worker_id"],
             topic=task["topic"],
-            variables=task["variables"]
+            variables=task["variables"],
         )
-        
-        if rabbitmq_consumer:
-            await rabbitmq_consumer.publish_task(task_submission)
-        else:
-            background_tasks.add_task(process_task_direct, task_submission, task_manager)
-        
+
+        background_tasks.add_task(process_task_direct, task_submission, task_manager)
+
         return {
             "status": "retrying",
             "task_id": task_id,
-            "message": "Task resubmitted for processing"
+            "message": "Task resubmitted for processing",
         }
-        
+
     except HTTPException:
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to retry task: {str(e)}")
 
 
-async def process_task_direct(task_submission: TaskSubmission, task_manager: TaskManager):
+async def process_task_direct(
+    task_submission: TaskSubmission, task_manager: TaskManager
+):
     """
     Direct task processing (fallback when RabbitMQ is not available)
-    
+
     Args:
         task_submission: Task to process
         task_manager: Task manager instance
@@ -170,14 +163,12 @@ async def process_task_direct(task_submission: TaskSubmission, task_manager: Tas
     try:
         # Import here to avoid circular imports
         from services.task_processor import TaskProcessor
-        
+
         processor = TaskProcessor(task_manager)
         await processor.process_task(task_submission)
-        
+
     except Exception as e:
         print(f"❌ Failed to process task {task_submission.task_id}: {e}")
         await task_manager.update_task_status(
-            task_submission.task_id,
-            "erro",
-            error_message=str(e)
+            task_submission.task_id, "erro", error_message=str(e)
         )

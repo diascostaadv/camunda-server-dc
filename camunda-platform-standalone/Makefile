@@ -92,8 +92,14 @@ copy-files:
 .PHONY: remote-up
 remote-up:
 	@echo "🚀 Starting Camunda Platform on remote server..."
-	ENVIRONMENT=$(ENVIRONMENT) docker stack deploy -c $(COMPOSE_FILE) --env-file .env.$(ENVIRONMENT) $(STACK) || \
-	ENVIRONMENT=$(ENVIRONMENT) docker compose --env-file .env.$(ENVIRONMENT) up -d
+	@echo "🔍 Checking Docker Swarm status and compose file compatibility..."
+	@if docker info --format '{{.Swarm.LocalNodeState}}' | grep -q active && ! grep -q "profiles:" $(COMPOSE_FILE); then \
+		echo "✅ Docker Swarm is active and compose file is compatible - using stack deploy"; \
+		ENVIRONMENT=$(ENVIRONMENT) docker stack deploy -c $(COMPOSE_FILE) $(STACK); \
+	else \
+		echo "⚠️  Using docker compose (Swarm inactive or profiles detected)"; \
+		ENVIRONMENT=$(ENVIRONMENT) docker compose --env-file .env.$(ENVIRONMENT) up -d; \
+	fi
 
 .PHONY: remote-down
 remote-down:
