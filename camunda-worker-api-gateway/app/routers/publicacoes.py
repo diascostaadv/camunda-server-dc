@@ -556,12 +556,27 @@ async def classificar_publicacao(
         # Converte para modelo
         pub_prata = PublicacaoPrata(**pub_prata_doc)
 
+        # Busca publicação bronze para pegar texto original completo da Webjur
+        pub_bronze_doc = db.publicacoes_bronze.find_one({
+            "_id": ObjectId(pub_prata.publicacao_bronze_id)
+        })
+
         logger.info(
             f"📤 Enviando publicação {publicacao_id} para N8N webhook: {settings.N8N_WEBHOOK_URL}"
         )
 
         # Prepara payload para N8N
-        texto_para_classificar = pub_prata.texto_limpo or pub_prata.texto_original
+        # Usa processo_publicacao do bronze (campo da Webjur com texto completo)
+        # Fallback: texto_publicacao > texto_original se processo_publicacao não existir
+        texto_para_classificar = (
+            pub_bronze_doc.get("processo_publicacao") if pub_bronze_doc 
+            else pub_bronze_doc.get("texto_publicacao") if pub_bronze_doc
+            else pub_prata.texto_original
+            or ""
+        )
+        
+        # Log de debug do campo usado
+        logger.info(f"📝 Campo usado: processo_publicacao, tamanho: {len(texto_para_classificar)} chars")
 
         n8n_payload = {
             "publicacao_prata_id": publicacao_id,  # Nome correto esperado pelo N8N
