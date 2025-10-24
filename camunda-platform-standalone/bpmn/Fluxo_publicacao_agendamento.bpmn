@@ -1749,35 +1749,54 @@ try {
           <bpmn:script>// Recupera a variável n8n_processing
 def dados = execution.getVariable("n8n_processing")
 
-if (dados) {
-  execution.setVariable("status", dados.status)
-  execution.setVariable("status_code", dados.status_code)
+// Validações defensivas
+if (!dados) {
+  println "❌ ERRO: n8n_processing é null"
+  throw new Exception("n8n_processing não foi definido pelo worker")
+}
 
-  // Agora o conteúdo vem em data.output (não mais em data.message.content)
-  def content = dados.data.output
+if (!dados.data) {
+  println "❌ ERRO: n8n_processing.data é null"
+  println "dados disponível: ${dados}"
+  throw new Exception("n8n_processing.data não foi definido")
+}
 
-  execution.setVariable("numero_processo", content.numero_processo)
-  execution.setVariable("nome_cliente", content.nome_cliente)
-  execution.setVariable("advogado_habilitado", content.advogado_habilitado)
-  execution.setVariable("advogado_habilitado_justificativa", content.advogado_habilitado_justificativa)
+if (!dados.data.output) {
+  println "❌ ERRO: n8n_processing.data.output é null"
+  println "dados.data disponível: ${dados.data}"
+  throw new Exception("n8n_processing.data.output não foi definido")
+}
 
-  execution.setVariable("parte_autora_ou_recorrente", content.parte_autora_ou_recorrente)
-  execution.setVariable("parte_re_ou_recorrida", content.parte_re_ou_recorrida)
-  execution.setVariable("orgao_tramitacao", content.orgao_tramitacao)
-  execution.setVariable("uf_tramitacao", content.uf_tramitacao)
-  execution.setVariable("instancia_tramitacao", content.instancia_tramitacao)
-  execution.setVariable("data_disponibilizacao", content.data_disponibilizacao)
-  execution.setVariable("diario_nome", content.diario_nome)
-  execution.setVariable("classificacao", content.classificacao)
-  execution.setVariable("justificativa_classificacao", content.justificativa_classificacao)
-  execution.setVariable("trecho_literal_utilizado", content.trecho_literal_utilizado)
-  execution.setVariable("nivel_confianca", content.nivel_confianca)
-  execution.setVariable("destinatario_publicacao", content.destinatario_publicacao)
-  execution.setVariable("mencao_fato_critico", content.mencao_fato_critico)
-  execution.setVariable("justificativa_fato_critico", content.justificativa_fato_critico)
-  execution.setVariable("obrigacao_de_fazer", content.obrigacao_de_fazer)
-  execution.setVariable("justificativa_obrigacao", content.justificativa_obrigacao)
-}</bpmn:script>
+// Agora é seguro acessar
+execution.setVariable("status", dados.status)
+execution.setVariable("status_code", dados.status_code)
+
+def content = dados.data.output
+
+// Processar campos com valores padrão caso estejam ausentes
+execution.setVariable("numero_processo", content.numero_processo ?: "não identificado")
+execution.setVariable("numero_cnj", content.numero_processo ?: "não identificado")
+execution.setVariable("nome_cliente", content.nome_cliente ?: "não identificado")
+execution.setVariable("advogado_habilitado", content.advogado_habilitado ?: "Não")
+execution.setVariable("advogado_habilitado_justificativa", content.advogado_habilitado_justificativa ?: "")
+execution.setVariable("parte_autora_ou_recorrente", content.parte_autora_ou_recorrente ?: "não identificado")
+execution.setVariable("parte_re_ou_recorrida", content.parte_re_ou_recorrida ?: "não identificado")
+execution.setVariable("orgao_tramitacao", content.orgao_tramitacao ?: "Não identificado")
+execution.setVariable("uf_tramitacao", content.uf_tramitacao ?: "XX")
+execution.setVariable("instancia_tramitacao", content.instancia_tramitacao ?: "Não identificado")
+execution.setVariable("data_disponibilizacao", content.data_disponibilizacao ?: "não informado")
+execution.setVariable("diario_nome", content.diario_nome ?: "não informado")
+execution.setVariable("classificacao", content.classificacao ?: "duvidoso")
+execution.setVariable("justificativa_classificacao", content.justificativa_classificacao ?: "")
+execution.setVariable("trecho_literal_utilizado", content.trecho_literal_utilizado ?: "")
+execution.setVariable("nivel_confianca", content.nivel_confianca ?: 0)
+execution.setVariable("destinatario_publicacao", content.destinatario_publicacao ?: "não identificado")
+execution.setVariable("mencao_fato_critico", content.mencao_fato_critico ?: "não há fato crítico")
+execution.setVariable("justificativa_fato_critico", content.justificativa_fato_critico ?: "")
+execution.setVariable("obrigacao_de_fazer", content.obrigacao_de_fazer ?: "Não")
+execution.setVariable("justificativa_obrigacao", content.justificativa_obrigacao ?: "")
+
+println "✅ Variáveis desserializadas com sucesso"</bpmn:script>
         </bpmn:scriptTask>
         <bpmn:sequenceFlow id="Flow_0grb1b8" sourceRef="Activity_11mcrt2" targetRef="Event_0ylrpqy" />
       </bpmn:subProcess>

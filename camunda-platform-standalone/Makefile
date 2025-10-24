@@ -161,6 +161,72 @@ deploy-bpmn-remote:
 	@echo "🚀 Deploying BPMN files to remote Camunda..."
 	$(SSH) "cd $(REMOTE_DIR) && python3 scripts/deploy_bpmns.py"
 
+# ---------------- LIMPEZA DE PROCESSOS ---------------------------------------
+
+.PHONY: clean-all
+clean-all:
+	@echo "🧹 Cleaning ALL Camunda processes and data..."
+	@echo "⚠️  This will delete:"
+	@echo "   - All running process instances"
+	@echo "   - All historical data"
+	@echo "   - All incidents"
+	@echo "   - All jobs and tasks"
+	@echo ""
+	@read -p "Are you sure? Type 'yes' to continue: " confirm && [ "$$confirm" = "yes" ] || (echo "❌ Cancelled" && exit 1)
+	@$(MAKE) _clean-all-confirmed
+
+.PHONY: _clean-all-confirmed
+_clean-all-confirmed:
+	@echo "🗑️  Deleting all process instances..."
+	@curl -X DELETE -u demo:demo "http://$(VM_HOST):8080/engine-rest/process-instance?skipCustomListeners=true&skipIoMappings=true" -H "Content-Type: application/json" || true
+	@echo "🗑️  Deleting all historical process instances..."
+	@curl -X POST -u demo:demo "http://$(VM_HOST):8080/engine-rest/history/process-instance/delete" \
+		-H "Content-Type: application/json" \
+		-d '{"historicProcessInstanceQuery":{}}' || true
+	@echo "🗑️  Deleting all incidents..."
+	@curl -X POST -u demo:demo "http://$(VM_HOST):8080/engine-rest/history/incident/delete" \
+		-H "Content-Type: application/json" \
+		-d '{"historicIncidentQuery":{}}' || true
+	@echo "🗑️  Deleting all jobs..."
+	@$(SSH) "docker exec \$$(docker ps --filter 'name=camunda' --format '{{.ID}}' | head -1) psql -U camunda -d camunda -c 'DELETE FROM act_ru_job;'" || true
+	@echo "🗑️  Deleting all tasks..."
+	@$(SSH) "docker exec \$$(docker ps --filter 'name=camunda' --format '{{.ID}}' | head -1) psql -U camunda -d camunda -c 'DELETE FROM act_ru_task;'" || true
+	@echo "✅ All processes cleaned successfully!"
+	@$(MAKE) clean-stats
+
+.PHONY: clean-local
+clean-local:
+	@echo "🧹 Cleaning local Camunda processes..."
+	@curl -X DELETE -u demo:demo "http://localhost:8080/engine-rest/process-instance?skipCustomListeners=true" || true
+	@curl -X POST -u demo:demo "http://localhost:8080/engine-rest/history/process-instance/delete" \
+		-H "Content-Type: application/json" \
+		-d '{"historicProcessInstanceQuery":{}}' || true
+	@echo "✅ Local processes cleaned!"
+
+.PHONY: clean-stats
+clean-stats:
+	@echo ""
+	@echo "📊 === CLEANUP STATS ==="
+	@echo "Running instances: $$(curl -s -u demo:demo 'http://$(VM_HOST):8080/engine-rest/process-instance/count' | grep -o '"count":[0-9]*' | cut -d':' -f2)"
+	@echo "Historical instances: $$(curl -s -u demo:demo 'http://$(VM_HOST):8080/engine-rest/history/process-instance/count' | grep -o '"count":[0-9]*' | cut -d':' -f2)"
+	@echo "Incidents: $$(curl -s -u demo:demo 'http://$(VM_HOST):8080/engine-rest/incident/count' | grep -o '"count":[0-9]*' | cut -d':' -f2)"
+	@echo "✅ Cleanup completed!"
+
+.PHONY: clean-deep
+clean-deep:
+	@echo "🧹 DEEP CLEAN - Resetting entire Camunda database..."
+	@echo "⚠️  WARNING: This will delete EVERYTHING including:"
+	@echo "   - All process instances and history"
+	@echo "   - All deployments and process definitions"
+	@echo "   - All users and authorizations"
+	@echo ""
+	@read -p "Type 'RESET' to continue: " confirm && [ "$$confirm" = "RESET" ] || (echo "❌ Cancelled" && exit 1)
+	@echo "🗄️  Resetting database..."
+	@$(SSH) "docker exec \$$(docker ps --filter 'name=camunda' --format '{{.ID}}' | head -1) psql -U camunda -d camunda -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT ALL ON SCHEMA public TO camunda;'"
+	@echo "🔄 Restarting Camunda to recreate tables..."
+	@$(MAKE) remote-restart
+	@echo "✅ Deep clean completed - Camunda reset to factory state!"
+
 # ---------------- UTILITÁRIOS DE SISTEMA ------------------------------------
 
 .PHONY: install-docker
@@ -261,6 +327,12 @@ help:
 	@echo "  make install-make  - Install make on remote server"
 	@echo "  make install-docker - Install Docker on remote server"
 	@echo "  make init-swarm    - Initialize Docker Swarm on remote"
+	@echo ""
+	@echo "CLEANUP:"
+	@echo "  make clean-all     - Clean all processes, history and incidents (with confirmation)"
+	@echo "  make clean-local   - Clean processes on local Camunda"
+	@echo "  make clean-stats   - Show cleanup statistics"
+	@echo "  make clean-deep    - RESET entire database to factory state (DANGER!)"
 	@echo ""
 	@echo "UTILITIES:"
 	@echo "  make backup-db     - Backup remote database"

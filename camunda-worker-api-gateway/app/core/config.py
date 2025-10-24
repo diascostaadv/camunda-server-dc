@@ -76,6 +76,13 @@ class Settings(BaseSettings):
     CPJ_PASSWORD: str = os.getenv("CPJ_PASSWORD", "2025")
     CPJ_TOKEN_EXPIRY_MINUTES: int = int(os.getenv("CPJ_TOKEN_EXPIRY_MINUTES", "30"))
 
+    # N8N Integration Configuration
+    N8N_WEBHOOK_URL: str = os.getenv(
+        "N8N_WEBHOOK_URL",
+        "https://nutec.app.n8n.cloud/webhook/1e5790e3-8efd-4246-88c1-fbb0ef3c68a7"
+    )
+    N8N_TIMEOUT: int = int(os.getenv("N8N_TIMEOUT", "120"))  # 2 minutes timeout
+
     class Config:
         env_file = ".env"
         case_sensitive = True

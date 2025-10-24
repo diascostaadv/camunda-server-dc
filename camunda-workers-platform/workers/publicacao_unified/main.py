@@ -232,16 +232,17 @@ class PublicacaoUnifiedWorker(BaseWorker):
                     "cod_grupo": 5,
                     "data_inicial": "2023-01-01",
                     "data_final": "2025-12-31",
-                    "limite_publicacoes": 100,
+                    "limite_publicacoes": 50,
                     "timeout_soap": 120,
                 }
 
-            # Parâmetros com valores padrão
-            cod_grupo = variables.get("cod_grupo", 5)
+            # Parâmetros com valores padrão e conversão de tipos
+            # Camunda pode passar valores como strings, então convertemos explicitamente
+            cod_grupo = int(variables.get("cod_grupo", 5))
             data_inicial = variables.get("data_inicial")
             data_final = variables.get("data_final")
-            limite_publicacoes = variables.get("limite_publicacoes", 50)
-            timeout_soap = variables.get("timeout_soap", 90)
+            limite_publicacoes = int(variables.get("limite_publicacoes", 50))
+            timeout_soap = int(variables.get("timeout_soap", 90))
 
             # Validações básicas
             validation_errors = self._validate_busca_parameters(
@@ -273,29 +274,29 @@ class PublicacaoUnifiedWorker(BaseWorker):
                     endpoint="/buscar-publicacoes/processar-task-v2",
                     timeout=total_timeout,
                 )
-            else:
-                # Modo direto - processar localmente (simulação)
-                log_with_context(
-                    "⚙️ Processando busca em modo direto (sem Gateway)", log_context
-                )
+            # else:
+            #     # Modo direto - processar localmente (simulação)
+            #     log_with_context(
+            #         "⚙️ Processando busca em modo direto (sem Gateway)", log_context
+            #     )
 
-                # Simular processamento direto
-                result_data = {
-                    "status_busca": "success",
-                    "modo": "direto",
-                    "timestamp_processamento": start_time.isoformat(),
-                    "timestamp_fim": datetime.now().isoformat(),
-                    "duracao_segundos": (datetime.now() - start_time).total_seconds(),
-                    "total_encontradas": 0,  # Em modo direto, apenas simular
-                    "instancias_criadas": 0,
-                    "cod_grupo": cod_grupo,
-                    "limite_publicacoes": limite_publicacoes,
-                    "message": "Busca processada em modo direto (simulação)",
-                    "worker_id": self.worker_id,
-                }
+            #     # Simular processamento direto
+            #     result_data = {
+            #         "status_busca": "success",
+            #         "modo": "direto",
+            #         "timestamp_processamento": start_time.isoformat(),
+            #         "timestamp_fim": datetime.now().isoformat(),
+            #         "duracao_segundos": (datetime.now() - start_time).total_seconds(),
+            #         "total_encontradas": 0,  # Em modo direto, apenas simular
+            #         "instancias_criadas": 0,
+            #         "cod_grupo": cod_grupo,
+            #         "limite_publicacoes": limite_publicacoes,
+            #         "message": "Busca processada em modo direto (simulação)",
+            #         "worker_id": self.worker_id,
+            #     }
 
-                log_with_context(f"✅ Busca concluída em modo direto", log_context)
-                return self.complete_task(task, result_data)
+            #     log_with_context(f"✅ Busca concluída em modo direto", log_context)
+            #     return self.complete_task(task, result_data)
 
         except Exception as e:
             error_msg = f"Erro inesperado durante busca de publicações: {e}"
@@ -335,9 +336,9 @@ class PublicacaoUnifiedWorker(BaseWorker):
         if (
             not isinstance(limite_publicacoes, int)
             or limite_publicacoes < 1
-            or limite_publicacoes > 1000
+            or limite_publicacoes > 50
         ):
-            errors.append("limite_publicacoes deve ser entre 1 e 1000")
+            errors.append("limite_publicacoes deve ser entre 1 e 50")
 
         # Validar timeout
         if not isinstance(timeout_soap, int) or timeout_soap < 30 or timeout_soap > 300:
@@ -521,9 +522,11 @@ class PublicacaoUnifiedWorker(BaseWorker):
             if self.gateway_enabled:
                 # Usar o helper para processar via Gateway
                 log_with_context("📤 Processando via Gateway", log_context)
-                return self.process_via_gateway(
+                result = self.process_via_gateway(
                     task=task, endpoint="/publicacoes/classificar", timeout=60
                 )
+                log_with_context("✅ Retorno do Gateway recebido", log_context)
+                return result
             else:
                 # Modo direto - apenas simula
                 result = {

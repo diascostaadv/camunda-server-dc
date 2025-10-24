@@ -474,16 +474,30 @@ async def processar_task_tratar_publicacao(
             {"_id": ObjectId(publicacao_id)}, {"$set": {"status": "processada"}}
         )
 
+        # Garante que numero_processo sempre tenha um valor válido
+        numero_processo_final = (
+            pub_prata.numero_processo
+            or pub_bronze.numero_processo
+            or f"SEM_NUMERO_{publicacao_id}"
+        )
+
+        logger.info(
+            f"✅ Publicação processada: {numero_processo_final} (prata: {pub_prata.numero_processo}, bronze: {pub_bronze.numero_processo})"
+        )
+
         return {
             "status": "success",
             "task_id": task_data.task_id,
+            "publicacao_id": str(
+                result.inserted_id
+            ),  # ID da publicação prata para próximos processos
             "publicacao_prata_id": str(result.inserted_id),
             "status_publicacao": pub_prata.status,
             "score_similaridade": pub_prata.score_similaridade,
             "classificacao": pub_prata.classificacao,
             "publicacoes_similares": pub_prata.publicacoes_similares,
             "message": f"Publicação processada com status: {pub_prata.status}",
-            "numero_processo": pub_prata.numero_processo,
+            "numero_processo": numero_processo_final,
         }
 
     except Exception as e:
@@ -493,23 +507,42 @@ async def processar_task_tratar_publicacao(
 
 @router.post("/classificar")
 async def classificar_publicacao(
-    request: Dict[str, Any] = Body(..., description="Request body with publicacao_id"),
-    publicacao_service: PublicacaoService = Depends(get_publicacao_service),
+    request: Dict[str, Any] = Body(
+        ..., description="Request body with publicacao_id or task data"
+    ),
     client: MongoClient = Depends(get_mongo_client),
 ):
     """
-    Classifica uma publicação prata individual
+    Classifica uma publicação prata individual via integração N8N
 
     Endpoint para classificar uma publicação que já foi higienizada
     e está no formato prata (Bronze → Prata)
+
+    Aceita dois formatos:
+    1. {"publicacao_id": "..."}  - Chamada direta
+    2. {"variables": {"publicacao_id": "..."}, ...}  - Chamada via worker
+
+    Processo:
+    1. Busca publicação prata no MongoDB
+    2. Envia dados para N8N webhook para classificação via LLM
+    3. Retorna resposta no formato esperado pelo BPMN (variável n8n_processing)
     """
+    import httpx
+
+    publicacao_id = None
     try:
-        # Extrai publicacao_id do request
+        # Extrai publicacao_id do request (suporta ambos os formatos)
         publicacao_id = request.get("publicacao_id")
+
+        # Se não encontrou diretamente, tenta em variables (formato do worker)
+        if not publicacao_id and "variables" in request:
+            publicacao_id = request.get("variables", {}).get("publicacao_id")
+
         if not publicacao_id:
+            logger.error(f"publicacao_id não fornecido. Request: {request}")
             raise HTTPException(status_code=400, detail="publicacao_id é obrigatório")
 
-        logger.info(f"Classificando publicação: {publicacao_id}")
+        logger.info(f"🏷️ Classificando publicação: {publicacao_id}")
 
         db = client[settings.MONGODB_DATABASE]
 
@@ -517,6 +550,9 @@ async def classificar_publicacao(
         pub_prata_doc = db.publicacoes_prata.find_one({"_id": ObjectId(publicacao_id)})
 
         if not pub_prata_doc:
+            logger.error(
+                f"❌ Publicação prata {publicacao_id} não encontrada no MongoDB"
+            )
             raise HTTPException(
                 status_code=404, detail="Publicação prata não encontrada"
             )
@@ -524,51 +560,147 @@ async def classificar_publicacao(
         # Converte para modelo
         pub_prata = PublicacaoPrata(**pub_prata_doc)
 
-        # Classifica publicação
-        tipo, confianca = publicacao_service.identificar_tipo_publicacao(
-            pub_prata.texto_limpo
+        logger.info(
+            f"📤 Enviando publicação {publicacao_id} para N8N webhook: {settings.N8N_WEBHOOK_URL}"
         )
-        urgente, prazo = publicacao_service.calcular_urgencia(
-            pub_prata.texto_limpo, tipo
-        )
-        entidades = publicacao_service.extrair_entidades(pub_prata.texto_limpo)
 
-        classificacao = {
-            "tipo": tipo,
-            "urgente": urgente,
-            "prazo_dias": prazo,
-            "confianca": confianca,
-            "entidades": entidades,
+        # Prepara payload para N8N
+        n8n_payload = {
+            "publicacao_prata_id": publicacao_id,  # Nome correto esperado pelo N8N
+            "publicacao_id": publicacao_id,  # Mantido para retrocompatibilidade
+            "numero_processo": pub_prata.numero_processo,
+            "texto_publicacao": pub_prata.texto_limpo or pub_prata.texto_original,
+            "texto_original": pub_prata.texto_original,
+            "data_publicacao": (
+                pub_prata.data_publicacao_original
+                if hasattr(pub_prata, "data_publicacao_original")
+                else str(pub_prata.data_publicacao)
+            ),
+            "fonte": pub_prata.fonte,
+            "tribunal": pub_prata.tribunal,
+            "diario_nome": pub_prata_doc.get(
+                "diario_nome", ""
+            ),  # Busca do documento original
         }
 
-        # Atualiza publicação com classificação
-        db.publicacoes_prata.update_one(
-            {"_id": ObjectId(publicacao_id)},
-            {
-                "$set": {
-                    "classificacao": classificacao,
-                    "status": "classificada",
-                    "timestamps.classificada_em": datetime.utcnow().isoformat(),
+        # Chama N8N webhook com timeout configurado
+        async with httpx.AsyncClient(timeout=settings.N8N_TIMEOUT) as http_client:
+            n8n_response = await http_client.post(
+                settings.N8N_WEBHOOK_URL,
+                json=n8n_payload,
+                headers={"Content-Type": "application/json"},
+            )
+            n8n_response.raise_for_status()
+
+            # Log da resposta para debug
+            response_text = n8n_response.text
+            logger.info(
+                f"📥 N8N response ({len(response_text)} chars): {response_text[:500]}"
+            )
+
+            # Parse JSON
+            if not response_text or response_text.strip() == "":
+                logger.warning("⚠️ N8N retornou resposta vazia")
+                n8n_data = {
+                    "status": "error",
+                    "status_code": 200,
+                    "data": {"output": {}},
+                    "error": "N8N retornou resposta vazia",
                 }
-            },
-        )
+            else:
+                # Empacota resposta N8N na estrutura esperada pelo BPMN
+                n8n_response_json = n8n_response.json()
+
+                # N8N pode retornar array ou objeto - normaliza
+                if isinstance(n8n_response_json, list) and len(n8n_response_json) > 0:
+                    n8n_response_json = n8n_response_json[0]
+
+                # IMPORTANTE: N8N retorna objeto flat, não {"output": {...}}
+                # Precisamos empacotar na estrutura esperada pelo BPMN
+                n8n_data = {
+                    "status": "success",
+                    "status_code": n8n_response.status_code,
+                    "data": {
+                        "output": n8n_response_json  # Empacota resposta flat em data.output
+                    },
+                }
+
+                logger.info(
+                    f"📦 Estrutura n8n_data criada: status={n8n_data['status']}, tem data.output={bool(n8n_data.get('data', {}).get('output'))}"
+                )
+
+        logger.info(f"✅ N8N processou publicação {publicacao_id} com sucesso")
+
+        # Atualiza publicação com dados do N8N
+        if n8n_data.get("data", {}).get("output"):
+            output = n8n_data["data"]["output"]
+
+            db.publicacoes_prata.update_one(
+                {"_id": ObjectId(publicacao_id)},
+                {
+                    "$set": {
+                        "classificacao": output.get("classificacao"),
+                        "justificativa_classificacao": output.get(
+                            "justificativa_classificacao"
+                        ),
+                        "nome_cliente": output.get("nome_cliente"),
+                        "advogado_habilitado": output.get("advogado_habilitado"),
+                        "status": "classificada",
+                        "timestamps.classificada_em": datetime.utcnow().isoformat(),
+                        "n8n_response": n8n_data,  # Salva resposta completa do N8N
+                    }
+                },
+            )
+
+            logger.info(
+                f"✅ Publicação {publicacao_id} atualizada com classificação: {output.get('classificacao')}"
+            )
+
+        # Validar estrutura antes de retornar ao Camunda
+        if not n8n_data.get("data"):
+            logger.error(f"❌ ERRO: n8n_data.data é null: {n8n_data}")
+            raise HTTPException(
+                status_code=500, detail="Estrutura inválida: missing 'data' field"
+            )
+
+        if not n8n_data.get("data", {}).get("output"):
+            logger.error(f"❌ ERRO: n8n_data.data.output é null: {n8n_data}")
+            raise HTTPException(
+                status_code=500,
+                detail="Estrutura inválida: missing 'data.output' field",
+            )
 
         logger.info(
-            f"✅ Publicação {publicacao_id} classificada como {tipo} (confiança: {confianca:.2f})"
+            f"✅ Estrutura validada - retornando n8n_processing com {len(n8n_data['data']['output'])} campos"
         )
 
+        # Retorna no formato esperado pelo BPMN
         return {
-            "success": True,
+            "status": "success",
+            "n8n_processing": n8n_data,  # Variável esperada pelo BPMN
             "publicacao_id": publicacao_id,
-            "classificacao": classificacao,
-            "status": "classificada",
-            "message": f"Publicação classificada como {tipo} com {confianca:.2f}% de confiança",
         }
+
+    except httpx.TimeoutException:
+        error_msg = f"Timeout ao chamar N8N webhook após {settings.N8N_TIMEOUT}s"
+        logger.error(f"❌ {error_msg} - publicacao_id: {publicacao_id}")
+        raise HTTPException(status_code=504, detail=error_msg)
+
+    except httpx.HTTPStatusError as e:
+        error_msg = (
+            f"N8N webhook retornou erro: {e.response.status_code} - {e.response.text}"
+        )
+        logger.error(f"❌ {error_msg} - publicacao_id: {publicacao_id}")
+        raise HTTPException(status_code=502, detail=error_msg)
 
     except HTTPException:
         raise
+
     except Exception as e:
-        logger.error(f"Erro ao classificar publicação {publicacao_id}: {e}")
+        logger.error(f"❌ Erro ao classificar publicação {publicacao_id}: {e}")
+        import traceback
+
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 
