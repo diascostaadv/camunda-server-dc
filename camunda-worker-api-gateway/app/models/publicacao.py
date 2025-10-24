@@ -13,6 +13,10 @@ class PublicacaoBronze(BaseModel):
     """
     Modelo para publicações brutas (tabela bronze)
     Dados como vieram da fonte original sem tratamento
+
+    NOTA: Este modelo é mantido apenas para documentação.
+    Na prática, os dados bronze são salvos diretamente como dicionários
+    sem validação Pydantic para máxima flexibilidade com campos dinâmicos da Webjur.
     """
 
     lote_id: str = Field(..., description="ID do lote de busca")

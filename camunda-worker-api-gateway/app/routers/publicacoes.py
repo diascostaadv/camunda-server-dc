@@ -16,7 +16,6 @@ from models.publicacao import (
     ProcessamentoPublicacaoRequest,
     ProcessamentoLoteRequest,
     ProcessamentoLoteResponse,
-    PublicacaoBronze,
     PublicacaoPrata,
     Lote,
     ResultadoDeduplicacao,
@@ -201,11 +200,9 @@ async def processar_publicacao_individual(
                 status_code=404, detail="Publicação bronze não encontrada"
             )
 
-        # Converte para modelo
-        pub_bronze = PublicacaoBronze(**pub_bronze_doc)
-
+        # Trabalha diretamente com dicionário (sem validação Pydantic)
         # Higieniza publicação
-        pub_prata = publicacao_service.higienizar_publicacao(pub_bronze)
+        pub_prata = publicacao_service.higienizar_publicacao(pub_bronze_doc)
 
         # Verifica duplicatas se solicitado
         if request.executar_deduplicacao:
@@ -437,9 +434,8 @@ async def processar_task_tratar_publicacao(
                 "task_id": task_data.task_id,
             }
 
-        # Processa publicação
-        pub_bronze = PublicacaoBronze(**pub_bronze_doc)
-        pub_prata = publicacao_service.higienizar_publicacao(pub_bronze)
+        # Processa publicação (trabalha diretamente com dicionário)
+        pub_prata = publicacao_service.higienizar_publicacao(pub_bronze_doc)
 
         # Verifica duplicatas
         resultado_dedup = deduplicacao_service.verificar_duplicata(pub_prata)
@@ -833,23 +829,27 @@ async def verificar_processo_cnj(
         logger.info(f"🔍 [CPJ] Request type: {type(request)}")
         logger.info(f"🔍 [CPJ] Request keys: {list(request.keys())}")
         logger.info(f"🔍 [CPJ] Request content: {request}")
-        
+
         # Extrai numero_cnj do request (tentar múltiplos formatos)
         numero_cnj = (
-            request.get("numero_cnj") or 
-            request.get("numero_processo") or
-            request.get("variables", {}).get("numero_cnj") or
-            request.get("variables", {}).get("numero_processo")
+            request.get("numero_cnj")
+            or request.get("numero_processo")
+            or request.get("variables", {}).get("numero_cnj")
+            or request.get("variables", {}).get("numero_processo")
         )
-        
+
         # LOG DO VALOR EXTRAÍDO
-        logger.info(f"🔍 [CPJ] numero_cnj extraído: '{numero_cnj}' (type: {type(numero_cnj)})")
-        
+        logger.info(
+            f"🔍 [CPJ] numero_cnj extraído: '{numero_cnj}' (type: {type(numero_cnj)})"
+        )
+
         if not numero_cnj:
-            logger.error(f"❌ [CPJ] numero_cnj não fornecido. Request completo: {request}")
+            logger.error(
+                f"❌ [CPJ] numero_cnj não fornecido. Request completo: {request}"
+            )
             raise HTTPException(
-                status_code=400, 
-                detail=f"numero_cnj é obrigatório. Recebido: {list(request.keys())}"
+                status_code=400,
+                detail=f"numero_cnj é obrigatório. Recebido: {list(request.keys())}",
             )
 
         logger.info(f"🔍 Verificando processo {numero_cnj} no CPJ...")

@@ -19,7 +19,7 @@ from models.buscar_request import (
     PublicacaoProcessingResult,
     BuscarPublicacoesStatus,
 )
-from models.publicacao import PublicacaoBronze, Lote
+from models.publicacao import Lote
 from services.process_starter import get_process_starter, ProcessStarter
 from services.intimation_service import get_intimation_client, IntimationService
 from services.lote_service import LoteService

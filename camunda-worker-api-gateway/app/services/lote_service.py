@@ -13,7 +13,6 @@ from pymongo import MongoClient, UpdateOne
 
 from models.publicacao import (
     Lote,
-    PublicacaoBronze,
     PublicacaoPrata,
     ProcessamentoLoteResponse,
 )
@@ -115,6 +114,9 @@ class LoteService:
         """
         Salva publicações na tabela bronze
 
+        Salva dados da Webjur diretamente como dicionários sem validação Pydantic
+        para máxima flexibilidade com campos dinâmicos.
+
         Args:
             lote_id: ID do lote
             publicacoes: Lista de publicações
@@ -123,44 +125,15 @@ class LoteService:
             documentos_bronze = []
 
             for pub_data in publicacoes:
-                # Cria publicação bronze
-                pub_bronze = PublicacaoBronze(
-                    lote_id=lote_id,
-                    cod_publicacao=pub_data.get("cod_publicacao"),
-                    numero_processo=pub_data.get("numero_processo"),
-                    data_publicacao=pub_data.get("data_publicacao"),
-                    texto_publicacao=pub_data.get("texto_publicacao"),
-                    fonte=pub_data.get("fonte", "dw"),
-                    tribunal=pub_data.get("tribunal", "tjmg"),
-                    instancia=pub_data.get("instancia", "1"),
-                    descricao_diario=pub_data.get("descricao_diario"),
-                    uf_publicacao=pub_data.get("uf_publicacao"),
-                    # Novos campos
-                    ano_publicacao=pub_data.get("ano_publicacao"),
-                    edicao_diario=pub_data.get("edicao_diario"),
-                    pagina_inicial=pub_data.get("pagina_inicial"),
-                    pagina_final=pub_data.get("pagina_final"),
-                    data_divulgacao=pub_data.get("data_divulgacao"),
-                    data_cadastro=pub_data.get("data_cadastro"),
-                    cidade_publicacao=pub_data.get("cidade_publicacao"),
-                    orgao_descricao=pub_data.get("orgao_descricao"),
-                    vara_descricao=pub_data.get("vara_descricao"),
-                    despacho_publicacao=pub_data.get("despacho_publicacao"),
-                    processo_publicacao=pub_data.get("processo_publicacao"),
-                    publicacao_corrigida=pub_data.get("publicacao_corrigida"),
-                    cod_vinculo=pub_data.get("cod_vinculo"),
-                    nome_vinculo=pub_data.get("nome_vinculo"),
-                    oab_numero=pub_data.get("oab_numero"),
-                    oab_estado=pub_data.get("oab_estado"),
-                    diario_sigla_wj=pub_data.get("diario_sigla_wj"),
-                    anexo=pub_data.get("anexo"),
-                    cod_integracao=pub_data.get("cod_integracao"),
-                    publicacao_exportada=pub_data.get("publicacao_exportada"),
-                    cod_grupo=pub_data.get("cod_grupo"),
-                    status="nova",
-                )
+                # Adiciona campos de controle essenciais
+                documento_bronze = {
+                    **pub_data,  # Mantém todos os campos originais da Webjur
+                    "lote_id": lote_id,
+                    "timestamp_insercao": datetime.now(),
+                    "status": "nova",
+                }
 
-                documentos_bronze.append(pub_bronze.dict())
+                documentos_bronze.append(documento_bronze)
 
             # Insere em batch
             if documentos_bronze:
@@ -326,11 +299,9 @@ class LoteService:
             dict: Resultado do processamento
         """
         try:
-            # Converte para modelo
-            pub_bronze = PublicacaoBronze(**pub_bronze_doc)
-
+            # Trabalha diretamente com dicionário (sem validação Pydantic)
             # 1. Higieniza publicação
-            pub_prata = self.publicacao_service.higienizar_publicacao(pub_bronze)
+            pub_prata = self.publicacao_service.higienizar_publicacao(pub_bronze_doc)
 
             # 2. Verifica duplicatas
             if executar_deduplicacao:
