@@ -5382,7 +5382,7 @@
         "kind": 6,
         "importPath": "camunda-workers-platform.workers.common.gateway_client",
         "description": "camunda-workers-platform.workers.common.gateway_client",
-        "peekOfCode": "class GatewayClient:\n    \"\"\"Client for communicating with Worker API Gateway\"\"\"\n    def __init__(self, worker_id: str):\n        self.worker_id = worker_id\n        # Gateway configuration\n        self.gateway_url = os.getenv('GATEWAY_URL', 'http://camunda-worker-api-gateway-gateway-1:8000')\n        self.communication_mode = os.getenv('GATEWAY_COMMUNICATION_MODE', 'http')  # 'http' or 'rabbitmq'\n        # HTTP configuration\n        self.http_timeout = int(os.getenv('GATEWAY_HTTP_TIMEOUT', '30'))\n        # RabbitMQ configuration",
+        "peekOfCode": "class GatewayClient:\n    \"\"\"Client for communicating with Worker API Gateway\"\"\"\n    def __init__(self, worker_id: str):\n        self.worker_id = worker_id\n        # Gateway configuration\n        self.gateway_url = os.getenv(\n            \"GATEWAY_URL\", \"http://camunda-worker-api-gateway-gateway-1:8000\"\n        )\n        self.communication_mode = os.getenv(\n            \"GATEWAY_COMMUNICATION_MODE\", \"http\"",
         "detail": "camunda-workers-platform.workers.common.gateway_client",
         "documentation": {}
     },

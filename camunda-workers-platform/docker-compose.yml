@@ -10,9 +10,12 @@ services:
     build:
       context: ./workers
       dockerfile: publicacao_unified/Dockerfile
+    env_file:
+      - env.gateway
     networks:
       - default
       - gateway_network
+      - camunda_network
     deploy:
       replicas: ${WORKER_PUBLICACAO_UNIFIED_REPLICAS:-1}
     environment:
@@ -64,5 +67,8 @@ networks:
   default:
     driver: bridge
   gateway_network:
+    external: true
+    name: camunda-worker-api-gateway_backend
+  camunda_network:
     external: true
     name: camunda-worker-api-gateway_backend
