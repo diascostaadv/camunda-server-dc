@@ -281,6 +281,29 @@ class PublicacaoParaProcessamento(BaseModel):
     descricao_diario: Optional[str] = Field(None, description="Descrição do diário")
     uf_publicacao: Optional[str] = Field(None, description="UF da publicação")
 
+    # Campos adicionais da API WebJur
+    ano_publicacao: Optional[int] = None
+    edicao_diario: Optional[int] = None
+    pagina_inicial: Optional[int] = None
+    pagina_final: Optional[int] = None
+    data_divulgacao: Optional[str] = None
+    data_cadastro: Optional[str] = None
+    cidade_publicacao: Optional[str] = None
+    orgao_descricao: Optional[str] = None
+    vara_descricao: Optional[str] = None
+    despacho_publicacao: Optional[str] = None
+    processo_publicacao: Optional[str] = None
+    publicacao_corrigida: Optional[int] = None
+    cod_vinculo: Optional[int] = None
+    nome_vinculo: Optional[str] = None
+    oab_numero: Optional[int] = None
+    oab_estado: Optional[str] = None
+    diario_sigla_wj: Optional[str] = None
+    anexo: Optional[str] = None
+    cod_integracao: Optional[str] = None
+    publicacao_exportada: Optional[int] = None
+    cod_grupo: Optional[int] = None
+
     def to_movimentacao_dict(self) -> Dict[str, Any]:
         """Converte para formato MovimentacaoJudicial"""
         return {
@@ -352,4 +375,26 @@ class PublicacaoParaProcessamento(BaseModel):
             cod_publicacao=publicacao.cod_publicacao,
             descricao_diario=publicacao.descricao_diario,
             uf_publicacao=publicacao.uf_publicacao,
+            # Novos campos
+            ano_publicacao=publicacao.ano_publicacao,
+            edicao_diario=publicacao.edicao_diario,
+            pagina_inicial=publicacao.pagina_inicial,
+            pagina_final=publicacao.pagina_final,
+            data_divulgacao=publicacao.data_divulgacao,
+            data_cadastro=publicacao.data_cadastro,
+            cidade_publicacao=publicacao.cidade_publicacao,
+            orgao_descricao=publicacao.orgao_descricao,
+            vara_descricao=publicacao.vara_descricao,
+            despacho_publicacao=publicacao.despacho_publicacao,
+            processo_publicacao=publicacao.processo_publicacao,
+            publicacao_corrigida=publicacao.publicacao_corrigida,
+            cod_vinculo=publicacao.cod_vinculo,
+            nome_vinculo=publicacao.nome_vinculo,
+            oab_numero=publicacao.oab_numero,
+            oab_estado=publicacao.oab_estado,
+            diario_sigla_wj=publicacao.diario_sigla_wj,
+            anexo=publicacao.anexo,
+            cod_integracao=publicacao.cod_integracao,
+            publicacao_exportada=publicacao.publicacao_exportada,
+            cod_grupo=publicacao.cod_grupo,
         )

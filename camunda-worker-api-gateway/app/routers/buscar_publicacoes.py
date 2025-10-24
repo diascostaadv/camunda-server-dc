@@ -582,6 +582,28 @@ async def processar_task_camunda_v2(
                         "instancia": pub_convertida.instancia,
                         "descricao_diario": pub_convertida.descricao_diario,
                         "uf_publicacao": pub_convertida.uf_publicacao,
+                        # Novos campos
+                        "ano_publicacao": pub_convertida.ano_publicacao,
+                        "edicao_diario": pub_convertida.edicao_diario,
+                        "pagina_inicial": pub_convertida.pagina_inicial,
+                        "pagina_final": pub_convertida.pagina_final,
+                        "data_divulgacao": pub_convertida.data_divulgacao,
+                        "data_cadastro": pub_convertida.data_cadastro,
+                        "cidade_publicacao": pub_convertida.cidade_publicacao,
+                        "orgao_descricao": pub_convertida.orgao_descricao,
+                        "vara_descricao": pub_convertida.vara_descricao,
+                        "despacho_publicacao": pub_convertida.despacho_publicacao,
+                        "processo_publicacao": pub_convertida.processo_publicacao,
+                        "publicacao_corrigida": pub_convertida.publicacao_corrigida,
+                        "cod_vinculo": pub_convertida.cod_vinculo,
+                        "nome_vinculo": pub_convertida.nome_vinculo,
+                        "oab_numero": pub_convertida.oab_numero,
+                        "oab_estado": pub_convertida.oab_estado,
+                        "diario_sigla_wj": pub_convertida.diario_sigla_wj,
+                        "anexo": pub_convertida.anexo,
+                        "cod_integracao": pub_convertida.cod_integracao,
+                        "publicacao_exportada": pub_convertida.publicacao_exportada,
+                        "cod_grupo": pub_convertida.cod_grupo,
                     }
                 )
             except Exception as e:

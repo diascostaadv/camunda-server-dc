@@ -440,7 +440,13 @@ class BaseWorker:
         except Exception as e:
             self.logger.error(f"Error during cleanup: {e}")
 
-    def process_via_gateway(self, task, endpoint: str, timeout: int = 90) -> Any:
+    def process_via_gateway(
+        self,
+        task,
+        endpoint: str,
+        timeout: int = 90,
+        custom_payload: Dict[str, Any] = None,
+    ) -> Any:
         """
         Helper method to process tasks via Gateway
 
@@ -448,6 +454,7 @@ class BaseWorker:
             task: Camunda external task
             endpoint: Gateway API endpoint to call
             timeout: Request timeout in seconds
+            custom_payload: Custom payload to send instead of default structure
 
         Returns:
             Task completion result (complete or fail)
@@ -457,15 +464,18 @@ class BaseWorker:
         try:
             gateway_url = f"{self.gateway_base_url}{endpoint}"
 
-            # Prepare payload
-            payload = {
-                "task_id": task.get_task_id(),
-                "process_instance_id": task.get_process_instance_id(),
-                "business_key": task.get_business_key(),
-                "topic_name": task.get_topic_name(),
-                "worker_id": self.worker_id,
-                "variables": task.get_variables(),
-            }
+            # Prepare payload - use custom if provided, otherwise default
+            if custom_payload:
+                payload = custom_payload
+            else:
+                payload = {
+                    "task_id": task.get_task_id(),
+                    "process_instance_id": task.get_process_instance_id(),
+                    "business_key": task.get_business_key(),
+                    "topic_name": task.get_topic_name(),
+                    "worker_id": self.worker_id,
+                    "variables": task.get_variables(),
+                }
 
             self.logger.info(f"Calling Gateway: {gateway_url}")
 

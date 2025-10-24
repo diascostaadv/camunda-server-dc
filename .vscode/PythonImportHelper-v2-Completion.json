@@ -4212,7 +4212,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.publicacao",
         "description": "camunda-worker-api-gateway.app.models.publicacao",
-        "peekOfCode": "class PublicacaoBronze(BaseModel):\n    \"\"\"\n    Modelo para publicações brutas (tabela bronze)\n    Dados como vieram da fonte original sem tratamento\n    \"\"\"\n    lote_id: str = Field(..., description=\"ID do lote de busca\")\n    cod_publicacao: int = Field(..., description=\"Código único da publicação na fonte\")\n    numero_processo: str = Field(..., description=\"Número do processo judicial\")\n    data_publicacao: str = Field(..., description=\"Data de publicação (formato original)\")\n    texto_publicacao: str = Field(..., description=\"Texto integral da publicação\")",
+        "peekOfCode": "class PublicacaoBronze(BaseModel):\n    \"\"\"\n    Modelo para publicações brutas (tabela bronze)\n    Dados como vieram da fonte original sem tratamento\n    \"\"\"\n    lote_id: str = Field(..., description=\"ID do lote de busca\")\n    cod_publicacao: int = Field(..., description=\"Código único da publicação na fonte\")\n    numero_processo: str = Field(..., description=\"Número do processo judicial\")\n    data_publicacao: str = Field(\n        ..., description=\"Data de publicação (formato original)\"",
         "detail": "camunda-worker-api-gateway.app.models.publicacao",
         "documentation": {}
     },
@@ -4221,7 +4221,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.publicacao",
         "description": "camunda-worker-api-gateway.app.models.publicacao",
-        "peekOfCode": "class PublicacaoPrata(BaseModel):\n    \"\"\"\n    Modelo para publicações higienizadas (tabela prata)\n    Dados tratados, limpos e enriquecidos\n    \"\"\"\n    publicacao_bronze_id: str = Field(..., description=\"ID da publicação bronze original\")\n    hash_unica: str = Field(..., description=\"Hash SHA256 única para deduplicação\")\n    hash_alternativa: Optional[str] = Field(None, description=\"Hash alternativa com texto limpo\")\n    # Dados principais higienizados\n    numero_processo: str = Field(..., description=\"Número do processo original\")",
+        "peekOfCode": "class PublicacaoPrata(BaseModel):\n    \"\"\"\n    Modelo para publicações higienizadas (tabela prata)\n    Dados tratados, limpos e enriquecidos\n    \"\"\"\n    publicacao_bronze_id: str = Field(\n        ..., description=\"ID da publicação bronze original\"\n    )\n    hash_unica: str = Field(..., description=\"Hash SHA256 única para deduplicação\")\n    hash_alternativa: Optional[str] = Field(",
         "detail": "camunda-worker-api-gateway.app.models.publicacao",
         "documentation": {}
     },
@@ -4230,7 +4230,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.publicacao",
         "description": "camunda-worker-api-gateway.app.models.publicacao",
-        "peekOfCode": "class Lote(BaseModel):\n    \"\"\"\n    Modelo para lote de publicações\n    Agrupa publicações de uma busca específica\n    \"\"\"\n    execucao_id: str = Field(..., description=\"ID da execução que gerou o lote\")\n    timestamp_criacao: datetime = Field(default_factory=datetime.now, description=\"Timestamp de criação\")\n    total_publicacoes: int = Field(..., description=\"Total de publicações no lote\")\n    cod_grupo: int = Field(..., description=\"Código do grupo de busca\")\n    data_inicial: Optional[str] = Field(None, description=\"Data inicial da busca\")",
+        "peekOfCode": "class Lote(BaseModel):\n    \"\"\"\n    Modelo para lote de publicações\n    Agrupa publicações de uma busca específica\n    \"\"\"\n    execucao_id: str = Field(..., description=\"ID da execução que gerou o lote\")\n    timestamp_criacao: datetime = Field(\n        default_factory=datetime.now, description=\"Timestamp de criação\"\n    )\n    total_publicacoes: int = Field(..., description=\"Total de publicações no lote\")",
         "detail": "camunda-worker-api-gateway.app.models.publicacao",
         "documentation": {}
     },
@@ -4239,7 +4239,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.publicacao",
         "description": "camunda-worker-api-gateway.app.models.publicacao",
-        "peekOfCode": "class HashDeduplicacao(BaseModel):\n    \"\"\"\n    Modelo para índice de hashes\n    Usado para deduplicação rápida\n    \"\"\"\n    hash_value: str = Field(..., description=\"Valor da hash SHA256\")\n    publicacao_prata_id: str = Field(..., description=\"ID da publicação prata\")\n    numero_processo: str = Field(..., description=\"Número do processo para referência rápida\")\n    data_publicacao: datetime = Field(..., description=\"Data da publicação\")\n    timestamp_criacao: datetime = Field(default_factory=datetime.now, description=\"Timestamp de criação\")",
+        "peekOfCode": "class HashDeduplicacao(BaseModel):\n    \"\"\"\n    Modelo para índice de hashes\n    Usado para deduplicação rápida\n    \"\"\"\n    hash_value: str = Field(..., description=\"Valor da hash SHA256\")\n    publicacao_prata_id: str = Field(..., description=\"ID da publicação prata\")\n    numero_processo: str = Field(\n        ..., description=\"Número do processo para referência rápida\"\n    )",
         "detail": "camunda-worker-api-gateway.app.models.publicacao",
         "documentation": {}
     },
@@ -4257,7 +4257,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.publicacao",
         "description": "camunda-worker-api-gateway.app.models.publicacao",
-        "peekOfCode": "class ResultadoDeduplicacao(BaseModel):\n    \"\"\"\n    Modelo para resultado do processo de deduplicação\n    \"\"\"\n    publicacao_id: str = Field(..., description=\"ID da publicação analisada\")\n    eh_duplicata: bool = Field(..., description=\"Se é duplicata\")\n    hash_unica: str = Field(..., description=\"Hash gerada\")\n    # Se for duplicata\n    publicacao_original_id: Optional[str] = Field(None, description=\"ID da publicação original se duplicata\")\n    score_similaridade: float = Field(0.0, description=\"Score de similaridade\")",
+        "peekOfCode": "class ResultadoDeduplicacao(BaseModel):\n    \"\"\"\n    Modelo para resultado do processo de deduplicação\n    \"\"\"\n    publicacao_id: str = Field(..., description=\"ID da publicação analisada\")\n    eh_duplicata: bool = Field(..., description=\"Se é duplicata\")\n    hash_unica: str = Field(..., description=\"Hash gerada\")\n    # Se for duplicata\n    publicacao_original_id: Optional[str] = Field(\n        None, description=\"ID da publicação original se duplicata\"",
         "detail": "camunda-worker-api-gateway.app.models.publicacao",
         "documentation": {}
     },
@@ -4266,7 +4266,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.publicacao",
         "description": "camunda-worker-api-gateway.app.models.publicacao",
-        "peekOfCode": "class ProcessamentoPublicacaoRequest(BaseModel):\n    \"\"\"\n    Request para processar uma publicação individual\n    \"\"\"\n    publicacao_bronze_id: str = Field(..., description=\"ID da publicação bronze a processar\")\n    executar_classificacao: bool = Field(True, description=\"Se deve executar classificação\")\n    executar_deduplicacao: bool = Field(True, description=\"Se deve executar deduplicação\")\n    iniciar_processo_camunda: bool = Field(False, description=\"Se deve iniciar processo no Camunda\")\n    # Parâmetros opcionais\n    score_minimo_similaridade: float = Field(",
+        "peekOfCode": "class ProcessamentoPublicacaoRequest(BaseModel):\n    \"\"\"\n    Request para processar uma publicação individual\n    \"\"\"\n    publicacao_bronze_id: str = Field(\n        ..., description=\"ID da publicação bronze a processar\"\n    )\n    executar_classificacao: bool = Field(\n        True, description=\"Se deve executar classificação\"\n    )",
         "detail": "camunda-worker-api-gateway.app.models.publicacao",
         "documentation": {}
     },
@@ -4275,7 +4275,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.publicacao",
         "description": "camunda-worker-api-gateway.app.models.publicacao",
-        "peekOfCode": "class ProcessamentoLoteRequest(BaseModel):\n    \"\"\"\n    Request para processar um lote de publicações\n    \"\"\"\n    lote_id: str = Field(..., description=\"ID do lote a processar\")\n    processar_em_paralelo: bool = Field(True, description=\"Se deve processar em paralelo\")\n    max_paralelo: int = Field(10, ge=1, le=50, description=\"Máximo de processamentos paralelos\")\n    continuar_em_erro: bool = Field(True, description=\"Se deve continuar processando em caso de erro\")\n    # Configurações de processamento\n    executar_classificacao: bool = Field(True, description=\"Se deve executar classificação\")",
+        "peekOfCode": "class ProcessamentoLoteRequest(BaseModel):\n    \"\"\"\n    Request para processar um lote de publicações\n    \"\"\"\n    lote_id: str = Field(..., description=\"ID do lote a processar\")\n    processar_em_paralelo: bool = Field(\n        True, description=\"Se deve processar em paralelo\"\n    )\n    max_paralelo: int = Field(\n        10, ge=1, le=50, description=\"Máximo de processamentos paralelos\"",
         "detail": "camunda-worker-api-gateway.app.models.publicacao",
         "documentation": {}
     },
@@ -4878,7 +4878,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.lote_service",
         "description": "camunda-worker-api-gateway.app.services.lote_service",
-        "peekOfCode": "class LoteService:\n    \"\"\"Serviço para gerenciamento de lotes de publicações\"\"\"\n    def __init__(\n        self,\n        mongo_client: MongoClient,\n        publicacao_service: PublicacaoService = None,\n        deduplicacao_service: DeduplicacaoService = None,\n        database_name: str = \"worker_gateway\"\n    ):\n        \"\"\"",
+        "peekOfCode": "class LoteService:\n    \"\"\"Serviço para gerenciamento de lotes de publicações\"\"\"\n    def __init__(\n        self,\n        mongo_client: MongoClient,\n        publicacao_service: PublicacaoService = None,\n        deduplicacao_service: DeduplicacaoService = None,\n        database_name: str = \"worker_gateway\",\n    ):\n        \"\"\"",
         "detail": "camunda-worker-api-gateway.app.services.lote_service",
         "documentation": {}
     },
@@ -4887,7 +4887,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.services.lote_service",
         "description": "camunda-worker-api-gateway.app.services.lote_service",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nclass LoteService:\n    \"\"\"Serviço para gerenciamento de lotes de publicações\"\"\"\n    def __init__(\n        self,\n        mongo_client: MongoClient,\n        publicacao_service: PublicacaoService = None,\n        deduplicacao_service: DeduplicacaoService = None,\n        database_name: str = \"worker_gateway\"\n    ):",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass LoteService:\n    \"\"\"Serviço para gerenciamento de lotes de publicações\"\"\"\n    def __init__(\n        self,\n        mongo_client: MongoClient,\n        publicacao_service: PublicacaoService = None,\n        deduplicacao_service: DeduplicacaoService = None,\n        database_name: str = \"worker_gateway\",\n    ):",
         "detail": "camunda-worker-api-gateway.app.services.lote_service",
         "documentation": {}
     },

@@ -577,15 +577,29 @@ class PublicacaoUnifiedWorker(BaseWorker):
             log_with_context(f"📋 Buscando processo {numero_cnj} no CPJ", log_context)
 
             # LOG DETALHADO ANTES DE CHAMAR GATEWAY
-            log_with_context(f"📤 [GATEWAY] Enviando para endpoint: /publicacoes/verificar-processo-cnj", log_context)
+            log_with_context(
+                f"📤 [GATEWAY] Enviando para endpoint: /publicacoes/verificar-processo-cnj",
+                log_context,
+            )
             log_with_context(f"📤 [GATEWAY] numero_cnj: '{numero_cnj}'", log_context)
-            log_with_context(f"📤 [GATEWAY] Variáveis disponíveis: {list(variables.keys())}", log_context)
+            log_with_context(
+                f"📤 [GATEWAY] Variáveis disponíveis: {list(variables.keys())}",
+                log_context,
+            )
 
             if self.gateway_enabled:
+                # Criar payload customizado com numero_cnj no root
+                custom_payload = {"numero_cnj": numero_cnj}
+
+                log_with_context(
+                    f"📤 [GATEWAY] Payload customizado: {custom_payload}", log_context
+                )
+
                 return self.process_via_gateway(
                     task=task,
                     endpoint="/publicacoes/verificar-processo-cnj",
                     timeout=30,
+                    custom_payload=custom_payload,
                 )
             else:
                 # Modo direto - simula
