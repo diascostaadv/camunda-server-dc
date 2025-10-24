@@ -473,12 +473,12 @@ async def processar_task_tratar_publicacao(
         # Garante que numero_processo sempre tenha um valor válido
         numero_processo_final = (
             pub_prata.numero_processo
-            or pub_bronze.numero_processo
+            or pub_bronze_doc.get("numero_processo")
             or f"SEM_NUMERO_{publicacao_id}"
         )
 
         logger.info(
-            f"✅ Publicação processada: {numero_processo_final} (prata: {pub_prata.numero_processo}, bronze: {pub_bronze.numero_processo})"
+            f"✅ Publicação processada: {numero_processo_final} (prata: {pub_prata.numero_processo}, bronze: {pub_bronze_doc.get('numero_processo')})"
         )
 
         return {
