@@ -565,12 +565,14 @@ async def classificar_publicacao(
         )
 
         # Prepara payload para N8N
+        texto_para_classificar = pub_prata.texto_limpo or pub_prata.texto_original
+        
         n8n_payload = {
             "publicacao_prata_id": publicacao_id,  # Nome correto esperado pelo N8N
             "publicacao_id": publicacao_id,  # Mantido para retrocompatibilidade
-            "numero_processo": pub_prata.numero_processo,
-            "texto_publicacao": pub_prata.texto_limpo or pub_prata.texto_original,
-            "texto_original": pub_prata.texto_original,
+            
+            # ========= CAMPOS JÁ EXTRAÍDOS =========
+            "numero_processo": pub_prata.numero_processo,  # Já limpo e validado
             "data_publicacao": (
                 pub_prata.data_publicacao_original
                 if hasattr(pub_prata, "data_publicacao_original")
@@ -578,10 +580,27 @@ async def classificar_publicacao(
             ),
             "fonte": pub_prata.fonte,
             "tribunal": pub_prata.tribunal,
-            "diario_nome": pub_prata_doc.get(
-                "diario_nome", ""
-            ),  # Busca do documento original
+            "diario_nome": pub_prata_doc.get("diario_nome", ""),
+            
+            # ========= TEXTOS PARA ANÁLISE =========
+            "texto_publicacao": texto_para_classificar,
+            "texto_original": pub_prata.texto_original,
+            
+            # ========= METADADOS =========
+            "texto_length": len(texto_para_classificar),
+            "campos_pre_extraidos": {
+                "numero_processo": True,  # Indicar que já foi extraído
+                "data_publicacao": True,
+                "tribunal": True,
+                "fonte": True
+            }
         }
+        
+        # LOG detalhado
+        logger.info(f"📤 [N8N] Enviando payload:")
+        logger.info(f"  - numero_processo: '{n8n_payload['numero_processo']}'")
+        logger.info(f"  - texto_length: {n8n_payload['texto_length']} chars")
+        logger.info(f"  - campos_pre_extraidos: {n8n_payload['campos_pre_extraidos']}")
 
         # Chama N8N webhook com timeout configurado
         async with httpx.AsyncClient(timeout=settings.N8N_TIMEOUT) as http_client:
@@ -615,15 +634,27 @@ async def classificar_publicacao(
                 if isinstance(n8n_response_json, list) and len(n8n_response_json) > 0:
                     n8n_response_json = n8n_response_json[0]
 
-                # IMPORTANTE: N8N retorna objeto flat, não {"output": {...}}
-                # Precisamos empacotar na estrutura esperada pelo BPMN
-                n8n_data = {
-                    "status": "success",
-                    "status_code": n8n_response.status_code,
-                    "data": {
-                        "output": n8n_response_json  # Empacota resposta flat em data.output
-                    },
-                }
+                # ============ CORREÇÃO: Detectar formato N8N ============
+                # Verificar se N8N já retorna no formato {"output": {...}}
+                if "output" in n8n_response_json:
+                    # N8N já retornou com "output", não duplicar
+                    logger.info("📦 N8N retornou com estrutura 'output' - usando diretamente")
+                    n8n_data = {
+                        "status": "success",
+                        "status_code": n8n_response.status_code,
+                        "data": n8n_response_json  # Já tem "output"
+                    }
+                else:
+                    # N8N retornou objeto flat, empacotar em "output"
+                    logger.info("📦 N8N retornou objeto flat - empacotando em 'output'")
+                    n8n_data = {
+                        "status": "success",
+                        "status_code": n8n_response.status_code,
+                        "data": {
+                            "output": n8n_response_json  # Empacota resposta flat em data.output
+                        },
+                    }
+                # ========================================================
 
                 logger.info(
                     f"📦 Estrutura n8n_data criada: status={n8n_data['status']}, tem data.output={bool(n8n_data.get('data', {}).get('output'))}"
@@ -634,16 +665,34 @@ async def classificar_publicacao(
         # Atualiza publicação com dados do N8N
         if n8n_data.get("data", {}).get("output"):
             output = n8n_data["data"]["output"]
+            
+            # ========= USAR CAMPOS PRÉ-EXTRAÍDOS SE N8N FALHAR =========
+            # Se N8N retornou "não identificado", usar o que já temos
+            numero_processo_final = output.get("numero_processo")
+            if numero_processo_final in ["não identificado", "não informado", None, ""]:
+                logger.warning(
+                    f"⚠️ N8N não conseguiu extrair numero_processo, "
+                    f"usando valor pré-extraído: '{pub_prata.numero_processo}'"
+                )
+                numero_processo_final = pub_prata.numero_processo
+            
+            # Aplicar mesmo fallback para outros campos críticos
+            classificacao_final = output.get("classificacao") or "não classificada"
+            nome_cliente_final = output.get("nome_cliente")
+            if nome_cliente_final in ["não identificado", "não informado", None, ""]:
+                nome_cliente_final = "não identificado"
 
             db.publicacoes_prata.update_one(
                 {"_id": ObjectId(publicacao_id)},
                 {
                     "$set": {
-                        "classificacao": output.get("classificacao"),
+                        "numero_processo_n8n": output.get("numero_processo"),  # Salvar o que N8N retornou
+                        "numero_processo": numero_processo_final,  # Usar melhor valor disponível
+                        "classificacao": classificacao_final,
                         "justificativa_classificacao": output.get(
                             "justificativa_classificacao"
                         ),
-                        "nome_cliente": output.get("nome_cliente"),
+                        "nome_cliente": nome_cliente_final,
                         "advogado_habilitado": output.get("advogado_habilitado"),
                         "status": "classificada",
                         "timestamps.classificada_em": datetime.utcnow().isoformat(),
