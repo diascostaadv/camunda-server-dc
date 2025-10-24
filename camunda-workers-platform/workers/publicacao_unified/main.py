@@ -576,6 +576,11 @@ class PublicacaoUnifiedWorker(BaseWorker):
 
             log_with_context(f"📋 Buscando processo {numero_cnj} no CPJ", log_context)
 
+            # LOG DETALHADO ANTES DE CHAMAR GATEWAY
+            log_with_context(f"📤 [GATEWAY] Enviando para endpoint: /publicacoes/verificar-processo-cnj", log_context)
+            log_with_context(f"📤 [GATEWAY] numero_cnj: '{numero_cnj}'", log_context)
+            log_with_context(f"📤 [GATEWAY] Variáveis disponíveis: {list(variables.keys())}", log_context)
+
             if self.gateway_enabled:
                 return self.process_via_gateway(
                     task=task,

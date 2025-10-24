@@ -566,11 +566,10 @@ async def classificar_publicacao(
 
         # Prepara payload para N8N
         texto_para_classificar = pub_prata.texto_limpo or pub_prata.texto_original
-        
+
         n8n_payload = {
             "publicacao_prata_id": publicacao_id,  # Nome correto esperado pelo N8N
             "publicacao_id": publicacao_id,  # Mantido para retrocompatibilidade
-            
             # ========= CAMPOS JÁ EXTRAÍDOS =========
             "numero_processo": pub_prata.numero_processo,  # Já limpo e validado
             "data_publicacao": (
@@ -581,21 +580,19 @@ async def classificar_publicacao(
             "fonte": pub_prata.fonte,
             "tribunal": pub_prata.tribunal,
             "diario_nome": pub_prata_doc.get("diario_nome", ""),
-            
             # ========= TEXTOS PARA ANÁLISE =========
             "texto_publicacao": texto_para_classificar,
             "texto_original": pub_prata.texto_original,
-            
             # ========= METADADOS =========
             "texto_length": len(texto_para_classificar),
             "campos_pre_extraidos": {
                 "numero_processo": True,  # Indicar que já foi extraído
                 "data_publicacao": True,
                 "tribunal": True,
-                "fonte": True
-            }
+                "fonte": True,
+            },
         }
-        
+
         # LOG detalhado
         logger.info(f"📤 [N8N] Enviando payload:")
         logger.info(f"  - numero_processo: '{n8n_payload['numero_processo']}'")
@@ -638,11 +635,13 @@ async def classificar_publicacao(
                 # Verificar se N8N já retorna no formato {"output": {...}}
                 if "output" in n8n_response_json:
                     # N8N já retornou com "output", não duplicar
-                    logger.info("📦 N8N retornou com estrutura 'output' - usando diretamente")
+                    logger.info(
+                        "📦 N8N retornou com estrutura 'output' - usando diretamente"
+                    )
                     n8n_data = {
                         "status": "success",
                         "status_code": n8n_response.status_code,
-                        "data": n8n_response_json  # Já tem "output"
+                        "data": n8n_response_json,  # Já tem "output"
                     }
                 else:
                     # N8N retornou objeto flat, empacotar em "output"
@@ -665,7 +664,7 @@ async def classificar_publicacao(
         # Atualiza publicação com dados do N8N
         if n8n_data.get("data", {}).get("output"):
             output = n8n_data["data"]["output"]
-            
+
             # ========= USAR CAMPOS PRÉ-EXTRAÍDOS SE N8N FALHAR =========
             # Se N8N retornou "não identificado", usar o que já temos
             numero_processo_final = output.get("numero_processo")
@@ -675,7 +674,7 @@ async def classificar_publicacao(
                     f"usando valor pré-extraído: '{pub_prata.numero_processo}'"
                 )
                 numero_processo_final = pub_prata.numero_processo
-            
+
             # Aplicar mesmo fallback para outros campos críticos
             classificacao_final = output.get("classificacao") or "não classificada"
             nome_cliente_final = output.get("nome_cliente")
@@ -686,7 +685,9 @@ async def classificar_publicacao(
                 {"_id": ObjectId(publicacao_id)},
                 {
                     "$set": {
-                        "numero_processo_n8n": output.get("numero_processo"),  # Salvar o que N8N retornou
+                        "numero_processo_n8n": output.get(
+                            "numero_processo"
+                        ),  # Salvar o que N8N retornou
                         "numero_processo": numero_processo_final,  # Usar melhor valor disponível
                         "classificacao": classificacao_final,
                         "justificativa_classificacao": output.get(
@@ -827,10 +828,29 @@ async def verificar_processo_cnj(
     }
     """
     try:
-        # Extrai numero_cnj do request
-        numero_cnj = request.get("numero_cnj")
+        # LOG DO REQUEST COMPLETO
+        logger.info(f"🔍 [CPJ] Request recebido")
+        logger.info(f"🔍 [CPJ] Request type: {type(request)}")
+        logger.info(f"🔍 [CPJ] Request keys: {list(request.keys())}")
+        logger.info(f"🔍 [CPJ] Request content: {request}")
+        
+        # Extrai numero_cnj do request (tentar múltiplos formatos)
+        numero_cnj = (
+            request.get("numero_cnj") or 
+            request.get("numero_processo") or
+            request.get("variables", {}).get("numero_cnj") or
+            request.get("variables", {}).get("numero_processo")
+        )
+        
+        # LOG DO VALOR EXTRAÍDO
+        logger.info(f"🔍 [CPJ] numero_cnj extraído: '{numero_cnj}' (type: {type(numero_cnj)})")
+        
         if not numero_cnj:
-            raise HTTPException(status_code=400, detail="numero_cnj é obrigatório")
+            logger.error(f"❌ [CPJ] numero_cnj não fornecido. Request completo: {request}")
+            raise HTTPException(
+                status_code=400, 
+                detail=f"numero_cnj é obrigatório. Recebido: {list(request.keys())}"
+            )
 
         logger.info(f"🔍 Verificando processo {numero_cnj} no CPJ...")
 
