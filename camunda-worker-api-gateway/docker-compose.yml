@@ -78,7 +78,7 @@ services:
       # Database/Services URIs (URI-based configuration)
       - MONGODB_URI=mongodb+srv://camunda:Rqt0wVmEZhcME7HC@camundadc.os1avun.mongodb.net/
       - MONGODB_DATABASE=${MONGODB_DATABASE:-worker_gateway}
-      - RABBITMQ_URL=${RABBITMQ_URL}
+      - RABBITMQ_URL=amqp://lops_user:lops_password@lops_rabbitmq:5672/lops_vhost
       - RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE:-worker_gateway}
       - REDIS_URI=redis://redis:6379
 

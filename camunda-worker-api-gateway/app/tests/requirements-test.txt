@@ -1,0 +1,16 @@
+# Dependências para testes CPJ
+# Instalar com: pip install -r requirements-test.txt
+
+# Testing framework
+pytest==7.4.0
+pytest-asyncio==0.21.1
+pytest-mock==3.11.1
+pytest-cov==4.1.0
+
+# HTTP mocking
+requests-mock==1.11.0
+
+# Opcional: ferramentas extras
+# pytest-xdist==3.3.1      # Execução paralela de testes
+# pytest-timeout==2.1.0    # Timeout para testes
+# pytest-html==3.2.0       # Relatórios HTML

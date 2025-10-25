@@ -1,0 +1,101 @@
+# ========================================
+# rsync exclude patterns for deploy
+# Evita copiar arquivos desnecessários
+# ========================================
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Test files
+tests/
+test_*.py
+*_test.py
+conftest.py
+
+# Development tools
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Documentation (opcional - descomentar se não quiser no servidor)
+# docs/
+# *.md
+# !README.md
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+
+# OS files
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment files (opcional - pode querer incluir .env.production)
+# .env.local
+# .env.development
+# .env.test
+
+# Makefile local overrides (se existir)
+Makefile.local
+
+# Shared cache (se não for necessário)
+shared/cache/

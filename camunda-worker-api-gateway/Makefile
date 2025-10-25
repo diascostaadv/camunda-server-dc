@@ -7,8 +7,10 @@ REMOTE_DIR  ?= ~/camunda-server-dc/camunda-worker-api-gateway
 
 SSH_FLAGS := -i $(SSH_KEY) -p $(SSH_PORT) -o IdentitiesOnly=yes -o StrictHostKeyChecking=no
 SCP_FLAGS := -i $(SSH_KEY) -P $(SSH_PORT) -o IdentitiesOnly=yes -o StrictHostKeyChecking=no
+RSYNC_FLAGS := -avz --progress --delete --exclude-from=.rsyncignore
 SSH := ssh $(SSH_FLAGS) $(VM_USER)@$(VM_HOST)
 SCP := scp $(SCP_FLAGS)
+RSYNC := rsync $(RSYNC_FLAGS) -e "ssh $(SSH_FLAGS)"
 
 .PHONY: deploy
 deploy: copy-files
@@ -18,10 +20,10 @@ deploy: copy-files
 
 .PHONY: copy-files
 copy-files:
-	@echo "📁 Copying API Gateway files..."
+	@echo "📁 Copying API Gateway files (excluding tests, cache, .venv)..."
 	$(SSH) "mkdir -p $(REMOTE_DIR)"
-	$(SCP) -r . $(VM_USER)@$(VM_HOST):$(REMOTE_DIR)/
-	@echo "✅ Files copied"
+	$(RSYNC) ./ $(VM_USER)@$(VM_HOST):$(REMOTE_DIR)/
+	@echo "✅ Files copied (optimized with rsync)"
 
 .PHONY: status
 status:

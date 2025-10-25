@@ -773,6 +773,22 @@
         "documentation": {}
     },
     {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Optional",
         "importPath": "typing",
         "description": "typing",
@@ -1445,30 +1461,6 @@
         "documentation": {}
     },
     {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
         "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
@@ -1501,6 +1493,38 @@
         "documentation": {}
     },
     {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "date",
         "importPath": "datetime",
         "description": "datetime",
@@ -1574,6 +1598,46 @@
     },
     {
         "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -1973,6 +2037,14 @@
         "documentation": {}
     },
     {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
         "label": "Enum",
         "importPath": "enum",
         "description": "enum",
@@ -2126,6 +2198,14 @@
         "documentation": {}
     },
     {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
         "label": "FastAPI",
         "importPath": "fastapi",
         "description": "fastapi",
@@ -2139,6 +2219,14 @@
         "isExtraImport": true,
         "importPath": "pymongo",
         "description": "pymongo",
+        "detail": "pymongo",
+        "documentation": {}
+    },
+    {
+        "label": "MongoClient",
+        "importPath": "pymongo",
+        "description": "pymongo",
+        "isExtraImport": true,
         "detail": "pymongo",
         "documentation": {}
     },
@@ -2279,14 +2367,6 @@
         "documentation": {}
     },
     {
-        "label": "PublicacaoBronze",
-        "importPath": "models.publicacao",
-        "description": "models.publicacao",
-        "isExtraImport": true,
-        "detail": "models.publicacao",
-        "documentation": {}
-    },
-    {
         "label": "Lote",
         "importPath": "models.publicacao",
         "description": "models.publicacao",
@@ -2312,14 +2392,6 @@
     },
     {
         "label": "ProcessamentoLoteResponse",
-        "importPath": "models.publicacao",
-        "description": "models.publicacao",
-        "isExtraImport": true,
-        "detail": "models.publicacao",
-        "documentation": {}
-    },
-    {
-        "label": "PublicacaoBronze",
         "importPath": "models.publicacao",
         "description": "models.publicacao",
         "isExtraImport": true,
@@ -2383,14 +2455,6 @@
         "documentation": {}
     },
     {
-        "label": "PublicacaoBronze",
-        "importPath": "models.publicacao",
-        "description": "models.publicacao",
-        "isExtraImport": true,
-        "detail": "models.publicacao",
-        "documentation": {}
-    },
-    {
         "label": "PublicacaoPrata",
         "importPath": "models.publicacao",
         "description": "models.publicacao",
@@ -2400,14 +2464,6 @@
     },
     {
         "label": "ProcessamentoLoteResponse",
-        "importPath": "models.publicacao",
-        "description": "models.publicacao",
-        "isExtraImport": true,
-        "detail": "models.publicacao",
-        "documentation": {}
-    },
-    {
-        "label": "PublicacaoBronze",
         "importPath": "models.publicacao",
         "description": "models.publicacao",
         "isExtraImport": true,
@@ -2604,6 +2660,22 @@
         "description": "services.deduplicacao_service",
         "isExtraImport": true,
         "detail": "services.deduplicacao_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
         "documentation": {}
     },
     {
@@ -3337,6 +3409,110 @@
         "documentation": {}
     },
     {
+        "label": "Mock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "MagicMock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "Mock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "patch",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "AsyncMock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "Mock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "patch",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "MagicMock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "patch",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "Mock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "patch",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "MagicMock",
+        "importPath": "unittest.mock",
+        "description": "unittest.mock",
+        "isExtraImport": true,
+        "detail": "unittest.mock",
+        "documentation": {}
+    },
+    {
+        "label": "TestClient",
+        "importPath": "fastapi.testclient",
+        "description": "fastapi.testclient",
+        "isExtraImport": true,
+        "detail": "fastapi.testclient",
+        "documentation": {}
+    },
+    {
         "label": "CORSMiddleware",
         "importPath": "fastapi.middleware.cors",
         "description": "fastapi.middleware.cors",
@@ -4030,22 +4206,6 @@
         "documentation": {}
     },
     {
-        "label": "patch",
-        "importPath": "unittest.mock",
-        "description": "unittest.mock",
-        "isExtraImport": true,
-        "detail": "unittest.mock",
-        "documentation": {}
-    },
-    {
-        "label": "MagicMock",
-        "importPath": "unittest.mock",
-        "description": "unittest.mock",
-        "isExtraImport": true,
-        "detail": "unittest.mock",
-        "documentation": {}
-    },
-    {
         "label": "subprocess",
         "kind": 6,
         "isExtraImport": true,
@@ -4212,7 +4372,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.publicacao",
         "description": "camunda-worker-api-gateway.app.models.publicacao",
-        "peekOfCode": "class PublicacaoBronze(BaseModel):\n    \"\"\"\n    Modelo para publicações brutas (tabela bronze)\n    Dados como vieram da fonte original sem tratamento\n    \"\"\"\n    lote_id: str = Field(..., description=\"ID do lote de busca\")\n    cod_publicacao: int = Field(..., description=\"Código único da publicação na fonte\")\n    numero_processo: str = Field(..., description=\"Número do processo judicial\")\n    data_publicacao: str = Field(\n        ..., description=\"Data de publicação (formato original)\"",
+        "peekOfCode": "class PublicacaoBronze(BaseModel):\n    \"\"\"\n    Modelo para publicações brutas (tabela bronze)\n    Dados como vieram da fonte original sem tratamento\n    NOTA: Este modelo é mantido apenas para documentação.\n    Na prática, os dados bronze são salvos diretamente como dicionários\n    sem validação Pydantic para máxima flexibilidade com campos dinâmicos da Webjur.\n    \"\"\"\n    lote_id: str = Field(..., description=\"ID do lote de busca\")\n    cod_publicacao: int = Field(..., description=\"Código único da publicação na fonte\")",
         "detail": "camunda-worker-api-gateway.app.models.publicacao",
         "documentation": {}
     },
@@ -4538,6 +4698,60 @@
         "description": "camunda-worker-api-gateway.app.routes.tasks",
         "peekOfCode": "router = APIRouter(\n    prefix=\"/tasks\",\n    tags=[\"tasks\"],\n    responses={\n        404: {\"description\": \"Task not found\"},\n        500: {\"description\": \"Internal server error\"},\n        503: {\"description\": \"Service unavailable\"},\n    },\n)\n@router.post(\"/submit\")",
         "detail": "camunda-worker-api-gateway.app.routes.tasks",
+        "documentation": {}
+    },
+    {
+        "label": "conectar_mongodb",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "description": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "peekOfCode": "def conectar_mongodb():\n    \"\"\"Conecta ao MongoDB\"\"\"\n    print(f\"🔌 Conectando ao MongoDB: {MONGODB_URI}\")\n    client = MongoClient(MONGODB_URI)\n    db = client[MONGODB_DATABASE]\n    return db\ndef is_valid_objectid(value):\n    \"\"\"Verifica se um valor é um ObjectId válido\"\"\"\n    if not value:\n        return False",
+        "detail": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "documentation": {}
+    },
+    {
+        "label": "is_valid_objectid",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "description": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "peekOfCode": "def is_valid_objectid(value):\n    \"\"\"Verifica se um valor é um ObjectId válido\"\"\"\n    if not value:\n        return False\n    try:\n        # ObjectId deve ter 24 caracteres hexadecimais\n        if len(str(value)) != 24:\n            return False\n        ObjectId(value)\n        return True",
+        "detail": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "documentation": {}
+    },
+    {
+        "label": "migrar_publicacao",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "description": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "peekOfCode": "def migrar_publicacao(db, pub_prata):\n    \"\"\"\n    Migra uma única publicação prata, corrigindo o publicacao_bronze_id.\n    Args:\n        db: Database connection\n        pub_prata: Documento da publicação prata\n    Returns:\n        dict: Resultado da migração\n    \"\"\"\n    try:",
+        "detail": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "description": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "peekOfCode": "def main():\n    \"\"\"Executa a migração\"\"\"\n    print(\"=\" * 80)\n    print(\"🔧 MIGRAÇÃO: Correção de publicacao_bronze_id\")\n    print(\"=\" * 80)\n    print()\n    # Conectar ao banco\n    db = conectar_mongodb()\n    # Contar registros prata\n    total_prata = db.publicacoes_prata.count_documents({})",
+        "detail": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "documentation": {}
+    },
+    {
+        "label": "MONGODB_URI",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "description": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "peekOfCode": "MONGODB_URI = os.getenv(\"MONGODB_URI\", \"mongodb://localhost:27017/\")\nMONGODB_DATABASE = os.getenv(\"MONGODB_DATABASE\", \"publicacoes\")\ndef conectar_mongodb():\n    \"\"\"Conecta ao MongoDB\"\"\"\n    print(f\"🔌 Conectando ao MongoDB: {MONGODB_URI}\")\n    client = MongoClient(MONGODB_URI)\n    db = client[MONGODB_DATABASE]\n    return db\ndef is_valid_objectid(value):\n    \"\"\"Verifica se um valor é um ObjectId válido\"\"\"",
+        "detail": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "documentation": {}
+    },
+    {
+        "label": "MONGODB_DATABASE",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "description": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
+        "peekOfCode": "MONGODB_DATABASE = os.getenv(\"MONGODB_DATABASE\", \"publicacoes\")\ndef conectar_mongodb():\n    \"\"\"Conecta ao MongoDB\"\"\"\n    print(f\"🔌 Conectando ao MongoDB: {MONGODB_URI}\")\n    client = MongoClient(MONGODB_URI)\n    db = client[MONGODB_DATABASE]\n    return db\ndef is_valid_objectid(value):\n    \"\"\"Verifica se um valor é um ObjectId válido\"\"\"\n    if not value:",
+        "detail": "camunda-worker-api-gateway.app.scripts.fix_publicacao_bronze_id",
         "documentation": {}
     },
     {
@@ -4932,7 +5146,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.process_starter",
         "description": "camunda-worker-api-gateway.app.services.process_starter",
-        "peekOfCode": "class ProcessStarter:\n    \"\"\"\n    Cliente para iniciar instâncias de processo no Camunda\n    Responsabilidades:\n    - Conectar com Camunda REST API\n    - Iniciar instâncias de processo com variáveis\n    - Tratar erros e retry automático\n    - Monitorar status das instâncias criadas\n    \"\"\"\n    def __init__(self, camunda_url: str = \"http://localhost:8080\", ",
+        "peekOfCode": "class ProcessStarter:\n    \"\"\"\n    Cliente para iniciar instâncias de processo no Camunda\n    Responsabilidades:\n    - Conectar com Camunda REST API\n    - Iniciar instâncias de processo com variáveis\n    - Tratar erros e retry automático\n    - Monitorar status das instâncias criadas\n    \"\"\"\n    def __init__(",
         "detail": "camunda-worker-api-gateway.app.services.process_starter",
         "documentation": {}
     },
@@ -4941,7 +5155,7 @@
         "kind": 2,
         "importPath": "camunda-worker-api-gateway.app.services.process_starter",
         "description": "camunda-worker-api-gateway.app.services.process_starter",
-        "peekOfCode": "def get_process_starter(camunda_url: str = None, username: str = None, password: str = None) -> ProcessStarter:\n    \"\"\"\n    Factory function para obter instância do ProcessStarter\n    Args:\n        camunda_url: URL do Camunda (opcional, usa padrão se None)\n        username: Usuário (opcional)\n        password: Senha (opcional)\n    Returns:\n        ProcessStarter: Instância configurada\n    \"\"\"",
+        "peekOfCode": "def get_process_starter(\n    camunda_url: str = None, username: str = None, password: str = None\n) -> ProcessStarter:\n    \"\"\"\n    Factory function para obter instância do ProcessStarter\n    Args:\n        camunda_url: URL do Camunda (opcional, usa padrão se None)\n        username: Usuário (opcional)\n        password: Senha (opcional)\n    Returns:",
         "detail": "camunda-worker-api-gateway.app.services.process_starter",
         "documentation": {}
     },
@@ -4959,7 +5173,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.services.process_starter",
         "description": "camunda-worker-api-gateway.app.services.process_starter",
-        "peekOfCode": "_process_starter_instance = None\ndef get_process_starter(camunda_url: str = None, username: str = None, password: str = None) -> ProcessStarter:\n    \"\"\"\n    Factory function para obter instância do ProcessStarter\n    Args:\n        camunda_url: URL do Camunda (opcional, usa padrão se None)\n        username: Usuário (opcional)\n        password: Senha (opcional)\n    Returns:\n        ProcessStarter: Instância configurada",
+        "peekOfCode": "_process_starter_instance = None\ndef get_process_starter(\n    camunda_url: str = None, username: str = None, password: str = None\n) -> ProcessStarter:\n    \"\"\"\n    Factory function para obter instância do ProcessStarter\n    Args:\n        camunda_url: URL do Camunda (opcional, usa padrão se None)\n        username: Usuário (opcional)\n        password: Senha (opcional)",
         "detail": "camunda-worker-api-gateway.app.services.process_starter",
         "documentation": {}
     },
@@ -5090,6 +5304,276 @@
         "documentation": {}
     },
     {
+        "label": "cpj_config",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def cpj_config():\n    \"\"\"Configurações mock do CPJ\"\"\"\n    return {\n        \"base_url\": \"https://app.leviatan.com.br/dcncadv/cpj/agnes/api/v2\",\n        \"login\": \"test_user\",\n        \"password\": \"test_password\",\n        \"token_expiry_minutes\": 30,\n    }\n@pytest.fixture\ndef mock_settings(cpj_config):",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_settings",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_settings(cpj_config):\n    \"\"\"Mock de Settings com configurações CPJ\"\"\"\n    settings = Mock()\n    settings.CPJ_BASE_URL = cpj_config[\"base_url\"]\n    settings.CPJ_LOGIN = cpj_config[\"login\"]\n    settings.CPJ_PASSWORD = cpj_config[\"password\"]\n    settings.CPJ_TOKEN_EXPIRY_MINUTES = cpj_config[\"token_expiry_minutes\"]\n    settings.MONGODB_DATABASE = \"test_db\"\n    settings.MONGODB_CONNECTION_STRING = \"mongodb://localhost:27017\"\n    settings.N8N_WEBHOOK_URL = \"https://test.n8n.cloud/webhook/test\"",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_cpj_auth_success",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_cpj_auth_success():\n    \"\"\"Resposta mock de autenticação bem-sucedida no CPJ\"\"\"\n    return {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.test.token\",\n        \"expires_in\": 1800,\n        \"user\": {\n            \"id\": 1,\n            \"login\": \"test_user\",\n            \"name\": \"Test User\",\n        },",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_cpj_auth_error",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_cpj_auth_error():\n    \"\"\"Resposta mock de erro de autenticação no CPJ\"\"\"\n    return {\n        \"error\": \"Invalid credentials\",\n        \"status_code\": 401,\n    }\n@pytest.fixture\ndef mock_cpj_processo_encontrado():\n    \"\"\"Resposta mock de processo encontrado no CPJ\"\"\"\n    return [",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_cpj_processo_encontrado",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_cpj_processo_encontrado():\n    \"\"\"Resposta mock de processo encontrado no CPJ\"\"\"\n    return [\n        {\n            \"id\": 12345,\n            \"numero_processo\": \"0000036-58.2019.8.16.0033\",\n            \"tribunal\": \"TJPR\",\n            \"comarca\": \"Curitiba\",\n            \"vara\": \"1ª Vara Cível\",\n            \"data_distribuicao\": \"2019-01-15\",",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_cpj_processo_nao_encontrado",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_cpj_processo_nao_encontrado():\n    \"\"\"Resposta mock de processo não encontrado no CPJ\"\"\"\n    return []\n@pytest.fixture\ndef mock_cpj_processo_single():\n    \"\"\"Resposta mock de único processo encontrado\"\"\"\n    return [\n        {\n            \"id\": 99999,\n            \"numero_processo\": \"1234567-89.2023.8.13.0024\",",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_cpj_processo_single",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_cpj_processo_single():\n    \"\"\"Resposta mock de único processo encontrado\"\"\"\n    return [\n        {\n            \"id\": 99999,\n            \"numero_processo\": \"1234567-89.2023.8.13.0024\",\n            \"tribunal\": \"TJMG\",\n            \"comarca\": \"Belo Horizonte\",\n            \"vara\": \"5ª Vara da Fazenda Pública\",\n            \"data_distribuicao\": \"2023-05-10\",",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "cpj_request_valid",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def cpj_request_valid():\n    \"\"\"Request válido para verificar processo CNJ\"\"\"\n    return {\"numero_cnj\": \"0000036-58.2019.8.16.0033\"}\n@pytest.fixture\ndef cpj_request_with_variables():\n    \"\"\"Request com formato de worker (variables)\"\"\"\n    return {\n        \"task_id\": \"task_123\",\n        \"variables\": {\"numero_cnj\": \"0000036-58.2019.8.16.0033\"},\n    }",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "cpj_request_with_variables",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def cpj_request_with_variables():\n    \"\"\"Request com formato de worker (variables)\"\"\"\n    return {\n        \"task_id\": \"task_123\",\n        \"variables\": {\"numero_cnj\": \"0000036-58.2019.8.16.0033\"},\n    }\n@pytest.fixture\ndef cpj_request_invalid_missing_numero():\n    \"\"\"Request inválido sem numero_cnj\"\"\"\n    return {\"foo\": \"bar\"}",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "cpj_request_invalid_missing_numero",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def cpj_request_invalid_missing_numero():\n    \"\"\"Request inválido sem numero_cnj\"\"\"\n    return {\"foo\": \"bar\"}\n@pytest.fixture\ndef cpj_request_alternative_field():\n    \"\"\"Request com campo alternativo numero_processo\"\"\"\n    return {\"numero_processo\": \"0000036-58.2019.8.16.0033\"}\n# ============ FIXTURES DE TEMPO ============\n@pytest.fixture\ndef mock_datetime_now():",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "cpj_request_alternative_field",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def cpj_request_alternative_field():\n    \"\"\"Request com campo alternativo numero_processo\"\"\"\n    return {\"numero_processo\": \"0000036-58.2019.8.16.0033\"}\n# ============ FIXTURES DE TEMPO ============\n@pytest.fixture\ndef mock_datetime_now():\n    \"\"\"Mock de datetime.now() para controle de tempo em testes\"\"\"\n    return datetime(2024, 10, 24, 22, 25, 53)\n@pytest.fixture\ndef mock_datetime_expired():",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_datetime_now",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_datetime_now():\n    \"\"\"Mock de datetime.now() para controle de tempo em testes\"\"\"\n    return datetime(2024, 10, 24, 22, 25, 53)\n@pytest.fixture\ndef mock_datetime_expired():\n    \"\"\"Mock de datetime para token expirado (1 hora atrás)\"\"\"\n    return datetime(2024, 10, 24, 21, 25, 53)\n@pytest.fixture\ndef mock_token_expiry(mock_datetime_now):\n    \"\"\"Data de expiração do token (30 minutos no futuro)\"\"\"",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_datetime_expired",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_datetime_expired():\n    \"\"\"Mock de datetime para token expirado (1 hora atrás)\"\"\"\n    return datetime(2024, 10, 24, 21, 25, 53)\n@pytest.fixture\ndef mock_token_expiry(mock_datetime_now):\n    \"\"\"Data de expiração do token (30 minutos no futuro)\"\"\"\n    return mock_datetime_now + timedelta(minutes=30)\n# ============ FIXTURES DE TESTE CLIENT ============\n@pytest.fixture\ndef test_client():",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_token_expiry",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_token_expiry(mock_datetime_now):\n    \"\"\"Data de expiração do token (30 minutos no futuro)\"\"\"\n    return mock_datetime_now + timedelta(minutes=30)\n# ============ FIXTURES DE TESTE CLIENT ============\n@pytest.fixture\ndef test_client():\n    \"\"\"Cliente de teste FastAPI\"\"\"\n    from main import app\n    return TestClient(app)\n@pytest.fixture",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "test_client",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def test_client():\n    \"\"\"Cliente de teste FastAPI\"\"\"\n    from main import app\n    return TestClient(app)\n@pytest.fixture\ndef mock_cpj_service():\n    \"\"\"Mock do CPJService\"\"\"\n    service = MagicMock()\n    service.is_authenticated.return_value = True\n    service.get_token_info.return_value = {",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_cpj_service",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_cpj_service():\n    \"\"\"Mock do CPJService\"\"\"\n    service = MagicMock()\n    service.is_authenticated.return_value = True\n    service.get_token_info.return_value = {\n        \"has_token\": True,\n        \"expires_at\": \"2024-10-24T22:55:53.869918\",\n        \"is_valid\": True,\n    }\n    return service",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_timeout_error",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_timeout_error():\n    \"\"\"Mock de erro de timeout\"\"\"\n    import requests\n    return requests.exceptions.Timeout(\"Connection timed out after 30 seconds\")\n@pytest.fixture\ndef mock_connection_error():\n    \"\"\"Mock de erro de conexão\"\"\"\n    import requests\n    return requests.exceptions.ConnectionError(\"Failed to establish connection\")\n@pytest.fixture",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_connection_error",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_connection_error():\n    \"\"\"Mock de erro de conexão\"\"\"\n    import requests\n    return requests.exceptions.ConnectionError(\"Failed to establish connection\")\n@pytest.fixture\ndef mock_http_error():\n    \"\"\"Mock de erro HTTP genérico\"\"\"\n    import requests\n    response = Mock()\n    response.status_code = 500",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "mock_http_error",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def mock_http_error():\n    \"\"\"Mock de erro HTTP genérico\"\"\"\n    import requests\n    response = Mock()\n    response.status_code = 500\n    response.text = \"Internal Server Error\"\n    return requests.exceptions.HTTPError(response=response)\n# ============ HELPERS ============\ndef create_mock_response(status_code: int, json_data: Dict[str, Any] = None, text: str = \"\"):\n    \"\"\"",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "create_mock_response",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def create_mock_response(status_code: int, json_data: Dict[str, Any] = None, text: str = \"\"):\n    \"\"\"\n    Helper para criar mock de resposta HTTP\n    Args:\n        status_code: Código HTTP\n        json_data: Dados JSON da resposta\n        text: Texto da resposta\n    Returns:\n        Mock de requests.Response\n    \"\"\"",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "create_response",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.tests.conftest",
+        "description": "camunda-worker-api-gateway.app.tests.conftest",
+        "peekOfCode": "def create_response():\n    \"\"\"Fixture factory para criar mock responses\"\"\"\n    return create_mock_response",
+        "detail": "camunda-worker-api-gateway.app.tests.conftest",
+        "documentation": {}
+    },
+    {
+        "label": "TestVerificarProcessoCNJEndpoint",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.tests.test_cpj_endpoint",
+        "description": "camunda-worker-api-gateway.app.tests.test_cpj_endpoint",
+        "peekOfCode": "class TestVerificarProcessoCNJEndpoint:\n    \"\"\"Testes do endpoint POST /publicacoes/verificar-processo-cnj\"\"\"\n    @pytest.mark.asyncio\n    async def test_endpoint_success_with_numero_cnj(\n        self, mock_cpj_processo_encontrado, cpj_request_valid\n    ):\n        \"\"\"Testa request válido com numero_cnj retorna processos\"\"\"\n        from routers.publicacoes import verificar_processo_cnj\n        # Mock do CPJService\n        mock_service = AsyncMock()",
+        "detail": "camunda-worker-api-gateway.app.tests.test_cpj_endpoint",
+        "documentation": {}
+    },
+    {
+        "label": "TestVerificarProcessoCNJEdgeCases",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.tests.test_cpj_endpoint",
+        "description": "camunda-worker-api-gateway.app.tests.test_cpj_endpoint",
+        "peekOfCode": "class TestVerificarProcessoCNJEdgeCases:\n    \"\"\"Testes de casos extremos e edge cases\"\"\"\n    @pytest.mark.asyncio\n    async def test_endpoint_numero_cnj_with_spaces(self):\n        \"\"\"Testa numero_cnj com espaços extras\"\"\"\n        from routers.publicacoes import verificar_processo_cnj\n        mock_service = AsyncMock()\n        mock_service.buscar_processo_por_numero.return_value = []\n        request = {\"numero_cnj\": \"  0000036-58.2019.8.16.0033  \"}\n        with patch(",
+        "detail": "camunda-worker-api-gateway.app.tests.test_cpj_endpoint",
+        "documentation": {}
+    },
+    {
+        "label": "TestVerificarProcessoCNJErrorHandling",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.tests.test_cpj_endpoint",
+        "description": "camunda-worker-api-gateway.app.tests.test_cpj_endpoint",
+        "peekOfCode": "class TestVerificarProcessoCNJErrorHandling:\n    \"\"\"Testes de tratamento de erros\"\"\"\n    @pytest.mark.asyncio\n    async def test_endpoint_cpj_service_timeout(self):\n        \"\"\"Testa timeout no CPJService\"\"\"\n        from routers.publicacoes import verificar_processo_cnj\n        mock_service = AsyncMock()\n        mock_service.buscar_processo_por_numero.side_effect = Exception(\n            \"Timeout na busca CPJ para processo 0000036-58.2019.8.16.0033\"\n        )",
+        "detail": "camunda-worker-api-gateway.app.tests.test_cpj_endpoint",
+        "documentation": {}
+    },
+    {
+        "label": "TestCPJServiceInit",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "description": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "peekOfCode": "class TestCPJServiceInit:\n    \"\"\"Testes de inicialização do CPJService\"\"\"\n    def test_init_with_default_settings(self, mock_settings):\n        \"\"\"Testa inicialização com settings padrão\"\"\"\n        with patch(\"services.cpj_service.settings\", mock_settings):\n            service = CPJService()\n            assert service.base_url == mock_settings.CPJ_BASE_URL\n            assert service.login == mock_settings.CPJ_LOGIN\n            assert service.password == mock_settings.CPJ_PASSWORD\n            assert service.token_expiry_minutes == mock_settings.CPJ_TOKEN_EXPIRY_MINUTES",
+        "detail": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "TestCPJServiceLogin",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "description": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "peekOfCode": "class TestCPJServiceLogin:\n    \"\"\"Testes de autenticação no CPJ\"\"\"\n    @pytest.mark.asyncio\n    async def test_login_success(\n        self, mock_settings, mock_cpj_auth_success, create_response\n    ):\n        \"\"\"Testa login bem-sucedido\"\"\"\n        with patch(\"services.cpj_service.settings\", mock_settings):\n            service = CPJService()\n            mock_response = create_response(200, mock_cpj_auth_success)",
+        "detail": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "TestCPJServiceEnsureAuthenticated",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "description": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "peekOfCode": "class TestCPJServiceEnsureAuthenticated:\n    \"\"\"Testes de garantia de autenticação válida\"\"\"\n    @pytest.mark.asyncio\n    async def test_ensure_authenticated_when_no_token(\n        self, mock_settings, mock_cpj_auth_success, create_response\n    ):\n        \"\"\"Testa que faz login quando não tem token\"\"\"\n        with patch(\"services.cpj_service.settings\", mock_settings):\n            service = CPJService()\n            mock_response = create_response(200, mock_cpj_auth_success)",
+        "detail": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "TestCPJServiceBuscarProcesso",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "description": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "peekOfCode": "class TestCPJServiceBuscarProcesso:\n    \"\"\"Testes de busca de processo por número CNJ\"\"\"\n    @pytest.mark.asyncio\n    async def test_buscar_processo_success_multiple_results(\n        self,\n        mock_settings,\n        mock_cpj_auth_success,\n        mock_cpj_processo_encontrado,\n        create_response,\n    ):",
+        "detail": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "TestCPJServiceHelpers",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "description": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "peekOfCode": "class TestCPJServiceHelpers:\n    \"\"\"Testes de métodos auxiliares do CPJService\"\"\"\n    def test_is_authenticated_with_valid_token(self, mock_settings):\n        \"\"\"Testa is_authenticated com token válido\"\"\"\n        with patch(\"services.cpj_service.settings\", mock_settings):\n            service = CPJService()\n            service._token = \"valid_token\"\n            service._token_expiry = datetime.now() + timedelta(minutes=10)\n            assert service.is_authenticated() is True\n    def test_is_authenticated_with_expired_token(self, mock_settings):",
+        "detail": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "TestCPJServiceIntegrationFlow",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "description": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "peekOfCode": "class TestCPJServiceIntegrationFlow:\n    \"\"\"Testes de fluxo completo de integração\"\"\"\n    @pytest.mark.asyncio\n    async def test_full_flow_first_request(\n        self,\n        mock_settings,\n        mock_cpj_auth_success,\n        mock_cpj_processo_encontrado,\n        create_response,\n    ):",
+        "detail": "camunda-worker-api-gateway.app.tests.test_cpj_service",
+        "documentation": {}
+    },
+    {
         "label": "TestDateProcessor",
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.tests.test_date_processor",
@@ -5123,6 +5607,15 @@
         "description": "camunda-worker-api-gateway.app.tests.test_movimentacao_model",
         "peekOfCode": "class TestMovimentacaoProcessingResult:\n    \"\"\"Testes para o resultado de processamento\"\"\"\n    def test_resultado_processamento_basico(self):\n        \"\"\"Teste básico do resultado de processamento\"\"\"\n        result = MovimentacaoProcessingResult(success=True)\n        assert result.success is True\n        assert result.movimentacao is None\n        assert result.error_message is None\n        assert len(result.processing_steps) == 0\n    def test_adicionar_passos(self):",
         "detail": "camunda-worker-api-gateway.app.tests.test_movimentacao_model",
+        "documentation": {}
+    },
+    {
+        "label": "TestCPJPayloadValidation",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.tests.test_payload_validation",
+        "description": "camunda-worker-api-gateway.app.tests.test_payload_validation",
+        "peekOfCode": "class TestCPJPayloadValidation:\n    \"\"\"Testes de validação do payload retornado\"\"\"\n    @pytest.mark.asyncio\n    async def test_payload_structure_complete(self):\n        \"\"\"Testa estrutura completa do payload para processo real\"\"\"\n        # Mock settings\n        with patch(\"services.cpj_service.settings\") as mock_settings:\n            mock_settings.CPJ_BASE_URL = \"https://test.api/v2\"\n            mock_settings.CPJ_LOGIN = \"test\"\n            mock_settings.CPJ_PASSWORD = \"test123\"",
+        "detail": "camunda-worker-api-gateway.app.tests.test_payload_validation",
         "documentation": {}
     },
     {

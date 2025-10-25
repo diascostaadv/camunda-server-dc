@@ -89,7 +89,7 @@ class PublicacaoService:
 
             # 6. Criar publicação prata
             publicacao_prata = PublicacaoPrata(
-                publicacao_bronze_id=str(cod_publicacao),
+                publicacao_bronze_id=str(publicacao_bronze["_id"]),
                 hash_unica=hash_unica,
                 hash_alternativa=hash_alternativa,
                 numero_processo=publicacao_bronze.get("numero_processo", ""),

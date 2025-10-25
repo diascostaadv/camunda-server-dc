@@ -1,0 +1,36 @@
+# Virtualenv / ambiente virtual
+.venv/
+venv/
+ENV/
+env/
+
+# Pytest
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Requirements instalados (gerado automaticamente)
+requirements-test-installed.txt

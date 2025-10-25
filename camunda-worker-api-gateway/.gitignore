@@ -1,0 +1,71 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Coverage reports
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Testing
+.pytest_cache/
+.tox/
+.nox/
+.hypothesis/
+
+# Development tools
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.ruff_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Environment files (keep templates, ignore actual secrets)
+.env.local
+.env.development
+.env.test
+
+# Shared cache
+shared/cache/
