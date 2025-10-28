@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  worker-publicacao-unified:
+    image: python:3.11-alpine
+    environment:
+      - CAMUNDA_URL=http://127.0.0.1:8080/engine-rest
+      - METRICS_PORT=8003
+      - MAX_TASKS=2
+      - LOCK_DURATION=60000
+      - ASYNC_RESPONSE_TIMEOUT=30000
+      - RETRIES=3
+      - RETRY_TIMEOUT=5000
+      - SLEEP_SECONDS=120
+      - LOG_LEVEL=INFO
+      - METRICS_ENABLED=true
+      - ENVIRONMENT=production
+      - WORKERS_MODE=separated
+      - GATEWAY_ENABLED=true
+      - GATEWAY_URL=http://camunda-worker-api-gateway-gateway-1:8000
+      - GATEWAY_TIMEOUT=300
+      - CAMUNDA_USERNAME=demo
+      - CAMUNDA_PASSWORD=DiasCosta@!!2025
+      - INTIMATION_USER=100049
+      - INTIMATION_PASSWORD=DcDpW@24
+    ports:
+      - "8003:8003"
+    networks:
+      - backend
+    restart: unless-stopped
+    command:
+      ["python", "-c", "print('Worker placeholder - needs proper build')"]
+
+networks:
+  backend:
+    driver: bridge

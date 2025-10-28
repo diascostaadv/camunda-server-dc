@@ -61,15 +61,6 @@ fi
 # 6. Deploy dos serviços
 echo "🚀 Deploying serviços..."
 
-# Deploy Traefik
-echo "Deploying Traefik..."
-cd traefik
-docker stack deploy -c docker-compose.yml traefik
-cd ..
-
-# Aguardar Traefik
-echo "⏳ Aguardando Traefik estar pronto..."
-sleep 30
 
 # Deploy Camunda Platform
 echo "Deploying Camunda Platform..."
@@ -107,12 +98,6 @@ else
     echo "⚠️ Camunda Platform pode não estar pronto ainda"
 fi
 
-echo "Testando Traefik Dashboard..."
-if curl -f -s "http://$SERVER_IP:8080" > /dev/null; then
-    echo "✅ Traefik Dashboard está respondendo"
-else
-    echo "⚠️ Traefik Dashboard pode não estar pronto ainda"
-fi
 
 # 9. Configurar SSL (se domínio estiver configurado)
 if [ ! -z "$DOMAIN" ]; then
@@ -125,7 +110,6 @@ echo "✅ Deploy seguro concluído!"
 echo ""
 echo "🌐 URLs dos serviços:"
 echo "  - Camunda Platform: http://$SERVER_IP:8080"
-echo "  - Traefik Dashboard: http://$SERVER_IP:8080"
 echo "  - Portainer: http://$SERVER_IP:9000"
 echo "  - Prometheus: http://$SERVER_IP:9090"
 echo "  - Grafana: http://$SERVER_IP:3001"

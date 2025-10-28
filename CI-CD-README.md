@@ -7,7 +7,6 @@ Este repositório implementa um pipeline CI/CD completo para deploy da plataform
 - **Camunda Platform** - Motor de processos BPMN
 - **API Gateway** - Gateway de API com integração de IA
 - **Workers Platform** - Workers para processamento de tasks
-- **Traefik** - Proxy reverso e load balancer
 - **Portainer** - Interface de gerenciamento Docker
 - **N8N** - Automação de workflows
 - **Prometheus** - Monitoramento
@@ -63,8 +62,6 @@ make deploy-bpmns
 ### 3. Deploy de Serviços Individuais
 
 ```bash
-# Deploy do Traefik
-make deploy-traefik
 
 # Deploy do Portainer
 make deploy-portainer
@@ -99,7 +96,6 @@ make backup
 - `make deploy-camunda-platform` - Deploy da plataforma Camunda
 - `make deploy-api-gateway` - Deploy do API Gateway
 - `make deploy-workers` - Deploy dos Workers
-- `make deploy-traefik` - Deploy do Traefik
 - `make deploy-portainer` - Deploy do Portainer
 - `make deploy-n8n` - Deploy do N8N
 
@@ -173,7 +169,6 @@ make backup
 
 - [Camunda Platform Documentation](https://docs.camunda.org/)
 - [Docker Swarm Documentation](https://docs.docker.com/engine/swarm/)
-- [Traefik Documentation](https://doc.traefik.io/traefik/)
 - [Portainer Documentation](https://documentation.portainer.io/)
 
 ## 🤝 Suporte

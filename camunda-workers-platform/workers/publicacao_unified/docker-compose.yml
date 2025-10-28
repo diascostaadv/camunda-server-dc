@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   publicacao-unified-worker:
@@ -12,12 +12,12 @@ services:
       GATEWAY_ENABLED: "true"
       GATEWAY_URL: "http://camunda-worker-api-gateway:8001"
       GATEWAY_TIMEOUT: "300"
-      
+
       # Camunda Configuration
       CAMUNDA_URL: "http://camunda:8080/engine-rest"
       CAMUNDA_USERNAME: "demo"
-      CAMUNDA_PASSWORD: "demo"
-      
+      CAMUNDA_PASSWORD: "DiasCosta@!!2025"
+
       # Worker Configuration
       MAX_TASKS: "2"
       LOCK_DURATION: "60000"
@@ -25,40 +25,40 @@ services:
       RETRIES: "3"
       RETRY_TIMEOUT: "5000"
       SLEEP_SECONDS: "30"
-      
+
       # Metrics and Monitoring
       METRICS_PORT: "8000"
       METRICS_ENABLED: "true"
       LOG_LEVEL: "INFO"
-      
+
       # Environment
       ENVIRONMENT: "docker"
       WORKERS_MODE: "separated"
-    
+
     ports:
-      - "8003:8000"  # Metrics port
-    
+      - "8003:8000" # Metrics port
+
     networks:
       - camunda-network
-    
+
     depends_on:
       - camunda-worker-api-gateway
-    
+
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 30s
-    
+
     deploy:
       resources:
         limits:
           memory: 512M
-          cpus: '0.5'
+          cpus: "0.5"
         reservations:
           memory: 256M
-          cpus: '0.25'
+          cpus: "0.25"
 
 networks:
   camunda-network:

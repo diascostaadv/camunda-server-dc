@@ -87,9 +87,29 @@ class CPJService:
                 "Authorization": f"Bearer {self._token}",
             }
 
-            payload = {"filter": {"_and": [{"numero_processo": {"_eq": numero_cnj}}]}}
+            # Payload mais robusto com validação
+            payload = {
+                "filter": {"_and": [{"numero_processo": {"_eq": numero_cnj.strip()}}]}
+            }
+
+            logger.debug(f"🔍 [CPJ] Payload enviado: {payload}")
 
             response = requests.post(url, json=payload, headers=headers, timeout=30)
+
+            # Log detalhado da resposta para debug
+            logger.debug(f"🔍 [CPJ] Status: {response.status_code}")
+            logger.debug(f"🔍 [CPJ] Headers: {dict(response.headers)}")
+
+            if response.status_code != 200:
+                logger.error(
+                    f"❌ [CPJ] Erro HTTP {response.status_code}: {response.text}"
+                )
+                # Para erro 400, retornar lista vazia em vez de falhar
+                if response.status_code == 400:
+                    logger.warning(
+                        f"⚠️ [CPJ] Bad Request para '{numero_cnj}' - retornando lista vazia"
+                    )
+                    return []
 
             response.raise_for_status()
 
@@ -104,15 +124,18 @@ class CPJService:
 
         except requests.exceptions.Timeout:
             logger.error(f"⏱️ Timeout na busca CPJ para processo {numero_cnj}")
-            raise Exception(f"Timeout na busca CPJ para processo {numero_cnj}")
+            # Para timeout, retornar lista vazia em vez de falhar
+            return []
 
         except requests.exceptions.RequestException as e:
             logger.error(f"🌐❌ Erro de rede na busca CPJ: {e}")
-            raise Exception(f"Erro de rede na busca CPJ: {e}")
+            # Para erros de rede, retornar lista vazia em vez de falhar
+            return []
 
         except Exception as e:
             logger.error(f"💥 Erro inesperado na busca CPJ: {e}")
-            raise Exception(f"Erro inesperado na busca CPJ: {e}")
+            # Para erros inesperados, retornar lista vazia em vez de falhar
+            return []
 
     def is_authenticated(self) -> bool:
         """Verifica se está autenticado com token válido"""

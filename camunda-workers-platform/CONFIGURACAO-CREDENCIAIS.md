@@ -5,11 +5,12 @@ Os workers já estão **totalmente configurados** para receber credenciais do Ca
 ## 📋 Variáveis de Ambiente Configuradas
 
 ### 🔧 Configuração Principal
+
 ```bash
 # Conexão com Camunda
 CAMUNDA_URL=http://host.docker.internal:8080/engine-rest
 CAMUNDA_USERNAME=demo
-CAMUNDA_PASSWORD=demo
+CAMUNDA_PASSWORD=DiasCosta@!!2025
 
 # Configurações do Worker
 MAX_TASKS=1
@@ -22,22 +23,25 @@ RETRY_TIMEOUT=5000
 ## 📁 Arquivos de Configuração
 
 ### 🏠 Ambiente Local (.env.local)
+
 ```bash
 CAMUNDA_URL=http://host.docker.internal:8080/engine-rest
 CAMUNDA_USERNAME=demo
-CAMUNDA_PASSWORD=demo
+CAMUNDA_PASSWORD=DiasCosta@!!2025
 ```
 
 ### ☁️ Ambiente Produção (.env.production)
+
 ```bash
 CAMUNDA_URL=http://201.23.67.197:8080/engine-rest
 CAMUNDA_USERNAME=demo
-CAMUNDA_PASSWORD=demo
+CAMUNDA_PASSWORD=DiasCosta@!!2025
 ```
 
 ## 🔄 Como os Workers Usam as Credenciais
 
 ### 1. Carregamento Automático
+
 ```python
 # workers/common/config.py
 CAMUNDA_URL: str = os.getenv('CAMUNDA_URL', 'http://localhost:8080/engine-rest')
@@ -46,6 +50,7 @@ CAMUNDA_PASSWORD: Optional[str] = os.getenv('CAMUNDA_PASSWORD', 'demo')
 ```
 
 ### 2. Inicialização do Worker
+
 ```python
 # workers/publicacao/main.py
 def __init__(self):
@@ -57,6 +62,7 @@ def __init__(self):
 ```
 
 ### 3. Autenticação Automática
+
 ```python
 # workers/common/config.py
 @classmethod
@@ -70,6 +76,7 @@ def get_auth(cls) -> Optional[tuple]:
 ## 🛠️ Personalizando Credenciais
 
 ### Opção 1: Editar Arquivo .env
+
 ```bash
 # Edite diretamente o arquivo
 nano .env.local
@@ -79,6 +86,7 @@ cp .env.local .env.local.custom
 ```
 
 ### Opção 2: Variáveis de Ambiente Docker
+
 ```yaml
 # docker-compose.yml
 environment:
@@ -88,6 +96,7 @@ environment:
 ```
 
 ### Opção 3: Comando Direto
+
 ```bash
 # Definir temporariamente
 export CAMUNDA_URL="http://outro-servidor:8080/engine-rest"
@@ -101,13 +110,15 @@ docker compose up worker-publicacao
 ## 🎯 Exemplos de Configuração
 
 ### Para Servidor Local
+
 ```bash
 CAMUNDA_URL=http://localhost:8080/engine-rest
 CAMUNDA_USERNAME=demo
-CAMUNDA_PASSWORD=demo
+CAMUNDA_PASSWORD=DiasCosta@!!2025
 ```
 
 ### Para Servidor Remoto
+
 ```bash
 CAMUNDA_URL=http://meu-servidor.com:8080/engine-rest
 CAMUNDA_USERNAME=admin
@@ -115,6 +126,7 @@ CAMUNDA_PASSWORD=senha-segura
 ```
 
 ### Para Camunda Cloud
+
 ```bash
 CAMUNDA_URL=https://meu-cluster.zeebe.camunda.io/engine-rest
 CAMUNDA_USERNAME=usuario-cloud
@@ -124,18 +136,21 @@ CAMUNDA_PASSWORD=token-acesso
 ## 🔍 Verificando Configuração
 
 ### Verificar Variáveis Carregadas
+
 ```bash
 # No container do worker
 docker exec -it camunda-workers-platform-worker-publicacao-1 env | grep CAMUNDA
 ```
 
 ### Testar Conectividade
+
 ```bash
 # Teste manual de conexão
 curl -u demo:demo http://localhost:8080/engine-rest/version
 ```
 
 ### Logs do Worker
+
 ```bash
 # Ver logs de conexão
 docker logs camunda-workers-platform-worker-publicacao-1
@@ -144,6 +159,7 @@ docker logs camunda-workers-platform-worker-publicacao-1
 ## 🚨 Troubleshooting
 
 ### Problema: Erro de Autenticação
+
 ```bash
 # Verificar credenciais no .env
 grep CAMUNDA_ .env.local
@@ -153,6 +169,7 @@ curl -u USUARIO:SENHA http://URL/engine-rest/version
 ```
 
 ### Problema: URL Inacessível
+
 ```bash
 # Para containers Docker, use host.docker.internal
 CAMUNDA_URL=http://host.docker.internal:8080/engine-rest
@@ -162,6 +179,7 @@ CAMUNDA_URL=http://camunda:8080/engine-rest
 ```
 
 ### Problema: Workers Não Conectam
+
 ```bash
 # Verificar se Camunda está rodando
 make platform-status

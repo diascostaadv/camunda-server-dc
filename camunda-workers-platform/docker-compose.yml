@@ -19,10 +19,9 @@ services:
     deploy:
       replicas: ${WORKER_PUBLICACAO_UNIFIED_REPLICAS:-1}
     environment:
-      # Camunda Connection (External)
-      - CAMUNDA_URL=${CAMUNDA_URL:-http://201.23.67.197:8080/engine-rest}
+      # Camunda Connection (External) - defined in env.gateway
       - CAMUNDA_USERNAME=${CAMUNDA_USERNAME:-demo}
-      - CAMUNDA_PASSWORD=${CAMUNDA_PASSWORD:-demo}
+      - CAMUNDA_PASSWORD=${CAMUNDA_PASSWORD:-DiasCosta@!!2025}
 
       # Worker Configuration
       - WORKER_ID=publicacao-unified-worker
@@ -33,9 +32,8 @@ services:
       - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
       - SLEEP_SECONDS=${SLEEP_SECONDS:-120}
 
-      # Gateway Integration
+      # Gateway Integration - defined in env.gateway
       - GATEWAY_ENABLED=${GATEWAY_ENABLED:-true}
-      - GATEWAY_URL=${GATEWAY_URL:-http://camunda-worker-api-gateway-gateway-1:8000}
       - GATEWAY_COMMUNICATION_MODE=${GATEWAY_COMMUNICATION_MODE:-http}
       - GATEWAY_HTTP_TIMEOUT=${GATEWAY_HTTP_TIMEOUT:-30}
 
@@ -65,7 +63,8 @@ services:
 
 networks:
   default:
-    driver: bridge
+    external: true
+    name: camunda-worker-api-gateway_backend
   gateway_network:
     external: true
     name: camunda-worker-api-gateway_backend

@@ -82,6 +82,45 @@ deploy: copy-files setup-monitoring-remote
 	@echo "✅ Camunda Platform deployed successfully"
 	@$(MAKE) remote-status
 
+.PHONY: clean-vm
+clean-vm:
+	@echo "🧹 CLEANING VM - Removing all Docker services and data..."
+	@echo "⚠️  WARNING: This will delete EVERYTHING on the remote server!"
+	@read -p "Type 'CLEAN-VM' to continue: " confirm && [ "$$confirm" = "CLEAN-VM" ] || (echo "❌ Cancelled" && exit 1)
+	@echo "🛑 Removing all Docker stacks..."
+	$(SSH) "docker stack ls --format '{{.Name}}' | xargs -r docker stack rm 2>/dev/null || true"
+	@echo "🛑 Removing all Docker services..."
+	$(SSH) "docker service ls -q | xargs -r docker service rm 2>/dev/null || true"
+	@echo "🛑 Stopping all containers..."
+	$(SSH) "docker stop \$$(docker ps -aq) 2>/dev/null || true"
+	@echo "🗑️  Removing all containers and volumes..."
+	$(SSH) "docker system prune -af --volumes"
+	@echo "✅ VM cleaned successfully!"
+
+.PHONY: deploy-clean
+deploy-clean:
+	@echo "🧹 CLEAN DEPLOY - Resetting entire VM and deploying fresh..."
+	@echo "⚠️  WARNING: This will delete EVERYTHING on the remote server:"
+	@echo "   - All Docker stacks and containers"
+	@echo "   - All Docker volumes and data"
+	@echo "   - All Camunda data and processes"
+	@echo ""
+	@read -p "Type 'CLEAN-DEPLOY' to continue: " confirm && [ "$$confirm" = "CLEAN-DEPLOY" ] || (echo "❌ Cancelled" && exit 1)
+	@echo "🛑 Stopping all services on remote server..."
+	$(SSH) "cd $(REMOTE_DIR) && (docker stack rm $(STACK) 2>/dev/null || true) && (docker stack rm camunda-platform-v2 2>/dev/null || true) && (docker compose --env-file .env.production down -v 2>/dev/null || true)"
+	@echo "🗑️  Removing all Docker volumes and containers..."
+	$(SSH) "docker system prune -af --volumes"
+	@echo "🛑 Force removing any remaining services..."
+	$(SSH) "docker service ls -q | xargs -r docker service rm 2>/dev/null || true"
+	@echo "📁 Copying fresh files to remote server..."
+	@$(MAKE) copy-files
+	@echo "🚀 Deploying fresh Camunda Platform with authentication..."
+	$(SSH) "cd $(REMOTE_DIR) && make remote-up ENVIRONMENT=production"
+	@echo "⏳ Waiting for services to start..."
+	@sleep 30
+	@echo "✅ Clean deploy completed successfully!"
+	@$(MAKE) remote-status
+
 .PHONY: copy-files
 copy-files:
 	@echo "📁 Copying files to remote server..."
@@ -312,6 +351,8 @@ help:
 	@echo ""
 	@echo "REMOTE COMMANDS:"
 	@echo "  make deploy ENVIRONMENT=production - Deploy to remote server"
+	@echo "  make deploy-clean  - CLEAN DEPLOY: Reset VM and deploy fresh with auth"
+	@echo "  make clean-vm      - CLEAN VM ONLY: Remove all Docker services and data"
 	@echo "  make remote-down   - Stop remote platform"
 	@echo "  make remote-logs   - View remote logs"
 	@echo "  make remote-status - Check remote status"

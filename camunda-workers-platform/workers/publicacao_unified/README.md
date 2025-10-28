@@ -7,6 +7,7 @@ Este worker unificado combina as funcionalidades dos workers `nova_publicacao` e
 ### Tópicos Suportados
 
 1. **`nova_publicacao`** - Processamento individual de movimentações judiciais
+
    - Validação de campos obrigatórios
    - Persistência e higienização de dados
    - Integração com MongoDB
@@ -21,6 +22,7 @@ Este worker unificado combina as funcionalidades dos workers `nova_publicacao` e
 ## 🏗️ Arquitetura
 
 ### Padrão Orquestrador
+
 - **Worker**: Validação básica e orquestração
 - **Gateway**: Toda lógica de negócio centralizada
 - **Camunda**: Gerenciamento de workflow
@@ -58,7 +60,7 @@ GATEWAY_URL=http://camunda-worker-api-gateway:8001
 # Camunda
 CAMUNDA_URL=http://camunda:8080/engine-rest
 CAMUNDA_USERNAME=demo
-CAMUNDA_PASSWORD=demo
+CAMUNDA_PASSWORD=DiasCosta@!!2025
 
 # Worker
 MAX_TASKS=2
@@ -168,12 +170,14 @@ O worker expõe métricas Prometheus em `/metrics`:
 ### Problemas Comuns
 
 1. **Gateway Indisponível**
+
    ```
    ERROR: Gateway communication error
    → Verificar GATEWAY_URL e conectividade
    ```
 
 2. **Camunda Connection Failed**
+
    ```
    ERROR: Failed to connect to Camunda
    → Verificar CAMUNDA_URL e credenciais

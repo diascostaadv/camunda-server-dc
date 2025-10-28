@@ -14,7 +14,7 @@
     "GATEWAY_TIMEOUT": "300",
     "CAMUNDA_URL": "http://camunda:8080/engine-rest",
     "CAMUNDA_USERNAME": "demo",
-    "CAMUNDA_PASSWORD": "demo",
+    "CAMUNDA_PASSWORD": "DiasCosta@!!2025",
     "MAX_TASKS": "2",
     "LOCK_DURATION": "60000",
     "METRICS_PORT": "8000",

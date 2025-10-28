@@ -19,9 +19,9 @@ else
     echo "✅ Docker Swarm já está ativo"
 fi
 
-# 3. Criar rede externa do Traefik
-echo "🌐 Criando rede do Traefik..."
-docker network create --driver overlay traefik 2>/dev/null || echo "Rede traefik já existe"
+# 3. Criar rede externa para os serviços
+echo "🌐 Criando rede para os serviços..."
+docker network create --driver overlay camunda-gateway-network 2>/dev/null || echo "Rede camunda-gateway-network já existe"
 
 # 4. Configurar variáveis de ambiente
 echo "⚙️ Configurando variáveis de ambiente..."
@@ -53,23 +53,14 @@ DB_MAX_LIFETIME=1800000
 DB_MAXIMUM_POOL_SIZE=20
 EOF
 
-# 5. Deploy do Traefik primeiro
-echo "🌐 Deploying Traefik..."
-cd traefik
-docker stack deploy -c docker-compose.yml traefik
-cd ..
 
-# Aguardar Traefik estar pronto
-echo "⏳ Aguardando Traefik estar pronto..."
-sleep 30
-
-# 6. Deploy da plataforma Camunda
+# 5. Deploy da plataforma Camunda
 echo "🚀 Deploying Camunda Platform..."
 cd camunda-platform-standalone
 docker stack deploy -c docker-compose.swarm.yml camunda-platform
 cd ..
 
-# 7. Verificar status dos serviços
+# 6. Verificar status dos serviços
 echo "📊 Verificando status dos serviços..."
 sleep 10
 
@@ -91,7 +82,6 @@ fi
 echo "✅ Migração para Docker Swarm concluída!"
 echo ""
 echo "🌐 URLs dos serviços:"
-echo "  - Traefik Dashboard: http://$(hostname -I | awk '{print $1}'):8080"
 echo "  - Camunda Platform: http://$(hostname -I | awk '{print $1}'):8080"
 echo "  - Prometheus: http://$(hostname -I | awk '{print $1}'):9090"
 echo "  - Grafana: http://$(hostname -I | awk '{print $1}'):3001"

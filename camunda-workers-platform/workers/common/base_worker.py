@@ -104,6 +104,10 @@ class BaseWorker:
         }
 
         # Primary worker for backward compatibility
+        # Add auth to config if available
+        if self.auth:
+            config["auth_basic"] = {"username": self.auth[0], "password": self.auth[1]}
+
         self.camunda_worker = ExternalTaskWorker(
             worker_id=self.worker_id, base_url=self.base_url, config=config
         )

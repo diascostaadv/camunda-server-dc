@@ -1,0 +1,9 @@
+camunda:
+  bpm:
+    admin-user:
+      id: demo
+      password: DiasCosta@!!2025
+    run:
+      auth:
+        enabled: true
+        authentication: basic

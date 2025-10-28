@@ -35,38 +35,9 @@ bantime = 3600
 findtime = 600
 EOF
 
-# 3. Configurar rate limiting no Traefik
+# 3. Configurar rate limiting (se necessário)
 echo "⚡ Configurando rate limiting..."
-mkdir -p /home/ubuntu/camunda-platform/traefik/config
-
-cat > /home/ubuntu/camunda-platform/traefik/config/security.yml <<EOF
-# Rate limiting configuration
-http:
-  middlewares:
-    rate-limit:
-      rateLimit:
-        burst: 100
-        average: 50
-        period: 1m
-    
-    security-headers:
-      headers:
-        customRequestHeaders:
-          X-Forwarded-Proto: "https"
-        customResponseHeaders:
-          X-Frame-Options: "DENY"
-          X-Content-Type-Options: "nosniff"
-          X-XSS-Protection: "1; mode=block"
-          Strict-Transport-Security: "max-age=31536000; includeSubDomains"
-          Referrer-Policy: "strict-origin-when-cross-origin"
-          Content-Security-Policy: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'"
-    
-    camunda-security:
-      chain:
-        middlewares:
-          - rate-limit
-          - security-headers
-EOF
+# Rate limiting será configurado diretamente nos serviços se necessário
 
 # 4. Configurar logs de segurança
 echo "📋 Configurando logs de segurança..."

@@ -2,7 +2,7 @@
 VM_USER     ?= ubuntu
 VM_HOST     ?= 201.23.69.65
 SSH_PORT    ?= 22
-SSH_KEY     ?= ~/.ssh/id_rsa
+SSH_KEY     ?= ~/.ssh/azure_vm
 REMOTE_DIR  ?= ~/camunda-server-dc/camunda-workers-platform
 
 SSH_FLAGS := -i $(SSH_KEY) -p $(SSH_PORT) -o IdentitiesOnly=yes -o StrictHostKeyChecking=no

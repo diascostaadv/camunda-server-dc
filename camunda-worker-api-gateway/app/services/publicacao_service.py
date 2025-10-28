@@ -60,7 +60,7 @@ class PublicacaoService:
 
             # 1. Higienizar texto
             texto_limpo = self._higienizar_texto(
-                publicacao_bronze.get("texto_publicacao", "")
+                publicacao_bronze.get("processo_publicacao", "")
             )
 
             # 2. Limpar número do processo
@@ -77,7 +77,7 @@ class PublicacaoService:
             hash_unica = gerar_hash_unica(
                 numero_processo=publicacao_bronze.get("numero_processo", ""),
                 data_publicacao=publicacao_bronze.get("data_publicacao", ""),
-                texto_original=publicacao_bronze.get("texto_publicacao", ""),
+                texto_original=publicacao_bronze.get("processo_publicacao", ""),
             )
 
             # 5. Gerar hash alternativa (com texto limpo para comparações)
@@ -97,7 +97,7 @@ class PublicacaoService:
                 data_publicacao=data_publicacao_processada,
                 data_publicacao_original=publicacao_bronze.get("data_publicacao", ""),
                 texto_limpo=texto_limpo,
-                texto_original=publicacao_bronze.get("texto_publicacao", ""),
+                texto_original=publicacao_bronze.get("processo_publicacao", ""),
                 fonte=publicacao_bronze.get("fonte", "dw"),
                 tribunal=publicacao_bronze.get("tribunal", "tjmg").lower(),
                 instancia=publicacao_bronze.get("instancia", "1"),

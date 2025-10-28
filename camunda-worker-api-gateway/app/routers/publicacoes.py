@@ -558,7 +558,7 @@ async def classificar_publicacao(
 
         # Busca publicação bronze para pegar texto original completo da Webjur
         pub_bronze_doc = db.publicacoes_bronze.find_one(
-            {"_id": ObjectId(pub_prata.publicacao_bronze_id)}
+            {"cod_publicacao": pub_prata.publicacao_bronze_id}
         )
 
         logger.info(
@@ -840,7 +840,8 @@ async def verificar_processo_cnj(
     Response: {
         "status": "success",
         "processos": [...],
-        "total_encontrados": int
+        "existe": bool,
+        "total_encontradas": int
     }
     """
     try:
@@ -864,26 +865,40 @@ async def verificar_processo_cnj(
         )
 
         if not numero_cnj:
-            logger.error(
-                f"❌ [CPJ] numero_cnj não fornecido. Request completo: {request}"
+            logger.warning(
+                f"⚠️ [CPJ] numero_cnj não fornecido. Request completo: {request} - retornando resultado vazio"
             )
-            raise HTTPException(
-                status_code=400,
-                detail=f"numero_cnj é obrigatório. Recebido: {list(request.keys())}",
-            )
+            return {
+                "status": "success",
+                "numero_cnj": None,
+                "processos": [],
+                "existe": False,
+                "total_encontradas": 0,
+                "timestamp": datetime.now().isoformat(),
+            }
 
         logger.info(f"🔍 Verificando processo {numero_cnj} no CPJ...")
 
         # Busca processo no CPJ
-        processos = await cpj_service.buscar_processo_por_numero(numero_cnj)
+        try:
+            processos = await cpj_service.buscar_processo_por_numero(numero_cnj)
+            logger.info(
+                f"✅ Busca CPJ concluída - {len(processos)} processos encontrados"
+            )
+        except Exception as e:
+            logger.warning(
+                f"⚠️ Erro na busca CPJ para '{numero_cnj}': {e} - retornando lista vazia"
+            )
+            processos = []
 
-        logger.info(f"✅ Busca CPJ concluída - {len(processos)} processos encontrados")
+        total_encontradas = len(processos)
 
         return {
             "status": "success",
             "numero_cnj": numero_cnj,
             "processos": processos,
-            "total_encontrados": len(processos),
+            "existe": total_encontradas > 0,
+            "total_encontradas": total_encontradas,
             "timestamp": datetime.now().isoformat(),
         }
 

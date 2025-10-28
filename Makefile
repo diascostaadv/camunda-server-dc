@@ -48,6 +48,31 @@ deploy-workers:
 	@cd camunda-workers-platform && $(MAKE) deploy ENVIRONMENT=production
 	@echo "✅ Workers Platform deployed"
 
+.PHONY: update-vm
+update-vm:
+	@echo "🔄 Updating VM with fresh code and rebuild..."
+	@echo "📁 Syncing API Gateway code..."
+	@cd camunda-worker-api-gateway && $(MAKE) copy-files
+	@echo "📁 Syncing Workers Platform code..."
+	@cd camunda-workers-platform && $(MAKE) copy-files
+	@echo "🛑 Stopping all services..."
+	@$(SSH) "cd ~/camunda-server-dc/camunda-worker-api-gateway && docker compose down || true"
+	@$(SSH) "cd ~/camunda-server-dc/camunda-workers-platform && docker compose down || true"
+	@echo "🗑️ Removing old images..."
+	@$(SSH) "docker rmi camunda-worker-api-gateway-gateway 2>/dev/null || true"
+	@$(SSH) "docker rmi camunda-workers-platform-workers 2>/dev/null || true"
+	@echo "🔨 Rebuilding API Gateway without cache..."
+	@$(SSH) "cd ~/camunda-server-dc/camunda-worker-api-gateway && docker compose build --no-cache"
+	@echo "🔨 Rebuilding Workers Platform without cache..."
+	@$(SSH) "cd ~/camunda-server-dc/camunda-workers-platform && docker compose build --no-cache"
+	@echo "🚀 Starting API Gateway..."
+	@$(SSH) "cd ~/camunda-server-dc/camunda-worker-api-gateway && docker compose up -d"
+	@echo "🚀 Starting Workers Platform..."
+	@$(SSH) "cd ~/camunda-server-dc/camunda-workers-platform && docker compose up -d"
+	@echo "✅ VM update completed successfully!"
+	@echo "📊 Checking services status..."
+	@$(SSH) "docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}' | grep -E '(gateway|worker)'"
+
 .PHONY: deploy-bpmns
 deploy-bpmns:
 	@echo "📋 Deploying BPMN processes..."
@@ -56,12 +81,6 @@ deploy-bpmns:
 
 # ---------------- COMANDOS DE DEPLOY INDIVIDUAL ------------------------------
 
-.PHONY: deploy-traefik
-deploy-traefik:
-	@echo "🌐 Deploying Traefik..."
-	@$(SCP) -r traefik/ $(VM_USER)@$(VM_HOST):$(REMOTE_DIR)/
-	@$(SSH) "cd $(REMOTE_DIR)/traefik && make setup"
-	@echo "✅ Traefik deployed"
 
 .PHONY: deploy-portainer
 deploy-portainer:
@@ -132,13 +151,11 @@ check-requirements:
 .PHONY: status
 status:
 	@echo "📊 Checking all services status..."
-	@$(SSH) "cd $(REMOTE_DIR) && echo '=== TRAEFIK STATUS ===' && docker ps | grep traefik || echo 'Traefik not running'"
 	@$(SSH) "cd $(REMOTE_DIR) && echo '=== PORTAINER STATUS ===' && docker ps | grep portainer || echo 'Portainer not running'"
 	@$(SSH) "cd $(REMOTE_DIR) && echo '=== CAMUNDA STATUS ===' && docker ps | grep camunda || echo 'Camunda not running'"
 	@$(SSH) "cd $(REMOTE_DIR) && echo '=== API GATEWAY STATUS ===' && docker ps | grep gateway || echo 'API Gateway not running'"
 	@$(SSH) "cd $(REMOTE_DIR) && echo '=== WORKERS STATUS ===' && docker ps | grep worker || echo 'Workers not running'"
 	@echo "\n🌐 === SERVICE URLS ==="
-	@echo "Traefik:     http://$(VM_HOST)"
 	@echo "Portainer:  http://$(VM_HOST):9000"
 	@echo "Camunda:    http://$(VM_HOST):8080"
 	@echo "API Gateway: http://$(VM_HOST):8000"
@@ -146,7 +163,6 @@ status:
 .PHONY: logs
 logs:
 	@echo "📋 Fetching logs from all services..."
-	@$(SSH) "cd $(REMOTE_DIR) && echo '=== TRAEFIK LOGS ===' && docker logs traefik --tail=50"
 	@$(SSH) "cd $(REMOTE_DIR) && echo '=== PORTAINER LOGS ===' && docker logs portainer --tail=50"
 	@$(SSH) "cd $(REMOTE_DIR) && echo '=== CAMUNDA LOGS ===' && docker logs camunda --tail=50"
 
@@ -188,12 +204,12 @@ help:
 	@echo "  make deploy-bpmns       - Deploy BPMN processes"
 	@echo ""
 	@echo "INDIVIDUAL DEPLOYS:"
-	@echo "  make deploy-traefik     - Deploy Traefik only"
 	@echo "  make deploy-portainer   - Deploy Portainer only"
 	@echo "  make deploy-camunda-platform - Deploy Camunda Platform only"
 	@echo "  make deploy-api-gateway - Deploy API Gateway only"
 	@echo "  make deploy-workers     - Deploy Workers only"
 	@echo "  make deploy-n8n         - Deploy N8N only"
+	@echo "  make update-vm          - Full VM update (sync + rebuild + restart)"
 	@echo ""
 	@echo "INFRASTRUCTURE:"
 	@echo "  make setup-infrastructure - Setup complete infrastructure"
@@ -215,6 +231,6 @@ help:
 	@echo ""
 	@echo "CURRENT CONFIG:"
 	@echo "  Remote: $(VM_USER)@$(VM_HOST):$(REMOTE_DIR)"
-	@echo "  Services: Traefik, Portainer, Camunda, API Gateway, Workers, N8N"
+	@echo "  Services: Portainer, Camunda, API Gateway, Workers, N8N"
 
 .DEFAULT_GOAL := help

@@ -2,7 +2,7 @@
 VM_USER     ?= ubuntu
 VM_HOST     ?= 201.23.69.65
 SSH_PORT    ?= 22
-SSH_KEY     ?= ~/.ssh/id_rsa
+SSH_KEY     ?= ~/.ssh/azure_vm
 REMOTE_DIR  ?= ~/camunda-server-dc/camunda-worker-api-gateway
 
 SSH_FLAGS := -i $(SSH_KEY) -p $(SSH_PORT) -o IdentitiesOnly=yes -o StrictHostKeyChecking=no
@@ -15,7 +15,7 @@ RSYNC := rsync $(RSYNC_FLAGS) -e "ssh $(SSH_FLAGS)"
 .PHONY: deploy
 deploy: copy-files
 	@echo "🚀 Deploying API Gateway..."
-	$(SSH) "cd $(REMOTE_DIR) && docker compose -f docker-compose.yml up -d"
+	$(SSH) "cd $(REMOTE_DIR) && docker compose -f docker-compose.simple.yml up -d"
 	@echo "✅ API Gateway deployed"
 
 .PHONY: copy-files

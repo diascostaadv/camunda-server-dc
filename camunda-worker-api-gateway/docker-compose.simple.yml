@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  # Worker API Gateway
+  gateway:
+    image: python:3.11-alpine
+    environment:
+      # Application Configuration
+      - PORT=8000
+      - DEBUG=false
+      - ENVIRONMENT=production
+
+      # External Services Mode
+      - EXTERNAL_SERVICES_MODE=true
+
+      # Database/Services URIs (URI-based configuration)
+      - MONGODB_URI=mongodb+srv://camunda:Rqt0wVmEZhcME7HC@camundadc.os1avun.mongodb.net/
+      - MONGODB_DATABASE=worker_gateway
+      - RABBITMQ_URL=amqp://lops_user:lops_password@lops_rabbitmq:5672/lops_vhost
+      - RABBITMQ_EXCHANGE=worker_gateway
+      - REDIS_URI=redis://redis:6379
+
+      # Task Configuration
+      - TASK_TIMEOUT=300
+      - TASK_RETRY_LIMIT=3
+      - TASK_RETRY_DELAY=60
+
+      # Connection timeouts (for Azure services)
+      - MONGODB_CONNECT_TIMEOUT=30000
+      - MONGODB_SERVER_SELECTION_TIMEOUT=30000
+      - REDIS_CONNECT_TIMEOUT=10000
+      - RABBITMQ_CONNECTION_TIMEOUT=30000
+
+      # Logging
+      - LOG_LEVEL=INFO
+
+      # Metrics
+      - METRICS_ENABLED=true
+      - METRICS_PORT=9000
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+    networks: [backend]
+    restart: unless-stopped
+    command:
+      ["python", "-c", "import http.server; import socketserver; print('Gateway iniciando na porta 8000...'); httpd = socketserver.TCPServer(('0.0.0.0', 8000), http.server.SimpleHTTPRequestHandler); print('Gateway iniciado!'); httpd.serve_forever()"]
+
+networks:
+  backend:
+    external: true
+    name: camunda-worker-api-gateway_backend

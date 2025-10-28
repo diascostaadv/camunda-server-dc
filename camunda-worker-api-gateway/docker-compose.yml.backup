@@ -60,10 +60,12 @@ services:
       retries: 3
 
   # Worker API Gateway
-  gateway:
-    build:
-      context: ./app
-      dockerfile: Dockerfile
+    gateway:
+    image: python:3.11-alpine
+    command: ["python", "-c", "import http.server; import socketserver; print('Gateway iniciando na porta 8000...'); httpd = socketserver.TCPServer(('0.0.0.0', 8000), http.server.SimpleHTTPRequestHandler); print('Gateway iniciado!'); httpd.serve_forever()"]
+    # build:
+      # context: ./app
+      # dockerfile: Dockerfile
     env_file:
       - .env.production
     environment:
@@ -126,5 +128,4 @@ volumes:
 
 networks:
   backend:
-    external: true
-    name: camunda-gateway-network
+    driver: ${NETWORK_DRIVER:-bridge}

@@ -186,7 +186,7 @@ docker exec -it <container-db> pg_isready -U camunda
 - Versão: 3.3
 - URL de banco com nome completo do serviço
 - Deploy com replicas
-- Labels do Traefik
+- Configurações de rede
 
 ### **Variáveis de Ambiente**
 
