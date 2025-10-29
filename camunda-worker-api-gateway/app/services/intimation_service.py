@@ -127,7 +127,7 @@ class IntimationService:
         ).rstrip("/")
         self.timeout = kwargs.get("timeout", int(os.getenv("SOAP_TIMEOUT", "90")))
         self.max_retries = kwargs.get(
-            "max_retries", int(os.getenv("SOAP_MAX_RETRIES", "3"))
+            "max_retries", int(os.getenv("SOAP_MAX_RETRIES", "1"))
         )
 
         self.session = self._create_session()
@@ -143,22 +143,27 @@ class IntimationService:
         """Cria uma sessão HTTP com configurações de retry e timeout"""
         session = requests.Session()
 
-        # Configuração de retry compatível com diferentes versões do urllib3
+        # Desabilitar retry automático do urllib3 para ter melhor controle manual
+        # O retry será feito manualmente no método _make_request com melhor logging
         try:
             # Versão mais nova (urllib3 >= 1.26.0)
             retry_strategy = Retry(
-                total=self.max_retries,
-                status_forcelist=[429, 500, 502, 503, 504],
+                total=0,  # Desabilita retry automático
+                read=0,  # Não retentar ReadTimeoutError
+                connect=0,  # Não retentar ConnectionError
+                status_forcelist=[],  # Não retentar nenhum status HTTP
+                backoff_factor=0,
                 allowed_methods=["HEAD", "GET", "OPTIONS", "POST"],
-                backoff_factor=1,
             )
         except TypeError:
             # Fallback para versão mais antiga (urllib3 < 1.26.0)
             retry_strategy = Retry(
-                total=self.max_retries,
-                status_forcelist=[429, 500, 502, 503, 504],
+                total=0,
+                read=0,
+                connect=0,
+                status_forcelist=[],
+                backoff_factor=0,
                 method_whitelist=["HEAD", "GET", "OPTIONS", "POST"],
-                backoff_factor=1,
             )
 
         adapter = HTTPAdapter(max_retries=retry_strategy)

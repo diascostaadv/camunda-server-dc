@@ -100,29 +100,33 @@ class IntimationAPIClient:
         self.usuario = usuario
         self.senha = senha
         self.timeout = kwargs.get('timeout', 60)
-        self.max_retries = kwargs.get('max_retries', 3)
+        self.max_retries = kwargs.get('max_retries', 1)
         self.session = self._create_session()
     
     def _create_session(self) -> requests.Session:
         """Cria uma sessão HTTP com configurações de retry e timeout"""
         session = requests.Session()
         
-        # Configuração de retry compatível com diferentes versões do urllib3
+        # Desabilitar retry automático do urllib3 para ter melhor controle manual
         try:
             # Tenta versão mais nova (urllib3 >= 1.26.0)
             retry_strategy = Retry(
-                total=self.max_retries,
-                status_forcelist=[429, 500, 502, 503, 504],
-                allowed_methods=["HEAD", "GET", "OPTIONS", "POST"],
-                backoff_factor=1
+                total=0,
+                read=0,
+                connect=0,
+                status_forcelist=[],
+                backoff_factor=0,
+                allowed_methods=["HEAD", "GET", "OPTIONS", "POST"]
             )
         except TypeError:
             # Fallback para versão mais antiga (urllib3 < 1.26.0)
             retry_strategy = Retry(
-                total=self.max_retries,
-                status_forcelist=[429, 500, 502, 503, 504],
-                method_whitelist=["HEAD", "GET", "OPTIONS", "POST"],
-                backoff_factor=1
+                total=0,
+                read=0,
+                connect=0,
+                status_forcelist=[],
+                backoff_factor=0,
+                method_whitelist=["HEAD", "GET", "OPTIONS", "POST"]
             )
         
         adapter = HTTPAdapter(max_retries=retry_strategy)

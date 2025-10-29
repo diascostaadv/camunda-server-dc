@@ -68,7 +68,7 @@ services:
       - .env.production
     environment:
       # Application Configuration
-      - PORT=${GATEWAY_PORT:-8000}
+      - PORT=${GATEWAY_PORT:-8080}
       - DEBUG=${DEBUG:-false}
       - ENVIRONMENT=${ENVIRONMENT:-local}
 
@@ -100,7 +100,7 @@ services:
       - METRICS_ENABLED=${METRICS_ENABLED:-true}
       - METRICS_PORT=${METRICS_PORT:-9000}
     ports:
-      - "${GATEWAY_PORT:-8000}:8000"
+      - "${GATEWAY_PORT:-8080}:8080"
       - "${METRICS_PORT:-9000}:9000"
     # Conditional dependencies: only depend on local services when using local mode
     depends_on: []
@@ -112,7 +112,7 @@ services:
           "CMD",
           "python",
           "-c",
-          "import requests; requests.get('http://localhost:8000/health')",
+          "import requests; requests.get('http://localhost:8080/health')",
         ]
       interval: 30s
       timeout: 10s

@@ -15,7 +15,7 @@ RSYNC := rsync $(RSYNC_FLAGS) -e "ssh $(SSH_FLAGS)"
 .PHONY: deploy
 deploy: copy-files
 	@echo "🚀 Deploying API Gateway..."
-	$(SSH) "cd $(REMOTE_DIR) && docker compose -f docker-compose.simple.yml up -d"
+	$(SSH) "cd $(REMOTE_DIR) && docker compose -f docker-compose.yml up --build -d"
 	@echo "✅ API Gateway deployed"
 
 .PHONY: copy-files

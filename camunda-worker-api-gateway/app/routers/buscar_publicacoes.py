@@ -501,6 +501,26 @@ async def processar_task_camunda_v2(
             logger.info(
                 f"Branch 2: Buscando por período: {buscar_request.data_inicial} a {buscar_request.data_final}"
             )
+
+            # Validar período máximo para evitar timeouts no servidor SOAP
+            from datetime import timedelta
+            PERIODO_MAXIMO_DIAS = 90
+
+            data_inicial_dt = datetime.strptime(buscar_request.data_inicial, "%Y-%m-%d")
+            data_final_dt = datetime.strptime(buscar_request.data_final, "%Y-%m-%d")
+            dias_periodo = (data_final_dt - data_inicial_dt).days
+
+            if dias_periodo > PERIODO_MAXIMO_DIAS:
+                erro_msg = (
+                    f"Período muito grande: {dias_periodo} dias. "
+                    f"Máximo permitido: {PERIODO_MAXIMO_DIAS} dias. "
+                    f"Por favor, divida em consultas menores."
+                )
+                logger.error(erro_msg)
+                raise ValueError(erro_msg)
+
+            logger.info(f"Período validado: {dias_periodo} dias (máximo: {PERIODO_MAXIMO_DIAS} dias)")
+
             publicacoes = soap_client.get_publicacoes_periodo_safe(
                 data_inicial=buscar_request.data_inicial,
                 data_final=buscar_request.data_final,
@@ -509,12 +529,12 @@ async def processar_task_camunda_v2(
             )
             logger.info(f"Branch 2 result: {len(publicacoes)} publicações encontradas")
         else:
-            # Usar período de agosto até hoje quando datas não são fornecidas
+            # Usar período dos últimos 7 dias quando datas não são fornecidas
             from datetime import timedelta
 
             hoje = datetime.now()
-            # Buscar de agosto de 2024 até hoje (período com dados disponíveis)
-            data_inicial_obj = datetime(2024, 8, 1)
+            # Buscar últimos 7 dias (período otimizado para evitar timeouts no servidor SOAP)
+            data_inicial_obj = hoje - timedelta(days=7)
 
             data_inicial_padrao = data_inicial_obj.strftime("%Y-%m-%d")
             data_final_padrao = hoje.strftime("%Y-%m-%d")
