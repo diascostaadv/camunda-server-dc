@@ -1,8 +1,11 @@
 camunda:
   bpm:
     admin-user:
-      id: demo
-      password: DiasCosta@!!2025
+      id: ${CAMUNDA_BPM_ADMIN_USER:admin}
+      password: ${CAMUNDA_BPM_ADMIN_PASSWORD:DiasCosta@!!2025}
+      firstName: Admin
+      lastName: System
+      email: admin@localhost
     run:
       auth:
         enabled: true
