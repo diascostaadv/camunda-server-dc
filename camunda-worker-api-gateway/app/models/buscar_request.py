@@ -11,7 +11,9 @@ class BuscarPublicacoesRequest(BaseModel):
     """Modelo para requisição de busca de publicações"""
 
     # Parâmetros de busca
-    cod_grupo: int = Field(default=5, description="Código do grupo para busca")
+    cod_grupo: int = Field(
+        default=5, description="Código do grupo para busca (grupo 5 tem dados históricos)"
+    )
     data_inicial: Optional[str] = Field(
         None, description="Data inicial para busca (YYYY-MM-DD)"
     )

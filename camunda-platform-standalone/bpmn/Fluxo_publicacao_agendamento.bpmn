@@ -357,7 +357,7 @@
           <bpmn:outgoing>Flow_1g6ldsv</bpmn:outgoing>
           <bpmn:escalationEventDefinition id="EscalationEventDefinition_1yihd4b" escalationRef="Escalation_01pinl9" />
         </bpmn:startEvent>
-        <bpmn:userTask id="Activity_1nbubko" name="Analisar fato crítico" camunda:formRef="Form_fato_critico" camunda:formRefBinding="latest" camunda:candidateGroups="${coordenador_responsavel}" camunda:followUpDate="${data_publicacao}" camunda:priority="100">
+        <bpmn:userTask id="Activity_1nbubko" name="Analisar fato crítico" camunda:formRef="Form_fato_critico" camunda:formRefBinding="latest" camunda:candidateGroups="${coordenador_responsavel}" camunda:priority="100">
           <bpmn:incoming>Flow_1g6ldsv</bpmn:incoming>
           <bpmn:outgoing>Flow_1n9xx55</bpmn:outgoing>
         </bpmn:userTask>

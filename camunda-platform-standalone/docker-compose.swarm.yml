@@ -55,7 +55,8 @@ services:
       CAMUNDA_BPM_ADMIN_USER: ${CAMUNDA_BPM_ADMIN_USER:-demo}
       CAMUNDA_BPM_ADMIN_PASSWORD: ${CAMUNDA_BPM_ADMIN_PASSWORD:-DiasCosta@!!2025}
     ports:
-      - "${CAMUNDA_PORT:-8080}:8080"
+      # Porta 8080 agora é interna (acessada via Caddy)
+      - "127.0.0.1:8080:8080"
       - "${CAMUNDA_JMX_PORT:-9404}:${CAMUNDA_JMX_PORT:-9404}"
     volumes:
       - ./config/prometheus-jmx.yml:/camunda/config/prometheus-jmx.yml
@@ -136,11 +137,41 @@ services:
       restart_policy:
         condition: on-failure
 
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"       # HTTP (para redirecionamento automático)
+      - "443:443"     # HTTPS
+      - "443:443/udp" # HTTP/3
+    volumes:
+      - ./config/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - caddy_logs:/var/log/caddy
+    networks: [backend]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role == manager
+    depends_on:
+      - camunda
+
 volumes:
   db_data:
   prometheus_data:
   grafana_data:
   camunda_heapdumps:
+  caddy_data:
+  caddy_config:
+  caddy_logs:
 
 networks:
   backend:

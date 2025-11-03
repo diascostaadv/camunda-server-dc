@@ -529,18 +529,19 @@ async def processar_task_camunda_v2(
             )
             logger.info(f"Branch 2 result: {len(publicacoes)} publicações encontradas")
         else:
-            # Usar período dos últimos 7 dias quando datas não são fornecidas
+            # Usar período dos últimos 180 dias quando datas não são fornecidas
+            # Baseado em testes: Fevereiro/2025 teve 232 publicações
             from datetime import timedelta
 
             hoje = datetime.now()
-            # Buscar últimos 7 dias (período otimizado para evitar timeouts no servidor SOAP)
-            data_inicial_obj = hoje - timedelta(days=7)
+            # Buscar últimos 180 dias (~6 meses) para capturar período com dados
+            data_inicial_obj = hoje - timedelta(days=180)
 
             data_inicial_padrao = data_inicial_obj.strftime("%Y-%m-%d")
             data_final_padrao = hoje.strftime("%Y-%m-%d")
 
             logger.info(
-                f"Branch 3: Nenhum critério de busca fornecido, buscando período padrão: {data_inicial_padrao} a {data_final_padrao}"
+                f"Branch 3: Nenhum critério de busca fornecido, buscando últimos 180 dias: {data_inicial_padrao} a {data_final_padrao}"
             )
             publicacoes = soap_client.get_publicacoes_periodo_safe(
                 data_inicial=data_inicial_padrao,

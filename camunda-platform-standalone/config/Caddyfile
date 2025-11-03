@@ -1,0 +1,69 @@
+# Caddyfile - Reverse Proxy com HTTPS automático via Let's Encrypt
+# Domínio: camunda.nutec.com.br
+
+# Configuração global
+{
+    # Email para notificações do Let's Encrypt
+    email admin@nutec.com.br
+
+    # Modo de produção (staging para testes)
+    # acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+
+# Camunda Platform - HTTPS com certificado automático
+camunda.nutec.com.br {
+    # Reverse proxy para Camunda
+    reverse_proxy camunda:8080 {
+        # Headers para manter autenticação
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+
+        # Timeouts aumentados para operações longas
+        transport http {
+            dial_timeout 30s
+            response_header_timeout 60s
+        }
+    }
+
+    # Logs
+    log {
+        output file /var/log/caddy/access.log
+        format json
+    }
+
+    # Configurações de segurança
+    header {
+        # Strict Transport Security (HSTS)
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+        # XSS Protection
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        X-XSS-Protection "1; mode=block"
+
+        # Remover header do servidor
+        -Server
+    }
+
+    # Encoding
+    encode gzip zstd
+}
+
+# Grafana - Subdomínio (opcional)
+# grafana.nutec.com.br {
+#     reverse_proxy grafana:3000
+#     encode gzip
+# }
+
+# Prometheus - Subdomínio (opcional, proteger com basic auth)
+# prometheus.nutec.com.br {
+#     reverse_proxy prometheus:9090
+#     encode gzip
+#
+#     # Basic Auth (gerar com: caddy hash-password)
+#     basicauth {
+#         admin $2a$14$...hash...
+#     }
+# }

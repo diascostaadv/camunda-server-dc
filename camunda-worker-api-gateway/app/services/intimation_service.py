@@ -326,14 +326,25 @@ class IntimationService:
         params = {"intCodGrupo": cod_grupo}
 
         try:
+            logger.info(
+                "📤 Buscando publicações não exportadas: cod_grupo=%d", cod_grupo
+            )
+
             response = self._make_request("getPublicacoesNaoExportadas", params)
             publicacoes = self._parse_publicacoes(response)
 
             logger.info(
-                "Obtidas %d publicações não exportadas (grupo %d)",
+                "📥 Obtidas %d publicações não exportadas (grupo %d)",
                 len(publicacoes),
                 cod_grupo,
             )
+
+            if len(publicacoes) == 0:
+                logger.warning(
+                    "⚠️ NENHUMA PUBLICAÇÃO NÃO EXPORTADA encontrada para grupo=%d",
+                    cod_grupo,
+                )
+
             return publicacoes
 
         except Exception as exc:
@@ -398,38 +409,57 @@ class IntimationService:
 
         try:
             # Usa versão V para melhor compatibilidade
+            # intExportada: 0=não exportadas, 1=exportadas, omitir=todas
             params = {
                 "dteDataInicial": data_inicial,
                 "dteDataFinal": data_final,
                 "intCodGrupo": cod_grupo,
-                "intExportada": 0,
+                "intExportada": 0,  # Buscar apenas publicações NÃO exportadas
                 "numVersao": 5,
             }
+
+            # Log dos parâmetros sendo enviados para debug
+            logger.info(
+                "📤 Parâmetros SOAP: periodo=%s a %s, cod_grupo=%d, intExportada=%d",
+                data_inicial,
+                data_final,
+                cod_grupo,
+                params.get("intExportada", -1),
+            )
 
             response = self._make_request("getPublicacoesV", params)
             publicacoes = self._parse_publicacoes(response)
 
+            # Log do resultado
             logger.info(
-                "Encontradas %d publicações no período %s - %s",
+                "📥 Resultado: %d publicações encontradas no período %s - %s (grupo=%d)",
                 len(publicacoes),
                 data_inicial,
                 data_final,
+                cod_grupo,
             )
 
             # Log do XML bruto quando nenhuma publicação é encontrada para diagnóstico
             if len(publicacoes) == 0:
+                logger.warning(
+                    "⚠️ NENHUMA PUBLICAÇÃO ENCONTRADA! Parâmetros: periodo=%s a %s, cod_grupo=%d, intExportada=0",
+                    data_inicial,
+                    data_final,
+                    cod_grupo,
+                )
                 try:
-                    # Converte response para string se for ElementTree
-                    if hasattr(response, "text"):
-                        xml_content = response.text
-                    else:
-                        xml_content = str(response)
+                    # Converte response (ET.Element) para string
+                    import xml.etree.ElementTree as ET
+
+                    xml_content = ET.tostring(response, encoding="unicode")
 
                     logger.warning(
-                        "XML Response (first 1000 chars): %s...", xml_content[:1000]
+                        "📄 XML Response (primeiros 1500 chars): %s...",
+                        xml_content[:1500],
                     )
                 except Exception as log_exc:
                     logger.warning("Erro ao logar XML: %s", log_exc)
+                    logger.debug("Response type: %s", type(response))
 
             return publicacoes
 

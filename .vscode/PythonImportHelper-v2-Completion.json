@@ -1685,6 +1685,54 @@
         "documentation": {}
     },
     {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "date",
         "importPath": "datetime",
         "description": "datetime",
@@ -2504,6 +2552,38 @@
     },
     {
         "label": "get_intimation_client",
+        "importPath": "services.intimation_service",
+        "description": "services.intimation_service",
+        "isExtraImport": true,
+        "detail": "services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationService",
+        "importPath": "services.intimation_service",
+        "description": "services.intimation_service",
+        "isExtraImport": true,
+        "detail": "services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationService",
+        "importPath": "services.intimation_service",
+        "description": "services.intimation_service",
+        "isExtraImport": true,
+        "detail": "services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationService",
+        "importPath": "services.intimation_service",
+        "description": "services.intimation_service",
+        "isExtraImport": true,
+        "detail": "services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationService",
         "importPath": "services.intimation_service",
         "description": "services.intimation_service",
         "isExtraImport": true,
@@ -4282,7 +4362,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
         "description": "camunda-worker-api-gateway.app.models.buscar_request",
-        "peekOfCode": "class BuscarPublicacoesRequest(BaseModel):\n    \"\"\"Modelo para requisição de busca de publicações\"\"\"\n    # Parâmetros de busca\n    cod_grupo: int = Field(default=5, description=\"Código do grupo para busca\")\n    data_inicial: Optional[str] = Field(\n        None, description=\"Data inicial para busca (YYYY-MM-DD)\"\n    )\n    data_final: Optional[str] = Field(\n        None, description=\"Data final para busca (YYYY-MM-DD)\"\n    )",
+        "peekOfCode": "class BuscarPublicacoesRequest(BaseModel):\n    \"\"\"Modelo para requisição de busca de publicações\"\"\"\n    # Parâmetros de busca\n    cod_grupo: int = Field(\n        default=5, description=\"Código do grupo para busca (grupo 5 tem dados históricos)\"\n    )\n    data_inicial: Optional[str] = Field(\n        None, description=\"Data inicial para busca (YYYY-MM-DD)\"\n    )\n    data_final: Optional[str] = Field(",
         "detail": "camunda-worker-api-gateway.app.models.buscar_request",
         "documentation": {}
     },
@@ -4948,7 +5028,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.intimation_api",
         "description": "camunda-worker-api-gateway.app.services.intimation_api",
-        "peekOfCode": "class EstatisticasPublicacoes:\n    \"\"\"Representa estatísticas de publicações\"\"\"\n    grupo: str = \"\"\n    total_publicacoes: int = 0\n    total_nao_importadas: int = 0\n    detalhamento: Optional[List['EstatisticasPublicacoes']] = None\n    def to_json(self) -> str:\n        \"\"\"Converte estatísticas para JSON\"\"\"\n        return json.dumps(asdict(self), ensure_ascii=False, indent=2)\n    def to_dict(self) -> Dict[str, Any]:",
+        "peekOfCode": "class EstatisticasPublicacoes:\n    \"\"\"Representa estatísticas de publicações\"\"\"\n    grupo: str = \"\"\n    total_publicacoes: int = 0\n    total_nao_importadas: int = 0\n    detalhamento: Optional[List[\"EstatisticasPublicacoes\"]] = None\n    def to_json(self) -> str:\n        \"\"\"Converte estatísticas para JSON\"\"\"\n        return json.dumps(asdict(self), ensure_ascii=False, indent=2)\n    def to_dict(self) -> Dict[str, Any]:",
         "detail": "camunda-worker-api-gateway.app.services.intimation_api",
         "documentation": {}
     },
@@ -5706,6 +5786,555 @@
         "description": "camunda-worker-api-gateway.app.wait-for-services",
         "peekOfCode": "def wait_for_all_services() -> bool:\n    \"\"\"Wait for all required services\"\"\"\n    # Check if using external services\n    external_mode = os.getenv(\"EXTERNAL_SERVICES_MODE\", \"false\").lower() == \"true\"\n    # Get service URLs from environment\n    mongodb_uri = os.getenv(\n        \"MONGODB_URI\",\n        \"mongodb+srv://camunda:Rqt0wVmEZhcME7HC@camundadc.os1avun.mongodb.net/\",\n    )\n    print(\"🚀 Waiting for all services to be ready...\")",
         "detail": "camunda-worker-api-gateway.app.wait-for-services",
+        "documentation": {}
+    },
+    {
+        "label": "build_soap_request",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.debug_soap_xml",
+        "description": "camunda-worker-api-gateway.debug_soap_xml",
+        "peekOfCode": "def build_soap_request(method, params):\n    \"\"\"Constrói envelope SOAP\"\"\"\n    param_elements = \"\"\n    for key, value in params.items():\n        if value is not None:\n            param_elements += f\"<{key}>{value}</{key}>\"\n    return f\"\"\"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n               xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\n               xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">",
+        "detail": "camunda-worker-api-gateway.debug_soap_xml",
+        "documentation": {}
+    },
+    {
+        "label": "test_request",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.debug_soap_xml",
+        "description": "camunda-worker-api-gateway.debug_soap_xml",
+        "peekOfCode": "def test_request(method, params, description):\n    \"\"\"Faz requisição e exibe XML bruto\"\"\"\n    print(f\"\\n{'='*70}\")\n    print(f\"TESTE: {description}\")\n    print(f\"Método: {method}\")\n    print(f\"Parâmetros: {params}\")\n    print(f\"{'='*70}\\n\")\n    # Adicionar credenciais\n    params.update({\"strUsuario\": USUARIO, \"strSenha\": SENHA})\n    # Montar envelope",
+        "detail": "camunda-worker-api-gateway.debug_soap_xml",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.debug_soap_xml",
+        "description": "camunda-worker-api-gateway.debug_soap_xml",
+        "peekOfCode": "def main():\n    \"\"\"Executa testes\"\"\"\n    print(\"=\" * 70)\n    print(\"DEBUG SOAP XML - API DE INTIMAÇÕES\")\n    print(\"=\" * 70)\n    print(f\"URL: {URL}\")\n    print(f\"Usuário: {USUARIO}\")\n    print(f\"Data: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\")\n    # TESTE 1: getPublicacoesV com período recente\n    test_request(",
+        "detail": "camunda-worker-api-gateway.debug_soap_xml",
+        "documentation": {}
+    },
+    {
+        "label": "USUARIO",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.debug_soap_xml",
+        "description": "camunda-worker-api-gateway.debug_soap_xml",
+        "peekOfCode": "USUARIO = \"100049\"\nSENHA = \"DcDpW@24\"\nURL = \"https://intimation-panel.azurewebsites.net/wsPublicacao.asmx\"\ndef build_soap_request(method, params):\n    \"\"\"Constrói envelope SOAP\"\"\"\n    param_elements = \"\"\n    for key, value in params.items():\n        if value is not None:\n            param_elements += f\"<{key}>{value}</{key}>\"\n    return f\"\"\"<?xml version=\"1.0\" encoding=\"utf-8\"?>",
+        "detail": "camunda-worker-api-gateway.debug_soap_xml",
+        "documentation": {}
+    },
+    {
+        "label": "SENHA",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.debug_soap_xml",
+        "description": "camunda-worker-api-gateway.debug_soap_xml",
+        "peekOfCode": "SENHA = \"DcDpW@24\"\nURL = \"https://intimation-panel.azurewebsites.net/wsPublicacao.asmx\"\ndef build_soap_request(method, params):\n    \"\"\"Constrói envelope SOAP\"\"\"\n    param_elements = \"\"\n    for key, value in params.items():\n        if value is not None:\n            param_elements += f\"<{key}>{value}</{key}>\"\n    return f\"\"\"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",
+        "detail": "camunda-worker-api-gateway.debug_soap_xml",
+        "documentation": {}
+    },
+    {
+        "label": "URL",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.debug_soap_xml",
+        "description": "camunda-worker-api-gateway.debug_soap_xml",
+        "peekOfCode": "URL = \"https://intimation-panel.azurewebsites.net/wsPublicacao.asmx\"\ndef build_soap_request(method, params):\n    \"\"\"Constrói envelope SOAP\"\"\"\n    param_elements = \"\"\n    for key, value in params.items():\n        if value is not None:\n            param_elements += f\"<{key}>{value}</{key}>\"\n    return f\"\"\"<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n               xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"",
+        "detail": "camunda-worker-api-gateway.debug_soap_xml",
+        "documentation": {}
+    },
+    {
+        "label": "print_header",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_datas_variaveis",
+        "description": "camunda-worker-api-gateway.test_datas_variaveis",
+        "peekOfCode": "def print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_periodo(service, data_inicial, data_final, cod_grupo, descricao):\n    \"\"\"Testa um período específico\"\"\"\n    print(f\"{BOLD}📅 {descricao}{END}\")\n    print(f\"   Período: {data_inicial} a {data_final}, Grupo: {cod_grupo}\")\n    try:\n        pubs = service.get_publicacoes_periodo_safe(",
+        "detail": "camunda-worker-api-gateway.test_datas_variaveis",
+        "documentation": {}
+    },
+    {
+        "label": "testar_periodo",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_datas_variaveis",
+        "description": "camunda-worker-api-gateway.test_datas_variaveis",
+        "peekOfCode": "def testar_periodo(service, data_inicial, data_final, cod_grupo, descricao):\n    \"\"\"Testa um período específico\"\"\"\n    print(f\"{BOLD}📅 {descricao}{END}\")\n    print(f\"   Período: {data_inicial} a {data_final}, Grupo: {cod_grupo}\")\n    try:\n        pubs = service.get_publicacoes_periodo_safe(\n            data_inicial,\n            data_final,\n            cod_grupo=cod_grupo\n        )",
+        "detail": "camunda-worker-api-gateway.test_datas_variaveis",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_datas_variaveis",
+        "description": "camunda-worker-api-gateway.test_datas_variaveis",
+        "peekOfCode": "def main():\n    \"\"\"Testa vários períodos\"\"\"\n    print_header(\"TESTE COM MÚLTIPLAS DATAS\")\n    service = IntimationService(usuario='100049', senha='DcDpW@24')\n    # Data atual\n    hoje = datetime.now()\n    # Períodos para testar (datas reais, não futuras)\n    periodos_teste = [\n        # Últimos 30 dias\n        ((hoje - timedelta(days=30)).strftime(\"%Y-%m-%d\"),",
+        "detail": "camunda-worker-api-gateway.test_datas_variaveis",
+        "documentation": {}
+    },
+    {
+        "label": "GREEN",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_datas_variaveis",
+        "description": "camunda-worker-api-gateway.test_datas_variaveis",
+        "peekOfCode": "GREEN = '\\033[92m'\nRED = '\\033[91m'\nYELLOW = '\\033[93m'\nBLUE = '\\033[94m'\nCYAN = '\\033[96m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")",
+        "detail": "camunda-worker-api-gateway.test_datas_variaveis",
+        "documentation": {}
+    },
+    {
+        "label": "RED",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_datas_variaveis",
+        "description": "camunda-worker-api-gateway.test_datas_variaveis",
+        "peekOfCode": "RED = '\\033[91m'\nYELLOW = '\\033[93m'\nBLUE = '\\033[94m'\nCYAN = '\\033[96m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")",
+        "detail": "camunda-worker-api-gateway.test_datas_variaveis",
+        "documentation": {}
+    },
+    {
+        "label": "YELLOW",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_datas_variaveis",
+        "description": "camunda-worker-api-gateway.test_datas_variaveis",
+        "peekOfCode": "YELLOW = '\\033[93m'\nBLUE = '\\033[94m'\nCYAN = '\\033[96m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_periodo(service, data_inicial, data_final, cod_grupo, descricao):",
+        "detail": "camunda-worker-api-gateway.test_datas_variaveis",
+        "documentation": {}
+    },
+    {
+        "label": "BLUE",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_datas_variaveis",
+        "description": "camunda-worker-api-gateway.test_datas_variaveis",
+        "peekOfCode": "BLUE = '\\033[94m'\nCYAN = '\\033[96m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_periodo(service, data_inicial, data_final, cod_grupo, descricao):\n    \"\"\"Testa um período específico\"\"\"",
+        "detail": "camunda-worker-api-gateway.test_datas_variaveis",
+        "documentation": {}
+    },
+    {
+        "label": "CYAN",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_datas_variaveis",
+        "description": "camunda-worker-api-gateway.test_datas_variaveis",
+        "peekOfCode": "CYAN = '\\033[96m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_periodo(service, data_inicial, data_final, cod_grupo, descricao):\n    \"\"\"Testa um período específico\"\"\"\n    print(f\"{BOLD}📅 {descricao}{END}\")",
+        "detail": "camunda-worker-api-gateway.test_datas_variaveis",
+        "documentation": {}
+    },
+    {
+        "label": "BOLD",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_datas_variaveis",
+        "description": "camunda-worker-api-gateway.test_datas_variaveis",
+        "peekOfCode": "BOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_periodo(service, data_inicial, data_final, cod_grupo, descricao):\n    \"\"\"Testa um período específico\"\"\"\n    print(f\"{BOLD}📅 {descricao}{END}\")\n    print(f\"   Período: {data_inicial} a {data_final}, Grupo: {cod_grupo}\")",
+        "detail": "camunda-worker-api-gateway.test_datas_variaveis",
+        "documentation": {}
+    },
+    {
+        "label": "END",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_datas_variaveis",
+        "description": "camunda-worker-api-gateway.test_datas_variaveis",
+        "peekOfCode": "END = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_periodo(service, data_inicial, data_final, cod_grupo, descricao):\n    \"\"\"Testa um período específico\"\"\"\n    print(f\"{BOLD}📅 {descricao}{END}\")\n    print(f\"   Período: {data_inicial} a {data_final}, Grupo: {cod_grupo}\")\n    try:",
+        "detail": "camunda-worker-api-gateway.test_datas_variaveis",
+        "documentation": {}
+    },
+    {
+        "label": "Colors",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "class Colors:\n    GREEN = '\\033[92m'\n    RED = '\\033[91m'\n    YELLOW = '\\033[93m'\n    BLUE = '\\033[94m'\n    CYAN = '\\033[96m'\n    BOLD = '\\033[1m'\n    END = '\\033[0m'\ndef print_header(text):\n    \"\"\"Imprime cabeçalho formatado\"\"\"",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "print_header",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def print_header(text):\n    \"\"\"Imprime cabeçalho formatado\"\"\"\n    print(f\"\\n{Colors.BOLD}{Colors.CYAN}{'=' * 70}{Colors.END}\")\n    print(f\"{Colors.BOLD}{Colors.CYAN}{text.center(70)}{Colors.END}\")\n    print(f\"{Colors.BOLD}{Colors.CYAN}{'=' * 70}{Colors.END}\\n\")\ndef print_test(number, total, description):\n    \"\"\"Imprime início de teste\"\"\"\n    print(f\"{Colors.BOLD}[{number}/{total}] {description}...{Colors.END}\")\ndef print_success(message):\n    \"\"\"Imprime mensagem de sucesso\"\"\"",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "print_test",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def print_test(number, total, description):\n    \"\"\"Imprime início de teste\"\"\"\n    print(f\"{Colors.BOLD}[{number}/{total}] {description}...{Colors.END}\")\ndef print_success(message):\n    \"\"\"Imprime mensagem de sucesso\"\"\"\n    print(f\"{Colors.GREEN}✅ {message}{Colors.END}\")\ndef print_error(message):\n    \"\"\"Imprime mensagem de erro\"\"\"\n    print(f\"{Colors.RED}❌ {message}{Colors.END}\")\ndef print_warning(message):",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "print_success",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def print_success(message):\n    \"\"\"Imprime mensagem de sucesso\"\"\"\n    print(f\"{Colors.GREEN}✅ {message}{Colors.END}\")\ndef print_error(message):\n    \"\"\"Imprime mensagem de erro\"\"\"\n    print(f\"{Colors.RED}❌ {message}{Colors.END}\")\ndef print_warning(message):\n    \"\"\"Imprime mensagem de aviso\"\"\"\n    print(f\"{Colors.YELLOW}⚠️  {message}{Colors.END}\")\ndef print_info(message):",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "print_error",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def print_error(message):\n    \"\"\"Imprime mensagem de erro\"\"\"\n    print(f\"{Colors.RED}❌ {message}{Colors.END}\")\ndef print_warning(message):\n    \"\"\"Imprime mensagem de aviso\"\"\"\n    print(f\"{Colors.YELLOW}⚠️  {message}{Colors.END}\")\ndef print_info(message):\n    \"\"\"Imprime mensagem informativa\"\"\"\n    print(f\"{Colors.BLUE}ℹ️  {message}{Colors.END}\")\ndef test_connection(service):",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "print_warning",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def print_warning(message):\n    \"\"\"Imprime mensagem de aviso\"\"\"\n    print(f\"{Colors.YELLOW}⚠️  {message}{Colors.END}\")\ndef print_info(message):\n    \"\"\"Imprime mensagem informativa\"\"\"\n    print(f\"{Colors.BLUE}ℹ️  {message}{Colors.END}\")\ndef test_connection(service):\n    \"\"\"Testa conexão com a API\"\"\"\n    print_test(1, 7, \"Testando conexão com API\")\n    try:",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "print_info",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def print_info(message):\n    \"\"\"Imprime mensagem informativa\"\"\"\n    print(f\"{Colors.BLUE}ℹ️  {message}{Colors.END}\")\ndef test_connection(service):\n    \"\"\"Testa conexão com a API\"\"\"\n    print_test(1, 7, \"Testando conexão com API\")\n    try:\n        start = time.time()\n        result = service.test_connection()\n        elapsed = time.time() - start",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "test_connection",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def test_connection(service):\n    \"\"\"Testa conexão com a API\"\"\"\n    print_test(1, 7, \"Testando conexão com API\")\n    try:\n        start = time.time()\n        result = service.test_connection()\n        elapsed = time.time() - start\n        if result:\n            print_success(f\"Conexão OK (tempo: {elapsed:.2f}s)\")\n            return True",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "test_periodo",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def test_periodo(service, data_inicial, data_final, cod_grupo, descricao):\n    \"\"\"Testa busca de publicações por período\"\"\"\n    print(f\"  📅 Período: {data_inicial} a {data_final}\")\n    print(f\"  🏷️  Grupo: {cod_grupo}\")\n    try:\n        start = time.time()\n        publicacoes = service.get_publicacoes_periodo_safe(\n            data_inicial=data_inicial,\n            data_final=data_final,\n            cod_grupo=cod_grupo,",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "test_periodo_atual",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def test_periodo_atual(service):\n    \"\"\"Testa período atual (2025-08-01 a hoje)\"\"\"\n    print_test(2, 7, \"Testando período atual (2025-08-01 a hoje)\")\n    hoje = datetime.now().strftime(\"%Y-%m-%d\")\n    return test_periodo(service, \"2025-08-01\", hoje, 5, \"Período atual (grupo 5)\")\ndef test_periodo_agosto_2024(service):\n    \"\"\"Testa agosto de 2024\"\"\"\n    print_test(3, 7, \"Testando agosto de 2024\")\n    return test_periodo(service, \"2024-08-01\", \"2024-08-31\", 5, \"Agosto 2024 (grupo 5)\")\ndef test_periodo_2024_completo(service):",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "test_periodo_agosto_2024",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def test_periodo_agosto_2024(service):\n    \"\"\"Testa agosto de 2024\"\"\"\n    print_test(3, 7, \"Testando agosto de 2024\")\n    return test_periodo(service, \"2024-08-01\", \"2024-08-31\", 5, \"Agosto 2024 (grupo 5)\")\ndef test_periodo_2024_completo(service):\n    \"\"\"Testa ano 2024 completo\"\"\"\n    print_test(4, 7, \"Testando ano 2024 completo (pode demorar)\")\n    # Dividir em trimestres para evitar timeout\n    trimestres = [\n        (\"2024-01-01\", \"2024-03-31\", \"Q1 2024\"),",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "test_periodo_2024_completo",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def test_periodo_2024_completo(service):\n    \"\"\"Testa ano 2024 completo\"\"\"\n    print_test(4, 7, \"Testando ano 2024 completo (pode demorar)\")\n    # Dividir em trimestres para evitar timeout\n    trimestres = [\n        (\"2024-01-01\", \"2024-03-31\", \"Q1 2024\"),\n        (\"2024-04-01\", \"2024-06-30\", \"Q2 2024\"),\n        (\"2024-07-01\", \"2024-09-30\", \"Q3 2024\"),\n        (\"2024-10-01\", \"2024-12-31\", \"Q4 2024\"),\n    ]",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "test_grupos_diferentes",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def test_grupos_diferentes(service):\n    \"\"\"Testa grupos diferentes\"\"\"\n    print_test(5, 7, \"Testando grupos diferentes\")\n    # Período recente para teste rápido\n    hoje = datetime.now()\n    data_final = hoje.strftime(\"%Y-%m-%d\")\n    data_inicial = (hoje - timedelta(days=30)).strftime(\"%Y-%m-%d\")\n    print(f\"  📅 Período de teste: {data_inicial} a {data_final}\")\n    grupos_teste = [0, 5, 1, 2, 3]\n    resultados = {}",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "test_nao_exportadas",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def test_nao_exportadas(service):\n    \"\"\"Testa busca de publicações não exportadas\"\"\"\n    print_test(6, 7, \"Testando publicações não exportadas\")\n    grupos_teste = [0, 5]\n    for grupo in grupos_teste:\n        try:\n            start = time.time()\n            pubs = service.get_publicacoes_nao_exportadas(grupo)\n            elapsed = time.time() - start\n            print(f\"  Grupo {grupo}: {len(pubs)} publicações não exportadas (tempo: {elapsed:.2f}s)\")",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "test_estatisticas",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def test_estatisticas(service):\n    \"\"\"Testa estatísticas de publicações\"\"\"\n    print_test(7, 7, \"Testando estatísticas de publicações\")\n    # Testar últimos 7 dias\n    for i in range(7):\n        data_teste = (datetime.now() - timedelta(days=i)).strftime(\"%Y-%m-%d\")\n        try:\n            stats = service.get_estatisticas_publicacoes(data_teste, cod_grupo=5)\n            if stats and stats.total_publicacoes > 0:\n                print_success(f\"Data {data_teste}: {stats.total_publicacoes} publicações\")",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "print_diagnostico",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def print_diagnostico(resultados):\n    \"\"\"Imprime diagnóstico final\"\"\"\n    print_header(\"DIAGNÓSTICO\")\n    if resultados['conexao']:\n        print_success(\"API está funcionando corretamente\")\n    else:\n        print_error(\"Problema de conexão com a API\")\n        return\n    if any([resultados['periodo_atual'], resultados['periodo_2024'],\n            resultados['grupos'], resultados['nao_exportadas'], resultados['estatisticas']]):",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "def main():\n    \"\"\"Função principal\"\"\"\n    print_header(\"TESTE API SOAP DE INTIMAÇÕES\")\n    print_info(f\"Usuário: {USUARIO}\")\n    print_info(f\"URL: https://intimation-panel.azurewebsites.net/wsPublicacao.asmx\")\n    # Inicializar serviço\n    try:\n        service = IntimationService(usuario=USUARIO, senha=SENHA, timeout=90, max_retries=1)\n    except Exception as e:\n        print_error(f\"Erro ao inicializar serviço: {e}\")",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "USUARIO",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "USUARIO = \"100049\"\nSENHA = \"DcDpW@24\"\n# Cores para terminal\nclass Colors:\n    GREEN = '\\033[92m'\n    RED = '\\033[91m'\n    YELLOW = '\\033[93m'\n    BLUE = '\\033[94m'\n    CYAN = '\\033[96m'\n    BOLD = '\\033[1m'",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "SENHA",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_intimation_api",
+        "description": "camunda-worker-api-gateway.test_intimation_api",
+        "peekOfCode": "SENHA = \"DcDpW@24\"\n# Cores para terminal\nclass Colors:\n    GREEN = '\\033[92m'\n    RED = '\\033[91m'\n    YELLOW = '\\033[93m'\n    BLUE = '\\033[94m'\n    CYAN = '\\033[96m'\n    BOLD = '\\033[1m'\n    END = '\\033[0m'",
+        "detail": "camunda-worker-api-gateway.test_intimation_api",
+        "documentation": {}
+    },
+    {
+        "label": "print_header",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "def print_header(text):\n    \"\"\"Imprime cabeçalho\"\"\"\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef print_success(text):\n    \"\"\"Imprime sucesso\"\"\"\n    print(f\"{GREEN}✅ {text}{END}\")\ndef print_error(text):\n    \"\"\"Imprime erro\"\"\"",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "print_success",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "def print_success(text):\n    \"\"\"Imprime sucesso\"\"\"\n    print(f\"{GREEN}✅ {text}{END}\")\ndef print_error(text):\n    \"\"\"Imprime erro\"\"\"\n    print(f\"{RED}❌ {text}{END}\")\ndef print_info(text):\n    \"\"\"Imprime info\"\"\"\n    print(f\"{BLUE}ℹ️  {text}{END}\")\ndef verificar_correcao_intexportada():",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "print_error",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "def print_error(text):\n    \"\"\"Imprime erro\"\"\"\n    print(f\"{RED}❌ {text}{END}\")\ndef print_info(text):\n    \"\"\"Imprime info\"\"\"\n    print(f\"{BLUE}ℹ️  {text}{END}\")\ndef verificar_correcao_intexportada():\n    \"\"\"Verifica se intExportada foi descomentado\"\"\"\n    print_info(\"Verificando arquivo intimation_service.py...\")\n    arquivo = \"app/services/intimation_service.py\"",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "print_info",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "def print_info(text):\n    \"\"\"Imprime info\"\"\"\n    print(f\"{BLUE}ℹ️  {text}{END}\")\ndef verificar_correcao_intexportada():\n    \"\"\"Verifica se intExportada foi descomentado\"\"\"\n    print_info(\"Verificando arquivo intimation_service.py...\")\n    arquivo = \"app/services/intimation_service.py\"\n    if not os.path.exists(arquivo):\n        print_error(f\"Arquivo não encontrado: {arquivo}\")\n        return False",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "verificar_correcao_intexportada",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "def verificar_correcao_intexportada():\n    \"\"\"Verifica se intExportada foi descomentado\"\"\"\n    print_info(\"Verificando arquivo intimation_service.py...\")\n    arquivo = \"app/services/intimation_service.py\"\n    if not os.path.exists(arquivo):\n        print_error(f\"Arquivo não encontrado: {arquivo}\")\n        return False\n    with open(arquivo, 'r', encoding='utf-8') as f:\n        conteudo = f.read()\n        linhas = conteudo.split('\\n')",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "verificar_logs_adicionados",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "def verificar_logs_adicionados():\n    \"\"\"Verifica se os logs foram adicionados\"\"\"\n    print_info(\"Verificando se logs detalhados foram adicionados...\")\n    arquivo = \"app/services/intimation_service.py\"\n    with open(arquivo, 'r', encoding='utf-8') as f:\n        conteudo = f.read()\n    logs_esperados = [\n        '📤 Parâmetros SOAP',\n        '📥 Resultado:',\n        '⚠️ NENHUMA PUBLICAÇÃO ENCONTRADA',",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "verificar_estrutura_params",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "def verificar_estrutura_params():\n    \"\"\"Verifica estrutura do dicionário params\"\"\"\n    print_info(\"Verificando estrutura do dicionário params...\")\n    arquivo = \"app/services/intimation_service.py\"\n    with open(arquivo, 'r', encoding='utf-8') as f:\n        linhas = f.readlines()\n    # Procurar por params = { ... intExportada ... }\n    dentro_params = False\n    tem_data_inicial = False\n    tem_data_final = False",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "def main():\n    \"\"\"Executa testes\"\"\"\n    print_header(\"VALIDAÇÃO LOCAL DAS CORREÇÕES\")\n    print_info(\"Diretório atual: \" + os.getcwd())\n    print()\n    # Testes\n    resultados = {\n        'intExportada_ativo': False,\n        'logs_adicionados': False,\n        'estrutura_params': False,",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "GREEN",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "GREEN = '\\033[92m'\nRED = '\\033[91m'\nYELLOW = '\\033[93m'\nBLUE = '\\033[94m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    \"\"\"Imprime cabeçalho\"\"\"\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "RED",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "RED = '\\033[91m'\nYELLOW = '\\033[93m'\nBLUE = '\\033[94m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    \"\"\"Imprime cabeçalho\"\"\"\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "YELLOW",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "YELLOW = '\\033[93m'\nBLUE = '\\033[94m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    \"\"\"Imprime cabeçalho\"\"\"\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef print_success(text):",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "BLUE",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "BLUE = '\\033[94m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    \"\"\"Imprime cabeçalho\"\"\"\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef print_success(text):\n    \"\"\"Imprime sucesso\"\"\"",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "BOLD",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "BOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    \"\"\"Imprime cabeçalho\"\"\"\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef print_success(text):\n    \"\"\"Imprime sucesso\"\"\"\n    print(f\"{GREEN}✅ {text}{END}\")",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "END",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_local_simples",
+        "description": "camunda-worker-api-gateway.test_local_simples",
+        "peekOfCode": "END = '\\033[0m'\ndef print_header(text):\n    \"\"\"Imprime cabeçalho\"\"\"\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef print_success(text):\n    \"\"\"Imprime sucesso\"\"\"\n    print(f\"{GREEN}✅ {text}{END}\")\ndef print_error(text):",
+        "detail": "camunda-worker-api-gateway.test_local_simples",
+        "documentation": {}
+    },
+    {
+        "label": "print_header",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "description": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "peekOfCode": "def print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_grupo(service, grupo, data_inicial, data_final):\n    \"\"\"Testa um grupo específico\"\"\"\n    print(f\"{BOLD}🧪 Testando GRUPO {grupo}:{END}\")\n    print(f\"   Período: {data_inicial} a {data_final}\")\n    try:\n        pubs = service.get_publicacoes_periodo_safe(",
+        "detail": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "documentation": {}
+    },
+    {
+        "label": "testar_grupo",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "description": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "peekOfCode": "def testar_grupo(service, grupo, data_inicial, data_final):\n    \"\"\"Testa um grupo específico\"\"\"\n    print(f\"{BOLD}🧪 Testando GRUPO {grupo}:{END}\")\n    print(f\"   Período: {data_inicial} a {data_final}\")\n    try:\n        pubs = service.get_publicacoes_periodo_safe(\n            data_inicial,\n            data_final,\n            cod_grupo=grupo\n        )",
+        "detail": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "description": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "peekOfCode": "def main():\n    \"\"\"Executa testes em múltiplos grupos\"\"\"\n    print_header(\"TESTE DE MÚLTIPLOS GRUPOS - BUSCA DE PUBLICAÇÕES\")\n    print(f\"{CYAN}Inicializando serviço...{END}\")\n    service = IntimationService(usuario='100049', senha='DcDpW@24')\n    # Períodos para testar\n    periodos = [\n        (\"2025-10-28\", \"2025-10-28\", \"28/10/2025 (hoje)\"),\n        (\"2025-10-01\", \"2025-10-28\", \"Outubro/2025 completo\"),\n        (\"2025-08-01\", \"2025-10-28\", \"Agosto-Outubro/2025\"),",
+        "detail": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "documentation": {}
+    },
+    {
+        "label": "GREEN",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "description": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "peekOfCode": "GREEN = '\\033[92m'\nRED = '\\033[91m'\nYELLOW = '\\033[93m'\nBLUE = '\\033[94m'\nCYAN = '\\033[96m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")",
+        "detail": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "documentation": {}
+    },
+    {
+        "label": "RED",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "description": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "peekOfCode": "RED = '\\033[91m'\nYELLOW = '\\033[93m'\nBLUE = '\\033[94m'\nCYAN = '\\033[96m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")",
+        "detail": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "documentation": {}
+    },
+    {
+        "label": "YELLOW",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "description": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "peekOfCode": "YELLOW = '\\033[93m'\nBLUE = '\\033[94m'\nCYAN = '\\033[96m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_grupo(service, grupo, data_inicial, data_final):",
+        "detail": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "documentation": {}
+    },
+    {
+        "label": "BLUE",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "description": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "peekOfCode": "BLUE = '\\033[94m'\nCYAN = '\\033[96m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_grupo(service, grupo, data_inicial, data_final):\n    \"\"\"Testa um grupo específico\"\"\"",
+        "detail": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "documentation": {}
+    },
+    {
+        "label": "CYAN",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "description": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "peekOfCode": "CYAN = '\\033[96m'\nBOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_grupo(service, grupo, data_inicial, data_final):\n    \"\"\"Testa um grupo específico\"\"\"\n    print(f\"{BOLD}🧪 Testando GRUPO {grupo}:{END}\")",
+        "detail": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "documentation": {}
+    },
+    {
+        "label": "BOLD",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "description": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "peekOfCode": "BOLD = '\\033[1m'\nEND = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_grupo(service, grupo, data_inicial, data_final):\n    \"\"\"Testa um grupo específico\"\"\"\n    print(f\"{BOLD}🧪 Testando GRUPO {grupo}:{END}\")\n    print(f\"   Período: {data_inicial} a {data_final}\")",
+        "detail": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "documentation": {}
+    },
+    {
+        "label": "END",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "description": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "peekOfCode": "END = '\\033[0m'\ndef print_header(text):\n    print(f\"\\n{BOLD}{BLUE}{'=' * 70}{END}\")\n    print(f\"{BOLD}{BLUE}{text.center(70)}{END}\")\n    print(f\"{BOLD}{BLUE}{'=' * 70}{END}\\n\")\ndef testar_grupo(service, grupo, data_inicial, data_final):\n    \"\"\"Testa um grupo específico\"\"\"\n    print(f\"{BOLD}🧪 Testando GRUPO {grupo}:{END}\")\n    print(f\"   Período: {data_inicial} a {data_final}\")\n    try:",
+        "detail": "camunda-worker-api-gateway.test_multiplos_grupos",
+        "documentation": {}
+    },
+    {
+        "label": "service",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_quick",
+        "description": "camunda-worker-api-gateway.test_quick",
+        "peekOfCode": "service = IntimationService(usuario='100049', senha='DcDpW@24')\n# Testar com período de 1 dia (28/10/2025 - sabemos que tem 146 publicações)\nprint(\"\\n🧪 Testando período 2025-10-28 (1 dia) com grupo 2...\")\npubs = service.get_publicacoes_periodo_safe('2025-10-28', '2025-10-28', cod_grupo=2)\nprint(f\"📊 Resultado: {len(pubs)} publicações\")\nif len(pubs) > 0:\n    print(\"\\n✅ SUCESSO! Encontrou publicações!\")\n    print(f\"\\nPrimeira publicação:\")\n    pub = pubs[0]\n    print(f\"  - Código: {pub.cod_publicacao}\")",
+        "detail": "camunda-worker-api-gateway.test_quick",
+        "documentation": {}
+    },
+    {
+        "label": "pubs",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.test_quick",
+        "description": "camunda-worker-api-gateway.test_quick",
+        "peekOfCode": "pubs = service.get_publicacoes_periodo_safe('2025-10-28', '2025-10-28', cod_grupo=2)\nprint(f\"📊 Resultado: {len(pubs)} publicações\")\nif len(pubs) > 0:\n    print(\"\\n✅ SUCESSO! Encontrou publicações!\")\n    print(f\"\\nPrimeira publicação:\")\n    pub = pubs[0]\n    print(f\"  - Código: {pub.cod_publicacao}\")\n    print(f\"  - Data: {pub.data_publicacao}\")\n    print(f\"  - UF: {pub.uf_publicacao}\")\n    print(f\"  - Processo: {pub.numero_processo}\")",
+        "detail": "camunda-worker-api-gateway.test_quick",
         "documentation": {}
     },
     {
