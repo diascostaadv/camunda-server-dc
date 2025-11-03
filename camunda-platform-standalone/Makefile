@@ -200,6 +200,43 @@ deploy-bpmn-remote:
 	@echo "🚀 Deploying BPMN files to remote Camunda..."
 	$(SSH) "cd $(REMOTE_DIR) && python3 scripts/deploy_bpmns.py"
 
+# ---------------- MANUTENÇÃO E LIMPEZA AUTOMÁTICA ----------------------------
+
+.PHONY: cleanup-maintenance
+cleanup-maintenance:
+	@echo "🧹 Running maintenance cleanup on remote server..."
+	$(SSH) "cd $(REMOTE_DIR) && bash scripts/cleanup-maintenance.sh standard"
+
+.PHONY: cleanup-maintenance-full
+cleanup-maintenance-full:
+	@echo "🧹 Running FULL maintenance cleanup on remote server (requires root)..."
+	$(SSH) "cd $(REMOTE_DIR) && sudo bash scripts/cleanup-maintenance.sh full"
+
+.PHONY: cleanup-report
+cleanup-report:
+	@echo "📊 Generating disk usage report..."
+	$(SSH) "cd $(REMOTE_DIR) && bash scripts/cleanup-maintenance.sh report"
+
+.PHONY: setup-cron
+setup-cron:
+	@echo "⏰ Setting up automated maintenance cron job..."
+	$(SSH) "cd $(REMOTE_DIR) && (crontab -l 2>/dev/null | grep -v cleanup-maintenance.sh; echo '0 2 * * * $(REMOTE_DIR)/scripts/cleanup-maintenance.sh standard >> /var/log/camunda-cleanup.log 2>&1') | crontab -"
+	@echo "✅ Cron job configured to run daily at 2 AM"
+	@echo "📋 View cron: ssh $(VM_USER)@$(VM_HOST) 'crontab -l'"
+
+.PHONY: disk-usage
+disk-usage:
+	@echo "💾 Checking disk usage on remote server..."
+	@echo ""
+	@echo "=== System Disk Usage ==="
+	$(SSH) "df -h /"
+	@echo ""
+	@echo "=== Docker Disk Usage ==="
+	$(SSH) "docker system df -v"
+	@echo ""
+	@echo "=== Volume Sizes ==="
+	$(SSH) "docker volume ls --format 'table {{.Name}}\t{{.Driver}}' | grep camunda"
+
 # ---------------- LIMPEZA DE PROCESSOS ---------------------------------------
 
 .PHONY: clean-all
@@ -374,6 +411,13 @@ help:
 	@echo "  make clean-local   - Clean processes on local Camunda"
 	@echo "  make clean-stats   - Show cleanup statistics"
 	@echo "  make clean-deep    - RESET entire database to factory state (DANGER!)"
+	@echo ""
+	@echo "MAINTENANCE:"
+	@echo "  make cleanup-maintenance - Run standard cleanup (history + heap dumps)"
+	@echo "  make cleanup-maintenance-full - Full cleanup including Docker (requires root)"
+	@echo "  make cleanup-report - Generate disk usage report"
+	@echo "  make setup-cron    - Setup automated daily cleanup (2 AM)"
+	@echo "  make disk-usage    - Check disk usage on remote server"
 	@echo ""
 	@echo "UTILITIES:"
 	@echo "  make backup-db     - Backup remote database"

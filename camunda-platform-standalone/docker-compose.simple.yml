@@ -8,11 +8,18 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-camunda}
       POSTGRES_USER: ${POSTGRES_USER:-camunda}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-camunda}
+      # Autovacuum configuration for automatic cleanup
+      POSTGRES_INITDB_ARGS: "-c autovacuum=on -c autovacuum_max_workers=3"
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
     networks: [backend]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
     restart: unless-stopped
 
   # Camunda Platform
@@ -37,9 +44,15 @@ services:
       - ./config/camunda-bpm-run.yml:/camunda/configuration/default.yml
       - ./resources:/camunda/webapps/engine-rest/WEB-INF/classes/
       - ./bpmn:/camunda/webapps/engine-rest/WEB-INF/classes/bpmn/
+      - camunda_heapdumps:/tmp/heapdumps
     depends_on:
       - db
     networks: [backend]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
     restart: unless-stopped
     healthcheck:
       test:
@@ -64,10 +77,17 @@ services:
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--storage.tsdb.retention.size=10GB"
       - "--web.console.libraries=/etc/prometheus/console_libraries"
       - "--web.console.templates=/etc/prometheus/consoles"
       - "--web.enable-lifecycle"
     networks: [backend]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
     restart: unless-stopped
 
   # Grafana Dashboard
@@ -84,12 +104,18 @@ services:
     depends_on:
       - prometheus
     networks: [backend]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
     restart: unless-stopped
 
 volumes:
   db_data:
   prometheus_data:
   grafana_data:
+  camunda_heapdumps:
 
 networks:
   backend:
