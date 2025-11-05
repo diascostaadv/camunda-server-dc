@@ -69,6 +69,14 @@ class PublicacaoBronze(BaseModel):
     publicacao_exportada: Optional[int] = Field(None, description="Flag de exportação")
     cod_grupo: Optional[int] = Field(None, description="Código do grupo")
 
+    # Campos de controle de exportação (nosso sistema)
+    marcada_exportada_webjur: Optional[bool] = Field(
+        default=False, description="Flag indicando se foi marcada como exportada via setPublicacoes()"
+    )
+    timestamp_marcacao_exportada: Optional[datetime] = Field(
+        None, description="Timestamp de quando foi marcada como exportada"
+    )
+
     class Config:
         json_encoders = {ObjectId: str, datetime: lambda v: v.isoformat()}
 

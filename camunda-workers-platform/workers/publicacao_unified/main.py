@@ -64,6 +64,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 Topics.TRATAR_PUBLICACAO: self.handle_tratar_publicacao,
                 Topics.CLASSIFICAR_PUBLICACAO: self.handle_classificar_publicacao,
                 Topics.VERIFICAR_PROCESSO_CNJ: self.handle_verificar_processo_cnj,
+                Topics.MARCAR_PUBLICACAO_EXPORTADA_WEBJUR: self.handle_marcar_publicacao_exportada,
             }
         )
 
@@ -78,6 +79,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
             f"  • {Topics.CLASSIFICAR_PUBLICACAO} - Classificação de publicações"
         )
         self.logger.info(f"  • {Topics.VERIFICAR_PROCESSO_CNJ} - Verificação no CPJ")
+        self.logger.info(f"  • {Topics.MARCAR_PUBLICACAO_EXPORTADA_WEBJUR} - Marcação Webjur")
 
     def handle_nova_publicacao(self, task: ExternalTask):
         """
@@ -569,10 +571,33 @@ class PublicacaoUnifiedWorker(BaseWorker):
             variables = task.get_variables()
             numero_cnj = variables.get("numero_cnj") or variables.get("numero_processo")
 
+            # Validação básica de presença
             if not numero_cnj:
                 error_msg = "numero_cnj não fornecido"
                 log_with_context(f"❌ {error_msg}", log_context)
                 return self.fail_task(task, error_msg, retries=0)
+
+            # Validação de valores inválidos/placeholder
+            valores_invalidos = [
+                "não identificado",
+                "não informado",
+                "nao identificado",
+                "nao informado",
+            ]
+            if numero_cnj.strip().lower() in valores_invalidos or numero_cnj.strip() == "":
+                error_msg = f"numero_cnj inválido ou não identificado: '{numero_cnj}'"
+                log_with_context(f"⚠️ {error_msg} - completando task sem verificação", log_context)
+
+                # NÃO falha a task - retorna sucesso com indicação de que não foi possível verificar
+                return self.complete_task(task, {
+                    "status": "success",
+                    "numero_cnj": numero_cnj,
+                    "processos": [],
+                    "existe": False,
+                    "total_encontradas": 0,
+                    "mensagem": "Número do processo não identificado - verificação não realizada",
+                    "verificacao_realizada": False,
+                })
 
             log_with_context(f"📋 Buscando processo {numero_cnj} no CPJ", log_context)
 
@@ -581,9 +606,17 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 f"📤 [GATEWAY] Enviando para endpoint: /publicacoes/verificar-processo-cnj",
                 log_context,
             )
-            log_with_context(f"📤 [GATEWAY] numero_cnj: '{numero_cnj}'", log_context)
+            log_with_context(
+                f"📤 [GATEWAY] numero_cnj: '{numero_cnj}' (length: {len(numero_cnj)})",
+                log_context,
+            )
             log_with_context(
                 f"📤 [GATEWAY] Variáveis disponíveis: {list(variables.keys())}",
+                log_context,
+            )
+            log_with_context(
+                f"📤 [GATEWAY] Valores: numero_cnj={variables.get('numero_cnj')}, "
+                f"numero_processo={variables.get('numero_processo')}",
                 log_context,
             )
 
@@ -616,6 +649,134 @@ class PublicacaoUnifiedWorker(BaseWorker):
             error_msg = f"Erro ao verificar processo CPJ: {str(e)}"
             log_with_context(f"❌ {error_msg}", log_context)
             return self.fail_task(task, error_msg, retries=3)
+
+    def handle_marcar_publicacao_exportada(self, task: ExternalTask):
+        """
+        Marca publicação como exportada no Webjur via setPublicacoes()
+
+        RESPONSABILIDADE: Orquestrador apenas
+        - Valida entrada (cod_publicacao)
+        - Delega para Gateway (lógica de negócio)
+        - Retorna resultado (NÃO bloqueia processo em caso de falha)
+
+        Parâmetros esperados:
+        - cod_publicacao: int (código da publicação no Webjur)
+
+        Retorno:
+        - sucesso: bool (se marcação foi bem-sucedida)
+        - mensagem: str (mensagem de sucesso/erro)
+        - timestamp_marcacao: str (quando foi marcada)
+        """
+        log_context = {
+            "WORKER_ID": task.get_worker_id(),
+            "TASK_ID": task.get_task_id(),
+            "TOPIC": task.get_topic_name(),
+            "BUSINESS_KEY": task.get_business_key(),
+            "HANDLER": "marcar_publicacao_exportada",
+        }
+
+        log_with_context(
+            "🏷️ Iniciando marcação de publicação como exportada", log_context
+        )
+
+        try:
+            variables = task.get_variables()
+            cod_publicacao = variables.get("cod_publicacao")
+
+            # Validação básica
+            if not cod_publicacao:
+                error_msg = "cod_publicacao não fornecido nas variáveis"
+                log_with_context(f"❌ {error_msg}", log_context)
+
+                # NÃO falha a tarefa - apenas retorna com sucesso=false
+                # Isso permite que o processo continue mesmo se marcação falhar
+                return self.complete_task(
+                    task,
+                    {
+                        "sucesso": False,
+                        "mensagem": error_msg,
+                        "cod_publicacao": None,
+                        "erro_validacao": True,
+                    },
+                )
+
+            # Validar tipo
+            try:
+                cod_publicacao = int(cod_publicacao)
+            except (ValueError, TypeError):
+                error_msg = (
+                    f"cod_publicacao inválido (deve ser inteiro): {cod_publicacao}"
+                )
+                log_with_context(f"❌ {error_msg}", log_context)
+
+                return self.complete_task(
+                    task,
+                    {
+                        "sucesso": False,
+                        "mensagem": error_msg,
+                        "cod_publicacao": cod_publicacao,
+                        "erro_validacao": True,
+                    },
+                )
+
+            log_with_context(
+                f"📋 Marcando publicação {cod_publicacao} como exportada no Webjur",
+                log_context,
+            )
+
+            if self.gateway_enabled:
+                # Delegar para Gateway (lógica de negócio)
+                log_with_context("📤 Processando via Gateway", log_context)
+
+                try:
+                    return self.process_via_gateway(
+                        task=task, endpoint="/marcar-publicacoes/processar", timeout=30
+                    )
+                except Exception as e:
+                    # Se Gateway falhar, NÃO bloqueia - apenas loga e retorna erro
+                    error_msg = f"Erro ao chamar Gateway: {str(e)}"
+                    log_with_context(
+                        f"⚠️ {error_msg} (não bloqueia processo)", log_context
+                    )
+
+                    return self.complete_task(
+                        task,
+                        {
+                            "sucesso": False,
+                            "mensagem": error_msg,
+                            "cod_publicacao": cod_publicacao,
+                            "erro_gateway": True,
+                        },
+                    )
+            else:
+                # Modo direto - simula sucesso
+                log_with_context("⚙️ Modo direto - simulando marcação", log_context)
+
+                result = {
+                    "sucesso": True,
+                    "mensagem": "Marcação simulada em modo direto",
+                    "cod_publicacao": cod_publicacao,
+                    "modo": "direto",
+                    "timestamp_marcacao": datetime.now().isoformat(),
+                }
+
+                return self.complete_task(task, result)
+
+        except Exception as e:
+            error_msg = f"Erro inesperado ao marcar publicação: {str(e)}"
+            log_with_context(f"💥 {error_msg}", log_context)
+
+            # IMPORTANTE: NÃO usa fail_task - usa complete_task com erro
+            # Isso garante que o processo BPMN não trave
+            return self.complete_task(
+                task,
+                {
+                    "sucesso": False,
+                    "mensagem": error_msg,
+                    "cod_publicacao": variables.get("cod_publicacao"),
+                    "erro_exception": True,
+                },
+            )
 
 
 def main():

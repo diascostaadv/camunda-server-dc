@@ -1,0 +1,41 @@
+{
+  "name": "cpj-api-worker",
+  "description": "Worker unificado para gerenciar todos os 21 endpoints da API CPJ-3C",
+  "version": "1.0.0",
+  "entry_point": "main.py",
+  "port": 8010,
+  "topics": [
+    "cpj_login", "cpj_refresh_token",
+    "cpj_buscar_publicacoes_nao_vinculadas", "cpj_atualizar_publicacao",
+    "cpj_consultar_pessoa", "cpj_cadastrar_pessoa", "cpj_atualizar_pessoa",
+    "cpj_consultar_processos", "cpj_cadastrar_processo", "cpj_atualizar_processo",
+    "cpj_consultar_pedidos", "cpj_cadastrar_pedido", "cpj_atualizar_pedido",
+    "cpj_consultar_envolvidos", "cpj_cadastrar_envolvido", "cpj_atualizar_envolvido",
+    "cpj_cadastrar_andamento", "cpj_cadastrar_tarefa", "cpj_atualizar_tarefa",
+    "cpj_consultar_documentos", "cpj_baixar_documento", "cpj_cadastrar_documento"
+  ],
+  "environment": {
+    "GATEWAY_ENABLED": "true",
+    "GATEWAY_URL": "http://camunda-worker-api-gateway-gateway-1:8000",
+    "CPJ_API_BASE_URL": "https://ip:porta/api/v2",
+    "CPJ_API_USER": "1",
+    "CPJ_API_PASSWORD": "abc",
+    "CAMUNDA_URL": "http://camunda:8080/engine-rest",
+    "CAMUNDA_USERNAME": "demo",
+    "CAMUNDA_PASSWORD": "DiasCosta@!!2025",
+    "MAX_TASKS": "5",
+    "LOCK_DURATION": "60000",
+    "METRICS_PORT": "8000",
+    "LOG_LEVEL": "INFO"
+  },
+  "healthcheck": {
+    "endpoint": "/health",
+    "interval": "30s",
+    "timeout": "10s",
+    "retries": 3
+  },
+  "resources": {
+    "memory": "1Gi",
+    "cpu": "1000m"
+  }
+}

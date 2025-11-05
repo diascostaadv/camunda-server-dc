@@ -667,6 +667,8 @@ async def processar_task_camunda_v2(
         logger.info(f"Preparando {len(publicacoes_ids)} IDs para Multi-Instance Loop")
 
         # 11. Retornar resultado com lote_id E publicacoes_ids
+        # NOTA: Marcação como exportada deve ser feita pelo tópico dedicado
+        #       'marcar_publicacao_exportada_webjur' no BPMN (não aqui)
         return {
             "status": "success",
             "message": f"Lote criado com {len(publicacoes_bronze)} publicações",

@@ -1,0 +1,18 @@
+[0;34m[INFO][0m Iniciando processo de migração...
+[0;34m[INFO][0m Timestamp: 20251103_160604
+[0;34m[INFO][0m Log file: /Users/pedromarques/dev/dias_costa/camunda/camunda-server-dc/camunda-platform-standalone/migrations/001-text-column-migration/logs/migration-text-column-migration-20251103_160604.log
+[0;34m[INFO][0m Verificando pré-requisitos...
+[0;32m[SUCCESS][0m Pré-requisitos OK
+[0;34m[INFO][0m Testando conexão com banco de dados...
+[0;32m[SUCCESS][0m Conexão OK (via Docker remoto)
+[0;34m[INFO][0m Database: camunda@localhost:5432
+[0;34m[INFO][0m Método de acesso: remote_docker
+[0;34m[INFO][0m Dry run: true
+[0;34m[INFO][0m Skip backup: false
+[0;34m[INFO][0m Criando backup em: /Users/pedromarques/dev/dias_costa/camunda/camunda-server-dc/camunda-platform-standalone/migrations/001-text-column-migration/backups/camunda-backup-before-text-column-migration-20251103_160604.sql
+[0;32m[SUCCESS][0m Backup criado com sucesso ( 14M)
+[1;33m[WARNING][0m DRY RUN - Simulando execução...
+[0;34m[INFO][0m SQL que seria executado: /Users/pedromarques/dev/dias_costa/camunda/camunda-server-dc/camunda-platform-standalone/migrations/001-text-column-migration/migrate-text-column-upgrade.sql
+[0;34m[INFO][0m Backup que seria criado: /Users/pedromarques/dev/dias_costa/camunda/camunda-server-dc/camunda-platform-standalone/migrations/001-text-column-migration/backups/camunda-backup-before-text-column-migration-20251103_160604.sql
+[0;32m[SUCCESS][0m Tudo pronto!
+[0;34m[INFO][0m Logs completos em: /Users/pedromarques/dev/dias_costa/camunda/camunda-server-dc/camunda-platform-standalone/migrations/001-text-column-migration/logs/migration-text-column-migration-20251103_160604.log

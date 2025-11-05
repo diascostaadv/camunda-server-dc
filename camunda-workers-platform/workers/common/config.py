@@ -147,6 +147,49 @@ class Topics:
     TRATAR_PUBLICACAO = "tratar_publicacao"
     CLASSIFICAR_PUBLICACAO = "classificar_publicacao"
     VERIFICAR_PROCESSO_CNJ = "verificar_processo_cnj"
+    MARCAR_PUBLICACAO_EXPORTADA_WEBJUR = "marcar_publicacao_exportada_webjur"
+
+    # ============================================
+    # TÓPICOS CPJ-3C API
+    # ============================================
+
+    # 1. Autenticação
+    CPJ_LOGIN = "cpj_login"
+    CPJ_REFRESH_TOKEN = "cpj_refresh_token"
+
+    # 2. Publicações
+    CPJ_BUSCAR_PUBLICACOES_NAO_VINCULADAS = "cpj_buscar_publicacoes_nao_vinculadas"
+    CPJ_ATUALIZAR_PUBLICACAO = "cpj_atualizar_publicacao"
+
+    # 3. Pessoas
+    CPJ_CONSULTAR_PESSOA = "cpj_consultar_pessoa"
+    CPJ_CADASTRAR_PESSOA = "cpj_cadastrar_pessoa"
+    CPJ_ATUALIZAR_PESSOA = "cpj_atualizar_pessoa"
+
+    # 4. Processos
+    CPJ_CONSULTAR_PROCESSOS = "cpj_consultar_processos"
+    CPJ_CADASTRAR_PROCESSO = "cpj_cadastrar_processo"
+    CPJ_ATUALIZAR_PROCESSO = "cpj_atualizar_processo"
+
+    # 5. Pedidos
+    CPJ_CONSULTAR_PEDIDOS = "cpj_consultar_pedidos"
+    CPJ_CADASTRAR_PEDIDO = "cpj_cadastrar_pedido"
+    CPJ_ATUALIZAR_PEDIDO = "cpj_atualizar_pedido"
+
+    # 6. Envolvidos
+    CPJ_CONSULTAR_ENVOLVIDOS = "cpj_consultar_envolvidos"
+    CPJ_CADASTRAR_ENVOLVIDO = "cpj_cadastrar_envolvido"
+    CPJ_ATUALIZAR_ENVOLVIDO = "cpj_atualizar_envolvido"
+
+    # 7. Tramitação (Andamentos e Tarefas)
+    CPJ_CADASTRAR_ANDAMENTO = "cpj_cadastrar_andamento"
+    CPJ_CADASTRAR_TAREFA = "cpj_cadastrar_tarefa"
+    CPJ_ATUALIZAR_TAREFA = "cpj_atualizar_tarefa"
+
+    # 8. Documentos
+    CPJ_CONSULTAR_DOCUMENTOS = "cpj_consultar_documentos"
+    CPJ_BAIXAR_DOCUMENTO = "cpj_baixar_documento"
+    CPJ_CADASTRAR_DOCUMENTO = "cpj_cadastrar_documento"
 
     # Complex workflow topics (archived)
     VALIDATE_DOCUMENT = "validate_document"

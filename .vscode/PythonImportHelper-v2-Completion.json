@@ -325,6 +325,30 @@
         "documentation": {}
     },
     {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Optional",
         "importPath": "typing",
         "description": "typing",
@@ -862,6 +886,14 @@
     },
     {
         "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -910,6 +942,14 @@
     },
     {
         "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -1317,6 +1357,30 @@
         "documentation": {}
     },
     {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Dict",
         "importPath": "typing",
         "description": "typing",
@@ -1469,30 +1533,6 @@
         "documentation": {}
     },
     {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "date",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
         "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
@@ -1525,6 +1565,30 @@
         "documentation": {}
     },
     {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "date",
         "importPath": "datetime",
         "description": "datetime",
@@ -1541,7 +1605,7 @@
         "documentation": {}
     },
     {
-        "label": "datetime",
+        "label": "date",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -1550,94 +1614,6 @@
     },
     {
         "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "importPath": "datetime",
-        "description": "datetime",
-        "isExtraImport": true,
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "timedelta",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -1701,7 +1677,127 @@
         "documentation": {}
     },
     {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -1798,6 +1894,14 @@
     },
     {
         "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -1886,6 +1990,22 @@
     },
     {
         "label": "field_validator",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
         "importPath": "pydantic",
         "description": "pydantic",
         "isExtraImport": true,
@@ -2093,6 +2213,14 @@
         "documentation": {}
     },
     {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
         "label": "Enum",
         "importPath": "enum",
         "description": "enum",
@@ -2115,6 +2243,30 @@
         "importPath": "logging",
         "description": "logging",
         "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
         "documentation": {}
     },
     {
@@ -2267,6 +2419,14 @@
         "isExtraImport": true,
         "importPath": "pymongo",
         "description": "pymongo",
+        "detail": "pymongo",
+        "documentation": {}
+    },
+    {
+        "label": "MongoClient",
+        "importPath": "pymongo",
+        "description": "pymongo",
+        "isExtraImport": true,
         "detail": "pymongo",
         "documentation": {}
     },
@@ -2567,6 +2727,22 @@
         "documentation": {}
     },
     {
+        "label": "get_intimation_client",
+        "importPath": "services.intimation_service",
+        "description": "services.intimation_service",
+        "isExtraImport": true,
+        "detail": "services.intimation_service",
+        "documentation": {}
+    },
+    {
+        "label": "IntimationService",
+        "importPath": "services.intimation_service",
+        "description": "services.intimation_service",
+        "isExtraImport": true,
+        "detail": "services.intimation_service",
+        "documentation": {}
+    },
+    {
         "label": "IntimationService",
         "importPath": "services.intimation_service",
         "description": "services.intimation_service",
@@ -2620,6 +2796,22 @@
         "description": "services.lote_service",
         "isExtraImport": true,
         "detail": "services.lote_service",
+        "documentation": {}
+    },
+    {
+        "label": "Settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "get_settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
         "documentation": {}
     },
     {
@@ -3658,6 +3850,14 @@
         "documentation": {}
     },
     {
+        "label": "marcar_publicacoes",
+        "importPath": "routers",
+        "description": "routers",
+        "isExtraImport": true,
+        "detail": "routers",
+        "documentation": {}
+    },
+    {
         "label": "load_dotenv",
         "importPath": "dotenv",
         "description": "dotenv",
@@ -3770,6 +3970,30 @@
         "description": "common.base_worker",
         "isExtraImport": true,
         "detail": "common.base_worker",
+        "documentation": {}
+    },
+    {
+        "label": "BaseWorker",
+        "importPath": "common.base_worker",
+        "description": "common.base_worker",
+        "isExtraImport": true,
+        "detail": "common.base_worker",
+        "documentation": {}
+    },
+    {
+        "label": "WorkerConfig",
+        "importPath": "common.config",
+        "description": "common.config",
+        "isExtraImport": true,
+        "detail": "common.config",
+        "documentation": {}
+    },
+    {
+        "label": "Topics",
+        "importPath": "common.config",
+        "description": "common.config",
+        "isExtraImport": true,
+        "detail": "common.config",
         "documentation": {}
     },
     {
@@ -4150,6 +4374,222 @@
         "documentation": {}
     },
     {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
+        "documentation": {}
+    },
+    {
+        "label": "validar_cpf_cnpj",
+        "importPath": "validators",
+        "description": "validators",
+        "isExtraImport": true,
+        "detail": "validators",
+        "documentation": {}
+    },
+    {
+        "label": "validar_numero_cnj",
+        "importPath": "validators",
+        "description": "validators",
+        "isExtraImport": true,
+        "detail": "validators",
+        "documentation": {}
+    },
+    {
+        "label": "CPJAuthManager",
+        "importPath": "common.cpj_auth_manager",
+        "description": "common.cpj_auth_manager",
+        "isExtraImport": true,
+        "detail": "common.cpj_auth_manager",
+        "documentation": {}
+    },
+    {
+        "label": "AuthHandlers",
+        "importPath": "handlers",
+        "description": "handlers",
+        "isExtraImport": true,
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "PessoasHandlers",
+        "importPath": "handlers",
+        "description": "handlers",
+        "isExtraImport": true,
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "ProcessosHandlers",
+        "importPath": "handlers",
+        "description": "handlers",
+        "isExtraImport": true,
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "PublicacoesHandlers",
+        "importPath": "handlers",
+        "description": "handlers",
+        "isExtraImport": true,
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "PedidosHandlers",
+        "importPath": "handlers",
+        "description": "handlers",
+        "isExtraImport": true,
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "EnvolvidosHandlers",
+        "importPath": "handlers",
+        "description": "handlers",
+        "isExtraImport": true,
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "TramitacaoHandlers",
+        "importPath": "handlers",
+        "description": "handlers",
+        "isExtraImport": true,
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
+        "label": "DocumentosHandlers",
+        "importPath": "handlers",
+        "description": "handlers",
+        "isExtraImport": true,
+        "detail": "handlers",
+        "documentation": {}
+    },
+    {
         "label": "IntimationAPIClient",
         "importPath": "intimation_api",
         "description": "intimation_api",
@@ -4195,38 +4635,6 @@
         "description": "intimation_api",
         "isExtraImport": true,
         "detail": "intimation_api",
-        "documentation": {}
-    },
-    {
-        "label": "ExternalTask",
-        "importPath": "camunda.external_task.external_task",
-        "description": "camunda.external_task.external_task",
-        "isExtraImport": true,
-        "detail": "camunda.external_task.external_task",
-        "documentation": {}
-    },
-    {
-        "label": "ExternalTask",
-        "importPath": "camunda.external_task.external_task",
-        "description": "camunda.external_task.external_task",
-        "isExtraImport": true,
-        "detail": "camunda.external_task.external_task",
-        "documentation": {}
-    },
-    {
-        "label": "log_with_context",
-        "importPath": "camunda.utils.log_utils",
-        "description": "camunda.utils.log_utils",
-        "isExtraImport": true,
-        "detail": "camunda.utils.log_utils",
-        "documentation": {}
-    },
-    {
-        "label": "log_with_context",
-        "importPath": "camunda.utils.log_utils",
-        "description": "camunda.utils.log_utils",
-        "isExtraImport": true,
-        "detail": "camunda.utils.log_utils",
         "documentation": {}
     },
     {
@@ -4661,6 +5069,60 @@
         "description": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "peekOfCode": "settings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_lote_service(client: MongoClient = Depends(get_mongo_client)) -> LoteService:\n    \"\"\"Obtém serviço de lotes\"\"\"\n    return LoteService(client, database_name=settings.MONGODB_DATABASE)\n@router.post(\"/processar\", response_model=BuscarPublicacoesResponse)\nasync def processar_busca_publicacoes(\n    request: BuscarPublicacoesRequest,",
         "detail": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
+        "documentation": {}
+    },
+    {
+        "label": "MarcarPublicacoesRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "description": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "peekOfCode": "class MarcarPublicacoesRequest(BaseModel):\n    \"\"\"Request para marcar publicações como exportadas\"\"\"\n    cod_publicacoes: List[int] = Field(\n        ...,\n        description=\"Lista de códigos de publicações (cod_publicacao) para marcar como exportadas\",\n        min_length=1,\n        max_length=3000,  # Limite da API Webjur\n    )\n    atualizar_mongodb: bool = Field(\n        default=True,",
+        "detail": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "documentation": {}
+    },
+    {
+        "label": "MarcarPublicacoesResponse",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "description": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "peekOfCode": "class MarcarPublicacoesResponse(BaseModel):\n    \"\"\"Response da marcação de publicações\"\"\"\n    sucesso: bool = Field(..., description=\"Se a marcação foi bem-sucedida\")\n    total_marcadas: int = Field(..., description=\"Total de publicações marcadas\")\n    cod_publicacoes: List[int] = Field(..., description=\"Códigos das publicações marcadas\")\n    timestamp: datetime = Field(\n        default_factory=datetime.now, description=\"Timestamp da operação\"\n    )\n    mongodb_atualizado: bool = Field(\n        default=False, description=\"Se o MongoDB foi atualizado\"",
+        "detail": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "documentation": {}
+    },
+    {
+        "label": "get_mongo_client",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "description": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "peekOfCode": "def get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\n# ========== Modelos Pydantic ==========\nclass MarcarPublicacoesRequest(BaseModel):\n    \"\"\"Request para marcar publicações como exportadas\"\"\"\n    cod_publicacoes: List[int] = Field(\n        ...,\n        description=\"Lista de códigos de publicações (cod_publicacao) para marcar como exportadas\",\n        min_length=1,",
+        "detail": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "description": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/marcar-publicacoes\", tags=[\"Marcar Publicações\"])\n# Configurações\nsettings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\n# ========== Modelos Pydantic ==========\nclass MarcarPublicacoesRequest(BaseModel):\n    \"\"\"Request para marcar publicações como exportadas\"\"\"",
+        "detail": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "description": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "peekOfCode": "router = APIRouter(prefix=\"/marcar-publicacoes\", tags=[\"Marcar Publicações\"])\n# Configurações\nsettings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\n# ========== Modelos Pydantic ==========\nclass MarcarPublicacoesRequest(BaseModel):\n    \"\"\"Request para marcar publicações como exportadas\"\"\"\n    cod_publicacoes: List[int] = Field(",
+        "detail": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "description": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
+        "peekOfCode": "settings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\n# ========== Modelos Pydantic ==========\nclass MarcarPublicacoesRequest(BaseModel):\n    \"\"\"Request para marcar publicações como exportadas\"\"\"\n    cod_publicacoes: List[int] = Field(\n        ...,\n        description=\"Lista de códigos de publicações (cod_publicacao) para marcar como exportadas\",",
+        "detail": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
         "documentation": {}
     },
     {
@@ -6491,6 +6953,24 @@
         "documentation": {}
     },
     {
+        "label": "CPJAuthManager",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.common.cpj_auth_manager",
+        "description": "camunda-workers-platform.workers.common.cpj_auth_manager",
+        "peekOfCode": "class CPJAuthManager:\n    \"\"\"\n    Gerenciador de autenticação para API CPJ-3C\n    Responsabilidades:\n    - Gerenciar tokens JWT\n    - Cache de tokens (in-memory)\n    - Renovação automática antes da expiração\n    \"\"\"\n    def __init__(self, base_url: str, username: str, password: str):\n        \"\"\"",
+        "detail": "camunda-workers-platform.workers.common.cpj_auth_manager",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.common.cpj_auth_manager",
+        "description": "camunda-workers-platform.workers.common.cpj_auth_manager",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass CPJAuthManager:\n    \"\"\"\n    Gerenciador de autenticação para API CPJ-3C\n    Responsabilidades:\n    - Gerenciar tokens JWT\n    - Cache de tokens (in-memory)\n    - Renovação automática antes da expiração\n    \"\"\"\n    def __init__(self, base_url: str, username: str, password: str):",
+        "detail": "camunda-workers-platform.workers.common.cpj_auth_manager",
+        "documentation": {}
+    },
+    {
         "label": "TaskStatus",
         "kind": 6,
         "importPath": "camunda-workers-platform.workers.common.gateway_client",
@@ -6632,6 +7112,222 @@
         "description": "camunda-workers-platform.workers.common.utils",
         "peekOfCode": "def transform_document_data(document: Dict[str, Any]) -> Dict[str, Any]:\n    \"\"\"Transform document data for processing\"\"\"\n    return {\n        \"id\": document.get(\"id\"),\n        \"title\": document.get(\"title\", \"\").strip(),\n        \"content\": document.get(\"content\", \"\").strip(),\n        \"author\": document.get(\"author\", \"\").strip(),\n        \"created_at\": document.get(\"created_at\") or get_timestamp(),\n        \"file_type\": document.get(\"file_type\", \"\").lower(),\n        \"file_size\": document.get(\"file_size\", 0)",
         "detail": "camunda-workers-platform.workers.common.utils",
+        "documentation": {}
+    },
+    {
+        "label": "AuthHandlers",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.auth_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.auth_handlers",
+        "peekOfCode": "class AuthHandlers:\n    \"\"\"Handlers para autenticação JWT na API CPJ-3C\"\"\"\n    def __init__(self, worker, cpj_auth):\n        \"\"\"\n        Inicializa AuthHandlers\n        Args:\n            worker: Instância do BaseWorker\n            cpj_auth: Instância do CPJAuthManager\n        \"\"\"\n        self.worker = worker",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.auth_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.auth_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.auth_handlers",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass AuthHandlers:\n    \"\"\"Handlers para autenticação JWT na API CPJ-3C\"\"\"\n    def __init__(self, worker, cpj_auth):\n        \"\"\"\n        Inicializa AuthHandlers\n        Args:\n            worker: Instância do BaseWorker\n            cpj_auth: Instância do CPJAuthManager\n        \"\"\"",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.auth_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "DocumentosHandlers",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.documentos_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.documentos_handlers",
+        "peekOfCode": "class DocumentosHandlers:\n    def __init__(self, worker):\n        self.worker = worker\n    def handle_consultar_documentos(self, task: ExternalTask):\n        try:\n            variables = task.get_variables()\n            origem = variables.get(\"origem\")\n            id_origem = variables.get(\"id_origem\")\n            if not origem or not id_origem:\n                return self.worker.fail_task(task, \"origem/id_origem ausentes\", retries=0)",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.documentos_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.documentos_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.documentos_handlers",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass DocumentosHandlers:\n    def __init__(self, worker):\n        self.worker = worker\n    def handle_consultar_documentos(self, task: ExternalTask):\n        try:\n            variables = task.get_variables()\n            origem = variables.get(\"origem\")\n            id_origem = variables.get(\"id_origem\")\n            if not origem or not id_origem:",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.documentos_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "EnvolvidosHandlers",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.envolvidos_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.envolvidos_handlers",
+        "peekOfCode": "class EnvolvidosHandlers:\n    def __init__(self, worker):\n        self.worker = worker\n    def handle_consultar_envolvidos(self, task: ExternalTask):\n        try:\n            if self.worker.gateway_enabled:\n                return self.worker.process_via_gateway(task, \"/cpj/envolvidos/consultar\", 30)\n            return self.worker.complete_task(task, {\"status\": \"success\", \"envolvidos\": []})\n        except Exception as e:\n            return self.worker.fail_task(task, str(e), retries=3)",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.envolvidos_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.envolvidos_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.envolvidos_handlers",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass EnvolvidosHandlers:\n    def __init__(self, worker):\n        self.worker = worker\n    def handle_consultar_envolvidos(self, task: ExternalTask):\n        try:\n            if self.worker.gateway_enabled:\n                return self.worker.process_via_gateway(task, \"/cpj/envolvidos/consultar\", 30)\n            return self.worker.complete_task(task, {\"status\": \"success\", \"envolvidos\": []})\n        except Exception as e:",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.envolvidos_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "PedidosHandlers",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.pedidos_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.pedidos_handlers",
+        "peekOfCode": "class PedidosHandlers:\n    def __init__(self, worker):\n        self.worker = worker\n    def handle_consultar_pedidos(self, task: ExternalTask):\n        try:\n            if self.worker.gateway_enabled:\n                return self.worker.process_via_gateway(task, \"/cpj/pedidos/consultar\", 30)\n            return self.worker.complete_task(task, {\"status\": \"success\", \"pedidos\": []})\n        except Exception as e:\n            return self.worker.fail_task(task, str(e), retries=3)",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.pedidos_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.pedidos_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.pedidos_handlers",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass PedidosHandlers:\n    def __init__(self, worker):\n        self.worker = worker\n    def handle_consultar_pedidos(self, task: ExternalTask):\n        try:\n            if self.worker.gateway_enabled:\n                return self.worker.process_via_gateway(task, \"/cpj/pedidos/consultar\", 30)\n            return self.worker.complete_task(task, {\"status\": \"success\", \"pedidos\": []})\n        except Exception as e:",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.pedidos_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "PessoasHandlers",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.pessoas_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.pessoas_handlers",
+        "peekOfCode": "class PessoasHandlers:\n    \"\"\"Handlers para operações CRUD de Pessoas\"\"\"\n    def __init__(self, worker):\n        self.worker = worker\n        self.logger = logger\n    def handle_consultar_pessoa(self, task: ExternalTask):\n        \"\"\"\n        Consultar pessoas com filtros\n        Tópico Camunda: cpj_consultar_pessoa\n        API CPJ: POST /api/v2/pessoa",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.pessoas_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.pessoas_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.pessoas_handlers",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass PessoasHandlers:\n    \"\"\"Handlers para operações CRUD de Pessoas\"\"\"\n    def __init__(self, worker):\n        self.worker = worker\n        self.logger = logger\n    def handle_consultar_pessoa(self, task: ExternalTask):\n        \"\"\"\n        Consultar pessoas com filtros\n        Tópico Camunda: cpj_consultar_pessoa",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.pessoas_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "ProcessosHandlers",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.processos_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.processos_handlers",
+        "peekOfCode": "class ProcessosHandlers:\n    \"\"\"Handlers para operações CRUD de Processos\"\"\"\n    def __init__(self, worker):\n        self.worker = worker\n        self.logger = logger\n    def handle_consultar_processos(self, task: ExternalTask):\n        \"\"\"Consultar processos com filtros\"\"\"\n        log_context = {\"TASK_ID\": task.get_task_id(), \"TOPIC\": \"cpj_consultar_processos\"}\n        try:\n            log_with_context(\"🔍 Consultando processos\", log_context)",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.processos_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.processos_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.processos_handlers",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass ProcessosHandlers:\n    \"\"\"Handlers para operações CRUD de Processos\"\"\"\n    def __init__(self, worker):\n        self.worker = worker\n        self.logger = logger\n    def handle_consultar_processos(self, task: ExternalTask):\n        \"\"\"Consultar processos com filtros\"\"\"\n        log_context = {\"TASK_ID\": task.get_task_id(), \"TOPIC\": \"cpj_consultar_processos\"}\n        try:",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.processos_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "PublicacoesHandlers",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.publicacoes_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.publicacoes_handlers",
+        "peekOfCode": "class PublicacoesHandlers:\n    def __init__(self, worker):\n        self.worker = worker\n    def handle_buscar_publicacoes(self, task: ExternalTask):\n        \"\"\"Buscar publicações não vinculadas\"\"\"\n        try:\n            if self.worker.gateway_enabled:\n                return self.worker.process_via_gateway(task, \"/cpj/publicacoes/consultar\", 30)\n            return self.worker.complete_task(task, {\"status\": \"success\", \"publicacoes\": []})\n        except Exception as e:",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.publicacoes_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.publicacoes_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.publicacoes_handlers",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass PublicacoesHandlers:\n    def __init__(self, worker):\n        self.worker = worker\n    def handle_buscar_publicacoes(self, task: ExternalTask):\n        \"\"\"Buscar publicações não vinculadas\"\"\"\n        try:\n            if self.worker.gateway_enabled:\n                return self.worker.process_via_gateway(task, \"/cpj/publicacoes/consultar\", 30)\n            return self.worker.complete_task(task, {\"status\": \"success\", \"publicacoes\": []})",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.publicacoes_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "TramitacaoHandlers",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.tramitacao_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.tramitacao_handlers",
+        "peekOfCode": "class TramitacaoHandlers:\n    def __init__(self, worker):\n        self.worker = worker\n    def handle_cadastrar_andamento(self, task: ExternalTask):\n        try:\n            variables = task.get_variables()\n            pj = variables.get(\"pj\")\n            if not pj or not variables.get(\"evento\"):\n                return self.worker.fail_task(task, \"pj/evento ausentes\", retries=0)\n            if self.worker.gateway_enabled:",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.tramitacao_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.handlers.tramitacao_handlers",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.handlers.tramitacao_handlers",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass TramitacaoHandlers:\n    def __init__(self, worker):\n        self.worker = worker\n    def handle_cadastrar_andamento(self, task: ExternalTask):\n        try:\n            variables = task.get_variables()\n            pj = variables.get(\"pj\")\n            if not pj or not variables.get(\"evento\"):\n                return self.worker.fail_task(task, \"pj/evento ausentes\", retries=0)",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.handlers.tramitacao_handlers",
+        "documentation": {}
+    },
+    {
+        "label": "validar_numero_cnj",
+        "kind": 2,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.validators.cnj_validator",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.validators.cnj_validator",
+        "peekOfCode": "def validar_numero_cnj(numero_cnj: str) -> bool:\n    \"\"\"\n    Valida número de processo no padrão CNJ\n    Args:\n        numero_cnj: Número do processo (formato CNJ)\n    Returns:\n        True se válido, False caso contrário\n    Formato: NNNNNNN-DD.AAAA.J.TR.OOOO\n    - NNNNNNN: Número sequencial (7 dígitos)\n    - DD: Dígito verificador (2 dígitos)",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.validators.cnj_validator",
+        "documentation": {}
+    },
+    {
+        "label": "validar_cpf_cnpj",
+        "kind": 2,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.validators.cpf_cnpj_validator",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.validators.cpf_cnpj_validator",
+        "peekOfCode": "def validar_cpf_cnpj(documento: str) -> bool:\n    \"\"\"\n    Valida CPF ou CNPJ\n    Args:\n        documento: CPF ou CNPJ (com ou sem formatação)\n    Returns:\n        True se válido, False caso contrário\n    \"\"\"\n    if not documento:\n        return False",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.validators.cpf_cnpj_validator",
+        "documentation": {}
+    },
+    {
+        "label": "validar_data",
+        "kind": 2,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.validators.date_validator",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.validators.date_validator",
+        "peekOfCode": "def validar_data(data_str: str, formato: str = \"%Y-%m-%d\") -> bool:\n    \"\"\"\n    Valida se string é uma data válida\n    Args:\n        data_str: String da data\n        formato: Formato esperado (default: YYYY-MM-DD)\n    Returns:\n        True se válida, False caso contrário\n    \"\"\"\n    if not data_str:",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.validators.date_validator",
+        "documentation": {}
+    },
+    {
+        "label": "validar_data_nao_futura",
+        "kind": 2,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.validators.date_validator",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.validators.date_validator",
+        "peekOfCode": "def validar_data_nao_futura(data_str: str, formato: str = \"%Y-%m-%d\") -> bool:\n    \"\"\"\n    Valida se data não é futura\n    Args:\n        data_str: String da data\n        formato: Formato esperado\n    Returns:\n        True se não for futura, False caso contrário\n    \"\"\"\n    if not validar_data(data_str, formato):",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.validators.date_validator",
+        "documentation": {}
+    },
+    {
+        "label": "validar_intervalo_datas",
+        "kind": 2,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.validators.date_validator",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.validators.date_validator",
+        "peekOfCode": "def validar_intervalo_datas(\n    data_inicial: str,\n    data_final: str,\n    formato: str = \"%Y-%m-%d\"\n) -> bool:\n    \"\"\"\n    Valida se data_final >= data_inicial\n    Args:\n        data_inicial: Data inicial\n        data_final: Data final",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.validators.date_validator",
+        "documentation": {}
+    },
+    {
+        "label": "CPJAPIWorker",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.main",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.main",
+        "peekOfCode": "class CPJAPIWorker(BaseWorker):\n    \"\"\"Worker Unificado para API CPJ-3C - 22 tópicos, 21 endpoints\"\"\"\n    def __init__(self):\n        super().__init__(\n            worker_id=\"cpj-api-worker\",\n            base_url=WorkerConfig.CAMUNDA_URL,\n            auth=WorkerConfig.get_auth(),\n        )\n        # Configurações CPJ\n        cpj_base_url = os.getenv(\"CPJ_API_BASE_URL\", \"https://ip:porta/api/v2\")",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.main",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.main",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.main",
+        "peekOfCode": "def main():\n    try:\n        log_level = getattr(logging, WorkerConfig.LOG_LEVEL.upper(), logging.INFO)\n        logging.basicConfig(\n            level=log_level,\n            format=\"%(asctime)s - %(name)s - %(levelname)s - %(message)s\"\n        )\n        logger.info(\"🚀 Iniciando CPJAPIWorker...\")\n        WorkerConfig.validate_config()\n        worker = CPJAPIWorker()",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.main",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.cpj_api_worker.main",
+        "description": "camunda-workers-platform.workers.cpj_api_worker.main",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass CPJAPIWorker(BaseWorker):\n    \"\"\"Worker Unificado para API CPJ-3C - 22 tópicos, 21 endpoints\"\"\"\n    def __init__(self):\n        super().__init__(\n            worker_id=\"cpj-api-worker\",\n            base_url=WorkerConfig.CAMUNDA_URL,\n            auth=WorkerConfig.get_auth(),\n        )\n        # Configurações CPJ",
+        "detail": "camunda-workers-platform.workers.cpj_api_worker.main",
         "documentation": {}
     },
     {
@@ -7145,6 +7841,24 @@
         "description": "test-scripts.test_buscar_publicacoes",
         "peekOfCode": "script_dir = os.path.dirname(__file__)\nsys.path.append(os.path.join(script_dir, '..', 'camunda-worker-api-gateway', 'app'))\ntry:\n    from services.process_starter import ProcessStarter\n    from models.buscar_request import BuscarPublicacoesRequest, PublicacaoParaProcessamento\nexcept ImportError as e:\n    print(f\"❌ Erro ao importar módulos: {e}\")\n    print(\"💡 Execute do diretório test-scripts\")\n    sys.exit(1)\nclass BuscarPublicacoesTester:",
         "detail": "test-scripts.test_buscar_publicacoes",
+        "documentation": {}
+    },
+    {
+        "label": "TestMarcacaoExportadas",
+        "kind": 6,
+        "importPath": "test-scripts.test_marcacao_exportadas",
+        "description": "test-scripts.test_marcacao_exportadas",
+        "peekOfCode": "class TestMarcacaoExportadas:\n    def __init__(self, gateway_url: str = \"http://localhost:8000\"):\n        self.gateway_url = gateway_url.rstrip(\"/\")\n        self.test_results = []\n    def print_header(self, text: str):\n        \"\"\"Imprime cabeçalho formatado\"\"\"\n        print(\"\\n\" + \"=\" * 80)\n        print(f\"  {text}\")\n        print(\"=\" * 80)\n    def print_result(self, test_name: str, success: bool, details: str = \"\"):",
+        "detail": "test-scripts.test_marcacao_exportadas",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "test-scripts.test_marcacao_exportadas",
+        "description": "test-scripts.test_marcacao_exportadas",
+        "peekOfCode": "def main():\n    \"\"\"Função principal\"\"\"\n    import sys\n    # Permitir passar URL do gateway como argumento\n    gateway_url = sys.argv[1] if len(sys.argv) > 1 else \"http://localhost:8000\"\n    tester = TestMarcacaoExportadas(gateway_url=gateway_url)\n    success = tester.run_all_tests()\n    # Exit code para CI/CD\n    sys.exit(0 if success else 1)\nif __name__ == \"__main__\":",
+        "detail": "test-scripts.test_marcacao_exportadas",
         "documentation": {}
     },
     {
