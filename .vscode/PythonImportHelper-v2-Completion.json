@@ -293,6 +293,190 @@
         "documentation": {}
     },
     {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "List",
         "importPath": "typing",
         "description": "typing",
@@ -2029,6 +2213,118 @@
         "documentation": {}
     },
     {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
         "label": "ValidationError",
         "importPath": "pydantic",
         "description": "pydantic",
@@ -2262,6 +2558,126 @@
         "documentation": {}
     },
     {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
         "label": "Depends",
         "importPath": "fastapi",
         "description": "fastapi",
@@ -2411,6 +2827,110 @@
         "description": "fastapi",
         "isExtraImport": true,
         "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "StreamingResponse",
+        "importPath": "fastapi.responses",
+        "description": "fastapi.responses",
+        "isExtraImport": true,
+        "detail": "fastapi.responses",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "CPJService",
+        "importPath": "services.cpj_service",
+        "description": "services.cpj_service",
+        "isExtraImport": true,
+        "detail": "services.cpj_service",
+        "documentation": {}
+    },
+    {
+        "label": "BytesIO",
+        "importPath": "io",
+        "description": "io",
+        "isExtraImport": true,
+        "detail": "io",
         "documentation": {}
     },
     {
@@ -2932,38 +3452,6 @@
         "description": "services.deduplicacao_service",
         "isExtraImport": true,
         "detail": "services.deduplicacao_service",
-        "documentation": {}
-    },
-    {
-        "label": "CPJService",
-        "importPath": "services.cpj_service",
-        "description": "services.cpj_service",
-        "isExtraImport": true,
-        "detail": "services.cpj_service",
-        "documentation": {}
-    },
-    {
-        "label": "CPJService",
-        "importPath": "services.cpj_service",
-        "description": "services.cpj_service",
-        "isExtraImport": true,
-        "detail": "services.cpj_service",
-        "documentation": {}
-    },
-    {
-        "label": "CPJService",
-        "importPath": "services.cpj_service",
-        "description": "services.cpj_service",
-        "isExtraImport": true,
-        "detail": "services.cpj_service",
-        "documentation": {}
-    },
-    {
-        "label": "CPJService",
-        "importPath": "services.cpj_service",
-        "description": "services.cpj_service",
-        "isExtraImport": true,
-        "detail": "services.cpj_service",
         "documentation": {}
     },
     {
@@ -3855,6 +4343,62 @@
         "description": "routers",
         "isExtraImport": true,
         "detail": "routers",
+        "documentation": {}
+    },
+    {
+        "label": "publicacoes_router",
+        "importPath": "routers.cpj",
+        "description": "routers.cpj",
+        "isExtraImport": true,
+        "detail": "routers.cpj",
+        "documentation": {}
+    },
+    {
+        "label": "pessoas_router",
+        "importPath": "routers.cpj",
+        "description": "routers.cpj",
+        "isExtraImport": true,
+        "detail": "routers.cpj",
+        "documentation": {}
+    },
+    {
+        "label": "processos_router",
+        "importPath": "routers.cpj",
+        "description": "routers.cpj",
+        "isExtraImport": true,
+        "detail": "routers.cpj",
+        "documentation": {}
+    },
+    {
+        "label": "pedidos_router",
+        "importPath": "routers.cpj",
+        "description": "routers.cpj",
+        "isExtraImport": true,
+        "detail": "routers.cpj",
+        "documentation": {}
+    },
+    {
+        "label": "envolvidos_router",
+        "importPath": "routers.cpj",
+        "description": "routers.cpj",
+        "isExtraImport": true,
+        "detail": "routers.cpj",
+        "documentation": {}
+    },
+    {
+        "label": "tramitacao_router",
+        "importPath": "routers.cpj",
+        "description": "routers.cpj",
+        "isExtraImport": true,
+        "detail": "routers.cpj",
+        "documentation": {}
+    },
+    {
+        "label": "documentos_router",
+        "importPath": "routers.cpj",
+        "description": "routers.cpj",
+        "isExtraImport": true,
+        "detail": "routers.cpj",
         "documentation": {}
     },
     {
@@ -5024,6 +5568,294 @@
         "description": "camunda-worker-api-gateway.app.models.task",
         "peekOfCode": "class TaskStatistics(BaseModel):\n    \"\"\"Model for task processing statistics\"\"\"\n    total_tasks: int\n    by_status: Dict[str, int]\n    by_topic: Dict[str, int]\n    by_worker: Dict[str, int]\n    average_processing_time_ms: Optional[float] = None\n    success_rate: float",
         "detail": "camunda-worker-api-gateway.app.models.task",
+        "documentation": {}
+    },
+    {
+        "label": "CadastrarDocumentoRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.documentos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.documentos_router",
+        "peekOfCode": "class CadastrarDocumentoRequest(BaseModel):\n    path: str = Field(..., description=\"Nome do arquivo\")\n    texto: str = Field(..., description=\"Descrição do documento\")\n    interno: bool = Field(default=False, description=\"Se documento é interno\")\n    versao: str = Field(default=\"v1\", description=\"Versão do documento\")\n    id_tipo_documento: Optional[int] = Field(None, description=\"Tipo do documento\")\n    file_64: Optional[str] = Field(\n        None, description=\"Arquivo em base64 (max 32KB)\"\n    )\n    file_link: Optional[str] = Field(None, description=\"Link público do arquivo\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.documentos_router",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.documentos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.documentos_router",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/cpj/documentos\", tags=[\"CPJ - Documentos\"])\nclass CadastrarDocumentoRequest(BaseModel):\n    path: str = Field(..., description=\"Nome do arquivo\")\n    texto: str = Field(..., description=\"Descrição do documento\")\n    interno: bool = Field(default=False, description=\"Se documento é interno\")\n    versao: str = Field(default=\"v1\", description=\"Versão do documento\")\n    id_tipo_documento: Optional[int] = Field(None, description=\"Tipo do documento\")\n    file_64: Optional[str] = Field(\n        None, description=\"Arquivo em base64 (max 32KB)\"",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.documentos_router",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.documentos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.documentos_router",
+        "peekOfCode": "router = APIRouter(prefix=\"/cpj/documentos\", tags=[\"CPJ - Documentos\"])\nclass CadastrarDocumentoRequest(BaseModel):\n    path: str = Field(..., description=\"Nome do arquivo\")\n    texto: str = Field(..., description=\"Descrição do documento\")\n    interno: bool = Field(default=False, description=\"Se documento é interno\")\n    versao: str = Field(default=\"v1\", description=\"Versão do documento\")\n    id_tipo_documento: Optional[int] = Field(None, description=\"Tipo do documento\")\n    file_64: Optional[str] = Field(\n        None, description=\"Arquivo em base64 (max 32KB)\"\n    )",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.documentos_router",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultarEnvolvidosRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "peekOfCode": "class ConsultarEnvolvidosRequest(BaseModel):\n    filter: Dict[str, Any] = Field(..., description=\"Filtros (ex: pj)\")\nclass CadastrarEnvolvidoRequest(BaseModel):\n    qualificacao: int = Field(..., description=\"Código da qualificação\")\n    pessoa: int = Field(..., description=\"Código da pessoa\")\n    responsavel: int = Field(..., description=\"Código do responsável\")\n    observacao: str = Field(default=\"\", description=\"Observação\")\n    per_contingenciamento: float = Field(default=0.0, description=\"% contingência\")\nclass AtualizarEnvolvidoRequest(BaseModel):\n    update_data_hora: str",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "documentation": {}
+    },
+    {
+        "label": "CadastrarEnvolvidoRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "peekOfCode": "class CadastrarEnvolvidoRequest(BaseModel):\n    qualificacao: int = Field(..., description=\"Código da qualificação\")\n    pessoa: int = Field(..., description=\"Código da pessoa\")\n    responsavel: int = Field(..., description=\"Código do responsável\")\n    observacao: str = Field(default=\"\", description=\"Observação\")\n    per_contingenciamento: float = Field(default=0.0, description=\"% contingência\")\nclass AtualizarEnvolvidoRequest(BaseModel):\n    update_data_hora: str\n    update_usuario: int\n    qualificacao: int = None",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "documentation": {}
+    },
+    {
+        "label": "AtualizarEnvolvidoRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "peekOfCode": "class AtualizarEnvolvidoRequest(BaseModel):\n    update_data_hora: str\n    update_usuario: int\n    qualificacao: int = None\n    pessoa: int = None\n    responsavel: int = None\n    observacao: str = None\n    per_contingenciamento: float = None\n@router.post(\"/consultar\")\nasync def consultar_envolvidos(request: ConsultarEnvolvidosRequest) -> Dict[str, Any]:",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/cpj/envolvidos\", tags=[\"CPJ - Envolvidos\"])\nclass ConsultarEnvolvidosRequest(BaseModel):\n    filter: Dict[str, Any] = Field(..., description=\"Filtros (ex: pj)\")\nclass CadastrarEnvolvidoRequest(BaseModel):\n    qualificacao: int = Field(..., description=\"Código da qualificação\")\n    pessoa: int = Field(..., description=\"Código da pessoa\")\n    responsavel: int = Field(..., description=\"Código do responsável\")\n    observacao: str = Field(default=\"\", description=\"Observação\")\n    per_contingenciamento: float = Field(default=0.0, description=\"% contingência\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "peekOfCode": "router = APIRouter(prefix=\"/cpj/envolvidos\", tags=[\"CPJ - Envolvidos\"])\nclass ConsultarEnvolvidosRequest(BaseModel):\n    filter: Dict[str, Any] = Field(..., description=\"Filtros (ex: pj)\")\nclass CadastrarEnvolvidoRequest(BaseModel):\n    qualificacao: int = Field(..., description=\"Código da qualificação\")\n    pessoa: int = Field(..., description=\"Código da pessoa\")\n    responsavel: int = Field(..., description=\"Código do responsável\")\n    observacao: str = Field(default=\"\", description=\"Observação\")\n    per_contingenciamento: float = Field(default=0.0, description=\"% contingência\")\nclass AtualizarEnvolvidoRequest(BaseModel):",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.envolvidos_router",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultarPedidosRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "peekOfCode": "class ConsultarPedidosRequest(BaseModel):\n    filter: Dict[str, Any] = Field(..., description=\"Filtros (ex: pj)\")\nclass CadastrarPedidoRequest(BaseModel):\n    pedidos_data: List[Dict[str, Any]] = Field(..., description=\"Lista de pedidos\")\nclass AtualizarPedidoRequest(BaseModel):\n    update_data_hora: str\n    update_usuario: int\n    valor_inicial: float = None\n    valor_estimado: float = None\n    risco: int = None",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "documentation": {}
+    },
+    {
+        "label": "CadastrarPedidoRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "peekOfCode": "class CadastrarPedidoRequest(BaseModel):\n    pedidos_data: List[Dict[str, Any]] = Field(..., description=\"Lista de pedidos\")\nclass AtualizarPedidoRequest(BaseModel):\n    update_data_hora: str\n    update_usuario: int\n    valor_inicial: float = None\n    valor_estimado: float = None\n    risco: int = None\n@router.post(\"/consultar\")\nasync def consultar_pedidos(request: ConsultarPedidosRequest) -> Dict[str, Any]:",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "documentation": {}
+    },
+    {
+        "label": "AtualizarPedidoRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "peekOfCode": "class AtualizarPedidoRequest(BaseModel):\n    update_data_hora: str\n    update_usuario: int\n    valor_inicial: float = None\n    valor_estimado: float = None\n    risco: int = None\n@router.post(\"/consultar\")\nasync def consultar_pedidos(request: ConsultarPedidosRequest) -> Dict[str, Any]:\n    \"\"\"Consulta pedidos de processos (Seção 4.10)\"\"\"\n    try:",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/cpj/pedidos\", tags=[\"CPJ - Pedidos\"])\nclass ConsultarPedidosRequest(BaseModel):\n    filter: Dict[str, Any] = Field(..., description=\"Filtros (ex: pj)\")\nclass CadastrarPedidoRequest(BaseModel):\n    pedidos_data: List[Dict[str, Any]] = Field(..., description=\"Lista de pedidos\")\nclass AtualizarPedidoRequest(BaseModel):\n    update_data_hora: str\n    update_usuario: int\n    valor_inicial: float = None",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "peekOfCode": "router = APIRouter(prefix=\"/cpj/pedidos\", tags=[\"CPJ - Pedidos\"])\nclass ConsultarPedidosRequest(BaseModel):\n    filter: Dict[str, Any] = Field(..., description=\"Filtros (ex: pj)\")\nclass CadastrarPedidoRequest(BaseModel):\n    pedidos_data: List[Dict[str, Any]] = Field(..., description=\"Lista de pedidos\")\nclass AtualizarPedidoRequest(BaseModel):\n    update_data_hora: str\n    update_usuario: int\n    valor_inicial: float = None\n    valor_estimado: float = None",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.pedidos_router",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultarPessoaRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "peekOfCode": "class ConsultarPessoaRequest(BaseModel):\n    \"\"\"Request para consultar pessoa\"\"\"\n    filter: Dict[str, Any] = Field(..., description=\"Filtros de busca\")\n    sort: str = Field(default=\"nome\", description=\"Campo para ordenação\")\nclass CadastrarPessoaRequest(BaseModel):\n    \"\"\"Request para cadastrar pessoa\"\"\"\n    nome: str = Field(..., description=\"Nome da pessoa\")\n    categoria: int = Field(..., description=\"Categoria da pessoa\")\n    fisica_juridica: int = Field(\n        ..., description=\"1=Física, 2=Jurídica\", ge=1, le=2",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "documentation": {}
+    },
+    {
+        "label": "CadastrarPessoaRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "peekOfCode": "class CadastrarPessoaRequest(BaseModel):\n    \"\"\"Request para cadastrar pessoa\"\"\"\n    nome: str = Field(..., description=\"Nome da pessoa\")\n    categoria: int = Field(..., description=\"Categoria da pessoa\")\n    fisica_juridica: int = Field(\n        ..., description=\"1=Física, 2=Jurídica\", ge=1, le=2\n    )\n    cpf_cnpj: Optional[str] = Field(None, description=\"CPF ou CNPJ\")\n    rgie: Optional[str] = Field(None, description=\"RG/IE\")\n    email: Optional[str] = Field(None, description=\"E-mail\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "documentation": {}
+    },
+    {
+        "label": "AtualizarPessoaRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "peekOfCode": "class AtualizarPessoaRequest(BaseModel):\n    \"\"\"Request para atualizar pessoa\"\"\"\n    update_data_hora: str = Field(..., description=\"Data/hora do registro (ISO)\")\n    update_usuario: int = Field(..., description=\"ID do usuário atualizando\")\n    categoria: Optional[int] = None\n    fisica_juridica: Optional[int] = Field(None, ge=1, le=2)\n    email: Optional[str] = None\n    telefone: Optional[str] = None\n    celular: Optional[str] = None\n    enderecos: Optional[List[Dict[str, Any]]] = None",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/cpj/pessoas\", tags=[\"CPJ - Pessoas\"])\n# ==================== MODELS ====================\nclass ConsultarPessoaRequest(BaseModel):\n    \"\"\"Request para consultar pessoa\"\"\"\n    filter: Dict[str, Any] = Field(..., description=\"Filtros de busca\")\n    sort: str = Field(default=\"nome\", description=\"Campo para ordenação\")\nclass CadastrarPessoaRequest(BaseModel):\n    \"\"\"Request para cadastrar pessoa\"\"\"\n    nome: str = Field(..., description=\"Nome da pessoa\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "peekOfCode": "router = APIRouter(prefix=\"/cpj/pessoas\", tags=[\"CPJ - Pessoas\"])\n# ==================== MODELS ====================\nclass ConsultarPessoaRequest(BaseModel):\n    \"\"\"Request para consultar pessoa\"\"\"\n    filter: Dict[str, Any] = Field(..., description=\"Filtros de busca\")\n    sort: str = Field(default=\"nome\", description=\"Campo para ordenação\")\nclass CadastrarPessoaRequest(BaseModel):\n    \"\"\"Request para cadastrar pessoa\"\"\"\n    nome: str = Field(..., description=\"Nome da pessoa\")\n    categoria: int = Field(..., description=\"Categoria da pessoa\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.pessoas_router",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultarProcessosRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "peekOfCode": "class ConsultarProcessosRequest(BaseModel):\n    \"\"\"Request para consultar processos\"\"\"\n    filter: Dict[str, Any] = Field(..., description=\"Filtros de busca\")\n    sort: str = Field(default=\"ficha\", description=\"Campo para ordenação\")\nclass CadastrarProcessoRequest(BaseModel):\n    \"\"\"Request para cadastrar processo\"\"\"\n    entrada: str = Field(..., description=\"Data de entrada (ISO)\")\n    materia: int = Field(..., description=\"Código da matéria\")\n    acao: str = Field(..., description=\"Sigla da ação\")\n    numero_processo: str = Field(..., description=\"Número do processo CNJ\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "documentation": {}
+    },
+    {
+        "label": "CadastrarProcessoRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "peekOfCode": "class CadastrarProcessoRequest(BaseModel):\n    \"\"\"Request para cadastrar processo\"\"\"\n    entrada: str = Field(..., description=\"Data de entrada (ISO)\")\n    materia: int = Field(..., description=\"Código da matéria\")\n    acao: str = Field(..., description=\"Sigla da ação\")\n    numero_processo: str = Field(..., description=\"Número do processo CNJ\")\n    juizo: str = Field(..., description=\"Sigla do juízo\")\n    oj_numero: int = Field(..., description=\"Número do órgão julgador\")\n    oj_sigla: str = Field(..., description=\"Sigla do órgão julgador\")\n    grau_risco: int = Field(..., description=\"Grau de risco\", ge=0, le=100)",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "documentation": {}
+    },
+    {
+        "label": "AtualizarProcessoRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "peekOfCode": "class AtualizarProcessoRequest(BaseModel):\n    \"\"\"Request para atualizar processo\"\"\"\n    update_data_hora: str = Field(..., description=\"Data/hora do registro\")\n    update_usuario: int = Field(..., description=\"ID do usuário\")\n    numero_processo: Optional[str] = Field(\n        None, description=\"Número processo (só se nulo)\"\n    )\n    fase: Optional[int] = None\n    grau_risco: Optional[int] = Field(None, ge=0, le=100)\n    valor_causa: Optional[float] = None",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/cpj/processos\", tags=[\"CPJ - Processos\"])\n# ==================== MODELS ====================\nclass ConsultarProcessosRequest(BaseModel):\n    \"\"\"Request para consultar processos\"\"\"\n    filter: Dict[str, Any] = Field(..., description=\"Filtros de busca\")\n    sort: str = Field(default=\"ficha\", description=\"Campo para ordenação\")\nclass CadastrarProcessoRequest(BaseModel):\n    \"\"\"Request para cadastrar processo\"\"\"\n    entrada: str = Field(..., description=\"Data de entrada (ISO)\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "peekOfCode": "router = APIRouter(prefix=\"/cpj/processos\", tags=[\"CPJ - Processos\"])\n# ==================== MODELS ====================\nclass ConsultarProcessosRequest(BaseModel):\n    \"\"\"Request para consultar processos\"\"\"\n    filter: Dict[str, Any] = Field(..., description=\"Filtros de busca\")\n    sort: str = Field(default=\"ficha\", description=\"Campo para ordenação\")\nclass CadastrarProcessoRequest(BaseModel):\n    \"\"\"Request para cadastrar processo\"\"\"\n    entrada: str = Field(..., description=\"Data de entrada (ISO)\")\n    materia: int = Field(..., description=\"Código da matéria\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.processos_router",
+        "documentation": {}
+    },
+    {
+        "label": "BuscarPublicacoesRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "peekOfCode": "class BuscarPublicacoesRequest(BaseModel):\n    \"\"\"Request para buscar publicações não vinculadas\"\"\"\n    filters: Optional[Dict[str, Any]] = Field(\n        default=None, description=\"Filtros customizados (opcional)\"\n    )\n    sort: str = Field(default=\"data_publicacao\", description=\"Campo para ordenação\")\n    limit: int = Field(default=100, ge=1, le=1000, description=\"Limite de resultados\")\nclass AtualizarPublicacaoRequest(BaseModel):\n    \"\"\"Request para atualizar publicação\"\"\"\n    update_usuario: int = Field(..., description=\"ID do usuário que está atualizando\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "documentation": {}
+    },
+    {
+        "label": "AtualizarPublicacaoRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "peekOfCode": "class AtualizarPublicacaoRequest(BaseModel):\n    \"\"\"Request para atualizar publicação\"\"\"\n    update_usuario: int = Field(..., description=\"ID do usuário que está atualizando\")\n    update_data_hora: str = Field(..., description=\"Data/hora atual do registro (ISO)\")\n    id_pessoa_atribuida: Optional[int] = Field(\n        None, description=\"ID da pessoa atribuída\"\n    )\n    id_motivo: Optional[int] = Field(None, description=\"ID do motivo\")\n    atr: Optional[Dict[str, Any]] = Field(\n        None, description=\"Atributos customizados para workflow\"",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/cpj/publicacoes\", tags=[\"CPJ - Publicações\"])\n# ==================== MODELS ====================\nclass BuscarPublicacoesRequest(BaseModel):\n    \"\"\"Request para buscar publicações não vinculadas\"\"\"\n    filters: Optional[Dict[str, Any]] = Field(\n        default=None, description=\"Filtros customizados (opcional)\"\n    )\n    sort: str = Field(default=\"data_publicacao\", description=\"Campo para ordenação\")\n    limit: int = Field(default=100, ge=1, le=1000, description=\"Limite de resultados\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "peekOfCode": "router = APIRouter(prefix=\"/cpj/publicacoes\", tags=[\"CPJ - Publicações\"])\n# ==================== MODELS ====================\nclass BuscarPublicacoesRequest(BaseModel):\n    \"\"\"Request para buscar publicações não vinculadas\"\"\"\n    filters: Optional[Dict[str, Any]] = Field(\n        default=None, description=\"Filtros customizados (opcional)\"\n    )\n    sort: str = Field(default=\"data_publicacao\", description=\"Campo para ordenação\")\n    limit: int = Field(default=100, ge=1, le=1000, description=\"Limite de resultados\")\nclass AtualizarPublicacaoRequest(BaseModel):",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.publicacoes_router",
+        "documentation": {}
+    },
+    {
+        "label": "CadastrarAndamentoRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "peekOfCode": "class CadastrarAndamentoRequest(BaseModel):\n    evento: str = Field(..., description=\"Código do evento\")\n    texto: str = Field(..., description=\"Texto do andamento\")\n    data_hora_lan: Optional[str] = Field(\n        None, description=\"Data/hora lançamento (ISO)\"\n    )\n    interno: int = Field(default=0, description=\"0=Não, 1=Sim\", ge=0, le=1)\nclass CadastrarTarefaRequest(BaseModel):\n    evento: str = Field(..., description=\"Código do evento\")\n    texto: str = Field(..., description=\"Texto da tarefa\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "documentation": {}
+    },
+    {
+        "label": "CadastrarTarefaRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "peekOfCode": "class CadastrarTarefaRequest(BaseModel):\n    evento: str = Field(..., description=\"Código do evento\")\n    texto: str = Field(..., description=\"Texto da tarefa\")\n    id_pessoa_solicitada: int = Field(..., description=\"ID pessoa solicitante\")\n    id_pessoa_atribuida: Optional[int] = Field(None, description=\"ID pessoa atribuída\")\n    ag_data_hora: str = Field(..., description=\"Data/hora agendamento (ISO)\")\nclass AtualizarTarefaRequest(BaseModel):\n    update_data_hora: str = Field(..., description=\"Data/hora do registro\")\n    update_usuario: int = Field(..., description=\"ID do usuário\")\n    id_tramitacao_motivo: Optional[int] = Field(None, description=\"ID do motivo\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "documentation": {}
+    },
+    {
+        "label": "AtualizarTarefaRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "peekOfCode": "class AtualizarTarefaRequest(BaseModel):\n    update_data_hora: str = Field(..., description=\"Data/hora do registro\")\n    update_usuario: int = Field(..., description=\"ID do usuário\")\n    id_tramitacao_motivo: Optional[int] = Field(None, description=\"ID do motivo\")\n    id_tramitacao_situacao: Optional[int] = Field(None, description=\"ID da situação\")\n@router.post(\"/andamento/cadastrar/{pj}\")\nasync def cadastrar_andamento(\n    pj: int, request: CadastrarAndamentoRequest\n) -> Dict[str, Any]:\n    \"\"\"",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/cpj/tramitacao\", tags=[\"CPJ - Tramitação\"])\nclass CadastrarAndamentoRequest(BaseModel):\n    evento: str = Field(..., description=\"Código do evento\")\n    texto: str = Field(..., description=\"Texto do andamento\")\n    data_hora_lan: Optional[str] = Field(\n        None, description=\"Data/hora lançamento (ISO)\"\n    )\n    interno: int = Field(default=0, description=\"0=Não, 1=Sim\", ge=0, le=1)\nclass CadastrarTarefaRequest(BaseModel):",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "description": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
+        "peekOfCode": "router = APIRouter(prefix=\"/cpj/tramitacao\", tags=[\"CPJ - Tramitação\"])\nclass CadastrarAndamentoRequest(BaseModel):\n    evento: str = Field(..., description=\"Código do evento\")\n    texto: str = Field(..., description=\"Texto do andamento\")\n    data_hora_lan: Optional[str] = Field(\n        None, description=\"Data/hora lançamento (ISO)\"\n    )\n    interno: int = Field(default=0, description=\"0=Não, 1=Sim\", ge=0, le=1)\nclass CadastrarTarefaRequest(BaseModel):\n    evento: str = Field(..., description=\"Código do evento\")",
+        "detail": "camunda-worker-api-gateway.app.routers.cpj.tramitacao_router",
         "documentation": {}
     },
     {

@@ -16,6 +16,15 @@ from core.config import settings
 from routes import health_router, tasks_router
 from routes.dependencies import set_task_manager
 from routers import buscar_publicacoes, publicacoes, marcar_publicacoes
+from routers.cpj import (
+    publicacoes_router as cpj_publicacoes_router,
+    pessoas_router as cpj_pessoas_router,
+    processos_router as cpj_processos_router,
+    pedidos_router as cpj_pedidos_router,
+    envolvidos_router as cpj_envolvidos_router,
+    tramitacao_router as cpj_tramitacao_router,
+    documentos_router as cpj_documentos_router,
+)
 
 
 # Configure logging
@@ -109,6 +118,15 @@ app.include_router(tasks_router)
 app.include_router(buscar_publicacoes.router)
 app.include_router(publicacoes.router)
 app.include_router(marcar_publicacoes.router)
+
+# Include CPJ routers (7 routers = 20 endpoints)
+app.include_router(cpj_publicacoes_router)
+app.include_router(cpj_pessoas_router)
+app.include_router(cpj_processos_router)
+app.include_router(cpj_pedidos_router)
+app.include_router(cpj_envolvidos_router)
+app.include_router(cpj_tramitacao_router)
+app.include_router(cpj_documentos_router)
 
 
 if __name__ == "__main__":
