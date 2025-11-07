@@ -1,0 +1,39 @@
+{
+  "name": "dw-law-worker",
+  "description": "Worker para integração com DW LAW e-Protocol - Consulta Processual",
+  "version": "1.0.0",
+  "entry_point": "main.py",
+  "port": 8010,
+  "topics": [
+    "INSERIR_PROCESSOS_DW_LAW",
+    "EXCLUIR_PROCESSOS_DW_LAW",
+    "CONSULTAR_PROCESSO_DW_LAW"
+  ],
+  "environment": {
+    "GATEWAY_ENABLED": "true",
+    "GATEWAY_URL": "http://camunda-worker-api-gateway-gateway-1:8000",
+    "GATEWAY_TIMEOUT": "120",
+    "CAMUNDA_URL": "http://camunda:8080/engine-rest",
+    "CAMUNDA_USERNAME": "demo",
+    "CAMUNDA_PASSWORD": "DiasCosta@!!2025",
+    "MAX_TASKS": "3",
+    "LOCK_DURATION": "120000",
+    "METRICS_PORT": "8000",
+    "LOG_LEVEL": "INFO"
+  },
+  "healthcheck": {
+    "endpoint": "/health",
+    "interval": "30s",
+    "timeout": "10s",
+    "retries": 3
+  },
+  "resources": {
+    "memory": "256Mi",
+    "cpu": "250m"
+  },
+  "scaling": {
+    "min_replicas": 1,
+    "max_replicas": 2,
+    "target_cpu_utilization": 70
+  }
+}

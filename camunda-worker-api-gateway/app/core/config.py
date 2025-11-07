@@ -83,6 +83,25 @@ class Settings(BaseSettings):
     )
     N8N_TIMEOUT: int = int(os.getenv("N8N_TIMEOUT", "120"))  # 2 minutes timeout
 
+    # DW LAW e-Protocol API Configuration
+    DW_LAW_BASE_URL: str = os.getenv(
+        "DW_LAW_BASE_URL",
+        "https://web-eprotocol-integration-cons-qa.azurewebsites.net"
+    )
+    DW_LAW_USUARIO: str = os.getenv("DW_LAW_USUARIO", "integ_dias_cons@dwlaw.com.br")
+    DW_LAW_SENHA: str = os.getenv("DW_LAW_SENHA", "DC@Dwlaw2025")
+    DW_LAW_TOKEN_EXPIRY_MINUTES: int = int(os.getenv("DW_LAW_TOKEN_EXPIRY_MINUTES", "120"))  # 2 hours default
+    DW_LAW_TIMEOUT: int = int(os.getenv("DW_LAW_TIMEOUT", "120"))  # 2 minutes timeout
+    DW_LAW_CHAVE_PROJETO: str = os.getenv("DW_LAW_CHAVE_PROJETO", "diascostacitacaoconsultaunica")  # Chave padrão do projeto
+
+    # Camunda REST API Configuration
+    CAMUNDA_REST_URL: str = os.getenv(
+        "CAMUNDA_REST_URL",
+        "http://201.23.67.197:8080/engine-rest"
+    )
+    CAMUNDA_REST_USER: str = os.getenv("CAMUNDA_REST_USER", "demo")
+    CAMUNDA_REST_PASSWORD: str = os.getenv("CAMUNDA_REST_PASSWORD", "DiasCostaA!!2025")
+
     class Config:
         env_file = ".env"
         case_sensitive = True

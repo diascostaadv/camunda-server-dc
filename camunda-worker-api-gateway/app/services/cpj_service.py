@@ -88,9 +88,7 @@ class CPJService:
             }
 
             # Payload mais robusto com validação
-            payload = {
-                "filter": {"_and": [{"numero_processo": {"_eq": numero_cnj.strip()}}]}
-            }
+            payload = {"filter": {"numero_processo": {"_eq": numero_cnj.strip()}}}
 
             logger.debug(f"🔍 [CPJ] Payload enviado: {payload}")
 
@@ -154,7 +152,10 @@ class CPJService:
     # ==================== PUBLICAÇÕES ====================
 
     async def buscar_publicacoes_nao_vinculadas(
-        self, filters: Optional[Dict[str, Any]] = None, sort: str = "data_publicacao", limit: int = 100
+        self,
+        filters: Optional[Dict[str, Any]] = None,
+        sort: str = "data_publicacao",
+        limit: int = 100,
     ) -> List[Dict[str, Any]]:
         """
         Busca publicações não vinculadas a processos (Seção 4.2)
@@ -323,7 +324,9 @@ class CPJService:
             data = response.json()
             pessoas = data if isinstance(data, list) else []
 
-            logger.info(f"✅ Consulta pessoa CPJ concluída - {len(pessoas)} encontradas")
+            logger.info(
+                f"✅ Consulta pessoa CPJ concluída - {len(pessoas)} encontradas"
+            )
 
             return pessoas
 
@@ -500,9 +503,7 @@ class CPJService:
             logger.error(f"💥 Erro inesperado na consulta de processos CPJ: {e}")
             return []
 
-    async def cadastrar_processo(
-        self, processo_data: Dict[str, Any]
-    ) -> Dict[str, Any]:
+    async def cadastrar_processo(self, processo_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Cadastra novo processo (Seção 4.8)
 
@@ -604,9 +605,7 @@ class CPJService:
 
     # ==================== PEDIDOS ====================
 
-    async def consultar_pedidos(
-        self, filters: Dict[str, Any]
-    ) -> List[Dict[str, Any]]:
+    async def consultar_pedidos(self, filters: Dict[str, Any]) -> List[Dict[str, Any]]:
         """
         Consulta pedidos de processos (Seção 4.10)
 

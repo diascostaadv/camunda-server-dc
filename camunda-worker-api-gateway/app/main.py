@@ -25,6 +25,7 @@ from routers.cpj import (
     tramitacao_router as cpj_tramitacao_router,
     documentos_router as cpj_documentos_router,
 )
+from routers import dw_law_router
 
 
 # Configure logging
@@ -127,6 +128,9 @@ app.include_router(cpj_pedidos_router)
 app.include_router(cpj_envolvidos_router)
 app.include_router(cpj_tramitacao_router)
 app.include_router(cpj_documentos_router)
+
+# Include DW LAW router
+app.include_router(dw_law_router.router)
 
 
 if __name__ == "__main__":

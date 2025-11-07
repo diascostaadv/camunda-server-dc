@@ -173,6 +173,46 @@
         "documentation": {}
     },
     {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Literal",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Dict",
         "importPath": "typing",
         "description": "typing",
@@ -485,6 +525,22 @@
         "documentation": {}
     },
     {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "List",
         "importPath": "typing",
         "description": "typing",
@@ -542,6 +598,30 @@
     },
     {
         "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -638,6 +718,38 @@
     },
     {
         "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -1725,6 +1837,22 @@
         "documentation": {}
     },
     {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "timedelta",
         "importPath": "datetime",
         "description": "datetime",
@@ -1742,6 +1870,22 @@
     },
     {
         "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "timedelta",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -2126,6 +2270,22 @@
     },
     {
         "label": "field_validator",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
         "importPath": "pydantic",
         "description": "pydantic",
         "isExtraImport": true,
@@ -2517,6 +2677,14 @@
         "documentation": {}
     },
     {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
         "label": "Enum",
         "importPath": "enum",
         "description": "enum",
@@ -2671,6 +2839,38 @@
     },
     {
         "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Request",
         "importPath": "fastapi",
         "description": "fastapi",
         "isExtraImport": true,
@@ -2939,6 +3139,14 @@
         "isExtraImport": true,
         "importPath": "pymongo",
         "description": "pymongo",
+        "detail": "pymongo",
+        "documentation": {}
+    },
+    {
+        "label": "MongoClient",
+        "importPath": "pymongo",
+        "description": "pymongo",
+        "isExtraImport": true,
         "detail": "pymongo",
         "documentation": {}
     },
@@ -3335,6 +3543,14 @@
         "documentation": {}
     },
     {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
         "label": "Settings",
         "importPath": "core.config",
         "description": "core.config",
@@ -3415,11 +3631,99 @@
         "documentation": {}
     },
     {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
         "label": "get_settings",
         "importPath": "core.config",
         "description": "core.config",
         "isExtraImport": true,
         "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "InserirProcessosRequest",
+        "importPath": "models.dw_law",
+        "description": "models.dw_law",
+        "isExtraImport": true,
+        "detail": "models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "ExcluirProcessosRequest",
+        "importPath": "models.dw_law",
+        "description": "models.dw_law",
+        "isExtraImport": true,
+        "detail": "models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultarProcessoRequest",
+        "importPath": "models.dw_law",
+        "description": "models.dw_law",
+        "isExtraImport": true,
+        "detail": "models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "DWLawResponse",
+        "importPath": "models.dw_law",
+        "description": "models.dw_law",
+        "isExtraImport": true,
+        "detail": "models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "ProcessoDWLaw",
+        "importPath": "models.dw_law",
+        "description": "models.dw_law",
+        "isExtraImport": true,
+        "detail": "models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultaProcessoDWLaw",
+        "importPath": "models.dw_law",
+        "description": "models.dw_law",
+        "isExtraImport": true,
+        "detail": "models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "CallbackDWLaw",
+        "importPath": "models.dw_law",
+        "description": "models.dw_law",
+        "isExtraImport": true,
+        "detail": "models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "DWLawService",
+        "importPath": "services.dw_law_service",
+        "description": "services.dw_law_service",
+        "isExtraImport": true,
+        "detail": "services.dw_law_service",
+        "documentation": {}
+    },
+    {
+        "label": "CamundaMessageService",
+        "importPath": "services.camunda_message_service",
+        "description": "services.camunda_message_service",
+        "isExtraImport": true,
+        "detail": "services.camunda_message_service",
         "documentation": {}
     },
     {
@@ -3604,6 +3908,15 @@
         "description": "pymongo.errors",
         "isExtraImport": true,
         "detail": "pymongo.errors",
+        "documentation": {}
+    },
+    {
+        "label": "base64",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "base64",
+        "description": "base64",
+        "detail": "base64",
         "documentation": {}
     },
     {
@@ -4346,6 +4659,14 @@
         "documentation": {}
     },
     {
+        "label": "dw_law_router",
+        "importPath": "routers",
+        "description": "routers",
+        "isExtraImport": true,
+        "detail": "routers",
+        "documentation": {}
+    },
+    {
         "label": "publicacoes_router",
         "importPath": "routers.cpj",
         "description": "routers.cpj",
@@ -4525,6 +4846,30 @@
         "documentation": {}
     },
     {
+        "label": "BaseWorker",
+        "importPath": "common.base_worker",
+        "description": "common.base_worker",
+        "isExtraImport": true,
+        "detail": "common.base_worker",
+        "documentation": {}
+    },
+    {
+        "label": "WorkerConfig",
+        "importPath": "common.config",
+        "description": "common.config",
+        "isExtraImport": true,
+        "detail": "common.config",
+        "documentation": {}
+    },
+    {
+        "label": "Topics",
+        "importPath": "common.config",
+        "description": "common.config",
+        "isExtraImport": true,
+        "detail": "common.config",
+        "documentation": {}
+    },
+    {
         "label": "WorkerConfig",
         "importPath": "common.config",
         "description": "common.config",
@@ -4542,14 +4887,6 @@
     },
     {
         "label": "WorkerConfig",
-        "importPath": "common.config",
-        "description": "common.config",
-        "isExtraImport": true,
-        "detail": "common.config",
-        "documentation": {}
-    },
-    {
-        "label": "Topics",
         "importPath": "common.config",
         "description": "common.config",
         "isExtraImport": true,
@@ -5006,6 +5343,22 @@
         "documentation": {}
     },
     {
+        "label": "ExternalTask",
+        "importPath": "camunda.external_task.external_task",
+        "description": "camunda.external_task.external_task",
+        "isExtraImport": true,
+        "detail": "camunda.external_task.external_task",
+        "documentation": {}
+    },
+    {
+        "label": "log_with_context",
+        "importPath": "camunda.utils.log_utils",
+        "description": "camunda.utils.log_utils",
+        "isExtraImport": true,
+        "detail": "camunda.utils.log_utils",
+        "documentation": {}
+    },
+    {
         "label": "log_with_context",
         "importPath": "camunda.utils.log_utils",
         "description": "camunda.utils.log_utils",
@@ -5361,6 +5714,123 @@
         "description": "camunda-worker-api-gateway.app.models.buscar_request",
         "peekOfCode": "class PublicacaoParaProcessamento(BaseModel):\n    \"\"\"Modelo para publicação convertida para processamento\"\"\"\n    # Dados obrigatórios para MovimentacaoJudicial\n    numero_processo: str = Field(..., description=\"Número do processo judicial\")\n    data_publicacao: str = Field(\n        ..., description=\"Data de publicação no formato dd/mm/yyyy\"\n    )\n    texto_publicacao: str = Field(..., description=\"Texto integral da movimentação\")\n    fonte: Literal[\"dw\", \"manual\", \"escavador\"] = Field(\n        ..., description=\"Fonte da movimentação\"",
         "detail": "camunda-worker-api-gateway.app.models.buscar_request",
+        "documentation": {}
+    },
+    {
+        "label": "ProcessoDWLawInput",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class ProcessoDWLawInput(BaseModel):\n    \"\"\"\n    Modelo para entrada de processo (inserção)\n    \"\"\"\n    numero_processo: str = Field(..., description=\"Número do processo CNJ\")\n    other_info_client1: Optional[str] = Field(\n        None, description=\"Campo extra 1 para controle do cliente\"\n    )\n    other_info_client2: Optional[str] = Field(\n        None, description=\"Campo extra 2 para controle do cliente\"",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "ProcessoDWLaw",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class ProcessoDWLaw(BaseModel):\n    \"\"\"\n    Modelo para processo DW LAW armazenado no MongoDB\n    \"\"\"\n    chave_projeto: str = Field(..., description=\"Chave única do projeto DW LAW\")\n    numero_processo: str = Field(..., description=\"Número do processo CNJ\")\n    chave_de_pesquisa: Optional[str] = Field(\n        None, description=\"Chave de pesquisa retornada pelo DW LAW\"\n    )\n    tribunal: Optional[str] = Field(None, description=\"Tribunal\")",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "RepresentanteDWLaw",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class RepresentanteDWLaw(BaseModel):\n    \"\"\"Representante de uma parte\"\"\"\n    nome: Optional[str] = None\n    tipo: Optional[str] = None\n    numero_oab: Optional[str] = None\n    uf_oab: Optional[str] = None\n    cpf: Optional[str] = None\nclass PoloDWLaw(BaseModel):\n    \"\"\"Polo processual (parte)\"\"\"\n    nome: Optional[str] = None",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "PoloDWLaw",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class PoloDWLaw(BaseModel):\n    \"\"\"Polo processual (parte)\"\"\"\n    nome: Optional[str] = None\n    classificacao: Optional[str] = None\n    cpf_cnpj: Optional[str] = None\n    tipo_polo: Optional[str] = Field(None, description=\"A=Ativo, P=Passivo, I=Indefinido, O=Outros\")\n    representantes: List[RepresentanteDWLaw] = Field(default_factory=list)\nclass ArquivoMovimentacaoDWLaw(BaseModel):\n    \"\"\"Arquivo de movimentação processual\"\"\"\n    nome_arquivo: Optional[str] = None",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "ArquivoMovimentacaoDWLaw",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class ArquivoMovimentacaoDWLaw(BaseModel):\n    \"\"\"Arquivo de movimentação processual\"\"\"\n    nome_arquivo: Optional[str] = None\n    link_arquivo: Optional[str] = None\nclass MovimentacaoDWLaw(BaseModel):\n    \"\"\"Movimentação processual\"\"\"\n    data_movimentacao: Optional[str] = None\n    descricao: Optional[str] = None\n    arquivos: List[ArquivoMovimentacaoDWLaw] = Field(default_factory=list)\nclass AudienciaDWLaw(BaseModel):",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "MovimentacaoDWLaw",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class MovimentacaoDWLaw(BaseModel):\n    \"\"\"Movimentação processual\"\"\"\n    data_movimentacao: Optional[str] = None\n    descricao: Optional[str] = None\n    arquivos: List[ArquivoMovimentacaoDWLaw] = Field(default_factory=list)\nclass AudienciaDWLaw(BaseModel):\n    \"\"\"Audiência processual\"\"\"\n    data_audiencia: Optional[str] = None\n    hora_audiencia: Optional[str] = None\n    modalidade: Optional[str] = None",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "AudienciaDWLaw",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class AudienciaDWLaw(BaseModel):\n    \"\"\"Audiência processual\"\"\"\n    data_audiencia: Optional[str] = None\n    hora_audiencia: Optional[str] = None\n    modalidade: Optional[str] = None\n    situacao: Optional[str] = None\n    tipo: Optional[str] = None\n    sala_local: Optional[str] = None\n    url_ata: Optional[str] = None\nclass ConsultaProcessoDWLaw(BaseModel):",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultaProcessoDWLaw",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class ConsultaProcessoDWLaw(BaseModel):\n    \"\"\"\n    Modelo completo para resultado de consulta processual DW LAW\n    Armazena dados retornados pela API\n    \"\"\"\n    # Metadados da consulta\n    chave_de_pesquisa: str = Field(..., description=\"Chave de pesquisa DW LAW\")\n    chave_projeto: str = Field(..., description=\"Chave do projeto\")\n    status_pesquisa: str = Field(..., description=\"S=Sucesso, A=Alerta, R=RPA, E=Em análise\")\n    descricao_status_pesquisa: str = Field(..., description=\"Descrição do status\")",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "CallbackDWLaw",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class CallbackDWLaw(BaseModel):\n    \"\"\"\n    Modelo para callback recebido do DW LAW\n    Salva o payload completo recebido via webhook\n    \"\"\"\n    # Payload completo conforme enviado pelo DW LAW\n    payload_completo: Dict[str, Any] = Field(..., description=\"Payload completo do callback\")\n    # Campos principais extraídos\n    chave_de_pesquisa: str = Field(..., description=\"Chave de pesquisa\")\n    numero_processo: str = Field(..., description=\"Número do processo\")",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "InserirProcessosRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class InserirProcessosRequest(BaseModel):\n    \"\"\"Request para inserir processos\"\"\"\n    chave_projeto: str = Field(..., description=\"Chave única do projeto DW LAW\")\n    processos: List[ProcessoDWLawInput] = Field(..., description=\"Lista de processos\")\n    camunda_instance_id: Optional[str] = Field(None, description=\"ID da instância Camunda\")\n    camunda_business_key: Optional[str] = Field(None, description=\"Business key Camunda\")\nclass ExcluirProcessosRequest(BaseModel):\n    \"\"\"Request para excluir processos\"\"\"\n    chave_projeto: str = Field(..., description=\"Chave única do projeto DW LAW\")\n    lista_de_processos: List[Dict[str, str]] = Field(",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "ExcluirProcessosRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class ExcluirProcessosRequest(BaseModel):\n    \"\"\"Request para excluir processos\"\"\"\n    chave_projeto: str = Field(..., description=\"Chave única do projeto DW LAW\")\n    lista_de_processos: List[Dict[str, str]] = Field(\n        ..., description=\"Lista com numero_processo\"\n    )\nclass ConsultarProcessoRequest(BaseModel):\n    \"\"\"Request para consultar processo\"\"\"\n    chave_de_pesquisa: str = Field(..., description=\"Chave de pesquisa DW LAW\")\n    camunda_instance_id: Optional[str] = Field(None, description=\"ID da instância Camunda\")",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultarProcessoRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class ConsultarProcessoRequest(BaseModel):\n    \"\"\"Request para consultar processo\"\"\"\n    chave_de_pesquisa: str = Field(..., description=\"Chave de pesquisa DW LAW\")\n    camunda_instance_id: Optional[str] = Field(None, description=\"ID da instância Camunda\")\nclass DWLawResponse(BaseModel):\n    \"\"\"Response padrão para operações DW LAW\"\"\"\n    success: bool = Field(..., description=\"Se operação foi bem-sucedida\")\n    data: Optional[Dict[str, Any]] = Field(None, description=\"Dados retornados\")\n    error: Optional[str] = Field(None, description=\"Código de erro\")\n    message: Optional[str] = Field(None, description=\"Mensagem descritiva\")",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "DWLawResponse",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.dw_law",
+        "description": "camunda-worker-api-gateway.app.models.dw_law",
+        "peekOfCode": "class DWLawResponse(BaseModel):\n    \"\"\"Response padrão para operações DW LAW\"\"\"\n    success: bool = Field(..., description=\"Se operação foi bem-sucedida\")\n    data: Optional[Dict[str, Any]] = Field(None, description=\"Dados retornados\")\n    error: Optional[str] = Field(None, description=\"Código de erro\")\n    message: Optional[str] = Field(None, description=\"Mensagem descritiva\")\n    timestamp: datetime = Field(default_factory=datetime.now)\n    class Config:\n        json_encoders = {datetime: lambda v: v.isoformat()}",
+        "detail": "camunda-worker-api-gateway.app.models.dw_law",
         "documentation": {}
     },
     {
@@ -5904,6 +6374,60 @@
         "documentation": {}
     },
     {
+        "label": "get_dw_law_service",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "description": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "peekOfCode": "def get_dw_law_service() -> DWLawService:\n    \"\"\"Dependency para obter serviço DW LAW\"\"\"\n    return DWLawService()\ndef get_camunda_service() -> CamundaMessageService:\n    \"\"\"Dependency para obter serviço Camunda\"\"\"\n    return CamundaMessageService()\ndef get_database():\n    \"\"\"Dependency para obter database MongoDB\"\"\"\n    global db\n    if db is None:",
+        "detail": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "documentation": {}
+    },
+    {
+        "label": "get_camunda_service",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "description": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "peekOfCode": "def get_camunda_service() -> CamundaMessageService:\n    \"\"\"Dependency para obter serviço Camunda\"\"\"\n    return CamundaMessageService()\ndef get_database():\n    \"\"\"Dependency para obter database MongoDB\"\"\"\n    global db\n    if db is None:\n        global db_client\n        db_client = MongoClient(\n            settings.MONGODB_URI,",
+        "detail": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "documentation": {}
+    },
+    {
+        "label": "get_database",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "description": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "peekOfCode": "def get_database():\n    \"\"\"Dependency para obter database MongoDB\"\"\"\n    global db\n    if db is None:\n        global db_client\n        db_client = MongoClient(\n            settings.MONGODB_URI,\n            **settings.get_mongodb_connection_options()\n        )\n        db = db_client[settings.MONGODB_DATABASE]",
+        "detail": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "description": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/dw-law\", tags=[\"DW LAW e-Protocol\"])\n# MongoDB client (será inicializado no startup)\ndb_client: MongoClient = None\ndb = None\n# ==================== DEPENDENCY INJECTION ====================\ndef get_dw_law_service() -> DWLawService:\n    \"\"\"Dependency para obter serviço DW LAW\"\"\"\n    return DWLawService()\ndef get_camunda_service() -> CamundaMessageService:",
+        "detail": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "description": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "peekOfCode": "router = APIRouter(prefix=\"/dw-law\", tags=[\"DW LAW e-Protocol\"])\n# MongoDB client (será inicializado no startup)\ndb_client: MongoClient = None\ndb = None\n# ==================== DEPENDENCY INJECTION ====================\ndef get_dw_law_service() -> DWLawService:\n    \"\"\"Dependency para obter serviço DW LAW\"\"\"\n    return DWLawService()\ndef get_camunda_service() -> CamundaMessageService:\n    \"\"\"Dependency para obter serviço Camunda\"\"\"",
+        "detail": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "description": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "peekOfCode": "db = None\n# ==================== DEPENDENCY INJECTION ====================\ndef get_dw_law_service() -> DWLawService:\n    \"\"\"Dependency para obter serviço DW LAW\"\"\"\n    return DWLawService()\ndef get_camunda_service() -> CamundaMessageService:\n    \"\"\"Dependency para obter serviço Camunda\"\"\"\n    return CamundaMessageService()\ndef get_database():\n    \"\"\"Dependency para obter database MongoDB\"\"\"",
+        "detail": "camunda-worker-api-gateway.app.routers.dw_law_router",
+        "documentation": {}
+    },
+    {
         "label": "MarcarPublicacoesRequest",
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.routers.marcar_publicacoes",
@@ -6156,6 +6680,24 @@
         "documentation": {}
     },
     {
+        "label": "CamundaMessageService",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.camunda_message_service",
+        "description": "camunda-worker-api-gateway.app.services.camunda_message_service",
+        "peekOfCode": "class CamundaMessageService:\n    \"\"\"Serviço para envio de mensagens BPMN para Camunda\"\"\"\n    def __init__(self):\n        self.camunda_rest_url = settings.CAMUNDA_REST_URL\n        self.camunda_user = settings.CAMUNDA_REST_USER\n        self.camunda_password = settings.CAMUNDA_REST_PASSWORD\n        # Cria Basic Auth header\n        credentials = f\"{self.camunda_user}:{self.camunda_password}\"\n        encoded_credentials = base64.b64encode(credentials.encode()).decode()\n        self.auth_header = f\"Basic {encoded_credentials}\"",
+        "detail": "camunda-worker-api-gateway.app.services.camunda_message_service",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.camunda_message_service",
+        "description": "camunda-worker-api-gateway.app.services.camunda_message_service",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass CamundaMessageService:\n    \"\"\"Serviço para envio de mensagens BPMN para Camunda\"\"\"\n    def __init__(self):\n        self.camunda_rest_url = settings.CAMUNDA_REST_URL\n        self.camunda_user = settings.CAMUNDA_REST_USER\n        self.camunda_password = settings.CAMUNDA_REST_PASSWORD\n        # Cria Basic Auth header\n        credentials = f\"{self.camunda_user}:{self.camunda_password}\"\n        encoded_credentials = base64.b64encode(credentials.encode()).decode()",
+        "detail": "camunda-worker-api-gateway.app.services.camunda_message_service",
+        "documentation": {}
+    },
+    {
         "label": "CPJService",
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.cpj_service",
@@ -6252,6 +6794,24 @@
         "description": "camunda-worker-api-gateway.app.services.deduplicacao_service",
         "peekOfCode": "logger = logging.getLogger(__name__)\nclass DeduplicacaoService:\n    \"\"\"Serviço para deduplicação de publicações\"\"\"\n    def __init__(\n        self, mongo_client: MongoClient, database_name: str = \"camunda_publicacoes\"\n    ):\n        \"\"\"\n        Inicializa o serviço de deduplicação\n        Args:\n            mongo_client: Cliente MongoDB",
         "detail": "camunda-worker-api-gateway.app.services.deduplicacao_service",
+        "documentation": {}
+    },
+    {
+        "label": "DWLawService",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.dw_law_service",
+        "description": "camunda-worker-api-gateway.app.services.dw_law_service",
+        "peekOfCode": "class DWLawService:\n    \"\"\"Serviço para integração com API DW LAW e-Protocol\"\"\"\n    def __init__(self):\n        self.base_url = settings.DW_LAW_BASE_URL\n        self.usuario = settings.DW_LAW_USUARIO\n        self.senha = settings.DW_LAW_SENHA\n        self.token_expiry_minutes = settings.DW_LAW_TOKEN_EXPIRY_MINUTES\n        # Cache de autenticação\n        self._token: Optional[str] = None\n        self._token_expiry: Optional[datetime] = None",
+        "detail": "camunda-worker-api-gateway.app.services.dw_law_service",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.dw_law_service",
+        "description": "camunda-worker-api-gateway.app.services.dw_law_service",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass DWLawService:\n    \"\"\"Serviço para integração com API DW LAW e-Protocol\"\"\"\n    def __init__(self):\n        self.base_url = settings.DW_LAW_BASE_URL\n        self.usuario = settings.DW_LAW_USUARIO\n        self.senha = settings.DW_LAW_SENHA\n        self.token_expiry_minutes = settings.DW_LAW_TOKEN_EXPIRY_MINUTES\n        # Cache de autenticação\n        self._token: Optional[str] = None",
+        "detail": "camunda-worker-api-gateway.app.services.dw_law_service",
         "documentation": {}
     },
     {
@@ -8160,6 +8720,33 @@
         "description": "camunda-workers-platform.workers.cpj_api_worker.main",
         "peekOfCode": "logger = logging.getLogger(__name__)\nclass CPJAPIWorker(BaseWorker):\n    \"\"\"Worker Unificado para API CPJ-3C - 22 tópicos, 21 endpoints\"\"\"\n    def __init__(self):\n        super().__init__(\n            worker_id=\"cpj-api-worker\",\n            base_url=WorkerConfig.CAMUNDA_URL,\n            auth=WorkerConfig.get_auth(),\n        )\n        # Configurações CPJ",
         "detail": "camunda-workers-platform.workers.cpj_api_worker.main",
+        "documentation": {}
+    },
+    {
+        "label": "DWLawTopics",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.dw_law_worker.main",
+        "description": "camunda-workers-platform.workers.dw_law_worker.main",
+        "peekOfCode": "class DWLawTopics:\n    \"\"\"Tópicos Camunda para DW LAW e-Protocol\"\"\"\n    INSERIR_PROCESSOS = \"INSERIR_PROCESSOS_DW_LAW\"\n    EXCLUIR_PROCESSOS = \"EXCLUIR_PROCESSOS_DW_LAW\"\n    CONSULTAR_PROCESSO = \"CONSULTAR_PROCESSO_DW_LAW\"\nclass DWLawWorker(BaseWorker):\n    \"\"\"\n    Worker para integração com DW LAW e-Protocol\n    RESPONSABILIDADES:\n    1. Inserir processos no monitoramento DW LAW",
+        "detail": "camunda-workers-platform.workers.dw_law_worker.main",
+        "documentation": {}
+    },
+    {
+        "label": "DWLawWorker",
+        "kind": 6,
+        "importPath": "camunda-workers-platform.workers.dw_law_worker.main",
+        "description": "camunda-workers-platform.workers.dw_law_worker.main",
+        "peekOfCode": "class DWLawWorker(BaseWorker):\n    \"\"\"\n    Worker para integração com DW LAW e-Protocol\n    RESPONSABILIDADES:\n    1. Inserir processos no monitoramento DW LAW\n    2. Excluir processos do monitoramento DW LAW\n    3. Consultar dados completos de processos por chave de pesquisa\n    PADRÃO ARQUITETURAL:\n    - Worker orquestrador (NÃO contém lógica de negócio)\n    - Toda lógica de processamento está no Worker API Gateway",
+        "detail": "camunda-workers-platform.workers.dw_law_worker.main",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.dw_law_worker.main",
+        "description": "camunda-workers-platform.workers.dw_law_worker.main",
+        "peekOfCode": "logger = logging.getLogger(__name__)\n# Define tópicos específicos do DW LAW\nclass DWLawTopics:\n    \"\"\"Tópicos Camunda para DW LAW e-Protocol\"\"\"\n    INSERIR_PROCESSOS = \"INSERIR_PROCESSOS_DW_LAW\"\n    EXCLUIR_PROCESSOS = \"EXCLUIR_PROCESSOS_DW_LAW\"\n    CONSULTAR_PROCESSO = \"CONSULTAR_PROCESSO_DW_LAW\"\nclass DWLawWorker(BaseWorker):\n    \"\"\"\n    Worker para integração com DW LAW e-Protocol",
+        "detail": "camunda-workers-platform.workers.dw_law_worker.main",
         "documentation": {}
     },
     {
