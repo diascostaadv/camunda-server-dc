@@ -16,8 +16,11 @@ from models.publicacao import (
     PublicacaoPrata,
     ProcessamentoLoteResponse,
 )
+from models.auditoria import StatusMarcacao
 from services.publicacao_service import PublicacaoService
 from services.deduplicacao_service import DeduplicacaoService
+from services.auditoria_service import AuditoriaService
+from services.intimation_service import IntimationService
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +33,10 @@ class LoteService:
         mongo_client: MongoClient,
         publicacao_service: PublicacaoService = None,
         deduplicacao_service: DeduplicacaoService = None,
+        intimation_service: IntimationService = None,
+        auditoria_service: AuditoriaService = None,
         database_name: str = "worker_gateway",
+        marcar_automaticamente: bool = True,
     ):
         """
         Inicializa o serviço de lotes
@@ -39,10 +45,14 @@ class LoteService:
             mongo_client: Cliente MongoDB
             publicacao_service: Serviço de publicações
             deduplicacao_service: Serviço de deduplicação
+            intimation_service: Serviço de marcação Webjur
+            auditoria_service: Serviço de auditoria
             database_name: Nome do banco de dados
+            marcar_automaticamente: Se deve marcar como exportada ao salvar
         """
         self.client = mongo_client
         self.db = mongo_client[database_name]
+        self.marcar_automaticamente = marcar_automaticamente
 
         # Coleções
         self.col_lotes = self.db["lotes"]
@@ -56,6 +66,10 @@ class LoteService:
         self.deduplicacao_service = deduplicacao_service or DeduplicacaoService(
             mongo_client, database_name
         )
+        self.intimation_service = intimation_service
+        self.auditoria_service = auditoria_service or AuditoriaService(
+            mongo_client, database_name
+        )
 
     def criar_lote(
         self,
@@ -64,6 +78,7 @@ class LoteService:
         cod_grupo: int = 5,
         data_inicial: str = None,
         data_final: str = None,
+        chunk_size: int = 200,
     ) -> str:
         """
         Cria um novo lote de publicações
@@ -74,6 +89,7 @@ class LoteService:
             cod_grupo: Código do grupo
             data_inicial: Data inicial da busca
             data_final: Data final da busca
+            chunk_size: Tamanho dos chunks para processamento (padrão: 200)
 
         Returns:
             str: ID do lote criado
@@ -100,7 +116,7 @@ class LoteService:
 
             # Salva publicações bronze
             if publicacoes:
-                self._salvar_publicacoes_bronze(lote_id, publicacoes)
+                self._salvar_publicacoes_bronze(lote_id, publicacoes, chunk_size)
 
             return lote_id
 
@@ -109,50 +125,226 @@ class LoteService:
             raise
 
     def _salvar_publicacoes_bronze(
-        self, lote_id: str, publicacoes: List[Dict[str, Any]]
+        self, lote_id: str, publicacoes: List[Dict[str, Any]], chunk_size: int = 200
     ):
         """
-        Salva publicações na tabela bronze
+        Salva publicações na tabela bronze em chunks
 
         Salva dados da Webjur diretamente como dicionários sem validação Pydantic
         para máxima flexibilidade com campos dinâmicos.
 
+        Processa em chunks para evitar problemas de memória e timeouts com volumes grandes.
+
         Args:
             lote_id: ID do lote
             publicacoes: Lista de publicações
+            chunk_size: Tamanho dos chunks para processamento (padrão: 200)
         """
         try:
-            documentos_bronze = []
+            total_publicacoes = len(publicacoes)
+            all_inserted_ids = []
 
-            for pub_data in publicacoes:
-                # Adiciona campos de controle essenciais
-                documento_bronze = {
-                    **pub_data,  # Mantém todos os campos originais da Webjur
-                    "lote_id": lote_id,
-                    "timestamp_insercao": datetime.now(),
-                    "status": "nova",
-                }
+            # Processa em chunks
+            num_chunks = (total_publicacoes + chunk_size - 1) // chunk_size
 
-                documentos_bronze.append(documento_bronze)
+            if num_chunks > 1:
+                logger.info(
+                    f"📦 Processando {total_publicacoes} publicações em {num_chunks} chunks de até {chunk_size}"
+                )
 
-            # Insere em batch
-            if documentos_bronze:
-                result = self.col_publicacoes_bronze.insert_many(documentos_bronze)
-                logger.info(f"✅ {len(result.inserted_ids)} publicações bronze salvas")
+            for i in range(0, total_publicacoes, chunk_size):
+                chunk = publicacoes[i : i + chunk_size]
+                chunk_num = (i // chunk_size) + 1
 
-                # Atualiza lote com IDs das publicações
-                self.col_lotes.update_one(
-                    {"_id": ObjectId(lote_id)},
-                    {
-                        "$set": {
-                            "publicacoes_ids": [str(id) for id in result.inserted_ids]
-                        }
-                    },
+                documentos_bronze = []
+                for pub_data in chunk:
+                    # Adiciona campos de controle essenciais
+                    documento_bronze = {
+                        **pub_data,  # Mantém todos os campos originais da Webjur
+                        "lote_id": lote_id,
+                        "timestamp_insercao": datetime.now(),
+                        "status": "nova",
+                    }
+                    documentos_bronze.append(documento_bronze)
+
+                # Insere chunk em batch
+                if documentos_bronze:
+                    result = self.col_publicacoes_bronze.insert_many(documentos_bronze)
+                    all_inserted_ids.extend(result.inserted_ids)
+
+                    if num_chunks > 1:
+                        logger.info(
+                            f"✅ Chunk {chunk_num}/{num_chunks}: {len(result.inserted_ids)} publicações salvas"
+                        )
+
+            # Log final
+            logger.info(f"✅ Total: {len(all_inserted_ids)} publicações bronze salvas")
+
+            # Atualiza lote com IDs das publicações
+            self.col_lotes.update_one(
+                {"_id": ObjectId(lote_id)},
+                {"$set": {"publicacoes_ids": [str(id) for id in all_inserted_ids]}},
+            )
+
+            # NOVO: Marcar automaticamente como exportadas se habilitado
+            if self.marcar_automaticamente and self.intimation_service:
+                logger.info("🏷️ Marcação automática habilitada - iniciando processo...")
+                self._marcar_publicacoes_automaticamente(
+                    lote_id=lote_id,
+                    publicacoes=publicacoes,
+                    publicacoes_ids=all_inserted_ids,
                 )
 
         except Exception as e:
             logger.error(f"Erro ao salvar publicações bronze: {e}")
             raise
+
+    def _marcar_publicacoes_automaticamente(
+        self,
+        lote_id: str,
+        publicacoes: List[Dict[str, Any]],
+        publicacoes_ids: List[ObjectId],
+    ):
+        """
+        Marca publicações como exportadas imediatamente após salvar
+
+        Para cada publicação:
+        1. Cria log de auditoria
+        2. Tenta marcar no Webjur
+        3. Atualiza MongoDB se sucesso
+        4. Registra resultado no log de auditoria
+
+        Args:
+            lote_id: ID do lote
+            publicacoes: Lista de publicações
+            publicacoes_ids: IDs gerados no MongoDB
+        """
+        try:
+            # Extrair códigos de publicação para marcação em lote
+            codigos_publicacao = []
+            publicacao_map = {}  # Mapeia cod_publicacao -> dados completos
+
+            for i, pub_data in enumerate(publicacoes):
+                cod_pub = pub_data.get("cod_publicacao")
+                if cod_pub:
+                    codigos_publicacao.append(cod_pub)
+                    publicacao_map[cod_pub] = {
+                        "dados": pub_data,
+                        "mongodb_id": str(publicacoes_ids[i]),
+                        "index": i,
+                    }
+
+            if not codigos_publicacao:
+                logger.warning("Nenhum código de publicação válido para marcar")
+                return
+
+            total_para_marcar = len(codigos_publicacao)
+            logger.info(
+                f"📊 Iniciando marcação automática de {total_para_marcar} publicações do lote {lote_id}"
+            )
+
+            # Criar logs de auditoria para todas
+            logs_map = {}  # cod_publicacao -> log_id
+            for cod_pub in codigos_publicacao:
+                pub_info = publicacao_map[cod_pub]
+                try:
+                    log_id = self.auditoria_service.iniciar_log_marcacao(
+                        cod_publicacao=cod_pub,
+                        lote_id=lote_id,
+                        publicacao_bronze_id=pub_info["mongodb_id"],
+                        snapshot_publicacao=pub_info["dados"],
+                        contexto={"metadata": {"marcacao_automatica": True}},
+                    )
+                    logs_map[cod_pub] = log_id
+                except Exception as e:
+                    logger.error(f"Erro ao criar log para {cod_pub}: {e}")
+
+            # Tentar marcar todas no Webjur em lote (mais eficiente)
+            inicio = time.time()
+            try:
+                sucesso_webjur = self.intimation_service.set_publicacoes(codigos_publicacao)
+                duracao_ms = (time.time() - inicio) * 1000
+
+                if sucesso_webjur:
+                    logger.info(
+                        f"✅ Marcação Webjur bem-sucedida para {total_para_marcar} publicações em {duracao_ms:.2f}ms"
+                    )
+
+                    # Atualizar MongoDB em lote
+                    bulk_updates = []
+                    for cod_pub in codigos_publicacao:
+                        bulk_updates.append(
+                            UpdateOne(
+                                {"cod_publicacao": cod_pub, "lote_id": lote_id},
+                                {
+                                    "$set": {
+                                        "marcada_exportada_webjur": True,
+                                        "timestamp_marcacao_exportada": datetime.now(),
+                                        "marcacao_automatica": True,
+                                    }
+                                },
+                            )
+                        )
+
+                    if bulk_updates:
+                        result = self.col_publicacoes_bronze.bulk_write(bulk_updates)
+                        logger.info(
+                            f"💾 MongoDB atualizado: {result.modified_count} documentos"
+                        )
+
+                    # Registrar sucesso nos logs de auditoria
+                    for cod_pub in codigos_publicacao:
+                        if cod_pub in logs_map:
+                            self.auditoria_service.marcar_como_sucesso(
+                                log_id=logs_map[cod_pub],
+                                duracao_ms=duracao_ms / total_para_marcar,
+                                detalhes={
+                                    "marcacao_em_lote": True,
+                                    "total_no_lote": total_para_marcar,
+                                },
+                            )
+
+                else:
+                    logger.error(
+                        f"❌ Falha na marcação Webjur para {total_para_marcar} publicações"
+                    )
+
+                    # Registrar falha nos logs
+                    for cod_pub in codigos_publicacao:
+                        if cod_pub in logs_map:
+                            self.auditoria_service.marcar_como_falha(
+                                log_id=logs_map[cod_pub],
+                                status=StatusMarcacao.FALHA_WEBJUR,
+                                mensagem_erro="Falha na chamada setPublicacoes() do Webjur",
+                                duracao_ms=duracao_ms / total_para_marcar,
+                                detalhes={
+                                    "marcacao_em_lote": True,
+                                    "total_no_lote": total_para_marcar,
+                                },
+                            )
+
+            except Exception as e:
+                logger.error(f"💥 Erro ao marcar publicações no Webjur: {e}")
+                duracao_ms = (time.time() - inicio) * 1000
+
+                # Registrar erro nos logs
+                for cod_pub in codigos_publicacao:
+                    if cod_pub in logs_map:
+                        self.auditoria_service.marcar_como_falha(
+                            log_id=logs_map[cod_pub],
+                            status=StatusMarcacao.ERRO_INTERNO,
+                            mensagem_erro=str(e),
+                            duracao_ms=duracao_ms / total_para_marcar,
+                            detalhes={
+                                "marcacao_em_lote": True,
+                                "total_no_lote": total_para_marcar,
+                                "exception_type": type(e).__name__,
+                            },
+                        )
+
+        except Exception as e:
+            logger.error(f"💥 Erro fatal na marcação automática: {e}")
+            # Não propaga exceção para não bloquear o salvamento
 
     def buscar_lote_por_id(self, lote_id: str) -> Optional[Dict[str, Any]]:
         """

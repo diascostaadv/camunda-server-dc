@@ -118,6 +118,62 @@ services:
       timeout: 10s
       retries: 3
 
+  # DW LAW Worker (OFFICIAL - Production Worker)
+  worker-dw-law:
+    build:
+      context: ./workers
+      dockerfile: dw_law_worker/Dockerfile
+    env_file:
+      - env.gateway
+    networks:
+      - default
+      - gateway_network
+      - camunda_network
+    deploy:
+      replicas: ${WORKER_DW_LAW_REPLICAS:-1}
+    environment:
+      # Camunda Connection (External) - defined in env.gateway
+      - CAMUNDA_USERNAME=${CAMUNDA_USERNAME:-demo}
+      - CAMUNDA_PASSWORD=${CAMUNDA_PASSWORD:-DiasCosta@!!2025}
+
+      # Worker Configuration
+      - WORKER_ID=dw-law-worker
+      - MAX_TASKS=${MAX_TASKS:-3}
+      - LOCK_DURATION=${LOCK_DURATION:-120000}
+      - ASYNC_RESPONSE_TIMEOUT=${ASYNC_RESPONSE_TIMEOUT:-30000}
+      - RETRIES=${RETRIES:-3}
+      - RETRY_TIMEOUT=${RETRY_TIMEOUT:-5000}
+      - SLEEP_SECONDS=${SLEEP_SECONDS:-120}
+
+      # Gateway Integration (REQUIRED for DW LAW)
+      - GATEWAY_ENABLED=true
+      - GATEWAY_COMMUNICATION_MODE=${GATEWAY_COMMUNICATION_MODE:-http}
+      - GATEWAY_HTTP_TIMEOUT=${GATEWAY_HTTP_TIMEOUT:-120}
+
+      # DW LAW API Configuration (via Gateway)
+      - DW_LAW_BASE_URL=${DW_LAW_BASE_URL:-https://web-eprotocol-integration-cons-qa.azurewebsites.net}
+      - DW_LAW_CHAVE_PROJETO=${DW_LAW_CHAVE_PROJETO:-diascostacitacaoconsultaunica}
+
+      # Monitoring
+      - METRICS_PORT=8010
+      - METRICS_ENABLED=${METRICS_ENABLED:-true}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - ENVIRONMENT=${ENVIRONMENT:-local}
+    ports:
+      - "8010"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import requests; requests.get('http://localhost:8010/metrics', timeout=5)",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
 networks:
   default:
     external: true

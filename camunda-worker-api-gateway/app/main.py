@@ -15,7 +15,7 @@ from services.task_manager import TaskManager
 from core.config import settings
 from routes import health_router, tasks_router
 from routes.dependencies import set_task_manager
-from routers import buscar_publicacoes, publicacoes, marcar_publicacoes
+from routers import buscar_publicacoes, publicacoes, marcar_publicacoes, auditoria
 from routers.cpj import (
     publicacoes_router as cpj_publicacoes_router,
     pessoas_router as cpj_pessoas_router,
@@ -119,6 +119,7 @@ app.include_router(tasks_router)
 app.include_router(buscar_publicacoes.router)
 app.include_router(publicacoes.router)
 app.include_router(marcar_publicacoes.router)
+app.include_router(auditoria.router)
 
 # Include CPJ routers (7 routers = 20 endpoints)
 app.include_router(cpj_publicacoes_router)

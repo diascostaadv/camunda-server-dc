@@ -1,0 +1,385 @@
+###############################################################################
+# CPJ API - API Tests
+# Ambiente: Produção
+# Gateway: http://201.23.69.65:8080
+# Data: 2025-11-07
+###############################################################################
+
+# Variáveis globais
+@gateway_url = http://201.23.69.65:8080
+@gateway_local = http://localhost:8000
+
+# Use gateway_url para produção ou gateway_local para desenvolvimento local
+
+###############################################################################
+# 1. PUBLICAÇÕES
+###############################################################################
+
+### Buscar publicações não vinculadas
+POST {{gateway_url}}/cpj/publicacoes/nao-vinculadas
+Content-Type: application/json
+
+{
+  "filters": {
+    "_and": [
+      {
+        "evento_tarefa": {
+          "_eq": "VINC"
+        }
+      },
+      {
+        "motivo": {
+          "_null": true
+        }
+      }
+    ]
+  },
+  "sort": "data_publicacao",
+  "limit": 10
+}
+
+### Atualizar publicação
+POST {{gateway_url}}/cpj/publicacoes/atualizar/12345
+Content-Type: application/json
+
+{
+  "motivo": "Processo vinculado",
+  "update_usuario": "api",
+  "update_data_hora": "2025-11-07T12:00:00"
+}
+
+###############################################################################
+# 2. PROCESSOS
+###############################################################################
+
+### Buscar processo por número CNJ
+POST {{gateway_url}}/cpj/processos/buscar-por-numero
+Content-Type: application/json
+
+{
+  "numero_cnj": "0012205-60.2015.5.15.0077"
+}
+
+### Consultar processos com filtros
+POST {{gateway_url}}/cpj/processos/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "pj": {
+      "_eq": 1
+    }
+  },
+  "sort": "ficha"
+}
+
+### Cadastrar processo
+POST {{gateway_url}}/cpj/processos/cadastrar
+Content-Type: application/json
+
+{
+  "numero_processo": "1234567-89.2024.1.01.0001",
+  "materia": "Cível",
+  "acao": "Ação de Cobrança",
+  "valor": 50000.00,
+  "data_distribuicao": "2024-01-15",
+  "comarca": "São Paulo",
+  "vara": "1ª Vara Cível",
+  "create_usuario": "api",
+  "create_data_hora": "2025-11-07T12:00:00"
+}
+
+### Atualizar processo
+POST {{gateway_url}}/cpj/processos/atualizar/12345
+Content-Type: application/json
+
+{
+  "status": "Ativo",
+  "observacoes": "Processo atualizado via API",
+  "update_usuario": "api",
+  "update_data_hora": "2025-11-07T12:00:00"
+}
+
+###############################################################################
+# 3. PESSOAS
+###############################################################################
+
+### Consultar pessoa
+POST {{gateway_url}}/cpj/pessoas/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "codigo": {
+      "_eq": 1
+    }
+  },
+  "sort": "nome"
+}
+
+### Consultar pessoa por CPF/CNPJ
+POST {{gateway_url}}/cpj/pessoas/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "cpf_cnpj": {
+      "_eq": "12345678901"
+    }
+  }
+}
+
+### Cadastrar pessoa
+POST {{gateway_url}}/cpj/pessoas/cadastrar
+Content-Type: application/json
+
+{
+  "nome": "João da Silva",
+  "cpf_cnpj": "12345678901",
+  "categoria": "Cliente",
+  "email": "joao@exemplo.com",
+  "telefone": "(11) 98765-4321",
+  "endereco": "Rua Exemplo, 123",
+  "create_usuario": "api",
+  "create_data_hora": "2025-11-07T12:00:00"
+}
+
+### Atualizar pessoa
+POST {{gateway_url}}/cpj/pessoas/atualizar/12345
+Content-Type: application/json
+
+{
+  "telefone": "(11) 99999-9999",
+  "email": "novo@exemplo.com",
+  "update_usuario": "api",
+  "update_data_hora": "2025-11-07T12:00:00"
+}
+
+###############################################################################
+# 4. PEDIDOS
+###############################################################################
+
+### Consultar pedidos de um processo
+POST {{gateway_url}}/cpj/pedidos/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "pj": {
+      "_eq": 12345
+    }
+  }
+}
+
+### Cadastrar pedido
+POST {{gateway_url}}/cpj/pedidos/cadastrar/12345
+Content-Type: application/json
+
+{
+  "pedidos": [
+    {
+      "tipo": "Principal",
+      "descricao": "Condenação em danos materiais",
+      "valor": 100000.00
+    },
+    {
+      "tipo": "Subsidiário",
+      "descricao": "Danos morais",
+      "valor": 50000.00
+    }
+  ],
+  "create_usuario": "api",
+  "create_data_hora": "2025-11-07T12:00:00"
+}
+
+### Atualizar pedido
+POST {{gateway_url}}/cpj/pedidos/atualizar/12345/1
+Content-Type: application/json
+
+{
+  "status": "Deferido",
+  "valor": 120000.00,
+  "update_usuario": "api",
+  "update_data_hora": "2025-11-07T12:00:00"
+}
+
+###############################################################################
+# 5. ENVOLVIDOS
+###############################################################################
+
+### Consultar envolvidos de um processo
+POST {{gateway_url}}/cpj/envolvidos/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "pj": {
+      "_eq": 12345
+    }
+  }
+}
+
+### Cadastrar envolvido
+POST {{gateway_url}}/cpj/envolvidos/cadastrar/12345
+Content-Type: application/json
+
+{
+  "qualificacao": "Autor",
+  "pessoa": 100,
+  "responsavel": true,
+  "create_usuario": "api",
+  "create_data_hora": "2025-11-07T12:00:00"
+}
+
+### Atualizar envolvido
+POST {{gateway_url}}/cpj/envolvidos/atualizar/12345/1
+Content-Type: application/json
+
+{
+  "responsavel": false,
+  "observacoes": "Transferido responsabilidade",
+  "update_usuario": "api",
+  "update_data_hora": "2025-11-07T12:00:00"
+}
+
+###############################################################################
+# 6. TRAMITAÇÃO (Andamentos e Tarefas)
+###############################################################################
+
+### Cadastrar andamento
+POST {{gateway_url}}/cpj/tramitacao/andamento/12345
+Content-Type: application/json
+
+{
+  "evento": "PETIÇÃO",
+  "texto": "Peticionado recurso de apelação",
+  "data_hora_lan": "2025-11-07T10:00:00",
+  "interno": false,
+  "create_usuario": "api",
+  "create_data_hora": "2025-11-07T12:00:00"
+}
+
+### Cadastrar tarefa
+POST {{gateway_url}}/cpj/tramitacao/tarefa/12345
+Content-Type: application/json
+
+{
+  "evento": "PRAZO",
+  "texto": "Apresentar contestação",
+  "id_pessoa_solicitada": 100,
+  "id_pessoa_atribuida": 101,
+  "ag_data_hora": "2025-11-20T23:59:59",
+  "create_usuario": "api",
+  "create_data_hora": "2025-11-07T12:00:00"
+}
+
+### Atualizar tarefa
+POST {{gateway_url}}/cpj/tramitacao/tarefa/atualizar/67890
+Content-Type: application/json
+
+{
+  "id_tramitacao_motivo": 1,
+  "id_tramitacao_situacao": 2,
+  "texto": "Tarefa concluída - contestação apresentada",
+  "update_usuario": "api",
+  "update_data_hora": "2025-11-07T12:00:00"
+}
+
+###############################################################################
+# 7. DOCUMENTOS
+###############################################################################
+
+### Consultar documentos de um processo
+POST {{gateway_url}}/cpj/documentos/consultar/processo/12345
+Content-Type: application/json
+
+{}
+
+### Consultar documentos de uma pessoa
+POST {{gateway_url}}/cpj/documentos/consultar/pessoa/100
+Content-Type: application/json
+
+{}
+
+### Baixar documento por ID GED
+GET {{gateway_url}}/cpj/documentos/baixar/98765
+
+### Cadastrar documento (Base64)
+POST {{gateway_url}}/cpj/documentos/cadastrar/processo/12345
+Content-Type: application/json
+
+{
+  "path": "/Processos/2024/",
+  "texto": "Petição inicial - Ação de Cobrança",
+  "interno": false,
+  "versao": 1,
+  "file_64": "JVBERi0xLjQKJeLjz9MKMyAwIG9iago8PC9GaWx0ZXIvRmxhdGVEZWNvZGUvTGVuZ3==...",
+  "create_usuario": "api",
+  "create_data_hora": "2025-11-07T12:00:00"
+}
+
+### Cadastrar documento (Link)
+POST {{gateway_url}}/cpj/documentos/cadastrar/processo/12345
+Content-Type: application/json
+
+{
+  "path": "/Processos/2024/",
+  "texto": "Contrato anexo",
+  "interno": false,
+  "versao": 1,
+  "file_link": "https://example.com/contrato.pdf",
+  "create_usuario": "api",
+  "create_data_hora": "2025-11-07T12:00:00"
+}
+
+###############################################################################
+# 8. TESTES DE INTEGRAÇÃO COMPLETA
+###############################################################################
+
+### Fluxo Completo: Buscar Processo no CPJ
+# @name buscarProcessoCPJ
+POST {{gateway_url}}/cpj/processos/buscar-por-numero
+Content-Type: application/json
+
+{
+  "numero_cnj": "0012205-60.2015.5.15.0077"
+}
+
+### Se processo existir, buscar envolvidos
+# Usar PJ retornado acima
+POST {{gateway_url}}/cpj/envolvidos/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "pj": {
+      "_eq": 12345
+    }
+  }
+}
+
+### Buscar pedidos do processo
+POST {{gateway_url}}/cpj/pedidos/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "pj": {
+      "_eq": 12345
+    }
+  }
+}
+
+### Buscar documentos do processo
+POST {{gateway_url}}/cpj/documentos/consultar/processo/12345
+Content-Type: application/json
+
+{}
+
+###############################################################################
+# NOTAS:
+# - Use REST Client extension do VS Code para executar estes requests
+# - Substitua IDs de exemplo (12345, 67890, etc) por IDs reais
+# - Para desenvolvimento local, use {{gateway_local}} em vez de {{gateway_url}}
+# - Consulte logs para debug: docker logs camunda-worker-api-gateway-gateway-1
+###############################################################################

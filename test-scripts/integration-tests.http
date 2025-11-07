@@ -1,0 +1,280 @@
+###############################################################################
+# TESTES DE INTEGRAÇÃO - Gateway API
+# DW LAW e-Protocol + CPJ API
+# Ambiente: Produção
+# Data: 2025-11-07
+###############################################################################
+
+# Configuração de ambiente
+@gateway_prod = http://201.23.69.65:8080
+@gateway_local = http://localhost:8000
+
+# Selecione o ambiente (comente/descomente)
+@baseUrl = {{gateway_prod}}
+# @baseUrl = {{gateway_local}}
+
+# Variáveis DW LAW
+@chave_projeto_dw = diascostacitacaoconsultaunica
+
+###############################################################################
+# HEALTH CHECKS - Verificar se tudo está funcionando
+###############################################################################
+
+### 1. Health Check Geral do Gateway
+GET {{baseUrl}}/health
+
+### 2. Health Check DW LAW
+GET {{baseUrl}}/dw-law/health
+
+### 3. Teste de Conexões (DW LAW + Camunda)
+GET {{baseUrl}}/dw-law/test-connection
+
+###############################################################################
+# DW LAW - FLUXO PRINCIPAL
+###############################################################################
+
+### 4. Inserir Processo no DW LAW
+# @name inserirProcessoDW
+POST {{baseUrl}}/dw-law/inserir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto_dw}}",
+  "processos": [
+    {
+      "numero_processo": "0012205-60.2015.5.15.0077",
+      "other_info_client1": "TESTE_INTEGRACAO_{{$timestamp}}",
+      "other_info_client2": "HTTP_CLIENT"
+    }
+  ],
+  "camunda_business_key": "teste-{{$timestamp}}"
+}
+
+### 5. Consultar Processo DW LAW (usar chave retornada acima)
+# ATENÇÃO: Copie a chave_de_pesquisa da resposta anterior
+POST {{baseUrl}}/dw-law/consultar-processo
+Content-Type: application/json
+
+{
+  "chave_de_pesquisa": "c3061073-f678-4f31-90b0-6a4bd7f70743"
+}
+
+### 6. Excluir Processo DW LAW
+POST {{baseUrl}}/dw-law/excluir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto_dw}}",
+  "lista_de_processos": [
+    {
+      "numero_processo": "0012205-60.2015.5.15.0077"
+    }
+  ]
+}
+
+### 7. Simular Callback DW LAW (para testes)
+POST {{baseUrl}}/dw-law/callback
+Content-Type: application/json
+
+{
+  "chave_de_pesquisa": "test-callback-{{$timestamp}}",
+  "numero_processo": "1234567-89.2024.1.01.0001",
+  "status_pesquisa": "S",
+  "descricao_status_pesquisa": "Teste de callback - {{$datetime iso8601}}",
+  "classe_judicial": "Ação de Cobrança",
+  "tribunal": "TJSP",
+  "sistema": "PJE",
+  "instancia": "1",
+  "citacao": "S",
+  "polos": [
+    {
+      "nome": "Teste da Silva",
+      "classificacao": "AUTOR",
+      "tipo_polo": "A"
+    }
+  ],
+  "movimentacoes": [
+    {
+      "data_movimentacao": "07/11/2025 10:00:00",
+      "descricao": "Processo distribuído"
+    }
+  ]
+}
+
+###############################################################################
+# CPJ - FLUXO PRINCIPAL
+###############################################################################
+
+### 8. Buscar Processo por Número CNJ no CPJ
+# @name buscarProcessoCPJ
+POST {{baseUrl}}/cpj/processos/buscar-por-numero
+Content-Type: application/json
+
+{
+  "numero_cnj": "0012205-60.2015.5.15.0077"
+}
+
+### 9. Buscar Publicações Não Vinculadas
+POST {{baseUrl}}/cpj/publicacoes/nao-vinculadas
+Content-Type: application/json
+
+{
+  "limit": 5
+}
+
+### 10. Consultar Pessoa no CPJ
+POST {{baseUrl}}/cpj/pessoas/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "nome": {
+      "_ilike": "%SILVA%"
+    }
+  },
+  "sort": "nome"
+}
+
+###############################################################################
+# CENÁRIOS DE TESTE - DW LAW
+###############################################################################
+
+### Teste: Inserir processo com informações extras
+POST {{baseUrl}}/dw-law/inserir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto_dw}}",
+  "processos": [
+    {
+      "numero_processo": "0329056-75.2017.8.13.0000",
+      "other_info_client1": "CLIENTE_TESTE_ABC",
+      "other_info_client2": "PASTA_DIGITAL_456"
+    }
+  ],
+  "camunda_business_key": "0329056-75.2017.8.13.0000",
+  "camunda_instance_id": "instance-test-001"
+}
+
+### Teste: Validação - Chave de projeto inválida
+POST {{baseUrl}}/dw-law/inserir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "chave-inexistente-123",
+  "processos": [
+    {
+      "numero_processo": "0012205-60.2015.5.15.0077"
+    }
+  ]
+}
+
+### Teste: Validação - Processos vazio
+POST {{baseUrl}}/dw-law/inserir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto_dw}}",
+  "processos": []
+}
+
+###############################################################################
+# CENÁRIOS DE TESTE - CPJ
+###############################################################################
+
+### Teste: Buscar processo inexistente
+POST {{baseUrl}}/cpj/processos/buscar-por-numero
+Content-Type: application/json
+
+{
+  "numero_cnj": "9999999-99.9999.9.99.9999"
+}
+
+### Teste: Consultar com filtros complexos
+POST {{baseUrl}}/cpj/processos/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "_and": [
+      {
+        "materia": {
+          "_eq": "Cível"
+        }
+      },
+      {
+        "valor": {
+          "_gte": 10000
+        }
+      }
+    ]
+  },
+  "sort": "data_distribuicao"
+}
+
+###############################################################################
+# MONITORAMENTO
+###############################################################################
+
+### Métricas Prometheus - Gateway
+GET http://201.23.69.65:9000/metrics
+
+### Métricas Prometheus - Worker DW LAW
+GET http://201.23.69.65:32955/metrics
+
+### Métricas Prometheus - Worker Publicacao
+GET http://201.23.69.65:32956/metrics
+
+###############################################################################
+# QUICK TESTS - Execução Rápida
+###############################################################################
+
+### ⚡ Quick Test 1: DW LAW - Inserir
+POST {{baseUrl}}/dw-law/inserir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto_dw}}",
+  "processos": [{"numero_processo": "0012205-60.2015.5.15.0077"}]
+}
+
+### ⚡ Quick Test 2: CPJ - Buscar
+POST {{baseUrl}}/cpj/processos/buscar-por-numero
+Content-Type: application/json
+
+{
+  "numero_cnj": "0012205-60.2015.5.15.0077"
+}
+
+### ⚡ Quick Test 3: Conexões
+GET {{baseUrl}}/dw-law/test-connection
+
+###############################################################################
+# SWAGGER UI
+###############################################################################
+# Acesse a documentação interativa:
+# http://201.23.69.65:8080/docs (Produção)
+# http://localhost:8000/docs (Local)
+###############################################################################
+
+###############################################################################
+# OBSERVAÇÕES:
+#
+# 1. REST Client Extension:
+#    - Instale "REST Client" no VS Code
+#    - Clique em "Send Request" acima de cada ###
+#
+# 2. Variáveis:
+#    - {{$timestamp}} = Unix timestamp atual
+#    - {{$datetime}} = Data/hora atual
+#    - {{$randomInt}} = Número aleatório
+#
+# 3. Resposta:
+#    - Salva automaticamente como @name
+#    - Use: {{nomeDaRequest.response.body.$.campo}}
+#
+# 4. Ambiente:
+#    - Produção: @baseUrl = {{gateway_prod}}
+#    - Local: @baseUrl = {{gateway_local}}
+#
+###############################################################################

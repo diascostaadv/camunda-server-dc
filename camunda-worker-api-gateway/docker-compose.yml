@@ -80,7 +80,7 @@ services:
       - MONGODB_DATABASE=${MONGODB_DATABASE:-worker_gateway}
       - RABBITMQ_URL=amqp://lops_user:lops_password@lops_rabbitmq:5672/lops_vhost
       - RABBITMQ_EXCHANGE=${RABBITMQ_EXCHANGE:-worker_gateway}
-      - REDIS_URI=redis://redis:6379
+      - REDIS_URI=${REDIS_URI:-redis://default:n79sTZdBLtqjCdgIisW7rSyMqrFFBq3J@redis-15796.c62.us-east-1-4.ec2.redns.redis-cloud.com:15796}
 
       # Task Configuration
       - TASK_TIMEOUT=${TASK_TIMEOUT:-300}

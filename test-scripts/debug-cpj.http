@@ -1,0 +1,207 @@
+###############################################################################
+# DEBUG CPJ - Verificar Processo CNJ
+# Processo com erro: 0001357-37.2023.8.16.0115
+# Erro: HTTP 400 - Connection Closed Gracefully
+###############################################################################
+
+@gateway_url = http://201.23.69.65:8080
+@gateway_local = http://localhost:8000
+@baseUrl = {{gateway_url}}
+
+###############################################################################
+# TESTE DO ERRO REPORTADO
+###############################################################################
+
+### Teste 1: Buscar processo que está dando erro
+# Processo: 0001357-37.2023.8.16.0115
+POST {{baseUrl}}/publicacoes/verificar-processo-cnj
+Content-Type: application/json
+
+{
+  "numero_cnj": "5001266-94.2024.8.13.0021"
+}
+
+### Teste 2: Mesmo processo com formato diferente (sem pontos/traços)
+POST {{baseUrl}}/cpj/processos/buscar-por-numero
+Content-Type: application/json
+
+{
+  "numero_cnj": "00013573720238160115"
+}
+
+### Teste 3: Outro processo para comparação (que funcionou antes)
+POST {{baseUrl}}/cpj/processos/buscar-por-numero
+Content-Type: application/json
+
+{
+  "numero_cnj": "0012205-60.2015.5.15.0077"
+}
+
+###############################################################################
+# TESTES DE VALIDAÇÃO DE PAYLOAD
+###############################################################################
+
+### Teste 4: Payload completo com filtros
+POST {{baseUrl}}/cpj/processos/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "numero_processo": {
+      "_eq": "0001357-37.2023.8.16.0115"
+    }
+  }
+}
+
+### Teste 5: Buscar com LIKE (mais flexível)
+POST {{baseUrl}}/cpj/processos/consultar
+Content-Type: application/json
+
+{
+  "filters": {
+    "numero_processo": {
+      "_ilike": "%0001357%"
+    }
+  }
+}
+
+###############################################################################
+# TESTE DIRETO NO CPJ (sem Gateway)
+###############################################################################
+
+### Teste 6: Autenticar direto no CPJ
+# @name autenticarCPJ
+POST https://app.leviatan.com.br/dcncadv/cpj/agnes/api/v2/login
+Content-Type: application/json
+
+{
+  "login": "api",
+  "password": "2025"
+}
+
+### Teste 7: Buscar processo direto no CPJ (usar token acima)
+# Copie o token da resposta anterior
+POST https://app.leviatan.com.br/dcncadv/cpj/agnes/api/v2/processo
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_AQUI
+
+{
+  "filter": {
+    "numero_processo": {
+      "_eq": "0001357-37.2023.8.16.0115"
+    }
+  }
+}
+
+###############################################################################
+# TESTES ALTERNATIVOS
+###############################################################################
+
+### Teste 8: Verificar se processo existe com variações de formato
+POST {{baseUrl}}/cpj/processos/buscar-por-numero
+Content-Type: application/json
+
+{
+  "numero_cnj": "0001357-37.2023.8.16.0115"
+}
+
+### Teste 9: Tentar sem strip (pode ser problema de espaços)
+POST {{baseUrl}}/cpj/processos/buscar-por-numero
+Content-Type: application/json
+
+{
+  "numero_cnj": " 0001357-37.2023.8.16.0115 "
+}
+
+###############################################################################
+# ANÁLISE DO ERRO
+###############################################################################
+
+# O erro "Connection Closed Gracefully" pode indicar:
+#
+# 1. Processo não existe no CPJ
+#    → CPJ retorna 400 quando não encontra
+#    → Service está tratando corretamente (retorna lista vazia)
+#    ✅ Comportamento esperado
+#
+# 2. Timeout na conexão
+#    → CPJ demorou muito para responder
+#    → Configurar SOAP_TIMEOUT maior
+#
+# 3. Problema no formato do número
+#    → Testar com/sem formatação
+#    → Testar com espaços
+#
+# 4. Problema temporário no CPJ
+#    → Tentar novamente
+#    → Verificar status do servidor CPJ
+
+###############################################################################
+# VERIFICAÇÕES
+###############################################################################
+
+### Ver logs do Gateway em tempo real
+# ssh -i ~/.ssh/id_rsa ubuntu@201.23.69.65 "docker logs -f camunda-worker-api-gateway-gateway-1"
+
+### Ver configuração CPJ no Gateway
+# ssh -i ~/.ssh/id_rsa ubuntu@201.23.69.65 "docker exec camunda-worker-api-gateway-gateway-1 env | grep CPJ"
+
+### Testar conectividade CPJ da VM
+# ssh -i ~/.ssh/id_rsa ubuntu@201.23.69.65 "curl -I https://app.leviatan.com.br/dcncadv/cpj/agnes/api/v2"
+
+###############################################################################
+# SOLUÇÃO PROPOSTA
+###############################################################################
+
+# O código está funcionando corretamente!
+#
+# O erro 400 "Connection Closed Gracefully" é tratado pelo CPJService:
+# - Linha 106-109: Se response.status_code == 400, retorna lista vazia
+# - Linha 108: Log de WARNING (não ERROR)
+# - Worker recebe lista vazia e continua normalmente
+#
+# Isso significa que o processo NÃO EXISTE no CPJ ou teve problema temporário.
+#
+# ✅ Comportamento correto: O sistema não falha, apenas retorna vazio
+# ✅ Worker pode continuar com lógica de "processo não encontrado"
+
+###############################################################################
+# TESTES PARA CONFIRMAR
+###############################################################################
+
+### Teste Final 1: Processo que você SABE que existe no CPJ
+POST {{baseUrl}}/cpj/processos/buscar-por-numero
+Content-Type: application/json
+
+{
+  "numero_cnj": "COLE_UM_PROCESSO_QUE_EXISTE_NO_CPJ"
+}
+
+### Teste Final 2: Se retornar vazio, buscar todos os processos
+POST {{baseUrl}}/cpj/processos/consultar
+Content-Type: application/json
+
+{
+  "filters": {},
+  "sort": "ficha",
+  "limit": 5
+}
+
+###############################################################################
+# CONCLUSÃO
+###############################################################################
+
+# Se o teste manual funciona mas via Gateway retorna 400:
+#
+# Possíveis causas:
+# 1. ✅ Processo não existe no CPJ (mais provável)
+# 2. Timeout diferente (manual vs Gateway)
+# 3. Headers diferentes
+# 4. Token expirado (mas logs mostram que autenticou)
+#
+# Recomendação:
+# - Testar com processo que você CONFIRMA que existe
+# - Verificar timeout: SOAP_TIMEOUT no env.gateway
+# - Ver response completo do CPJ nos logs
+
+###############################################################################

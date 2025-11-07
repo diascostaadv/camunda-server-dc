@@ -23,7 +23,10 @@ class BuscarPublicacoesRequest(BaseModel):
 
     # Configurações de processamento
     limite_publicacoes: int = Field(
-        default=50, ge=1, le=50, description="Limite de publicações a processar"
+        default=1000, ge=1, description="Limite de publicações a processar (0 = sem limite)"
+    )
+    chunk_size: int = Field(
+        default=200, ge=50, le=500, description="Tamanho dos chunks para processamento interno"
     )
     timeout_soap: int = Field(
         default=90, ge=30, le=300, description="Timeout para chamadas SOAP em segundos"

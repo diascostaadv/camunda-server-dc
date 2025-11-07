@@ -1,0 +1,290 @@
+###############################################################################
+# DW LAW e-Protocol - API Tests
+# Ambiente: Produção (QA)
+# Gateway: http://201.23.69.65:8080
+# Data: 2025-11-07
+###############################################################################
+
+# Variáveis globais
+@gateway_url = http://201.23.69.65:8080
+@gateway_local = http://localhost:8000
+@chave_projeto = diascostacitacaoconsultaunica
+
+# Use gateway_url para produção ou gateway_local para desenvolvimento local
+
+###############################################################################
+# 1. HEALTH CHECK
+###############################################################################
+
+### Health Check do Router DW LAW
+GET {{gateway_url}}/dw-law/health
+
+###############################################################################
+# 2. TESTE DE CONEXÃO
+###############################################################################
+
+### Testar Conexão DW LAW e Camunda
+GET {{gateway_url}}/dw-law/test-connection
+
+###############################################################################
+# 3. INSERIR PROCESSOS
+###############################################################################
+
+### Inserir 1 processo
+POST {{gateway_url}}/dw-law/inserir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto}}",
+  "processos": [
+    {
+      "numero_processo": "0012205-60.2015.5.15.0077",
+      "other_info_client1": "TESTE_HTTP_CLIENT",
+      "other_info_client2": "PASTA_001"
+    }
+  ],
+  "camunda_business_key": "teste-http-001",
+  "camunda_instance_id": "test-instance-001"
+}
+
+### Inserir múltiplos processos
+POST {{gateway_url}}/dw-law/inserir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto}}",
+  "processos": [
+    {
+      "numero_processo": "0012205-60.2015.5.15.0077",
+      "other_info_client1": "PROCESSO_1"
+    },
+    {
+      "numero_processo": "1000655-90.2016.5.02.0008",
+      "other_info_client1": "PROCESSO_2"
+    },
+    {
+      "numero_processo": "0329056-75.2017.8.13.0000",
+      "other_info_client1": "PROCESSO_3"
+    }
+  ],
+  "camunda_business_key": "lote-teste-001"
+}
+
+###############################################################################
+# 4. EXCLUIR PROCESSOS
+###############################################################################
+
+### Excluir 1 processo
+POST {{gateway_url}}/dw-law/excluir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto}}",
+  "lista_de_processos": [
+    {
+      "numero_processo": "0012205-60.2015.5.15.0077"
+    }
+  ]
+}
+
+### Excluir múltiplos processos
+POST {{gateway_url}}/dw-law/excluir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto}}",
+  "lista_de_processos": [
+    {
+      "numero_processo": "0012205-60.2015.5.15.0077"
+    },
+    {
+      "numero_processo": "1000655-90.2016.5.02.0008"
+    }
+  ]
+}
+
+###############################################################################
+# 5. CONSULTAR PROCESSO
+###############################################################################
+
+### Consultar processo por chave de pesquisa
+# IMPORTANTE: Substitua a chave_de_pesquisa pela retornada na inserção
+POST {{gateway_url}}/dw-law/consultar-processo
+Content-Type: application/json
+
+{
+  "chave_de_pesquisa": "c3061073-f678-4f31-90b0-6a4bd7f70743",
+  "camunda_instance_id": "test-consulta-001"
+}
+
+### Consultar outro processo (exemplo)
+POST {{gateway_url}}/dw-law/consultar-processo
+Content-Type: application/json
+
+{
+  "chave_de_pesquisa": "2c15b4ba-475d-447b-ae78-94ab7e29c169"
+}
+
+###############################################################################
+# 6. SIMULAR CALLBACK
+###############################################################################
+
+### Simular callback do DW LAW (para testes)
+POST {{gateway_url}}/dw-law/callback
+Content-Type: application/json
+
+{
+  "status_pesquisa": "S",
+  "descricao_status_pesquisa": "Consulta realizada com sucesso",
+  "chave_de_pesquisa": "c3061073-f678-4f31-90b0-6a4bd7f70743",
+  "chave_projeto": "{{chave_projeto}}",
+  "tipo_consulta": "CONS",
+  "data_distribuicao": "2017-04-26T00:00:00",
+  "nome_projeto": "TESTE API",
+  "numero_processo": "0012205-60.2015.5.15.0077",
+  "classe_judicial": "Agravo de Instrumento",
+  "assunto": "Inadimplemento",
+  "uf": "SP",
+  "valor": "R$ 13.650,92",
+  "segredo_justica": "N",
+  "citacao": "S",
+  "indicio_citacao": "28/08/2025 - Citação realizada conforme processo",
+  "justica_gratuita": "N",
+  "tutela_liminar": "N",
+  "sistema": "PJE",
+  "instancia": "1",
+  "tribunal": "TRT15",
+  "polos": [
+    {
+      "nome": "SERGIO SILVA",
+      "classificacao": "RECLAMANTE",
+      "cpf_cnpj": "123.456.789-01",
+      "tipo_polo": "A",
+      "representantes": [
+        {
+          "nome": "AMANDA ARAUJO",
+          "tipo": "(ADVOGADO)",
+          "numero_oab": "123456",
+          "uf_oab": "SP",
+          "cpf": "987.654.321-09"
+        }
+      ]
+    }
+  ],
+  "movimentacoes": [
+    {
+      "data_movimentacao": "02/05/2023 12:35:00",
+      "descricao": "Audiência Virtual Inicial",
+      "arquivos": [
+        {
+          "nome_arquivo": "Ata.pdf",
+          "link_arquivo": "https://example.com/ata.pdf"
+        }
+      ]
+    }
+  ],
+  "audiencias": [
+    {
+      "data_audiencia": "15/12/2025",
+      "hora_audiencia": "14:00",
+      "modalidade": "Virtual",
+      "situacao": "Agendada",
+      "tipo": "Inicial",
+      "sala_local": "Sala Virtual 01"
+    }
+  ]
+}
+
+###############################################################################
+# 7. CENÁRIOS DE ERRO (para testar validação)
+###############################################################################
+
+### Erro: Chave de projeto ausente
+POST {{gateway_url}}/dw-law/inserir-processos
+Content-Type: application/json
+
+{
+  "processos": [
+    {
+      "numero_processo": "0012205-60.2015.5.15.0077"
+    }
+  ]
+}
+
+### Erro: Lista de processos vazia
+POST {{gateway_url}}/dw-law/inserir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto}}",
+  "processos": []
+}
+
+### Erro: Chave de pesquisa ausente
+POST {{gateway_url}}/dw-law/consultar-processo
+Content-Type: application/json
+
+{
+  "camunda_instance_id": "test-001"
+}
+
+### Erro: Chave de pesquisa inválida
+POST {{gateway_url}}/dw-law/consultar-processo
+Content-Type: application/json
+
+{
+  "chave_de_pesquisa": "chave-invalida-123"
+}
+
+###############################################################################
+# 8. FLUXO COMPLETO (Inserir → Consultar)
+###############################################################################
+
+### Passo 1: Inserir processo
+# @name inserirProcesso
+POST {{gateway_url}}/dw-law/inserir-processos
+Content-Type: application/json
+
+{
+  "chave_projeto": "{{chave_projeto}}",
+  "processos": [
+    {
+      "numero_processo": "0329056-75.2017.8.13.0000",
+      "other_info_client1": "FLUXO_COMPLETO_TESTE"
+    }
+  ],
+  "camunda_business_key": "fluxo-completo-001"
+}
+
+### Passo 2: Extrair chave e consultar
+# Copie a chave_de_pesquisa da resposta acima e cole abaixo
+@chave_pesquisa = {{inserirProcesso.response.body.$.data.processos[0].chave_de_pesquisa}}
+
+### Passo 3: Aguardar processamento (30 segundos)
+# Executar após aguardar DW LAW processar
+
+### Passo 4: Consultar processo
+POST {{gateway_url}}/dw-law/consultar-processo
+Content-Type: application/json
+
+{
+  "chave_de_pesquisa": "{{chave_pesquisa}}"
+}
+
+###############################################################################
+# 9. MONITORAMENTO
+###############################################################################
+
+### Métricas do Worker DW LAW
+GET http://201.23.69.65:32955/metrics
+
+### Métricas do Gateway
+GET http://201.23.69.65:9000/metrics
+
+###############################################################################
+# NOTAS:
+# - Substitua {{gateway_url}} por {{gateway_local}} para testes locais
+# - Aguarde 30-60 segundos entre inserção e consulta (processamento DW LAW)
+# - Guarde as chaves de pesquisa retornadas para consultas futuras
+# - O callback será recebido automaticamente quando configurado no DW LAW
+###############################################################################

@@ -1,0 +1,28 @@
+a7efea5 | upedro | 2025-11-07 | feat: Integrate DW LAW e-Protocol API and enhance configuration
+55305e5 | upedro | 2025-11-06 | feat: Enhance CPJ API integration and configuration
+0a6e558 | upedro | 2025-11-05 | feat: Implement publication export marking and enhance publication model
+e250fed | upedro | 2025-11-03 | fix: Migrate Camunda to local PostgreSQL database to resolve latency issues
+0442c46 | upedro | 2025-11-03 | docs: Add comprehensive HTTPS automatic configuration guide
+44ec350 | upedro | 2025-11-03 | feat: Configure automatic HTTPS with Caddy and Let's Encrypt
+1806e59 | upedro | 2025-11-03 | feat: Configure permanent authentication with auto-created admin user
+269d3b0 | upedro | 2025-11-03 | fix: Correct PostgreSQL autovacuum configuration
+2f6907c | upedro | 2025-11-03 | fix: Resolve disk space exhaustion in camunda-platform-standalone
+c014a64 | upedro | 2025-10-28 | feat: Update gateway configuration and enhance publication processing
+a6c4d1e | upedro | 2025-10-28 | feat: Refactor CI/CD configurations and remove Traefik dependencies
+747f533 | upedro | 2025-10-25 | feat: Enhance publication processing and service configurations
+c738e0f | upedro | 2025-10-24 | fix: Corrige campo de texto enviado para N8N
+c60cc1c | upedro | 2025-10-24 | fix: Corrige referências a pub_bronze que não foram atualizadas
+151f170 | upedro | 2025-10-24 | feat: Remove tipagem Pydantic na camada Bronze para dados Webjur
+746ea39 | upedro | 2025-10-24 | feat: Add additional fields to publication models and update processing logic
+81399f5 | upedro | 2025-10-24 | feat: Adicionar logging detalhado para investigação CPJ 400 Bad Request
+89efb71 | upedro | 2025-10-24 | fix: Corrigir estrutura N8N response e implementar fallback
+41041e9 | upedro | 2025-10-24 | refactor: Improve code formatting and structure in GatewayClient and related files
+b8d6c13 | upedro | 2025-10-24 | fix: Corrigir NullPointerException em classificação
+5bb7702 | upedro | 2025-10-23 | feat: Enhance Docker and Makefile configurations for BPMN deployment
+8a057c1 | upedro | 2025-10-23 | feat: Refactor Makefiles and Docker configurations for improved deployment
+09d577a | upedro | 2025-10-22 | Clean repository without exposed secrets
+90a16bb | upedro | 2025-08-12 | Refactor documentation and guides for Camunda BPM ecosystem
+d92725c | upedro | 2025-08-12 | feat: Add unified configuration module with MongoDB, RabbitMQ, and Gateway settings
+3ae7e1d | upedro | 2025-08-11 | Add BPMN diagram for publication processing workflow
+632df61 | upedro | 2025-08-05 | feat: Add unified worker for judicial publication processing
+bb9b9d2 | upedro | 2025-08-04 | feat(tests): add comprehensive test suite for Camunda integration and worker functionality

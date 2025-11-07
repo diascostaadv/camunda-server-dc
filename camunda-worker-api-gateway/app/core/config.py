@@ -30,6 +30,12 @@ class Settings(BaseSettings):
     MONGODB_DATABASE: str = os.getenv("MONGODB_DATABASE", "worker_gateway")
     MONGODB_COLLECTION_TASKS: str = "tasks"
 
+    # Redis Configuration (Redis Cloud - Token Cache)
+    REDIS_URI: str = os.getenv(
+        "REDIS_URI",
+        "redis://default:n79sTZdBLtqjCdgIisW7rSyMqrFFBq3J@redis-15796.c62.us-east-1-4.ec2.redns.redis-cloud.com:15796"
+    )
+
     # Task Processing Configuration
     TASK_TIMEOUT: int = int(os.getenv("TASK_TIMEOUT", "300"))  # 5 minutes
     TASK_RETRY_LIMIT: int = int(os.getenv("TASK_RETRY_LIMIT", "3"))
@@ -99,8 +105,11 @@ class Settings(BaseSettings):
         "CAMUNDA_REST_URL",
         "http://201.23.67.197:8080/engine-rest"
     )
-    CAMUNDA_REST_USER: str = os.getenv("CAMUNDA_REST_USER", "demo")
-    CAMUNDA_REST_PASSWORD: str = os.getenv("CAMUNDA_REST_PASSWORD", "DiasCostaA!!2025")
+    CAMUNDA_REST_USER: str = os.getenv("CAMUNDA_REST_USER", "admin")
+    CAMUNDA_REST_PASSWORD: str = os.getenv("CAMUNDA_REST_PASSWORD", "DiasCosta@!!2025")
+
+    # Marcação Automática de Publicações
+    MARCAR_AUTOMATICAMENTE: bool = os.getenv("MARCAR_AUTOMATICAMENTE", "true").lower() == "true"
 
     class Config:
         env_file = ".env"

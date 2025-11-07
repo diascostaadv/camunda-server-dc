@@ -8,6 +8,7 @@ import requests
 from datetime import datetime, timedelta
 from typing import List, Dict, Any, Optional
 from core.config import settings
+from services.token_cache_service import get_token_cache
 
 logger = logging.getLogger(__name__)
 
@@ -21,16 +22,35 @@ class CPJService:
         self.password = settings.CPJ_PASSWORD
         self.token_expiry_minutes = settings.CPJ_TOKEN_EXPIRY_MINUTES
 
-        # Cache de autenticação
+        # Cache de autenticação (em memória - fallback)
         self._token: Optional[str] = None
         self._token_expiry: Optional[datetime] = None
 
+        # Cache Redis (persistente)
+        self.token_cache = get_token_cache()
+
         logger.info(f"CPJService inicializado - Base URL: {self.base_url}")
+        logger.info(f"🔧 Cache Redis: {'✅ Habilitado' if self.token_cache.enabled else '❌ Desabilitado'}")
 
     async def _ensure_authenticated(self):
         """Garante token válido, renovando se necessário"""
-        if not self._token or datetime.now() >= self._token_expiry:
-            await self._login()
+        # Verificar cache em memória primeiro
+        if self._token and datetime.now() < self._token_expiry:
+            logger.debug("✅ Token válido em memória")
+            return
+
+        # Tentar recuperar do Redis
+        cached_token = self.token_cache.get_token("cpj", self.login)
+        if cached_token:
+            self._token = cached_token.get("token")
+            expires_at_str = cached_token.get("expires_at")
+            if expires_at_str:
+                self._token_expiry = datetime.fromisoformat(expires_at_str)
+                logger.info(f"♻️ Token CPJ recuperado do cache Redis - Válido até {self._token_expiry}")
+                return
+
+        # Não tem cache válido, fazer login
+        await self._login()
 
     async def _login(self):
         """Autentica e obtém token JWT"""
@@ -57,6 +77,15 @@ class CPJService:
 
             logger.info(
                 f"✅ Autenticação CPJ bem-sucedida - Token válido até {self._token_expiry}"
+            )
+
+            # Armazenar token no Redis para persistência
+            self.token_cache.set_token(
+                api_name="cpj",
+                token=self._token,
+                expires_at=self._token_expiry,
+                usuario=self.login,
+                extra_data={"base_url": self.base_url}
             )
 
         except requests.exceptions.RequestException as e:

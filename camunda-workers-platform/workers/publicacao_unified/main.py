@@ -212,7 +212,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
         - cod_grupo: int (default: 5)
         - data_inicial: str (opcional, formato YYYY-MM-DD)
         - data_final: str (opcional, formato YYYY-MM-DD)
-        - limite_publicacoes: int (default: 50)
+        - limite_publicacoes: int (default: 1000, sem limite máximo)
         - timeout_soap: int (default: 90)
         """
         start_time = datetime.now()
@@ -240,7 +240,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                     "cod_grupo": 5,
                     "data_inicial": "2023-01-01",
                     "data_final": "2025-12-31",
-                    "limite_publicacoes": 50,
+                    "limite_publicacoes": 1000,
                     "timeout_soap": 120,
                 }
 
@@ -249,7 +249,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
             cod_grupo = int(variables.get("cod_grupo", 5))
             data_inicial = variables.get("data_inicial")
             data_final = variables.get("data_final")
-            limite_publicacoes = int(variables.get("limite_publicacoes", 50))
+            limite_publicacoes = int(variables.get("limite_publicacoes", 1000))
             timeout_soap = int(variables.get("timeout_soap", 90))
 
             # Validações básicas
@@ -348,13 +348,9 @@ class PublicacaoUnifiedWorker(BaseWorker):
             except ValueError:
                 errors.append("data_final deve estar no formato YYYY-MM-DD")
 
-        # Validar limite
-        if (
-            not isinstance(limite_publicacoes, int)
-            or limite_publicacoes < 1
-            or limite_publicacoes > 50
-        ):
-            errors.append("limite_publicacoes deve ser entre 1 e 50")
+        # Validar limite (removido limite máximo - agora suporta valores grandes)
+        if not isinstance(limite_publicacoes, int) or limite_publicacoes < 1:
+            errors.append("limite_publicacoes deve ser maior que 0")
 
         # Validar timeout
         if not isinstance(timeout_soap, int) or timeout_soap < 30 or timeout_soap > 300:

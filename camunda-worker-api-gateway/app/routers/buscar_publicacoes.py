@@ -41,9 +41,17 @@ def get_mongo_client() -> MongoClient:
     return MongoClient(settings.MONGODB_CONNECTION_STRING)
 
 
-def get_lote_service(client: MongoClient = Depends(get_mongo_client)) -> LoteService:
-    """Obtém serviço de lotes"""
-    return LoteService(client, database_name=settings.MONGODB_DATABASE)
+def get_lote_service(
+    client: MongoClient = Depends(get_mongo_client),
+    intimation_service: IntimationService = Depends(get_intimation_client),
+) -> LoteService:
+    """Obtém serviço de lotes com marcação automática configurável via .env"""
+    return LoteService(
+        client,
+        intimation_service=intimation_service,
+        database_name=settings.MONGODB_DATABASE,
+        marcar_automaticamente=settings.MARCAR_AUTOMATICAMENTE,  # Lê do .env
+    )
 
 
 @router.post("/processar", response_model=BuscarPublicacoesResponse)
@@ -552,7 +560,7 @@ async def processar_task_camunda_v2(
             logger.info(f"Branch 3 result: {len(publicacoes)} publicações encontradas")
 
         total_encontradas = len(publicacoes)
-        logger.info(f"Encontradas {total_encontradas} publicações")
+        logger.info(f"📊 Encontradas {total_encontradas} publicações no total")
 
         # 5. Se não encontrou publicações, finalizar
         if total_encontradas == 0:
@@ -582,10 +590,21 @@ async def processar_task_camunda_v2(
                 "timestamp": timestamp_fim.isoformat(),
             }
 
-        # 6. Aplicar limite se configurado
-        publicacoes_para_processar = publicacoes[: buscar_request.limite_publicacoes]
+        # 6. Aplicar limite se configurado (0 = sem limite)
+        if buscar_request.limite_publicacoes > 0:
+            publicacoes_para_processar = publicacoes[: buscar_request.limite_publicacoes]
+            if len(publicacoes) > buscar_request.limite_publicacoes:
+                logger.info(
+                    f"⚠️ Limite aplicado: processando {len(publicacoes_para_processar)} de {total_encontradas} publicações"
+                )
+        else:
+            publicacoes_para_processar = publicacoes
+            logger.info(
+                f"✅ Sem limite: processando todas as {total_encontradas} publicações"
+            )
 
         # 7. Converter publicações para formato bronze
+        logger.info(f"🔄 Convertendo {len(publicacoes_para_processar)} publicações...")
         publicacoes_bronze = []
         for pub in publicacoes_para_processar:
             try:
@@ -630,16 +649,20 @@ async def processar_task_camunda_v2(
             except Exception as e:
                 logger.error(f"Erro ao converter publicação {pub.cod_publicacao}: {e}")
 
-        # 8. Criar lote usando LoteService
+        # 8. Criar lote usando LoteService com chunking
+        logger.info(
+            f"💾 Criando lote com {len(publicacoes_bronze)} publicações (chunk_size={buscar_request.chunk_size})"
+        )
         lote_id = lote_service.criar_lote(
             execucao_id=execucao_id,
             publicacoes=publicacoes_bronze,
             cod_grupo=buscar_request.cod_grupo,
             data_inicial=buscar_request.data_inicial,
             data_final=buscar_request.data_final,
+            chunk_size=buscar_request.chunk_size,
         )
 
-        logger.info(f"Lote criado: {lote_id} com {len(publicacoes_bronze)} publicações")
+        logger.info(f"✅ Lote criado: {lote_id} com {len(publicacoes_bronze)} publicações")
 
         # 9. Atualizar execução com sucesso
         timestamp_fim = datetime.now()
@@ -664,7 +687,9 @@ async def processar_task_camunda_v2(
         if lote_doc and "publicacoes_ids" in lote_doc:
             publicacoes_ids = lote_doc["publicacoes_ids"]
 
-        logger.info(f"Preparando {len(publicacoes_ids)} IDs para Multi-Instance Loop")
+        logger.info(
+            f"🔄 Preparando {len(publicacoes_ids)} IDs para Multi-Instance Loop do BPMN"
+        )
 
         # 11. Retornar resultado com lote_id E publicacoes_ids
         # NOTA: Marcação como exportada deve ser feita pelo tópico dedicado

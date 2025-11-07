@@ -165,6 +165,38 @@
         "documentation": {}
     },
     {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Literal",
         "importPath": "typing",
         "description": "typing",
@@ -501,6 +533,14 @@
         "documentation": {}
     },
     {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Dict",
         "importPath": "typing",
         "description": "typing",
@@ -598,6 +638,38 @@
     },
     {
         "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -1086,6 +1158,30 @@
     },
     {
         "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Any",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -1757,7 +1853,31 @@
         "documentation": {}
     },
     {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "date",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -2029,6 +2149,22 @@
         "documentation": {}
     },
     {
+        "label": "timedelta",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
@@ -2250,6 +2386,22 @@
         "description": "datetime",
         "isExtraImport": true,
         "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
         "documentation": {}
     },
     {
@@ -2621,67 +2773,11 @@
         "documentation": {}
     },
     {
-        "label": "ObjectId",
-        "importPath": "bson",
-        "description": "bson",
+        "label": "Enum",
+        "importPath": "enum",
+        "description": "enum",
         "isExtraImport": true,
-        "detail": "bson",
-        "documentation": {}
-    },
-    {
-        "label": "ObjectId",
-        "importPath": "bson",
-        "description": "bson",
-        "isExtraImport": true,
-        "detail": "bson",
-        "documentation": {}
-    },
-    {
-        "label": "ObjectId",
-        "importPath": "bson",
-        "description": "bson",
-        "isExtraImport": true,
-        "detail": "bson",
-        "documentation": {}
-    },
-    {
-        "label": "ObjectId",
-        "importPath": "bson",
-        "description": "bson",
-        "isExtraImport": true,
-        "detail": "bson",
-        "documentation": {}
-    },
-    {
-        "label": "ObjectId",
-        "importPath": "bson",
-        "description": "bson",
-        "isExtraImport": true,
-        "detail": "bson",
-        "documentation": {}
-    },
-    {
-        "label": "ObjectId",
-        "importPath": "bson",
-        "description": "bson",
-        "isExtraImport": true,
-        "detail": "bson",
-        "documentation": {}
-    },
-    {
-        "label": "ObjectId",
-        "importPath": "bson",
-        "description": "bson",
-        "isExtraImport": true,
-        "detail": "bson",
-        "documentation": {}
-    },
-    {
-        "label": "ObjectId",
-        "importPath": "bson",
-        "description": "bson",
-        "isExtraImport": true,
-        "detail": "bson",
+        "detail": "enum",
         "documentation": {}
     },
     {
@@ -2698,6 +2794,78 @@
         "description": "enum",
         "isExtraImport": true,
         "detail": "enum",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
         "documentation": {}
     },
     {
@@ -2823,6 +2991,38 @@
     },
     {
         "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Query",
         "importPath": "fastapi",
         "description": "fastapi",
         "isExtraImport": true,
@@ -3191,6 +3391,14 @@
         "documentation": {}
     },
     {
+        "label": "MongoClient",
+        "importPath": "pymongo",
+        "description": "pymongo",
+        "isExtraImport": true,
+        "detail": "pymongo",
+        "documentation": {}
+    },
+    {
         "label": "ASCENDING",
         "importPath": "pymongo",
         "description": "pymongo",
@@ -3231,6 +3439,14 @@
         "documentation": {}
     },
     {
+        "label": "MongoClient",
+        "importPath": "pymongo",
+        "description": "pymongo",
+        "isExtraImport": true,
+        "detail": "pymongo",
+        "documentation": {}
+    },
+    {
         "label": "UpdateOne",
         "importPath": "pymongo",
         "description": "pymongo",
@@ -3244,6 +3460,254 @@
         "description": "pymongo",
         "isExtraImport": true,
         "detail": "pymongo",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultaLogRequest",
+        "importPath": "models.auditoria",
+        "description": "models.auditoria",
+        "isExtraImport": true,
+        "detail": "models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultaLogResponse",
+        "importPath": "models.auditoria",
+        "description": "models.auditoria",
+        "isExtraImport": true,
+        "detail": "models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "LogMarcacaoPublicacao",
+        "importPath": "models.auditoria",
+        "description": "models.auditoria",
+        "isExtraImport": true,
+        "detail": "models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "StatusMarcacao",
+        "importPath": "models.auditoria",
+        "description": "models.auditoria",
+        "isExtraImport": true,
+        "detail": "models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "LogMarcacaoPublicacao",
+        "importPath": "models.auditoria",
+        "description": "models.auditoria",
+        "isExtraImport": true,
+        "detail": "models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "TentativaMarcacao",
+        "importPath": "models.auditoria",
+        "description": "models.auditoria",
+        "isExtraImport": true,
+        "detail": "models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "StatusMarcacao",
+        "importPath": "models.auditoria",
+        "description": "models.auditoria",
+        "isExtraImport": true,
+        "detail": "models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultaLogRequest",
+        "importPath": "models.auditoria",
+        "description": "models.auditoria",
+        "isExtraImport": true,
+        "detail": "models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultaLogResponse",
+        "importPath": "models.auditoria",
+        "description": "models.auditoria",
+        "isExtraImport": true,
+        "detail": "models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "StatusMarcacao",
+        "importPath": "models.auditoria",
+        "description": "models.auditoria",
+        "isExtraImport": true,
+        "detail": "models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "AuditoriaService",
+        "importPath": "services.auditoria_service",
+        "description": "services.auditoria_service",
+        "isExtraImport": true,
+        "detail": "services.auditoria_service",
+        "documentation": {}
+    },
+    {
+        "label": "AuditoriaService",
+        "importPath": "services.auditoria_service",
+        "description": "services.auditoria_service",
+        "isExtraImport": true,
+        "detail": "services.auditoria_service",
+        "documentation": {}
+    },
+    {
+        "label": "Settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "get_settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "Settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "get_settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "Settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "get_settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "Settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "get_settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
+        "documentation": {}
+    },
+    {
+        "label": "get_settings",
+        "importPath": "core.config",
+        "description": "core.config",
+        "isExtraImport": true,
+        "detail": "core.config",
         "documentation": {}
     },
     {
@@ -3511,11 +3975,11 @@
         "documentation": {}
     },
     {
-        "label": "LoteService",
-        "importPath": "services.lote_service",
-        "description": "services.lote_service",
+        "label": "IntimationService",
+        "importPath": "services.intimation_service",
+        "description": "services.intimation_service",
         "isExtraImport": true,
-        "detail": "services.lote_service",
+        "detail": "services.intimation_service",
         "documentation": {}
     },
     {
@@ -3527,131 +3991,11 @@
         "documentation": {}
     },
     {
-        "label": "Settings",
-        "importPath": "core.config",
-        "description": "core.config",
+        "label": "LoteService",
+        "importPath": "services.lote_service",
+        "description": "services.lote_service",
         "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "get_settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "Settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "get_settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "Settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "get_settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
-        "documentation": {}
-    },
-    {
-        "label": "get_settings",
-        "importPath": "core.config",
-        "description": "core.config",
-        "isExtraImport": true,
-        "detail": "core.config",
+        "detail": "services.lote_service",
         "documentation": {}
     },
     {
@@ -3917,6 +4261,22 @@
         "importPath": "base64",
         "description": "base64",
         "detail": "base64",
+        "documentation": {}
+    },
+    {
+        "label": "get_token_cache",
+        "importPath": "services.token_cache_service",
+        "description": "services.token_cache_service",
+        "isExtraImport": true,
+        "detail": "services.token_cache_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_token_cache",
+        "importPath": "services.token_cache_service",
+        "description": "services.token_cache_service",
+        "isExtraImport": true,
+        "detail": "services.token_cache_service",
         "documentation": {}
     },
     {
@@ -4473,6 +4833,30 @@
         "documentation": {}
     },
     {
+        "label": "Redis",
+        "importPath": "redis",
+        "description": "redis",
+        "isExtraImport": true,
+        "detail": "redis",
+        "documentation": {}
+    },
+    {
+        "label": "RedisError",
+        "importPath": "redis.exceptions",
+        "description": "redis.exceptions",
+        "isExtraImport": true,
+        "detail": "redis.exceptions",
+        "documentation": {}
+    },
+    {
+        "label": "ConnectionError",
+        "importPath": "redis.exceptions",
+        "description": "redis.exceptions",
+        "isExtraImport": true,
+        "detail": "redis.exceptions",
+        "documentation": {}
+    },
+    {
         "label": "pytest",
         "kind": 6,
         "isExtraImport": true,
@@ -4652,6 +5036,14 @@
     },
     {
         "label": "marcar_publicacoes",
+        "importPath": "routers",
+        "description": "routers",
+        "isExtraImport": true,
+        "detail": "routers",
+        "documentation": {}
+    },
+    {
+        "label": "auditoria",
         "importPath": "routers",
         "description": "routers",
         "isExtraImport": true,
@@ -5663,6 +6055,51 @@
         "documentation": {}
     },
     {
+        "label": "StatusMarcacao",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.auditoria",
+        "description": "camunda-worker-api-gateway.app.models.auditoria",
+        "peekOfCode": "class StatusMarcacao(str, Enum):\n    \"\"\"Status possíveis de uma tentativa de marcação\"\"\"\n    PENDENTE = \"pendente\"  # Aguardando processamento\n    SUCESSO = \"sucesso\"  # Marcada com sucesso\n    FALHA_WEBJUR = \"falha_webjur\"  # Falha na API Webjur\n    FALHA_MONGODB = \"falha_mongodb\"  # Falha ao atualizar MongoDB\n    FALHA_TIMEOUT = \"falha_timeout\"  # Timeout na operação\n    FALHA_VALIDACAO = \"falha_validacao\"  # Erro de validação\n    ERRO_INTERNO = \"erro_interno\"  # Erro inesperado\nclass TentativaMarcacao(BaseModel):",
+        "detail": "camunda-worker-api-gateway.app.models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "TentativaMarcacao",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.auditoria",
+        "description": "camunda-worker-api-gateway.app.models.auditoria",
+        "peekOfCode": "class TentativaMarcacao(BaseModel):\n    \"\"\"Representa uma tentativa de marcação\"\"\"\n    numero_tentativa: int = Field(..., description=\"Número da tentativa (1, 2, 3...)\")\n    timestamp: datetime = Field(\n        default_factory=datetime.now, description=\"Quando a tentativa foi feita\"\n    )\n    status: StatusMarcacao = Field(..., description=\"Status da tentativa\")\n    duracao_ms: Optional[float] = Field(\n        None, description=\"Duração da tentativa em milissegundos\"\n    )",
+        "detail": "camunda-worker-api-gateway.app.models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "LogMarcacaoPublicacao",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.auditoria",
+        "description": "camunda-worker-api-gateway.app.models.auditoria",
+        "peekOfCode": "class LogMarcacaoPublicacao(BaseModel):\n    \"\"\"\n    Log completo de auditoria de marcação de publicação\n    Registra todas as tentativas de marcar uma publicação como exportada,\n    incluindo snapshot dos dados e contexto de execução.\n    \"\"\"\n    # Identificação\n    cod_publicacao: int = Field(..., description=\"Código da publicação no Webjur\")\n    lote_id: Optional[str] = Field(None, description=\"ID do lote que processou\")\n    execucao_id: Optional[str] = Field(",
+        "detail": "camunda-worker-api-gateway.app.models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultaLogRequest",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.auditoria",
+        "description": "camunda-worker-api-gateway.app.models.auditoria",
+        "peekOfCode": "class ConsultaLogRequest(BaseModel):\n    \"\"\"Request para consultar logs de marcação\"\"\"\n    cod_publicacao: Optional[int] = None\n    lote_id: Optional[str] = None\n    status: Optional[StatusMarcacao] = None\n    data_inicio: Optional[datetime] = None\n    data_fim: Optional[datetime] = None\n    apenas_falhas: bool = False\n    limite: int = Field(default=100, ge=1, le=1000)\n    offset: int = Field(default=0, ge=0)",
+        "detail": "camunda-worker-api-gateway.app.models.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "ConsultaLogResponse",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.auditoria",
+        "description": "camunda-worker-api-gateway.app.models.auditoria",
+        "peekOfCode": "class ConsultaLogResponse(BaseModel):\n    \"\"\"Response com logs de marcação\"\"\"\n    total_registros: int\n    logs: List[LogMarcacaoPublicacao]\n    estatisticas: Dict[str, Any] = Field(default_factory=dict)",
+        "detail": "camunda-worker-api-gateway.app.models.auditoria",
+        "documentation": {}
+    },
+    {
         "label": "BuscarPublicacoesRequest",
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
@@ -6331,9 +6768,54 @@
     {
         "label": "get_mongo_client",
         "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.routers.auditoria",
+        "description": "camunda-worker-api-gateway.app.routers.auditoria",
+        "peekOfCode": "def get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_auditoria_service(\n    mongo_client: MongoClient = Depends(get_mongo_client),\n) -> AuditoriaService:\n    \"\"\"Obtém serviço de auditoria\"\"\"\n    return AuditoriaService(mongo_client, database_name=settings.MONGODB_DATABASE)\n@router.get(\"/marcacoes\", response_model=ConsultaLogResponse)\nasync def consultar_logs_marcacao(",
+        "detail": "camunda-worker-api-gateway.app.routers.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "get_auditoria_service",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.routers.auditoria",
+        "description": "camunda-worker-api-gateway.app.routers.auditoria",
+        "peekOfCode": "def get_auditoria_service(\n    mongo_client: MongoClient = Depends(get_mongo_client),\n) -> AuditoriaService:\n    \"\"\"Obtém serviço de auditoria\"\"\"\n    return AuditoriaService(mongo_client, database_name=settings.MONGODB_DATABASE)\n@router.get(\"/marcacoes\", response_model=ConsultaLogResponse)\nasync def consultar_logs_marcacao(\n    cod_publicacao: Optional[int] = Query(None, description=\"Código da publicação\"),\n    lote_id: Optional[str] = Query(None, description=\"ID do lote\"),\n    status: Optional[StatusMarcacao] = Query(None, description=\"Status da marcação\"),",
+        "detail": "camunda-worker-api-gateway.app.routers.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.auditoria",
+        "description": "camunda-worker-api-gateway.app.routers.auditoria",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/auditoria\", tags=[\"Auditoria\"])\n# Configurações\nsettings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_auditoria_service(\n    mongo_client: MongoClient = Depends(get_mongo_client),\n) -> AuditoriaService:",
+        "detail": "camunda-worker-api-gateway.app.routers.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "router",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.auditoria",
+        "description": "camunda-worker-api-gateway.app.routers.auditoria",
+        "peekOfCode": "router = APIRouter(prefix=\"/auditoria\", tags=[\"Auditoria\"])\n# Configurações\nsettings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_auditoria_service(\n    mongo_client: MongoClient = Depends(get_mongo_client),\n) -> AuditoriaService:\n    \"\"\"Obtém serviço de auditoria\"\"\"",
+        "detail": "camunda-worker-api-gateway.app.routers.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "settings",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.routers.auditoria",
+        "description": "camunda-worker-api-gateway.app.routers.auditoria",
+        "peekOfCode": "settings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_auditoria_service(\n    mongo_client: MongoClient = Depends(get_mongo_client),\n) -> AuditoriaService:\n    \"\"\"Obtém serviço de auditoria\"\"\"\n    return AuditoriaService(mongo_client, database_name=settings.MONGODB_DATABASE)\n@router.get(\"/marcacoes\", response_model=ConsultaLogResponse)",
+        "detail": "camunda-worker-api-gateway.app.routers.auditoria",
+        "documentation": {}
+    },
+    {
+        "label": "get_mongo_client",
+        "kind": 2,
         "importPath": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "description": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
-        "peekOfCode": "def get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_lote_service(client: MongoClient = Depends(get_mongo_client)) -> LoteService:\n    \"\"\"Obtém serviço de lotes\"\"\"\n    return LoteService(client, database_name=settings.MONGODB_DATABASE)\n@router.post(\"/processar\", response_model=BuscarPublicacoesResponse)\nasync def processar_busca_publicacoes(\n    request: BuscarPublicacoesRequest,\n    process_starter: ProcessStarter = Depends(get_process_starter),",
+        "peekOfCode": "def get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_lote_service(\n    client: MongoClient = Depends(get_mongo_client),\n    intimation_service: IntimationService = Depends(get_intimation_client),\n) -> LoteService:\n    \"\"\"Obtém serviço de lotes com marcação automática configurável via .env\"\"\"\n    return LoteService(\n        client,",
         "detail": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "documentation": {}
     },
@@ -6342,7 +6824,7 @@
         "kind": 2,
         "importPath": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "description": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
-        "peekOfCode": "def get_lote_service(client: MongoClient = Depends(get_mongo_client)) -> LoteService:\n    \"\"\"Obtém serviço de lotes\"\"\"\n    return LoteService(client, database_name=settings.MONGODB_DATABASE)\n@router.post(\"/processar\", response_model=BuscarPublicacoesResponse)\nasync def processar_busca_publicacoes(\n    request: BuscarPublicacoesRequest,\n    process_starter: ProcessStarter = Depends(get_process_starter),\n    soap_client: IntimationService = Depends(get_intimation_client),\n):\n    \"\"\"",
+        "peekOfCode": "def get_lote_service(\n    client: MongoClient = Depends(get_mongo_client),\n    intimation_service: IntimationService = Depends(get_intimation_client),\n) -> LoteService:\n    \"\"\"Obtém serviço de lotes com marcação automática configurável via .env\"\"\"\n    return LoteService(\n        client,\n        intimation_service=intimation_service,\n        database_name=settings.MONGODB_DATABASE,\n        marcar_automaticamente=settings.MARCAR_AUTOMATICAMENTE,  # Lê do .env",
         "detail": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "documentation": {}
     },
@@ -6351,7 +6833,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "description": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/buscar-publicacoes\", tags=[\"Buscar Publicações\"])\n# Storage simples para status de operações (em produção usar Redis/DB)\n_operations_status: Dict[str, BuscarPublicacoesStatus] = {}\n# Configurações\nsettings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_lote_service(client: MongoClient = Depends(get_mongo_client)) -> LoteService:",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nrouter = APIRouter(prefix=\"/buscar-publicacoes\", tags=[\"Buscar Publicações\"])\n# Storage simples para status de operações (em produção usar Redis/DB)\n_operations_status: Dict[str, BuscarPublicacoesStatus] = {}\n# Configurações\nsettings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_lote_service(",
         "detail": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "documentation": {}
     },
@@ -6360,7 +6842,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "description": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
-        "peekOfCode": "router = APIRouter(prefix=\"/buscar-publicacoes\", tags=[\"Buscar Publicações\"])\n# Storage simples para status de operações (em produção usar Redis/DB)\n_operations_status: Dict[str, BuscarPublicacoesStatus] = {}\n# Configurações\nsettings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_lote_service(client: MongoClient = Depends(get_mongo_client)) -> LoteService:\n    \"\"\"Obtém serviço de lotes\"\"\"",
+        "peekOfCode": "router = APIRouter(prefix=\"/buscar-publicacoes\", tags=[\"Buscar Publicações\"])\n# Storage simples para status de operações (em produção usar Redis/DB)\n_operations_status: Dict[str, BuscarPublicacoesStatus] = {}\n# Configurações\nsettings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_lote_service(\n    client: MongoClient = Depends(get_mongo_client),",
         "detail": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "documentation": {}
     },
@@ -6369,7 +6851,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "description": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
-        "peekOfCode": "settings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_lote_service(client: MongoClient = Depends(get_mongo_client)) -> LoteService:\n    \"\"\"Obtém serviço de lotes\"\"\"\n    return LoteService(client, database_name=settings.MONGODB_DATABASE)\n@router.post(\"/processar\", response_model=BuscarPublicacoesResponse)\nasync def processar_busca_publicacoes(\n    request: BuscarPublicacoesRequest,",
+        "peekOfCode": "settings = get_settings()\ndef get_mongo_client() -> MongoClient:\n    \"\"\"Obtém cliente MongoDB\"\"\"\n    return MongoClient(settings.MONGODB_CONNECTION_STRING)\ndef get_lote_service(\n    client: MongoClient = Depends(get_mongo_client),\n    intimation_service: IntimationService = Depends(get_intimation_client),\n) -> LoteService:\n    \"\"\"Obtém serviço de lotes com marcação automática configurável via .env\"\"\"\n    return LoteService(",
         "detail": "camunda-worker-api-gateway.app.routers.buscar_publicacoes",
         "documentation": {}
     },
@@ -6680,6 +7162,24 @@
         "documentation": {}
     },
     {
+        "label": "AuditoriaService",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.auditoria_service",
+        "description": "camunda-worker-api-gateway.app.services.auditoria_service",
+        "peekOfCode": "class AuditoriaService:\n    \"\"\"Serviço para gerenciar logs de auditoria de marcação de publicações\"\"\"\n    def __init__(self, mongo_client: MongoClient, database_name: str = \"worker_gateway\"):\n        \"\"\"\n        Inicializa o serviço de auditoria\n        Args:\n            mongo_client: Cliente MongoDB\n            database_name: Nome do banco de dados\n        \"\"\"\n        self.client = mongo_client",
+        "detail": "camunda-worker-api-gateway.app.services.auditoria_service",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.auditoria_service",
+        "description": "camunda-worker-api-gateway.app.services.auditoria_service",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass AuditoriaService:\n    \"\"\"Serviço para gerenciar logs de auditoria de marcação de publicações\"\"\"\n    def __init__(self, mongo_client: MongoClient, database_name: str = \"worker_gateway\"):\n        \"\"\"\n        Inicializa o serviço de auditoria\n        Args:\n            mongo_client: Cliente MongoDB\n            database_name: Nome do banco de dados\n        \"\"\"",
+        "detail": "camunda-worker-api-gateway.app.services.auditoria_service",
+        "documentation": {}
+    },
+    {
         "label": "CamundaMessageService",
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.camunda_message_service",
@@ -6702,7 +7202,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.cpj_service",
         "description": "camunda-worker-api-gateway.app.services.cpj_service",
-        "peekOfCode": "class CPJService:\n    \"\"\"Serviço para integração com API CPJ\"\"\"\n    def __init__(self):\n        self.base_url = settings.CPJ_BASE_URL\n        self.login = settings.CPJ_LOGIN\n        self.password = settings.CPJ_PASSWORD\n        self.token_expiry_minutes = settings.CPJ_TOKEN_EXPIRY_MINUTES\n        # Cache de autenticação\n        self._token: Optional[str] = None\n        self._token_expiry: Optional[datetime] = None",
+        "peekOfCode": "class CPJService:\n    \"\"\"Serviço para integração com API CPJ\"\"\"\n    def __init__(self):\n        self.base_url = settings.CPJ_BASE_URL\n        self.login = settings.CPJ_LOGIN\n        self.password = settings.CPJ_PASSWORD\n        self.token_expiry_minutes = settings.CPJ_TOKEN_EXPIRY_MINUTES\n        # Cache de autenticação (em memória - fallback)\n        self._token: Optional[str] = None\n        self._token_expiry: Optional[datetime] = None",
         "detail": "camunda-worker-api-gateway.app.services.cpj_service",
         "documentation": {}
     },
@@ -6711,7 +7211,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.services.cpj_service",
         "description": "camunda-worker-api-gateway.app.services.cpj_service",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nclass CPJService:\n    \"\"\"Serviço para integração com API CPJ\"\"\"\n    def __init__(self):\n        self.base_url = settings.CPJ_BASE_URL\n        self.login = settings.CPJ_LOGIN\n        self.password = settings.CPJ_PASSWORD\n        self.token_expiry_minutes = settings.CPJ_TOKEN_EXPIRY_MINUTES\n        # Cache de autenticação\n        self._token: Optional[str] = None",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass CPJService:\n    \"\"\"Serviço para integração com API CPJ\"\"\"\n    def __init__(self):\n        self.base_url = settings.CPJ_BASE_URL\n        self.login = settings.CPJ_LOGIN\n        self.password = settings.CPJ_PASSWORD\n        self.token_expiry_minutes = settings.CPJ_TOKEN_EXPIRY_MINUTES\n        # Cache de autenticação (em memória - fallback)\n        self._token: Optional[str] = None",
         "detail": "camunda-worker-api-gateway.app.services.cpj_service",
         "documentation": {}
     },
@@ -6801,7 +7301,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.dw_law_service",
         "description": "camunda-worker-api-gateway.app.services.dw_law_service",
-        "peekOfCode": "class DWLawService:\n    \"\"\"Serviço para integração com API DW LAW e-Protocol\"\"\"\n    def __init__(self):\n        self.base_url = settings.DW_LAW_BASE_URL\n        self.usuario = settings.DW_LAW_USUARIO\n        self.senha = settings.DW_LAW_SENHA\n        self.token_expiry_minutes = settings.DW_LAW_TOKEN_EXPIRY_MINUTES\n        # Cache de autenticação\n        self._token: Optional[str] = None\n        self._token_expiry: Optional[datetime] = None",
+        "peekOfCode": "class DWLawService:\n    \"\"\"Serviço para integração com API DW LAW e-Protocol\"\"\"\n    def __init__(self):\n        self.base_url = settings.DW_LAW_BASE_URL\n        self.usuario = settings.DW_LAW_USUARIO\n        self.senha = settings.DW_LAW_SENHA\n        self.token_expiry_minutes = settings.DW_LAW_TOKEN_EXPIRY_MINUTES\n        # Cache de autenticação (em memória - fallback)\n        self._token: Optional[str] = None\n        self._token_expiry: Optional[datetime] = None",
         "detail": "camunda-worker-api-gateway.app.services.dw_law_service",
         "documentation": {}
     },
@@ -6810,7 +7310,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.services.dw_law_service",
         "description": "camunda-worker-api-gateway.app.services.dw_law_service",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nclass DWLawService:\n    \"\"\"Serviço para integração com API DW LAW e-Protocol\"\"\"\n    def __init__(self):\n        self.base_url = settings.DW_LAW_BASE_URL\n        self.usuario = settings.DW_LAW_USUARIO\n        self.senha = settings.DW_LAW_SENHA\n        self.token_expiry_minutes = settings.DW_LAW_TOKEN_EXPIRY_MINUTES\n        # Cache de autenticação\n        self._token: Optional[str] = None",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass DWLawService:\n    \"\"\"Serviço para integração com API DW LAW e-Protocol\"\"\"\n    def __init__(self):\n        self.base_url = settings.DW_LAW_BASE_URL\n        self.usuario = settings.DW_LAW_USUARIO\n        self.senha = settings.DW_LAW_SENHA\n        self.token_expiry_minutes = settings.DW_LAW_TOKEN_EXPIRY_MINUTES\n        # Cache de autenticação (em memória - fallback)\n        self._token: Optional[str] = None",
         "detail": "camunda-worker-api-gateway.app.services.dw_law_service",
         "documentation": {}
     },
@@ -7026,7 +7526,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.services.lote_service",
         "description": "camunda-worker-api-gateway.app.services.lote_service",
-        "peekOfCode": "class LoteService:\n    \"\"\"Serviço para gerenciamento de lotes de publicações\"\"\"\n    def __init__(\n        self,\n        mongo_client: MongoClient,\n        publicacao_service: PublicacaoService = None,\n        deduplicacao_service: DeduplicacaoService = None,\n        database_name: str = \"worker_gateway\",\n    ):\n        \"\"\"",
+        "peekOfCode": "class LoteService:\n    \"\"\"Serviço para gerenciamento de lotes de publicações\"\"\"\n    def __init__(\n        self,\n        mongo_client: MongoClient,\n        publicacao_service: PublicacaoService = None,\n        deduplicacao_service: DeduplicacaoService = None,\n        intimation_service: IntimationService = None,\n        auditoria_service: AuditoriaService = None,\n        database_name: str = \"worker_gateway\",",
         "detail": "camunda-worker-api-gateway.app.services.lote_service",
         "documentation": {}
     },
@@ -7035,7 +7535,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.services.lote_service",
         "description": "camunda-worker-api-gateway.app.services.lote_service",
-        "peekOfCode": "logger = logging.getLogger(__name__)\nclass LoteService:\n    \"\"\"Serviço para gerenciamento de lotes de publicações\"\"\"\n    def __init__(\n        self,\n        mongo_client: MongoClient,\n        publicacao_service: PublicacaoService = None,\n        deduplicacao_service: DeduplicacaoService = None,\n        database_name: str = \"worker_gateway\",\n    ):",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass LoteService:\n    \"\"\"Serviço para gerenciamento de lotes de publicações\"\"\"\n    def __init__(\n        self,\n        mongo_client: MongoClient,\n        publicacao_service: PublicacaoService = None,\n        deduplicacao_service: DeduplicacaoService = None,\n        intimation_service: IntimationService = None,\n        auditoria_service: AuditoriaService = None,",
         "detail": "camunda-worker-api-gateway.app.services.lote_service",
         "documentation": {}
     },
@@ -7235,6 +7735,33 @@
         "description": "camunda-worker-api-gateway.app.services.text_processor",
         "peekOfCode": "text_processor = TextProcessor()\ndef limpar_texto_publicacao(texto_original: str) -> str:\n    \"\"\"\n    Função de conveniência para limpeza de texto\n    Args:\n        texto_original: Texto original da movimentação\n    Returns:\n        str: Texto limpo e sanitizado\n    \"\"\"\n    return text_processor.limpar_texto_publicacao(texto_original)",
         "detail": "camunda-worker-api-gateway.app.services.text_processor",
+        "documentation": {}
+    },
+    {
+        "label": "TokenCacheService",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.services.token_cache_service",
+        "description": "camunda-worker-api-gateway.app.services.token_cache_service",
+        "peekOfCode": "class TokenCacheService:\n    \"\"\"Serviço centralizado de cache de tokens usando Redis\"\"\"\n    def __init__(self):\n        self.redis_client: Optional[Redis] = None\n        self.enabled = True\n        self._initialize_redis()\n    def _initialize_redis(self):\n        \"\"\"Inicializa conexão com Redis\"\"\"\n        try:\n            # Parse Redis URI",
+        "detail": "camunda-worker-api-gateway.app.services.token_cache_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_token_cache",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.services.token_cache_service",
+        "description": "camunda-worker-api-gateway.app.services.token_cache_service",
+        "peekOfCode": "def get_token_cache() -> TokenCacheService:\n    \"\"\"\n    Retorna instância singleton do TokenCacheService\n    Returns:\n        Instância do TokenCacheService\n    \"\"\"\n    global _token_cache_instance\n    if _token_cache_instance is None:\n        _token_cache_instance = TokenCacheService()\n    return _token_cache_instance",
+        "detail": "camunda-worker-api-gateway.app.services.token_cache_service",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.services.token_cache_service",
+        "description": "camunda-worker-api-gateway.app.services.token_cache_service",
+        "peekOfCode": "logger = logging.getLogger(__name__)\nclass TokenCacheService:\n    \"\"\"Serviço centralizado de cache de tokens usando Redis\"\"\"\n    def __init__(self):\n        self.redis_client: Optional[Redis] = None\n        self.enabled = True\n        self._initialize_redis()\n    def _initialize_redis(self):\n        \"\"\"Inicializa conexão com Redis\"\"\"\n        try:",
+        "detail": "camunda-worker-api-gateway.app.services.token_cache_service",
         "documentation": {}
     },
     {
