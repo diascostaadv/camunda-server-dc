@@ -358,9 +358,16 @@ class PublicacaoParaProcessamento(BaseModel):
             )
 
         # Processar número do processo
-        numero_processo = (
-            publicacao.numero_processo or f"PROCESSO-{publicacao.cod_publicacao}"
-        )
+        # IMPORTANTE: Valida que numero_processo seja válido (não vazio)
+        numero_processo_original = getattr(publicacao, "numero_processo", None)
+        if not numero_processo_original or not numero_processo_original.strip():
+            # REJEITAR: Publicação sem numero_processo não é válida
+            raise ValueError(
+                f"Publicação cod={publicacao.cod_publicacao} rejeitada: "
+                f"numero_processo inválido ou vazio"
+            )
+
+        numero_processo = numero_processo_original.strip()
 
         # Processar texto
         texto_publicacao = (

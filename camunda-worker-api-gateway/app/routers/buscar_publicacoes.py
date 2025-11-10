@@ -603,14 +603,18 @@ async def processar_task_camunda_v2(
                 f"✅ Sem limite: processando todas as {total_encontradas} publicações"
             )
 
-        # 7. Converter publicações para formato bronze
+        # 7. Converter publicações para formato bronze (com filtro de rejeição)
         logger.info(f"🔄 Convertendo {len(publicacoes_para_processar)} publicações...")
         publicacoes_bronze = []
+        publicacoes_rejeitadas = 0  # Contador de publicações rejeitadas
+
         for pub in publicacoes_para_processar:
             try:
                 pub_convertida = PublicacaoParaProcessamento.from_soap_publicacao(
                     pub, fonte="dw"
                 )
+
+                # Se chegou aqui, publicação tem numero_processo válido
                 publicacoes_bronze.append(
                     {
                         "cod_publicacao": pub_convertida.cod_publicacao,
@@ -646,8 +650,61 @@ async def processar_task_camunda_v2(
                         "cod_grupo": pub_convertida.cod_grupo,
                     }
                 )
+
+            except ValueError as ve:
+                # Publicação rejeitada por numero_processo inválido
+                publicacoes_rejeitadas += 1
+                logger.warning(f"❌ {str(ve)}")
+
             except Exception as e:
-                logger.error(f"Erro ao converter publicação {pub.cod_publicacao}: {e}")
+                # Outros erros de conversão
+                publicacoes_rejeitadas += 1
+                logger.error(f"❌ Erro ao converter publicação cod={pub.cod_publicacao}: {e}")
+
+        # Log resumo de conversão
+        total_validas = len(publicacoes_bronze)
+        total_processadas = len(publicacoes_para_processar)
+
+        logger.info(
+            f"✅ Conversão concluída: {total_validas} válidas, {publicacoes_rejeitadas} rejeitadas "
+            f"de {total_processadas} publicações"
+        )
+
+        if publicacoes_rejeitadas > 0:
+            percentual = (publicacoes_rejeitadas / total_processadas) * 100
+            logger.warning(
+                f"⚠️ ATENÇÃO: {publicacoes_rejeitadas} publicações ({percentual:.1f}%) "
+                f"foram REJEITADAS (sem numero_processo válido)"
+            )
+
+        # Se não há publicações válidas, retornar erro
+        if total_validas == 0:
+            timestamp_fim = datetime.now()
+            db.execucoes.update_one(
+                {"_id": ObjectId(execucao_id)},
+                {
+                    "$set": {
+                        "data_fim": timestamp_fim,
+                        "status": "error",
+                        "total_encontradas": total_encontradas,
+                        "total_processadas": 0,
+                        "total_rejeitadas": publicacoes_rejeitadas,
+                        "erro": f"Todas as {publicacoes_rejeitadas} publicações foram rejeitadas (sem numero_processo válido)",
+                    }
+                },
+            )
+
+            return {
+                "status": "error",
+                "message": f"Todas as {publicacoes_rejeitadas} publicações foram rejeitadas (sem numero_processo válido)",
+                "task_id": task_data.task_id,
+                "execucao_id": execucao_id,
+                "total_encontradas": total_encontradas,
+                "total_rejeitadas": publicacoes_rejeitadas,
+                "lote_id": None,
+                "publicacoes_ids": [],
+                "timestamp": timestamp_fim.isoformat(),
+            }
 
         # 8. Criar lote usando LoteService com chunking
         logger.info(

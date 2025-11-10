@@ -107,6 +107,14 @@
         "documentation": {}
     },
     {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
         "label": "time",
         "kind": 6,
         "isExtraImport": true,
@@ -1830,6 +1838,22 @@
     },
     {
         "label": "Any",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Tuple",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -10242,6 +10266,123 @@
         "description": "teste_webhook",
         "peekOfCode": "resp = requests.post(url, json=payload)\nprint(resp.status_code)\nprint(resp.text)",
         "detail": "teste_webhook",
+        "documentation": {}
+    },
+    {
+        "label": "print_section",
+        "kind": 2,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "def print_section(title: str):\n    \"\"\"Imprime cabeçalho de seção\"\"\"\n    print(f\"\\n{BLUE}{'=' * 70}{RESET}\")\n    print(f\"{BLUE}{title:^70}{RESET}\")\n    print(f\"{BLUE}{'=' * 70}{RESET}\\n\")\ndef check_syntax(file_path: str) -> Tuple[bool, str]:\n    \"\"\"\n    Verifica sintaxe de arquivo Python\n    Returns:\n        (sucesso, mensagem_erro)",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "check_syntax",
+        "kind": 2,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "def check_syntax(file_path: str) -> Tuple[bool, str]:\n    \"\"\"\n    Verifica sintaxe de arquivo Python\n    Returns:\n        (sucesso, mensagem_erro)\n    \"\"\"\n    try:\n        result = subprocess.run(\n            [\"python3\", \"-m\", \"py_compile\", file_path],\n            capture_output=True,",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "check_imports",
+        "kind": 2,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "def check_imports(file_path: str) -> List[str]:\n    \"\"\"\n    Verifica imports que podem estar faltando\n    Returns:\n        Lista de problemas encontrados\n    \"\"\"\n    problems = []\n    # Padrões comuns de uso sem import\n    patterns = [\n        (\"time.time()\", \"import time\"),",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "verify_gateway",
+        "kind": 2,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "def verify_gateway():\n    \"\"\"Verifica arquivos do Gateway\"\"\"\n    print_section(\"GATEWAY - Verificação\")\n    base_path = Path(\"camunda-worker-api-gateway/app\")\n    files_to_check = [\n        \"main.py\",\n        \"services/lote_service.py\",\n        \"services/intimation_service.py\",\n        \"routers/buscar_publicacoes.py\",\n        \"routers/publicacoes.py\",",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "verify_workers",
+        "kind": 2,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "def verify_workers():\n    \"\"\"Verifica arquivos dos Workers\"\"\"\n    print_section(\"WORKERS - Verificação\")\n    base_path = Path(\"camunda-workers-platform/workers\")\n    files_to_check = [\n        \"common/base_worker.py\",\n        \"common/gateway_client.py\",\n        \"publicacao_unified/main.py\",\n    ]\n    all_ok = True",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "check_docker_containers",
+        "kind": 2,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "def check_docker_containers():\n    \"\"\"Verifica status dos containers Docker\"\"\"\n    print_section(\"DOCKER CONTAINERS - Status\")\n    try:\n        result = subprocess.run(\n            [\"docker\", \"ps\", \"--format\", \"table {{.Names}}\\t{{.Status}}\\t{{.Ports}}\"],\n            capture_output=True,\n            text=True,\n            timeout=10\n        )",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "check_gateway_health",
+        "kind": 2,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "def check_gateway_health():\n    \"\"\"Verifica saúde do Gateway via HTTP\"\"\"\n    print_section(\"GATEWAY - Health Check HTTP\")\n    try:\n        import requests\n        gateway_url = \"http://localhost:8000/health\"\n        print(f\"📡 Testando: {gateway_url}\")\n        response = requests.get(gateway_url, timeout=5)\n        if response.status_code == 200:\n            print(f\"{GREEN}✅ Gateway está respondendo (HTTP 200){RESET}\")",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "def main():\n    \"\"\"Função principal\"\"\"\n    print(f\"{BLUE}\")\n    print(\"=\" * 70)\n    print(\"  VERIFICAÇÃO DE SAÚDE - CAMUNDA ECOSYSTEM\")\n    print(\"=\" * 70)\n    print(f\"{RESET}\")\n    # Verificar se estamos no diretório correto\n    if not Path(\"camunda-worker-api-gateway\").exists():\n        print(f\"{RED}❌ Erro: Execute este script na raiz do projeto{RESET}\")",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "GREEN",
+        "kind": 5,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "GREEN = \"\\033[92m\"\nRED = \"\\033[91m\"\nYELLOW = \"\\033[93m\"\nBLUE = \"\\033[94m\"\nRESET = \"\\033[0m\"\ndef print_section(title: str):\n    \"\"\"Imprime cabeçalho de seção\"\"\"\n    print(f\"\\n{BLUE}{'=' * 70}{RESET}\")\n    print(f\"{BLUE}{title:^70}{RESET}\")\n    print(f\"{BLUE}{'=' * 70}{RESET}\\n\")",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "RED",
+        "kind": 5,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "RED = \"\\033[91m\"\nYELLOW = \"\\033[93m\"\nBLUE = \"\\033[94m\"\nRESET = \"\\033[0m\"\ndef print_section(title: str):\n    \"\"\"Imprime cabeçalho de seção\"\"\"\n    print(f\"\\n{BLUE}{'=' * 70}{RESET}\")\n    print(f\"{BLUE}{title:^70}{RESET}\")\n    print(f\"{BLUE}{'=' * 70}{RESET}\\n\")\ndef check_syntax(file_path: str) -> Tuple[bool, str]:",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "YELLOW",
+        "kind": 5,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "YELLOW = \"\\033[93m\"\nBLUE = \"\\033[94m\"\nRESET = \"\\033[0m\"\ndef print_section(title: str):\n    \"\"\"Imprime cabeçalho de seção\"\"\"\n    print(f\"\\n{BLUE}{'=' * 70}{RESET}\")\n    print(f\"{BLUE}{title:^70}{RESET}\")\n    print(f\"{BLUE}{'=' * 70}{RESET}\\n\")\ndef check_syntax(file_path: str) -> Tuple[bool, str]:\n    \"\"\"",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "BLUE",
+        "kind": 5,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "BLUE = \"\\033[94m\"\nRESET = \"\\033[0m\"\ndef print_section(title: str):\n    \"\"\"Imprime cabeçalho de seção\"\"\"\n    print(f\"\\n{BLUE}{'=' * 70}{RESET}\")\n    print(f\"{BLUE}{title:^70}{RESET}\")\n    print(f\"{BLUE}{'=' * 70}{RESET}\\n\")\ndef check_syntax(file_path: str) -> Tuple[bool, str]:\n    \"\"\"\n    Verifica sintaxe de arquivo Python",
+        "detail": "verify_health",
+        "documentation": {}
+    },
+    {
+        "label": "RESET",
+        "kind": 5,
+        "importPath": "verify_health",
+        "description": "verify_health",
+        "peekOfCode": "RESET = \"\\033[0m\"\ndef print_section(title: str):\n    \"\"\"Imprime cabeçalho de seção\"\"\"\n    print(f\"\\n{BLUE}{'=' * 70}{RESET}\")\n    print(f\"{BLUE}{title:^70}{RESET}\")\n    print(f\"{BLUE}{'=' * 70}{RESET}\\n\")\ndef check_syntax(file_path: str) -> Tuple[bool, str]:\n    \"\"\"\n    Verifica sintaxe de arquivo Python\n    Returns:",
+        "detail": "verify_health",
         "documentation": {}
     }
 ]
