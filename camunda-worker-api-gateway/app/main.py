@@ -3,13 +3,15 @@ Worker API Gateway - Main Application
 FastAPI application para gerenciamento centralizado de tarefas dos workers
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 import uvicorn
 import logging
 import sys
 from typing import Optional
+from datetime import datetime
 
 from services.task_manager import TaskManager
 from core.config import settings
@@ -132,6 +134,87 @@ app.include_router(cpj_documentos_router)
 
 # Include DW LAW router
 app.include_router(dw_law_router.router)
+
+
+# Custom Exception Handler for structured error responses
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    """
+    Custom handler for HTTPException to return structured error responses
+
+    Provides consistent error format for workers to parse and handle appropriately
+    """
+    logger = logging.getLogger(__name__)
+
+    # Determine if error is recoverable (should allow retry)
+    retry_allowed = exc.status_code in [408, 429, 500, 502, 503, 504]
+
+    # Map status codes to error codes
+    error_code_map = {
+        400: "VALIDATION_ERROR",
+        404: "NOT_FOUND",
+        408: "REQUEST_TIMEOUT",
+        422: "UNPROCESSABLE_ENTITY",
+        429: "RATE_LIMIT",
+        500: "INTERNAL_ERROR",
+        502: "BAD_GATEWAY",
+        503: "SERVICE_UNAVAILABLE",
+        504: "GATEWAY_TIMEOUT",
+    }
+
+    error_code = error_code_map.get(exc.status_code, f"HTTP_{exc.status_code}")
+
+    # Log error with context
+    log_level = logging.ERROR if exc.status_code >= 500 else logging.WARNING
+    logger.log(
+        log_level,
+        f"❌ [{error_code}] {exc.detail} | Status: {exc.status_code} | Path: {request.url.path}",
+    )
+
+    # Return structured error response
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "status": "error",
+            "error_code": error_code,
+            "error_message": str(exc.detail),
+            "retry_allowed": retry_allowed,
+            "timestamp": datetime.now().isoformat(),
+            "path": str(request.url.path),
+        },
+    )
+
+
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):
+    """
+    Generic exception handler for unhandled exceptions
+
+    Ensures all errors return structured responses
+    """
+    logger = logging.getLogger(__name__)
+
+    error_message = str(exc)
+    error_code = "INTERNAL_ERROR"
+
+    # Log full exception with traceback
+    logger.error(
+        f"💥 Unhandled exception: {error_message} | Path: {request.url.path}",
+        exc_info=True,
+    )
+
+    # Return structured error (retry allowed for generic errors)
+    return JSONResponse(
+        status_code=500,
+        content={
+            "status": "error",
+            "error_code": error_code,
+            "error_message": error_message,
+            "retry_allowed": True,
+            "timestamp": datetime.now().isoformat(),
+            "path": str(request.url.path),
+        },
+    )
 
 
 if __name__ == "__main__":

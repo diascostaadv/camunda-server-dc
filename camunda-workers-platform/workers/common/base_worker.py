@@ -452,7 +452,12 @@ class BaseWorker:
         custom_payload: Dict[str, Any] = None,
     ) -> Any:
         """
-        Helper method to process tasks via Gateway
+        Helper method to process tasks via Gateway with intelligent error handling
+
+        Implements smart error categorization:
+        - 400/404/422: BPMN Error (business logic errors, no retry)
+        - 408/429/502/503/504: Task Failure (recoverable, with retry)
+        - 500: Depends on retry_allowed flag from Gateway
 
         Args:
             task: Camunda external task
@@ -461,9 +466,12 @@ class BaseWorker:
             custom_payload: Custom payload to send instead of default structure
 
         Returns:
-            Task completion result (complete or fail)
+            Task completion result (complete_task, fail_task, or bpmn_error)
         """
         import requests
+
+        task_id = task.get_task_id()
+        topic = task.get_topic_name()
 
         try:
             gateway_url = f"{self.gateway_base_url}{endpoint}"
@@ -473,68 +481,220 @@ class BaseWorker:
                 payload = custom_payload
             else:
                 payload = {
-                    "task_id": task.get_task_id(),
+                    "task_id": task_id,
                     "process_instance_id": task.get_process_instance_id(),
                     "business_key": task.get_business_key(),
-                    "topic_name": task.get_topic_name(),
+                    "topic_name": topic,
                     "worker_id": self.worker_id,
                     "variables": task.get_variables(),
                 }
 
-            self.logger.info(f"Calling Gateway: {gateway_url}")
+            self.logger.info(f"📤 Calling Gateway: {gateway_url}")
 
-            # Make request to Gateway
+            # Make request WITHOUT raise_for_status() - we'll handle errors manually
             response = requests.post(
                 gateway_url,
                 json=payload,
                 timeout=timeout,
                 headers={"Content-Type": "application/json"},
             )
-            response.raise_for_status()
 
-            result = response.json()
+            # SUCCESS PATH (2xx)
+            if response.status_code == 200:
+                try:
+                    result = response.json()
+                except Exception as e:
+                    self.logger.error(f"❌ Failed to parse Gateway response: {e}")
+                    self.logger.error(f"   Response text: {response.text[:500]}")
+                    GATEWAY_TASKS.labels(topic=topic, status="parse_error").inc()
+                    return self.fail_task(
+                        task, "Invalid JSON response from Gateway", retries=3
+                    )
 
-            # Process response
-            if result.get("status") == "success":
-                # Extract relevant data for Camunda
-                camunda_variables = {
-                    k: v
-                    for k, v in result.items()
-                    if k not in ["status", "message", "task_id", "timestamp"]
-                }
-                self.logger.info(
-                    f"Task {task.get_task_id()} processed successfully via Gateway"
-                )
-                GATEWAY_TASKS.labels(
-                    topic=task.get_topic_name(), status="success"
-                ).inc()
-                return self.complete_task(task, camunda_variables)
+                # Check status in response body
+                if result.get("status") == "success":
+                    # Success - complete task
+                    camunda_variables = {
+                        k: v
+                        for k, v in result.items()
+                        if k not in ["status", "message", "task_id", "timestamp"]
+                    }
+                    self.logger.info(f"✅ Task {task_id} processed successfully via Gateway")
+                    GATEWAY_TASKS.labels(topic=topic, status="success").inc()
+                    return self.complete_task(task, camunda_variables)
+
+                elif result.get("status") == "error":
+                    # Gateway returned structured error in body
+                    error_msg = result.get("error_message", "Gateway processing failed")
+                    error_code = result.get("error_code", "UNKNOWN_ERROR")
+                    retry_allowed = result.get("retry_allowed", False)
+
+                    self.logger.error(f"❌ Gateway error: [{error_code}] {error_msg}")
+                    GATEWAY_TASKS.labels(topic=topic, status="business_error").inc()
+
+                    if retry_allowed:
+                        return self.fail_task(
+                            task, error_msg, error_details=error_code, retries=3, retry_timeout=30000
+                        )
+                    else:
+                        return self.bpmn_error(
+                            task, error_code=error_code, error_message=error_msg
+                        )
+                else:
+                    # Unexpected response format
+                    error_msg = result.get("message", "Unexpected Gateway response format")
+                    self.logger.error(f"⚠️ Unexpected Gateway response: {result}")
+                    GATEWAY_TASKS.labels(topic=topic, status="unexpected_format").inc()
+                    return self.fail_task(task, error_msg, retries=3)
+
+            # ERROR PATH (4xx, 5xx)
             else:
-                # Task failed
-                error_msg = result.get("message", "Gateway processing failed")
-                self.logger.error(
-                    f"Task {task.get_task_id()} failed in Gateway: {error_msg}"
-                )
-                GATEWAY_TASKS.labels(topic=task.get_topic_name(), status="failed").inc()
-                return self.fail_task(task, error_msg, retries=3)
+                # Try to parse error response body
+                try:
+                    error_body = response.json()
+                    error_msg = error_body.get("error_message", response.text[:200])
+                    error_code = error_body.get("error_code", f"HTTP_{response.status_code}")
+                    retry_allowed = error_body.get("retry_allowed", False)
+                except Exception:
+                    # Failed to parse - use raw response
+                    error_msg = response.text[:200] if response.text else f"HTTP {response.status_code}"
+                    error_code = f"HTTP_{response.status_code}"
+                    retry_allowed = response.status_code in [408, 429, 500, 502, 503, 504]
 
+                # Log detailed error information
+                self.logger.error(f"❌ Gateway HTTP error: {response.status_code}")
+                self.logger.error(f"   Error Code: {error_code}")
+                self.logger.error(f"   Message: {error_msg}")
+                self.logger.error(f"   Retry Allowed: {retry_allowed}")
+                if len(response.text) <= 500:
+                    self.logger.error(f"   Response Body: {response.text}")
+
+                # CATEGORIZE BY STATUS CODE
+
+                # 400, 404, 422 = Client errors (validation, not found, etc.) → BPMN Error
+                if response.status_code in [400, 404, 422]:
+                    self.logger.warning(
+                        f"⚠️ Client error (no retry): {error_code} - {error_msg}"
+                    )
+                    GATEWAY_TASKS.labels(topic=topic, status="validation_error").inc()
+                    return self.bpmn_error(
+                        task, error_code=error_code, error_message=error_msg
+                    )
+
+                # 408, 429 = Timeout, Rate Limit → Task Failure (retry with longer backoff)
+                elif response.status_code in [408, 429]:
+                    self.logger.warning(
+                        f"⏱️ Timeout/Rate limit (will retry): {error_code} - {error_msg}"
+                    )
+                    GATEWAY_TASKS.labels(topic=topic, status="timeout_ratelimit").inc()
+                    retry_timeout = 120000 if response.status_code == 429 else 60000
+                    return self.fail_task(
+                        task,
+                        error_msg,
+                        error_details=error_code,
+                        retries=5,
+                        retry_timeout=retry_timeout,
+                    )
+
+                # 502, 503, 504 = Server/Gateway errors → Task Failure (retry)
+                elif response.status_code in [502, 503, 504]:
+                    self.logger.warning(
+                        f"🔧 Server error (will retry): {error_code} - {error_msg}"
+                    )
+                    GATEWAY_TASKS.labels(topic=topic, status="server_error").inc()
+                    return self.fail_task(
+                        task,
+                        error_msg,
+                        error_details=error_code,
+                        retries=5,
+                        retry_timeout=60000,
+                    )
+
+                # 500 = Internal Server Error → Check retry_allowed flag
+                elif response.status_code == 500:
+                    GATEWAY_TASKS.labels(topic=topic, status="internal_error").inc()
+
+                    if retry_allowed:
+                        self.logger.warning(
+                            f"⚙️ Internal error (retry allowed): {error_code} - {error_msg}"
+                        )
+                        return self.fail_task(
+                            task,
+                            error_msg,
+                            error_details=error_code,
+                            retries=3,
+                            retry_timeout=30000,
+                        )
+                    else:
+                        self.logger.error(
+                            f"❌ Internal error (no retry): {error_code} - {error_msg}"
+                        )
+                        return self.bpmn_error(
+                            task, error_code=error_code, error_message=error_msg
+                        )
+
+                # Other status codes → Task Failure (retry)
+                else:
+                    self.logger.error(
+                        f"❓ Unknown HTTP status {response.status_code}: {error_msg}"
+                    )
+                    GATEWAY_TASKS.labels(topic=topic, status="unknown_error").inc()
+                    return self.fail_task(
+                        task,
+                        error_msg,
+                        error_details=error_code,
+                        retries=3,
+                        retry_timeout=30000,
+                    )
+
+        # EXCEPTION HANDLING
         except requests.exceptions.Timeout:
             error_msg = f"Gateway timeout after {timeout}s for endpoint {endpoint}"
-            self.logger.error(error_msg)
-            GATEWAY_TASKS.labels(topic=task.get_topic_name(), status="timeout").inc()
-            return self.fail_task(task, error_msg, retries=3)
+            self.logger.error(f"⏱️ {error_msg}")
+            GATEWAY_TASKS.labels(topic=topic, status="timeout").inc()
+            return self.fail_task(
+                task,
+                error_msg,
+                error_details="REQUEST_TIMEOUT",
+                retries=5,
+                retry_timeout=60000,
+            )
+
+        except requests.exceptions.ConnectionError as e:
+            error_msg = f"Gateway connection failed: {str(e)}"
+            self.logger.error(f"🔌 {error_msg}")
+            GATEWAY_TASKS.labels(topic=topic, status="connection_error").inc()
+            return self.fail_task(
+                task,
+                error_msg,
+                error_details="CONNECTION_ERROR",
+                retries=5,
+                retry_timeout=60000,
+            )
 
         except requests.exceptions.RequestException as e:
             error_msg = f"Gateway request failed: {str(e)}"
-            self.logger.error(error_msg)
-            GATEWAY_TASKS.labels(topic=task.get_topic_name(), status="error").inc()
-            return self.fail_task(task, error_msg, retries=3)
+            self.logger.error(f"❌ {error_msg}")
+            GATEWAY_TASKS.labels(topic=topic, status="request_error").inc()
+            return self.fail_task(
+                task,
+                error_msg,
+                error_details="REQUEST_EXCEPTION",
+                retries=3,
+                retry_timeout=30000,
+            )
 
         except Exception as e:
             error_msg = f"Unexpected error calling Gateway: {str(e)}"
-            self.logger.error(error_msg)
-            GATEWAY_TASKS.labels(topic=task.get_topic_name(), status="error").inc()
-            return self.fail_task(task, error_msg, retries=3)
+            self.logger.error(f"💥 {error_msg}", exc_info=True)
+            GATEWAY_TASKS.labels(topic=topic, status="exception").inc()
+            return self.fail_task(
+                task,
+                error_msg,
+                error_details="UNEXPECTED_ERROR",
+                retries=3,
+                retry_timeout=30000,
+            )
 
     def get_variable(self, task, name: str, default: Any = None) -> Any:
         """Safely get a variable from the task"""

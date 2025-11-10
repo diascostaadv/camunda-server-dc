@@ -517,6 +517,12 @@ class PublicacaoUnifiedWorker(BaseWorker):
     def handle_classificar_publicacao(self, task: ExternalTask):
         """
         Manipula tarefas de classificação de publicação
+        COM TRATAMENTO INTELIGENTE DE ERROS E FALLBACK
+
+        Estratégia de Erro:
+        1. Validação falha → BPMN Error (sem retry)
+        2. Gateway falha → Fallback para classificação padrão
+        3. Erro crítico → BPMN Error
 
         Parâmetros esperados:
         - publicacao_id: ID da publicação a classificar
@@ -537,13 +543,14 @@ class PublicacaoUnifiedWorker(BaseWorker):
             publicacao_id = variables.get("publicacao_id")
             texto_publicacao = variables.get("texto_publicacao")
 
+            # VALIDAÇÃO DE ENTRADA
             if not publicacao_id and not texto_publicacao:
                 error_msg = "publicacao_id ou texto_publicacao deve ser fornecido"
-                log_with_context(f"❌ {error_msg}", log_context)
+                log_with_context(f"❌ Validação falhou: {error_msg}", log_context)
                 return self.bpmn_error(
                     task,
                     error_code="ERRO_VALIDACAO_CLASSIFICACAO",
-                    error_message=error_msg
+                    error_message=error_msg,
                 )
 
             log_with_context(
@@ -552,15 +559,56 @@ class PublicacaoUnifiedWorker(BaseWorker):
             )
 
             if self.gateway_enabled:
-                # Usar o helper para processar via Gateway
+                # PROCESSAR VIA GATEWAY COM FALLBACK
                 log_with_context("📤 Processando via Gateway", log_context)
-                result = self.process_via_gateway(
-                    task=task, endpoint="/publicacoes/classificar", timeout=60
-                )
-                log_with_context("✅ Retorno do Gateway recebido", log_context)
-                return result
+
+                try:
+                    # O process_via_gateway já tem tratamento inteligente de erros
+                    result = self.process_via_gateway(
+                        task=task, endpoint="/publicacoes/classificar", timeout=60
+                    )
+
+                    log_with_context("✅ Retorno do Gateway recebido", log_context)
+                    return result
+
+                except Exception as gateway_error:
+                    # FALLBACK: Se Gateway falhou, usar classificação padrão
+                    # (Isso não deveria acontecer normalmente, pois process_via_gateway
+                    # já trata os erros, mas mantemos como safety net)
+                    log_with_context(
+                        f"⚠️ Gateway error interceptado (usando fallback): {str(gateway_error)}",
+                        log_context,
+                    )
+
+                    # Criar classificação conservadora padrão
+                    fallback_result = {
+                        "status": "success",
+                        "publicacao_id": publicacao_id,
+                        "classificacao": {
+                            "tipo": "outros",
+                            "urgente": False,
+                            "prazo_dias": None,
+                            "confianca": 0.0,
+                            "is_fallback": True,
+                            "fallback_reason": str(gateway_error),
+                        },
+                        "processing_mode": "fallback",
+                        "message": "Classificação padrão aplicada devido a erro no Gateway",
+                        "timestamp": datetime.now().isoformat(),
+                    }
+
+                    log_with_context(
+                        f"📋 Aplicando classificação padrão (fallback) para publicação {publicacao_id}",
+                        log_context,
+                    )
+
+                    # Completar task com fallback (não falha o processo)
+                    return self.complete_task(task, fallback_result)
+
             else:
-                # Modo direto - apenas simula
+                # MODO DIRETO - Simulação
+                log_with_context("⚙️ Modo direto - simulando classificação", log_context)
+
                 result = {
                     "status": "success",
                     "publicacao_id": publicacao_id,
@@ -570,18 +618,22 @@ class PublicacaoUnifiedWorker(BaseWorker):
                         "prazo_dias": None,
                         "confianca": 0.5,
                     },
-                    "modo": "direto",
+                    "processing_mode": "direct",
                     "message": "Classificação simulada em modo direto",
                 }
                 return self.complete_task(task, result)
 
         except Exception as e:
-            error_msg = f"Erro ao classificar publicação: {str(e)}"
-            log_with_context(f"❌ {error_msg}", log_context)
+            # ERRO CRÍTICO - não esperado
+            error_msg = f"Erro crítico ao classificar publicação: {str(e)}"
+            log_with_context(f"💥 {error_msg}", log_context)
+
+            import traceback
+
+            traceback.print_exc()
+
             return self.bpmn_error(
-                task,
-                error_code="ERRO_CLASSIFICACAO",
-                error_message=error_msg
+                task, error_code="ERRO_CRITICO_CLASSIFICACAO", error_message=error_msg
             )
 
     def handle_verificar_processo_cnj(self, task: ExternalTask):
