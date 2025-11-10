@@ -4,6 +4,7 @@ Implementa o processamento de lotes conforme BPMN
 """
 
 import logging
+import time
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
