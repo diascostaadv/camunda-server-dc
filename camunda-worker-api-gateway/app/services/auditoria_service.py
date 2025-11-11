@@ -167,11 +167,10 @@ class AuditoriaService:
                 update_data["marcada_com_sucesso"] = True
                 update_data["timestamp_sucesso"] = datetime.now()
 
-            # Calcular duração total
-            if duracao_ms and "duracao_total_ms" in log_doc:
-                update_data["duracao_total_ms"] = log_doc.get("duracao_total_ms", 0) + duracao_ms
-            elif duracao_ms:
-                update_data["duracao_total_ms"] = duracao_ms
+            # Calcular duração total (garantir que não seja None)
+            if duracao_ms:
+                duracao_total_atual = log_doc.get("duracao_total_ms") or 0
+                update_data["duracao_total_ms"] = duracao_total_atual + duracao_ms
 
             self.col_logs_marcacao.update_one({"_id": ObjectId(log_id)}, {"$set": update_data})
 

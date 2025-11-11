@@ -1,0 +1,89 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Implementar documentação Swagger integrada",
+        "description": "Adicionar configuração no FastAPI para personalizar descrição, tags e exemplos de respostas dos endpoints.",
+        "details": "- Revisar `app/main.py` para customizar metadados\n- Adicionar descrições em routers conforme necessário\n- Criar exemplos/docs no formato FastAPI",
+        "testStrategy": "Executar `uvicorn` ou testes relevantes para garantir carregamento",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Mapear endpoints existentes e requisitos de documentação",
+            "description": "Levantar todos os routers FastAPI e definir tags/descrições adequadas",
+            "details": "",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 2,
+            "title": "Adicionar metadados Swagger no FastAPI",
+            "description": "Configurar título, descrição, contact, license e tags pads em app/main.py",
+            "details": "",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 3,
+            "title": "Documentar endpoints com responses e examples",
+            "description": "Usar `responses`, `response_model`, `Body`, `Example` etc. onde fizer sentido",
+            "details": "",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 4,
+            "title": "Atualizar README com instruções Swagger",
+            "description": "Documentar URL /docs e passos para acessar documentação",
+            "details": "",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 5,
+            "title": "Gerar exemplos de payloads para endpoints principais",
+            "description": "Definir exemplos JSON para submissão de tarefas, filtros de auditoria etc.",
+            "details": "",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Implementar documentação Swagger integrada no FastAPI",
+        "description": "Adicionar documentação Swagger detalhada, ajustando parâmetros e descrevendo rotas existentes no gateway.",
+        "details": "",
+        "testStrategy": "",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "medium",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Planejar implementação da documentação Swagger",
+            "description": "Definir etapas para personalizar documentação via FastAPI, abrangendo metadados, tags e exemplos.",
+            "details": "",
+            "status": "in-progress",
+            "dependencies": [],
+            "parentTaskId": 2
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-11-11T12:51:13.615Z",
+      "description": "Default tasks context",
+      "updated": "2025-11-11T13:15:03.111Z"
+    }
+  }
+}
