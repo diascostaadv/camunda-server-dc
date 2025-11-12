@@ -31,7 +31,9 @@ class DWLawService:
         self.token_cache = get_token_cache()
 
         logger.info(f"DWLawService inicializado - Base URL: {self.base_url}")
-        logger.info(f"🔧 Cache Redis: {'✅ Habilitado' if self.token_cache.enabled else '❌ Desabilitado'}")
+        logger.info(
+            f"🔧 Cache Redis: {'✅ Habilitado' if self.token_cache.enabled else '❌ Desabilitado'}"
+        )
 
     async def _ensure_authenticated(self):
         """Garante token válido, renovando se necessário"""
@@ -48,7 +50,9 @@ class DWLawService:
             expires_at_str = cached_token.get("expires_at")
             if expires_at_str:
                 self._token_expiry = datetime.fromisoformat(expires_at_str)
-                logger.info(f"♻️ Token DW LAW recuperado do cache Redis - Válido até {self._token_expiry}")
+                logger.info(
+                    f"♻️ Token DW LAW recuperado do cache Redis - Válido até {self._token_expiry}"
+                )
                 return
 
         # Não tem cache válido, fazer login
@@ -60,11 +64,8 @@ class DWLawService:
             logger.info("🔐 Autenticando no DW LAW e-Protocol...")
 
             url = f"{self.base_url}/api/AUTENTICAR"
-            payload = {
-                "usuario": self.usuario,
-                "senha": self.senha
-            }
-
+            payload = {"usuario": self.usuario, "senha": self.senha}
+            logger.info(f"🔍 [DW_LAW] Payload enviado: {payload}")
             response = requests.post(
                 url,
                 json=payload,
@@ -93,7 +94,7 @@ class DWLawService:
                 token=self._token,
                 expires_at=self._token_expiry,
                 usuario=self.usuario,
-                extra_data={"base_url": self.base_url}
+                extra_data={"base_url": self.base_url},
             )
 
         except requests.exceptions.RequestException as e:
@@ -106,9 +107,7 @@ class DWLawService:
     # ==================== INSERIR PROCESSOS ====================
 
     async def inserir_processos(
-        self,
-        chave_projeto: str,
-        processos: List[Dict[str, Any]]
+        self, chave_projeto: str, processos: List[Dict[str, Any]]
     ) -> Dict[str, Any]:
         """
         Insere uma lista de processos em um projeto de Consulta Processual
@@ -123,7 +122,9 @@ class DWLawService:
         try:
             await self._ensure_authenticated()
 
-            logger.info(f"📤 Inserindo {len(processos)} processos no DW LAW - Projeto: {chave_projeto}")
+            logger.info(
+                f"📤 Inserindo {len(processos)} processos no DW LAW - Projeto: {chave_projeto}"
+            )
 
             url = f"{self.base_url}/api/consulta_processual/INSERIR_PROCESSOS"
             headers = {
@@ -131,10 +132,7 @@ class DWLawService:
                 "Authorization": f"Bearer {self._token}",
             }
 
-            payload = {
-                "chave_projeto": chave_projeto,
-                "processos": processos
-            }
+            payload = {"chave_projeto": chave_projeto, "processos": processos}
 
             logger.debug(f"📤 [DW_LAW] Payload enviado: {payload}")
 
@@ -149,7 +147,7 @@ class DWLawService:
                 return {
                     "success": False,
                     "retorno": f"ERRO_HTTP_{response.status_code}",
-                    "obs": response.text
+                    "obs": response.text,
                 }
 
             response.raise_for_status()
@@ -160,41 +158,28 @@ class DWLawService:
                 f"✅ Inserção DW LAW concluída - Retorno: {data.get('retorno', 'SUCESSO')}"
             )
 
-            return {
-                "success": True,
-                "data": data
-            }
+            return {"success": True, "data": data}
 
         except requests.exceptions.Timeout:
             logger.error(f"⏱️ Timeout na inserção de processos DW LAW")
             return {
                 "success": False,
                 "retorno": "ERRO_TIMEOUT",
-                "obs": "Timeout ao inserir processos"
+                "obs": "Timeout ao inserir processos",
             }
 
         except requests.exceptions.RequestException as e:
             logger.error(f"🌐❌ Erro de rede na inserção DW LAW: {e}")
-            return {
-                "success": False,
-                "retorno": "ERRO_REDE",
-                "obs": str(e)
-            }
+            return {"success": False, "retorno": "ERRO_REDE", "obs": str(e)}
 
         except Exception as e:
             logger.error(f"💥 Erro inesperado na inserção DW LAW: {e}")
-            return {
-                "success": False,
-                "retorno": "ERRO",
-                "obs": str(e)
-            }
+            return {"success": False, "retorno": "ERRO", "obs": str(e)}
 
     # ==================== EXCLUIR PROCESSOS ====================
 
     async def excluir_processos(
-        self,
-        chave_projeto: str,
-        lista_de_processos: List[Dict[str, str]]
+        self, chave_projeto: str, lista_de_processos: List[Dict[str, str]]
     ) -> Dict[str, Any]:
         """
         Exclui uma lista de processos de um projeto de Consulta Processual
@@ -209,7 +194,9 @@ class DWLawService:
         try:
             await self._ensure_authenticated()
 
-            logger.info(f"🗑️ Excluindo {len(lista_de_processos)} processos no DW LAW - Projeto: {chave_projeto}")
+            logger.info(
+                f"🗑️ Excluindo {len(lista_de_processos)} processos no DW LAW - Projeto: {chave_projeto}"
+            )
 
             url = f"{self.base_url}/api/consulta_processual/EXCLUIR_PROCESSOS"
             headers = {
@@ -219,7 +206,7 @@ class DWLawService:
 
             payload = {
                 "chave_projeto": chave_projeto,
-                "lista_de_processos": lista_de_processos
+                "lista_de_processos": lista_de_processos,
             }
 
             logger.debug(f"🗑️ [DW_LAW] Payload enviado: {payload}")
@@ -235,7 +222,7 @@ class DWLawService:
                 return {
                     "success": False,
                     "retorno": f"ERRO_HTTP_{response.status_code}",
-                    "obs": response.text
+                    "obs": response.text,
                 }
 
             response.raise_for_status()
@@ -246,40 +233,28 @@ class DWLawService:
                 f"✅ Exclusão DW LAW concluída - Retorno: {data.get('retorno', 'SUCESSO')}"
             )
 
-            return {
-                "success": True,
-                "data": data
-            }
+            return {"success": True, "data": data}
 
         except requests.exceptions.Timeout:
             logger.error(f"⏱️ Timeout na exclusão de processos DW LAW")
             return {
                 "success": False,
                 "retorno": "ERRO_TIMEOUT",
-                "obs": "Timeout ao excluir processos"
+                "obs": "Timeout ao excluir processos",
             }
 
         except requests.exceptions.RequestException as e:
             logger.error(f"🌐❌ Erro de rede na exclusão DW LAW: {e}")
-            return {
-                "success": False,
-                "retorno": "ERRO_REDE",
-                "obs": str(e)
-            }
+            return {"success": False, "retorno": "ERRO_REDE", "obs": str(e)}
 
         except Exception as e:
             logger.error(f"💥 Erro inesperado na exclusão DW LAW: {e}")
-            return {
-                "success": False,
-                "retorno": "ERRO",
-                "obs": str(e)
-            }
+            return {"success": False, "retorno": "ERRO", "obs": str(e)}
 
     # ==================== CONSULTAR PROCESSO ====================
 
     async def consultar_processo_por_chave(
-        self,
-        chave_de_pesquisa: str
+        self, chave_de_pesquisa: str
     ) -> Dict[str, Any]:
         """
         Consulta processo completo por chave de pesquisa
@@ -301,9 +276,7 @@ class DWLawService:
                 "Authorization": f"Bearer {self._token}",
             }
 
-            payload = {
-                "chave_de_pesquisa": chave_de_pesquisa
-            }
+            payload = {"chave_de_pesquisa": chave_de_pesquisa}
 
             logger.debug(f"🔍 [DW_LAW] Payload enviado: {payload}")
 
@@ -318,7 +291,7 @@ class DWLawService:
                 return {
                     "success": False,
                     "retorno": f"ERRO_HTTP_{response.status_code}",
-                    "obs": response.text
+                    "obs": response.text,
                 }
 
             response.raise_for_status()
@@ -332,16 +305,15 @@ class DWLawService:
                     f"✅ Consulta DW LAW concluída - Processo: {processo_data.get('numero_processo', 'N/A')}"
                 )
 
-                return {
-                    "success": True,
-                    "data": processo_data
-                }
+                return {"success": True, "data": processo_data}
             else:
-                logger.warning(f"⚠️ Processo não encontrado para chave: {chave_de_pesquisa}")
+                logger.warning(
+                    f"⚠️ Processo não encontrado para chave: {chave_de_pesquisa}"
+                )
                 return {
                     "success": False,
                     "retorno": "ERRO_PROCESSO_NAO_ENCONTRADO",
-                    "obs": "Processo não localizado"
+                    "obs": "Processo não localizado",
                 }
 
         except requests.exceptions.Timeout:
@@ -349,24 +321,16 @@ class DWLawService:
             return {
                 "success": False,
                 "retorno": "ERRO_TIMEOUT",
-                "obs": "Timeout ao consultar processo"
+                "obs": "Timeout ao consultar processo",
             }
 
         except requests.exceptions.RequestException as e:
             logger.error(f"🌐❌ Erro de rede na consulta DW LAW: {e}")
-            return {
-                "success": False,
-                "retorno": "ERRO_REDE",
-                "obs": str(e)
-            }
+            return {"success": False, "retorno": "ERRO_REDE", "obs": str(e)}
 
         except Exception as e:
             logger.error(f"💥 Erro inesperado na consulta DW LAW: {e}")
-            return {
-                "success": False,
-                "retorno": "ERRO",
-                "obs": str(e)
-            }
+            return {"success": False, "retorno": "ERRO", "obs": str(e)}
 
     # ==================== MÉTODOS AUXILIARES ====================
 
