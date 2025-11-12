@@ -5082,6 +5082,14 @@
         "documentation": {}
     },
     {
+        "label": "get_openapi",
+        "importPath": "fastapi.openapi.utils",
+        "description": "fastapi.openapi.utils",
+        "isExtraImport": true,
+        "detail": "fastapi.openapi.utils",
+        "documentation": {}
+    },
+    {
         "label": "asynccontextmanager",
         "importPath": "contextlib",
         "description": "contextlib",
@@ -8233,7 +8241,7 @@
         "kind": 2,
         "importPath": "camunda-worker-api-gateway.app.main",
         "description": "camunda-worker-api-gateway.app.main",
-        "peekOfCode": "def custom_openapi():\n    \"\"\"Customiza o schema OpenAPI para adicionar security schemes\"\"\"\n    if app.openapi_schema:\n        return app.openapi_schema\n    openapi_schema = app.openapi()\n    # Add security schemes\n    openapi_schema[\"components\"][\"securitySchemes\"] = {\n        \"ApiKeyAuth\": {\n            \"type\": \"apiKey\",\n            \"in\": \"header\",",
+        "peekOfCode": "def custom_openapi():\n    \"\"\"Customiza o schema OpenAPI para adicionar security schemes\"\"\"\n    if app.openapi_schema:\n        return app.openapi_schema\n    openapi_schema = get_openapi(\n        title=app.title,\n        version=app.version,\n        openapi_version=app.openapi_version,\n        description=app.description,\n        routes=app.routes,",
         "detail": "camunda-worker-api-gateway.app.main",
         "documentation": {}
     },

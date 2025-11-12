@@ -6,6 +6,7 @@ FastAPI application para gerenciamento centralizado de tarefas dos workers
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.openapi.utils import get_openapi
 from contextlib import asynccontextmanager
 import uvicorn
 import logging
@@ -225,7 +226,15 @@ def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
 
-    openapi_schema = app.openapi()
+    openapi_schema = get_openapi(
+        title=app.title,
+        version=app.version,
+        openapi_version=app.openapi_version,
+        description=app.description,
+        routes=app.routes,
+        tags=app.openapi_tags,
+        servers=app.servers,
+    )
 
     # Add security schemes
     openapi_schema["components"]["securitySchemes"] = {
