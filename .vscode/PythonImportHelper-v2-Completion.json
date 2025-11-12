@@ -253,6 +253,14 @@
         "documentation": {}
     },
     {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Dict",
         "importPath": "typing",
         "description": "typing",
@@ -1997,6 +2005,14 @@
         "documentation": {}
     },
     {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "timedelta",
         "importPath": "datetime",
         "description": "datetime",
@@ -2454,6 +2470,22 @@
     },
     {
         "label": "field_validator",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
         "importPath": "pydantic",
         "description": "pydantic",
         "isExtraImport": true,
@@ -4292,6 +4324,22 @@
         "description": "models.task",
         "isExtraImport": true,
         "detail": "models.task",
+        "documentation": {}
+    },
+    {
+        "label": "ErrorResponse",
+        "importPath": "models.error",
+        "description": "models.error",
+        "isExtraImport": true,
+        "detail": "models.error",
+        "documentation": {}
+    },
+    {
+        "label": "HTTP_ERROR_RESPONSES",
+        "importPath": "models.error",
+        "description": "models.error",
+        "isExtraImport": true,
+        "detail": "models.error",
         "documentation": {}
     },
     {
@@ -6295,7 +6343,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.dw_law",
         "description": "camunda-worker-api-gateway.app.models.dw_law",
-        "peekOfCode": "class InserirProcessosRequest(BaseModel):\n    \"\"\"Request para inserir processos\"\"\"\n    chave_projeto: str = Field(..., description=\"Chave única do projeto DW LAW\")\n    processos: List[ProcessoDWLawInput] = Field(..., description=\"Lista de processos\")\n    camunda_instance_id: Optional[str] = Field(None, description=\"ID da instância Camunda\")\n    camunda_business_key: Optional[str] = Field(None, description=\"Business key Camunda\")\nclass ExcluirProcessosRequest(BaseModel):\n    \"\"\"Request para excluir processos\"\"\"\n    chave_projeto: str = Field(..., description=\"Chave única do projeto DW LAW\")\n    lista_de_processos: List[Dict[str, str]] = Field(",
+        "peekOfCode": "class InserirProcessosRequest(BaseModel):\n    \"\"\"Request para inserir processos\"\"\"\n    chave_projeto: str = Field(..., description=\"Chave única do projeto DW LAW\")\n    processos: List[ProcessoDWLawInput] = Field(..., description=\"Lista de processos\")\n    camunda_instance_id: Optional[str] = Field(None, description=\"ID da instância Camunda\")\n    camunda_business_key: Optional[str] = Field(None, description=\"Business key Camunda\")\n    model_config = {\n        \"json_schema_extra\": {\n            \"examples\": [\n                {",
         "detail": "camunda-worker-api-gateway.app.models.dw_law",
         "documentation": {}
     },
@@ -6322,8 +6370,35 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.dw_law",
         "description": "camunda-worker-api-gateway.app.models.dw_law",
-        "peekOfCode": "class DWLawResponse(BaseModel):\n    \"\"\"Response padrão para operações DW LAW\"\"\"\n    success: bool = Field(..., description=\"Se operação foi bem-sucedida\")\n    data: Optional[Dict[str, Any]] = Field(None, description=\"Dados retornados\")\n    error: Optional[str] = Field(None, description=\"Código de erro\")\n    message: Optional[str] = Field(None, description=\"Mensagem descritiva\")\n    timestamp: datetime = Field(default_factory=datetime.now)\n    class Config:\n        json_encoders = {datetime: lambda v: v.isoformat()}",
+        "peekOfCode": "class DWLawResponse(BaseModel):\n    \"\"\"Response padrão para operações DW LAW\"\"\"\n    success: bool = Field(..., description=\"Se operação foi bem-sucedida\")\n    data: Optional[Dict[str, Any]] = Field(None, description=\"Dados retornados\")\n    error: Optional[str] = Field(None, description=\"Código de erro\")\n    message: Optional[str] = Field(None, description=\"Mensagem descritiva\")\n    timestamp: datetime = Field(default_factory=datetime.now)\n    model_config = {\n        \"json_encoders\": {datetime: lambda v: v.isoformat()},\n        \"json_schema_extra\": {",
         "detail": "camunda-worker-api-gateway.app.models.dw_law",
+        "documentation": {}
+    },
+    {
+        "label": "ErrorResponse",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.error",
+        "description": "camunda-worker-api-gateway.app.models.error",
+        "peekOfCode": "class ErrorResponse(BaseModel):\n    \"\"\"\n    Modelo padronizado para respostas de erro\n    Utilizado em todos os endpoints para documentar erros HTTP\n    e fornecer informações consistentes para retry logic\n    \"\"\"\n    status: str = Field(\n        default=\"error\",\n        description=\"Status da resposta (sempre 'error' para erros)\"\n    )",
+        "detail": "camunda-worker-api-gateway.app.models.error",
+        "documentation": {}
+    },
+    {
+        "label": "ValidationErrorResponse",
+        "kind": 6,
+        "importPath": "camunda-worker-api-gateway.app.models.error",
+        "description": "camunda-worker-api-gateway.app.models.error",
+        "peekOfCode": "class ValidationErrorResponse(BaseModel):\n    \"\"\"\n    Modelo específico para erros de validação (422)\n    Retornado automaticamente pelo FastAPI quando dados\n    de entrada não passam na validação Pydantic\n    \"\"\"\n    detail: list[dict] = Field(\n        ...,\n        description=\"Lista de erros de validação detectados\"\n    )",
+        "detail": "camunda-worker-api-gateway.app.models.error",
+        "documentation": {}
+    },
+    {
+        "label": "HTTP_ERROR_RESPONSES",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.models.error",
+        "description": "camunda-worker-api-gateway.app.models.error",
+        "peekOfCode": "HTTP_ERROR_RESPONSES = {\n    400: {\n        \"model\": ErrorResponse,\n        \"description\": \"**Bad Request** - Requisição inválida ou parâmetros malformados\"\n    },\n    401: {\n        \"model\": ErrorResponse,\n        \"description\": \"**Unauthorized** - API Key ausente ou inválida\"\n    },\n    404: {",
+        "detail": "camunda-worker-api-gateway.app.models.error",
         "documentation": {}
     },
     {
@@ -6457,7 +6532,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.task",
         "description": "camunda-worker-api-gateway.app.models.task",
-        "peekOfCode": "class TaskSubmission(BaseModel):\n    \"\"\"Model for task submission from workers\"\"\"\n    task_id: str = Field(..., description=\"Camunda task ID\")\n    worker_id: str = Field(..., description=\"Worker identifier\")\n    topic: str = Field(..., description=\"Task topic/type\")\n    variables: Dict[str, Any] = Field(default_factory=dict, description=\"Task variables from Camunda\")\n    class Config:\n        json_encoders = {\n            datetime: lambda v: v.isoformat()\n        }",
+        "peekOfCode": "class TaskSubmission(BaseModel):\n    \"\"\"Model for task submission from workers\"\"\"\n    task_id: str = Field(..., description=\"Camunda task ID\")\n    worker_id: str = Field(..., description=\"Worker identifier\")\n    topic: str = Field(..., description=\"Task topic/type\")\n    variables: Dict[str, Any] = Field(default_factory=dict, description=\"Task variables from Camunda\")\n    model_config = {\n        \"json_encoders\": {\n            datetime: lambda v: v.isoformat()\n        },",
         "detail": "camunda-worker-api-gateway.app.models.task",
         "documentation": {}
     },
@@ -6484,7 +6559,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.task",
         "description": "camunda-worker-api-gateway.app.models.task",
-        "peekOfCode": "class TaskStatus(BaseModel):\n    \"\"\"Task status response model\"\"\"\n    task_id: str\n    status: TaskStatusEnum\n    substatus: Optional[str] = None\n    result: Optional[Dict[str, Any]] = None\n    error_message: Optional[str] = None\n    timestamps: TaskTimestamps\n    metadata: TaskMetadata = Field(default_factory=TaskMetadata)\nclass TaskResult(BaseModel):",
+        "peekOfCode": "class TaskStatus(BaseModel):\n    \"\"\"Task status response model\"\"\"\n    task_id: str\n    status: TaskStatusEnum\n    substatus: Optional[str] = None\n    result: Optional[Dict[str, Any]] = None\n    error_message: Optional[str] = None\n    timestamps: TaskTimestamps\n    metadata: TaskMetadata = Field(default_factory=TaskMetadata)\n    model_config = {",
         "detail": "camunda-worker-api-gateway.app.models.task",
         "documentation": {}
     },
@@ -6493,7 +6568,7 @@
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.task",
         "description": "camunda-worker-api-gateway.app.models.task",
-        "peekOfCode": "class TaskResult(BaseModel):\n    \"\"\"Task processing result\"\"\"\n    success: bool\n    result: Optional[Dict[str, Any]] = None\n    error_message: Optional[str] = None\n    processing_time_ms: int\n    substatus_history: List[str] = Field(default_factory=list)\nclass Task(BaseModel):\n    \"\"\"Complete task model for database storage\"\"\"\n    task_id: str = Field(..., description=\"Camunda task ID\")",
+        "peekOfCode": "class TaskResult(BaseModel):\n    \"\"\"Task processing result\"\"\"\n    success: bool\n    result: Optional[Dict[str, Any]] = None\n    error_message: Optional[str] = None\n    processing_time_ms: int\n    substatus_history: List[str] = Field(default_factory=list)\n    model_config = {\n        \"json_schema_extra\": {\n            \"examples\": [",
         "detail": "camunda-worker-api-gateway.app.models.task",
         "documentation": {}
     },
@@ -7132,7 +7207,7 @@
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.routes.tasks",
         "description": "camunda-worker-api-gateway.app.routes.tasks",
-        "peekOfCode": "router = APIRouter(\n    prefix=\"/tasks\",\n    tags=[\"tasks\"],\n    responses={\n        404: {\"description\": \"Task not found\"},\n        500: {\"description\": \"Internal server error\"},\n        503: {\"description\": \"Service unavailable\"},\n    },\n)\n@router.post(\"/submit\")",
+        "peekOfCode": "router = APIRouter(\n    prefix=\"/tasks\",\n    tags=[\"tasks\"],\n    responses={\n        404: {\"description\": \"Task not found\"},\n        500: {\"description\": \"Internal server error\"},\n        503: {\"description\": \"Service unavailable\"},\n    },\n)\n@router.post(",
         "detail": "camunda-worker-api-gateway.app.routes.tasks",
         "documentation": {}
     },
@@ -8154,11 +8229,38 @@
         "documentation": {}
     },
     {
+        "label": "custom_openapi",
+        "kind": 2,
+        "importPath": "camunda-worker-api-gateway.app.main",
+        "description": "camunda-worker-api-gateway.app.main",
+        "peekOfCode": "def custom_openapi():\n    \"\"\"Customiza o schema OpenAPI para adicionar security schemes\"\"\"\n    if app.openapi_schema:\n        return app.openapi_schema\n    openapi_schema = app.openapi()\n    # Add security schemes\n    openapi_schema[\"components\"][\"securitySchemes\"] = {\n        \"ApiKeyAuth\": {\n            \"type\": \"apiKey\",\n            \"in\": \"header\",",
+        "detail": "camunda-worker-api-gateway.app.main",
+        "documentation": {}
+    },
+    {
+        "label": "tags_metadata",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.main",
+        "description": "camunda-worker-api-gateway.app.main",
+        "peekOfCode": "tags_metadata = [\n    {\n        \"name\": \"health\",\n        \"description\": \"Health check endpoints para monitoramento da aplicação e status dos serviços conectados (MongoDB).\"\n    },\n    {\n        \"name\": \"tasks\",\n        \"description\": \"Gerenciamento de tarefas assíncronas. Submit, acompanhamento de status e retry de tarefas processadas pelo Gateway.\"\n    },\n    {",
+        "detail": "camunda-worker-api-gateway.app.main",
+        "documentation": {}
+    },
+    {
         "label": "app",
         "kind": 5,
         "importPath": "camunda-worker-api-gateway.app.main",
         "description": "camunda-worker-api-gateway.app.main",
-        "peekOfCode": "app = FastAPI(\n    title=\"Worker API Gateway\",\n    description=\"Centralized task management for Camunda workers\",\n    version=\"1.0.0\",\n    lifespan=lifespan,\n)\n# CORS middleware\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],",
+        "peekOfCode": "app = FastAPI(\n    title=\"Worker API Gateway\",\n    description=\"\"\"\n## API Gateway para Processamento de Tarefas Camunda\nGateway centralizado para processamento assíncrono de tarefas dos workers do ecossistema Camunda BPM.\n### Arquitetura\nEste Gateway segue o **padrão de orquestração de workers**, onde:\n- **Workers** buscam tarefas do Camunda BPM\n- **Workers** submetem tarefas ao Gateway para processamento\n- **Gateway** processa tarefas com lógica de negócio",
+        "detail": "camunda-worker-api-gateway.app.main",
+        "documentation": {}
+    },
+    {
+        "label": "app.openapi",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.main",
+        "description": "camunda-worker-api-gateway.app.main",
+        "peekOfCode": "app.openapi = custom_openapi\n# CORS middleware\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\n# Include routers",
         "detail": "camunda-worker-api-gateway.app.main",
         "documentation": {}
     },

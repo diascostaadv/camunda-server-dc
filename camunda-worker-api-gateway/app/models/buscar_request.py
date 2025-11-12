@@ -66,6 +66,26 @@ class BuscarPublicacoesRequest(BaseModel):
         """Converte para dicionário"""
         return self.model_dump(exclude_none=True)
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "cod_grupo": 5,
+                    "data_inicial": "2024-01-15",
+                    "data_final": "2024-01-15",
+                    "limite_publicacoes": 1000,
+                    "chunk_size": 200,
+                    "timeout_soap": 90,
+                    "max_retries": 3,
+                    "process_key": "processar_movimentacao_judicial",
+                    "usar_business_key": True,
+                    "filtrar_duplicatas": True,
+                    "apenas_nao_exportadas": False
+                }
+            ]
+        }
+    }
+
 
 class PublicacaoProcessingResult(BaseModel):
     """Resultado do processamento de uma publicação individual"""
@@ -160,6 +180,49 @@ class BuscarPublicacoesResponse(BaseModel):
             f"{self.instancias_com_erro} com erro. "
             f"Taxa de sucesso: {self.taxa_sucesso:.1%}"
         )
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "timestamp_inicio": "2024-01-15T10:00:00Z",
+                    "timestamp_fim": "2024-01-15T10:05:30Z",
+                    "duracao_segundos": 330.5,
+                    "total_encontradas": 25,
+                    "total_processadas": 25,
+                    "total_filtradas": 3,
+                    "instancias_criadas": 22,
+                    "instancias_com_erro": 0,
+                    "instancias_ignoradas": 3,
+                    "taxa_sucesso": 1.0,
+                    "resultados_detalhados": [
+                        {
+                            "cod_publicacao": 123456,
+                            "numero_processo": "1234567-89.2024.8.13.0000",
+                            "status": "success",
+                            "instance_id": "abc123-def456",
+                            "business_key": "pub_123456",
+                            "error_message": None,
+                            "timestamp": "2024-01-15T10:01:00Z"
+                        }
+                    ],
+                    "configuracao_utilizada": {
+                        "cod_grupo": 5,
+                        "data_inicial": "2024-01-15",
+                        "data_final": "2024-01-15"
+                    },
+                    "erros_gerais": [],
+                    "publicacoes_por_tribunal": {
+                        "TJMG": 15,
+                        "TJSP": 10
+                    },
+                    "publicacoes_por_fonte": {
+                        "dw": 25
+                    }
+                }
+            ]
+        }
+    }
 
 
 class BuscarPublicacoesStatus(BaseModel):

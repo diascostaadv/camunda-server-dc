@@ -239,6 +239,30 @@ class InserirProcessosRequest(BaseModel):
     camunda_instance_id: Optional[str] = Field(None, description="ID da instância Camunda")
     camunda_business_key: Optional[str] = Field(None, description="Business key Camunda")
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "chave_projeto": "PROJ_DIAS_COSTA_2024",
+                    "processos": [
+                        {
+                            "numero_processo": "0012205-60.2015.5.15.0077",
+                            "other_info_client1": "CÓDIGO_INTERNO_123",
+                            "other_info_client2": "PASTA_456"
+                        },
+                        {
+                            "numero_processo": "0001234-56.2024.8.13.0000",
+                            "other_info_client1": "COD_789",
+                            "other_info_client2": "PASTA_101"
+                        }
+                    ],
+                    "camunda_instance_id": "proc_inst_xyz123",
+                    "camunda_business_key": "bk_dw_law_insert_001"
+                }
+            ]
+        }
+    }
+
 
 class ExcluirProcessosRequest(BaseModel):
     """Request para excluir processos"""
@@ -262,5 +286,23 @@ class DWLawResponse(BaseModel):
     message: Optional[str] = Field(None, description="Mensagem descritiva")
     timestamp: datetime = Field(default_factory=datetime.now)
 
-    class Config:
-        json_encoders = {datetime: lambda v: v.isoformat()}
+    model_config = {
+        "json_encoders": {datetime: lambda v: v.isoformat()},
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "success": True,
+                    "data": {
+                        "processos_inseridos": 2,
+                        "chaves_de_pesquisa": [
+                            "CHAVE_ABC123",
+                            "CHAVE_DEF456"
+                        ]
+                    },
+                    "error": None,
+                    "message": "Processos inseridos com sucesso",
+                    "timestamp": "2024-01-15T10:00:00Z"
+                }
+            ]
+        }
+    }

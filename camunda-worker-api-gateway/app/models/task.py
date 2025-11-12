@@ -19,16 +19,32 @@ class TaskStatusEnum(str, Enum):
 
 class TaskSubmission(BaseModel):
     """Model for task submission from workers"""
-    
+
     task_id: str = Field(..., description="Camunda task ID")
     worker_id: str = Field(..., description="Worker identifier")
     topic: str = Field(..., description="Task topic/type")
     variables: Dict[str, Any] = Field(default_factory=dict, description="Task variables from Camunda")
-    
-    class Config:
-        json_encoders = {
+
+    model_config = {
+        "json_encoders": {
             datetime: lambda v: v.isoformat()
+        },
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "task_id": "abc123-task-456",
+                    "worker_id": "buscar-publicacoes-worker-01",
+                    "topic": "buscar-publicacoes-diarias",
+                    "variables": {
+                        "data_inicio": "2024-01-15",
+                        "data_fim": "2024-01-15",
+                        "tribunal": "TJSP",
+                        "processo_id": "proc_789"
+                    }
+                }
+            ]
         }
+    }
 
 
 class TaskTimestamps(BaseModel):
@@ -52,7 +68,7 @@ class TaskMetadata(BaseModel):
 
 class TaskStatus(BaseModel):
     """Task status response model"""
-    
+
     task_id: str
     status: TaskStatusEnum
     substatus: Optional[str] = None
@@ -61,15 +77,76 @@ class TaskStatus(BaseModel):
     timestamps: TaskTimestamps
     metadata: TaskMetadata = Field(default_factory=TaskMetadata)
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "task_id": "abc123-task-456",
+                    "status": "sucesso",
+                    "substatus": "processamento_completo",
+                    "result": {
+                        "publicacoes_processadas": 15,
+                        "lote_id": "lote_20240115_001",
+                        "duplicatas_encontradas": 2
+                    },
+                    "error_message": None,
+                    "timestamps": {
+                        "created_at": "2024-01-15T10:00:00Z",
+                        "started_at": "2024-01-15T10:00:05Z",
+                        "completed_at": "2024-01-15T10:02:30Z",
+                        "last_updated": "2024-01-15T10:02:30Z"
+                    },
+                    "metadata": {
+                        "retries": 0,
+                        "error_message": None,
+                        "processing_steps": [
+                            "soap_request_enviado",
+                            "dados_recebidos",
+                            "bronze_criado",
+                            "silver_processado"
+                        ],
+                        "worker_version": "1.0.0",
+                        "processing_time_ms": 145000
+                    }
+                }
+            ]
+        }
+    }
+
 
 class TaskResult(BaseModel):
     """Task processing result"""
-    
+
     success: bool
     result: Optional[Dict[str, Any]] = None
     error_message: Optional[str] = None
     processing_time_ms: int
     substatus_history: List[str] = Field(default_factory=list)
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "success": True,
+                    "result": {
+                        "publicacoes_salvas": 15,
+                        "lote_id": "lote_20240115_001",
+                        "classificacao_aplicada": True
+                    },
+                    "error_message": None,
+                    "processing_time_ms": 145000,
+                    "substatus_history": [
+                        "iniciando_busca",
+                        "soap_request_enviado",
+                        "processando_resposta",
+                        "salvando_bronze",
+                        "transformando_silver",
+                        "concluido"
+                    ]
+                }
+            ]
+        }
+    }
 
 
 class Task(BaseModel):

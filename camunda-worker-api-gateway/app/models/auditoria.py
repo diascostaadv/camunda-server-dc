@@ -108,8 +108,50 @@ class LogMarcacaoPublicacao(BaseModel):
         description="Metadados adicionais (versão, ambiente, etc.)",
     )
 
-    class Config:
-        use_enum_values = True
+    model_config = {
+        "use_enum_values": True,
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "cod_publicacao": 123456,
+                    "lote_id": "lote_20240115_001",
+                    "execucao_id": "exec_abc123",
+                    "publicacao_bronze_id": "65a1b2c3d4e5f6a7b8c9d0e1",
+                    "status_atual": "sucesso",
+                    "marcada_com_sucesso": True,
+                    "timestamp_primeira_tentativa": "2024-01-15T10:00:00Z",
+                    "timestamp_ultima_tentativa": "2024-01-15T10:00:05Z",
+                    "timestamp_sucesso": "2024-01-15T10:00:05Z",
+                    "total_tentativas": 1,
+                    "tentativas": [
+                        {
+                            "numero_tentativa": 1,
+                            "timestamp": "2024-01-15T10:00:00Z",
+                            "status": "sucesso",
+                            "duracao_ms": 1250.5,
+                            "mensagem_erro": None,
+                            "detalhes": {
+                                "response_code": 200,
+                                "webjur_response": "OK"
+                            }
+                        }
+                    ],
+                    "duracao_total_ms": 1250.5,
+                    "worker_id": "marcar-publicacoes-worker-01",
+                    "task_id": "task_xyz789",
+                    "process_instance_id": "proc_inst_456",
+                    "snapshot_publicacao": {
+                        "numero_processo": "1234567-89.2024.8.13.0000",
+                        "data_publicacao": "15/01/2024"
+                    },
+                    "metadata": {
+                        "versao": "1.0.0",
+                        "ambiente": "production"
+                    }
+                }
+            ]
+        }
+    }
 
 
 class ConsultaLogRequest(BaseModel):

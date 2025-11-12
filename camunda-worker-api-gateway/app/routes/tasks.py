@@ -7,6 +7,7 @@ from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends
 from typing import Optional
 
 from models.task import TaskSubmission, TaskStatus
+from models.error import ErrorResponse, HTTP_ERROR_RESPONSES
 from services.task_manager import TaskManager
 from .dependencies import get_task_manager
 
@@ -22,22 +23,56 @@ router = APIRouter(
 )
 
 
-@router.post("/submit")
+@router.post(
+    "/submit",
+    summary="Submit nova tarefa para processamento",
+    response_description="Confirmação de submissão da tarefa",
+    responses={
+        500: HTTP_ERROR_RESPONSES[500],
+    }
+)
 async def submit_task(
     task_submission: TaskSubmission,
     background_tasks: BackgroundTasks,
     task_manager: TaskManager = Depends(get_task_manager),
 ):
     """
-    Submit a new task for processing
+    **Submit uma nova tarefa para processamento assíncrono no Gateway.**
 
-    Args:
-        task_submission: Task data from worker
-        background_tasks: FastAPI background tasks
-        task_manager: Task manager dependency
+    Este endpoint é usado pelos workers para submeter tarefas do Camunda BPM
+    ao Gateway para processamento. A tarefa é armazenada no MongoDB e
+    processada em background.
 
-    Returns:
-        dict: Task submission confirmation
+    **Fluxo:**
+    1. Worker busca tarefa do Camunda External Task
+    2. Worker submete tarefa ao Gateway via POST /tasks/submit
+    3. Gateway cria registro no MongoDB com status "em_andamento"
+    4. Gateway processa tarefa em background
+    5. Worker monitora status via GET /tasks/{task_id}/status
+    6. Worker completa ou falha tarefa no Camunda baseado no resultado
+
+    **Processamento:**
+    - Tarefa é processada imediatamente em background
+    - Status pode ser monitorado via endpoint /tasks/{task_id}/status
+    - Em caso de falha, pode ser retentada via /tasks/{task_id}/retry
+
+    **Exemplo de uso:**
+    ```python
+    response = await client.post("/tasks/submit", json={
+        "task_id": "abc123-task-456",
+        "worker_id": "buscar-publicacoes-worker-01",
+        "topic": "buscar-publicacoes-diarias",
+        "variables": {
+            "data_inicio": "2024-01-15",
+            "data_fim": "2024-01-15"
+        }
+    })
+    ```
+
+    **Retorno:**
+    - `status`: "submitted"
+    - `task_id`: ID da tarefa para monitoramento
+    - `message`: Mensagem de confirmação
     """
     try:
         # Create task in database
@@ -61,19 +96,63 @@ async def submit_task(
         raise HTTPException(status_code=500, detail=f"Failed to submit task: {str(e)}")
 
 
-@router.get("/{task_id}/status")
+@router.get(
+    "/{task_id}/status",
+    summary="Consultar status de tarefa",
+    response_model=TaskStatus,
+    response_description="Status atual da tarefa com metadados e resultado",
+    responses={
+        404: HTTP_ERROR_RESPONSES[404],
+        500: HTTP_ERROR_RESPONSES[500],
+    }
+)
 async def get_task_status(
     task_id: str, task_manager: TaskManager = Depends(get_task_manager)
 ) -> TaskStatus:
     """
-    Get task status and result
+    **Consulta o status e resultado de uma tarefa em processamento.**
 
-    Args:
-        task_id: Camunda task ID
-        task_manager: Task manager dependency
+    Workers devem fazer polling neste endpoint para monitorar o progresso
+    das tarefas submetidas ao Gateway.
 
-    Returns:
-        TaskStatus: Current task status and details
+    **Status possíveis:**
+    - `em_andamento`: Tarefa sendo processada
+    - `aguardando`: Aguardando resposta de serviço externo
+    - `sucesso`: Processamento concluído com sucesso
+    - `erro`: Falha no processamento
+
+    **Substatus:**
+    Fornece informação granular sobre a etapa atual:
+    - "soap_request_enviado"
+    - "processando_resposta"
+    - "salvando_bronze"
+    - "transformando_silver"
+    - "concluido"
+
+    **Metadata inclui:**
+    - Número de retries
+    - Mensagem de erro (se houver)
+    - Steps de processamento
+    - Tempo total de processamento
+
+    **Exemplo de uso:**
+    ```python
+    # Worker faz polling a cada 5 segundos
+    while True:
+        status = await client.get(f"/tasks/{task_id}/status")
+        if status["status"] in ["sucesso", "erro"]:
+            break
+        await asyncio.sleep(5)
+    ```
+
+    **Retorno:**
+    - `task_id`: ID da tarefa
+    - `status`: Status atual (enum)
+    - `substatus`: Etapa atual de processamento
+    - `result`: Resultado final (se concluído)
+    - `error_message`: Mensagem de erro (se falhou)
+    - `timestamps`: Timestamps de criação, início, conclusão
+    - `metadata`: Metadados adicionais e histórico
     """
     try:
         task = await task_manager.get_task(task_id)
@@ -98,22 +177,57 @@ async def get_task_status(
         )
 
 
-@router.post("/{task_id}/retry")
+@router.post(
+    "/{task_id}/retry",
+    summary="Retentar tarefa falhada",
+    response_description="Confirmação de retry",
+    responses={
+        400: HTTP_ERROR_RESPONSES[400],
+        404: HTTP_ERROR_RESPONSES[404],
+        500: HTTP_ERROR_RESPONSES[500],
+    }
+)
 async def retry_task(
     task_id: str,
     background_tasks: BackgroundTasks,
     task_manager: TaskManager = Depends(get_task_manager),
 ):
     """
-    Retry a failed task
+    **Retenta uma tarefa que falhou no processamento.**
 
-    Args:
-        task_id: Camunda task ID
-        background_tasks: FastAPI background tasks
-        task_manager: Task manager dependency
+    Permite que workers ou processos manuais resubmetam tarefas que
+    falharam por erros temporários (timeouts, indisponibilidade de serviços, etc.)
 
-    Returns:
-        dict: Retry confirmation
+    **Regras:**
+    - Apenas tarefas com status `erro` podem ser retentadas
+    - Tarefa é resetada para status `em_andamento`
+    - Substatus é marcado como "retrying"
+    - Processamento é iniciado novamente em background
+    - Contador de retries é incrementado nos metadados
+
+    **Quando usar:**
+    - Timeout em chamadas SOAP/API externas
+    - Indisponibilidade temporária de MongoDB/Redis
+    - Erros de rede transientes
+    - Problemas temporários em serviços externos (CPJ, DW LAW, N8N)
+
+    **Quando NÃO usar:**
+    - Erros de validação de dados (não resolverão com retry)
+    - Dados corrompidos ou inválidos
+    - Erros de lógica de negócio
+
+    **Exemplo de uso:**
+    ```python
+    # Worker detecta falha e decide retentar
+    status = await client.get(f"/tasks/{task_id}/status")
+    if status["status"] == "erro" and status["metadata"]["retries"] < 3:
+        await client.post(f"/tasks/{task_id}/retry")
+    ```
+
+    **Retorno:**
+    - `status`: "retrying"
+    - `task_id`: ID da tarefa
+    - `message`: Confirmação de resubmissão
     """
     try:
         task = await task_manager.get_task(task_id)

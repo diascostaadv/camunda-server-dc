@@ -314,6 +314,20 @@ class ProcessamentoPublicacaoRequest(BaseModel):
         80.0, ge=0.0, le=100.0, description="Score mínimo para considerar duplicata"
     )
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "publicacao_bronze_id": "65a1b2c3d4e5f6a7b8c9d0e1",
+                    "executar_classificacao": True,
+                    "executar_deduplicacao": True,
+                    "iniciar_processo_camunda": False,
+                    "score_minimo_similaridade": 85.0
+                }
+            ]
+        }
+    }
+
 
 class ProcessamentoLoteRequest(BaseModel):
     """
@@ -341,6 +355,22 @@ class ProcessamentoLoteRequest(BaseModel):
     iniciar_processos_camunda: bool = Field(
         False, description="Se deve iniciar processos no Camunda"
     )
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "lote_id": "lote_20240115_001",
+                    "processar_em_paralelo": True,
+                    "max_paralelo": 10,
+                    "continuar_em_erro": True,
+                    "executar_classificacao": True,
+                    "executar_deduplicacao": True,
+                    "iniciar_processos_camunda": False
+                }
+            ]
+        }
+    }
 
 
 class ProcessamentoLoteResponse(BaseModel):
@@ -375,5 +405,35 @@ class ProcessamentoLoteResponse(BaseModel):
         default_factory=list, description="IDs das publicações prata criadas"
     )
 
-    class Config:
-        json_encoders = {datetime: lambda v: v.isoformat()}
+    model_config = {
+        "json_encoders": {datetime: lambda v: v.isoformat()},
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "lote_id": "lote_20240115_001",
+                    "timestamp_inicio": "2024-01-15T10:00:00Z",
+                    "timestamp_fim": "2024-01-15T10:05:30Z",
+                    "duracao_segundos": 330.5,
+                    "total_publicacoes": 25,
+                    "processadas_sucesso": 23,
+                    "processadas_erro": 2,
+                    "estatisticas_status": {
+                        "nova_publicacao_inedita": 20,
+                        "repetida": 3,
+                        "identidade_duvidosa": 0,
+                        "erro": 2
+                    },
+                    "erros": [
+                        {
+                            "publicacao_bronze_id": "65a1b2c3d4e5f6a7b8c9d0e1",
+                            "erro": "Falha ao classificar: timeout na API N8N"
+                        }
+                    ],
+                    "publicacoes_prata_ids": [
+                        "65a1b2c3d4e5f6a7b8c9d0e2",
+                        "65a1b2c3d4e5f6a7b8c9d0e3"
+                    ]
+                }
+            ]
+        }
+    }

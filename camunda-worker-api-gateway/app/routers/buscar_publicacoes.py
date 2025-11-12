@@ -54,20 +54,79 @@ def get_lote_service(
     )
 
 
-@router.post("/processar", response_model=BuscarPublicacoesResponse)
+@router.post(
+    "/processar",
+    response_model=BuscarPublicacoesResponse,
+    summary="Buscar publicações diárias via SOAP Webjur",
+    response_description="Estatísticas completas da busca e processamento",
+    responses={
+        503: {"description": "Serviço SOAP indisponível"},
+        500: {"description": "Erro interno no processamento"}
+    }
+)
 async def processar_busca_publicacoes(
     request: BuscarPublicacoesRequest,
     process_starter: ProcessStarter = Depends(get_process_starter),
     soap_client: IntimationService = Depends(get_intimation_client),
 ):
     """
-    Processa busca de publicações e inicia processos Camunda
+    **Busca publicações judiciais diárias via API SOAP Webjur e inicia processos BPMN.**
 
-    Fluxo:
-    1. Busca publicações via SOAP API
-    2. Converte para formato MovimentacaoJudicial
-    3. Inicia instância de processo para cada publicação
-    4. Retorna estatísticas do processamento
+    Este é o endpoint principal para busca automatizada de publicações do dia.
+    Integra com a API SOAP da Webjur para obter publicações e iniciar processos
+    no Camunda BPM para cada publicação encontrada.
+
+    **Fluxo completo:**
+    1. Conecta com API SOAP Webjur
+    2. Busca publicações por período (data_inicial/data_final) ou não exportadas
+    3. Converte publicações para formato MovimentacaoJudicial
+    4. Filtra duplicatas (opcional)
+    5. Cria instâncias de processo no Camunda para cada publicação
+    6. Registra estatísticas detalhadas
+    7. Retorna resultado com contadores e detalhes
+
+    **Modos de busca:**
+    - **Por período**: Especifica `data_inicial` e `data_final` (formato YYYY-MM-DD)
+    - **Não exportadas**: Define `apenas_nao_exportadas=true` (busca tudo pendente)
+
+    **Configurações importantes:**
+    - `cod_grupo`: Grupo de busca (padrão: 5 para dados históricos)
+    - `limite_publicacoes`: Limite máximo de publicações a processar
+    - `chunk_size`: Tamanho de lotes para processamento interno
+    - `timeout_soap`: Timeout em segundos para chamadas SOAP
+    - `filtrar_duplicatas`: Se deve filtrar publicações já processadas
+
+    **Exemplo de uso:**
+    ```python
+    # Buscar publicações de um dia específico
+    response = await client.post("/buscar-publicacoes/processar", json={
+        "cod_grupo": 5,
+        "data_inicial": "2024-01-15",
+        "data_final": "2024-01-15",
+        "limite_publicacoes": 1000,
+        "filtrar_duplicatas": True
+    })
+
+    # Buscar apenas não exportadas
+    response = await client.post("/buscar-publicacoes/processar", json={
+        "cod_grupo": 5,
+        "apenas_nao_exportadas": True,
+        "limite_publicacoes": 500
+    })
+    ```
+
+    **Monitoramento:**
+    - Opera ção gera um `operation_id` único
+    - Status pode ser consultado via GET /buscar-publicacoes/status/{operation_id}
+    - Estatísticas em tempo real durante o processamento
+
+    **Retorno incluí:**
+    - Total de publicações encontradas e processadas
+    - Número de instâncias BPMN criadas
+    - Taxa de sucesso
+    - Contadores por tribunal e fonte
+    - Lista detalhada de resultados por publicação
+    - Erros encontrados durante o processamento
     """
     timestamp_inicio = datetime.now()
     operation_id = f"busca_{timestamp_inicio.strftime('%Y%m%d_%H%M%S')}"

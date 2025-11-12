@@ -98,13 +98,157 @@ async def lifespan(app: FastAPI):
     logger.info("👋 Worker API Gateway stopped")
 
 
+# OpenAPI Tags Metadata
+tags_metadata = [
+    {
+        "name": "health",
+        "description": "Health check endpoints para monitoramento da aplicação e status dos serviços conectados (MongoDB)."
+    },
+    {
+        "name": "tasks",
+        "description": "Gerenciamento de tarefas assíncronas. Submit, acompanhamento de status e retry de tarefas processadas pelo Gateway."
+    },
+    {
+        "name": "Buscar Publicações",
+        "description": "Endpoints para busca e processamento de publicações diárias via integração SOAP com Webjur. Inclui processamento de lotes (Bronze) e transformação para camada Silver."
+    },
+    {
+        "name": "publicacoes",
+        "description": "Processamento de publicações individuais e em lote. Classificação via LLM (N8N), verificação de duplicatas e transformação Bronze → Prata → Ouro."
+    },
+    {
+        "name": "Marcar Publicações",
+        "description": "Marcação de publicações como exportadas no sistema Webjur. Suporta marcação individual, por lote e auditoria completa."
+    },
+    {
+        "name": "Auditoria",
+        "description": "Consulta de logs de auditoria para marcação de publicações. Estatísticas, análise de falhas e rastreamento completo de operações."
+    },
+    {
+        "name": "CPJ - Publicações",
+        "description": "Integração com CPJ (Agnes CPJ-3C) para envio de publicações processadas. CRUD de publicações no sistema CPJ."
+    },
+    {
+        "name": "CPJ - Pessoas",
+        "description": "Gerenciamento de pessoas (clientes, partes) no sistema CPJ. CRUD e sincronização com processos."
+    },
+    {
+        "name": "CPJ - Processos",
+        "description": "Gerenciamento de processos judiciais no CPJ. Criação, atualização e consulta de processos por número CNJ."
+    },
+    {
+        "name": "CPJ - Pedidos",
+        "description": "Gerenciamento de pedidos (demandas) associados a processos no CPJ."
+    },
+    {
+        "name": "CPJ - Envolvidos",
+        "description": "Gerenciamento de partes envolvidas (autores, réus) em processos no CPJ."
+    },
+    {
+        "name": "CPJ - Tramitação",
+        "description": "Registro e consulta de movimentações processuais no CPJ. Histórico de tramitação."
+    },
+    {
+        "name": "CPJ - Documentos",
+        "description": "Upload e gerenciamento de documentos (PDFs, anexos) associados a processos no CPJ."
+    },
+    {
+        "name": "DW LAW e-Protocol",
+        "description": "Integração com DW LAW para protocolo eletrônico. Inserção e exclusão de processos, consultas e recebimento de callbacks."
+    },
+]
+
 # FastAPI application
 app = FastAPI(
     title="Worker API Gateway",
-    description="Centralized task management for Camunda workers",
+    description="""
+## API Gateway para Processamento de Tarefas Camunda
+
+Gateway centralizado para processamento assíncrono de tarefas dos workers do ecossistema Camunda BPM.
+
+### Arquitetura
+
+Este Gateway segue o **padrão de orquestração de workers**, onde:
+- **Workers** buscam tarefas do Camunda BPM
+- **Workers** submetem tarefas ao Gateway para processamento
+- **Gateway** processa tarefas com lógica de negócio
+- **Workers** monitoram status e retornam resultados ao Camunda
+
+### Integrações
+
+- **Camunda BPM Platform**: Orquestração de processos BPMN
+- **MongoDB**: Persistência de tarefas e auditoria
+- **Redis**: Cache e controle de estado
+- **Webjur SOAP API**: Busca e marcação de publicações diárias
+- **CPJ (Agnes CPJ-3C)**: Sistema jurídico para gestão de processos
+- **DW LAW e-Protocol**: Sistema de protocolo eletrônico
+- **N8N Webhook**: Classificação de publicações via LLM
+
+### Fluxo de Dados
+
+```
+Camunda Worker → POST /tasks/submit → Gateway processa → Worker monitora /tasks/{id}/status → Retorna ao Camunda
+```
+
+### Ambientes
+
+- **Local**: http://localhost:8000
+- **Production**: Definido em variáveis de ambiente
+    """,
     version="1.0.0",
+    contact={
+        "name": "Equipe de Desenvolvimento - Camunda Server",
+        "email": "dev@exemplo.com.br",
+        "url": "https://github.com/dias-costa/camunda-server-dc",
+    },
+    license_info={
+        "name": "Proprietário",
+        "url": "https://exemplo.com.br/license",
+    },
+    openapi_tags=tags_metadata,
+    servers=[
+        {
+            "url": "http://localhost:8000",
+            "description": "Ambiente de desenvolvimento local"
+        },
+        {
+            "url": "https://api.producao.exemplo.com.br",
+            "description": "Ambiente de produção"
+        }
+    ],
     lifespan=lifespan,
 )
+
+# Custom OpenAPI schema to add security schemes
+def custom_openapi():
+    """Customiza o schema OpenAPI para adicionar security schemes"""
+    if app.openapi_schema:
+        return app.openapi_schema
+
+    openapi_schema = app.openapi()
+
+    # Add security schemes
+    openapi_schema["components"]["securitySchemes"] = {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key",
+            "description": "API Key para autenticação. Obtida através de configuração de ambiente ou gestão de credenciais."
+        }
+    }
+
+    # Add security to all paths (global requirement)
+    # Note: Individual endpoints can override this by specifying their own security
+    for path in openapi_schema["paths"].values():
+        for operation in path.values():
+            if isinstance(operation, dict) and "security" not in operation:
+                operation["security"] = [{"ApiKeyAuth": []}]
+
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
+app.openapi = custom_openapi
 
 # CORS middleware
 app.add_middleware(
