@@ -1,0 +1,353 @@
+###############################################################################
+# Testes de Integração DW LAW e-Protocol
+#
+# Como usar:
+# 1. Instale a extensão "REST Client" no VS Code
+# 2. Execute as requisições clicando em "Send Request" acima de cada ###
+# 3. As variáveis são definidas no início e podem ser reutilizadas
+#
+# Ordem recomendada:
+# 1. Autenticação DW LAW (obter token)
+# 2. Inserir Processo DW LAW
+# 3. Consultar Processo DW LAW (usar chave_de_pesquisa retornada)
+# 4. Testar endpoints do Gateway
+###############################################################################
+
+# ==================== VARIÁVEIS ====================
+
+@baseUrl = https://web-eprotocol-integration-cons-qa.azurewebsites.net
+@gatewayUrl = http://201.23.69.65:8080
+@gatewayUrlLocal = http://localhost:8080
+
+# Credenciais DW LAW
+@dwLawUsuario = integ_dias_cons@dwlaw.com.br
+@dwLawSenha = DC@Dwlaw2025
+@dwLawChaveProjeto = diascostacitacaoconsultaunica
+
+# Token (será obtido após autenticação - copie o token da resposta e cole aqui)
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImludGVnX2RpYXNfY29uc0Bkd2xhdy5jb20uYnIiLCJ1bmlxdWVfbmFtZSI6IkRJU1RpbnRlZ19kaWFzX2NvbnNAZHdsYXcuY29tLmJyIiwibmFtZWlkIjoiMTA3MDgzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc3lzdGVtIjoiMTAwMDQ5IiwibmJmIjoxNzYyOTc1MTc3LCJleHAiOjE3NjI5ODIzNzcsImlhdCI6MTc2Mjk3NTE3N30.dw1DecdYCSx2EmMPQdKY2CID4tmX78jhUyYguId-NVQ
+# Número de processo de teste
+@numeroProcesso = 0084440-74.2025.8.04.1000
+
+# Chave de pesquisa (será obtida após inserção - copie e cole aqui)
+@chaveDePesquisa = 0610694-85.2023.8.04.0001
+
+
+###############################################################################
+# 1. API DW LAW - AUTENTICAÇÃO
+###############################################################################
+
+### 1.1 Autenticar e obter token JWT
+# POST {{baseUrl}}/api/AUTENTICAR
+POST https://web-eprotocol-integration-cons-qa.azurewebsites.net/api/AUTENTICAR
+Content-Type: application/json
+
+{
+  "usuario": "{{dwLawUsuario}}",
+  "senha": "{{dwLawSenha}}"
+}
+
+# Resposta esperada (Status 200):
+# {
+#   "usuario": "integ_dias_cons@dwlaw.com.br",
+#   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+#   "dataExpiracao": "2025-11-12T21:12:13.1281881Z"
+# }
+#
+# ⚠️ IMPORTANTE: Copie o token da resposta e atualize a variável @token acima
+
+
+###############################################################################
+# 2. API DW LAW - INSERIR PROCESSOS
+###############################################################################
+
+### 2.1 Inserir processo único
+# POST {{baseUrl}}/api/consulta_processual/INSERIR_PROCESSO
+POST https://web-eprotocol-integration-cons-qa.azurewebsites.net/api/consulta_processual/INSERIR_PROCESSO
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "chave_projeto": "{{dwLawChaveProjeto}}",
+  "processos": [
+    {
+      "numero_processo": "{{numeroProcesso}}",
+      "other_info_client1": "TESTE_001",
+      "other_info_client2": "PASTA_001"
+    }
+  ]
+}
+
+# Resposta esperada (Status 200):
+# {
+#   "data": {
+#     "processos": [
+#       {
+#         "numero_processo": "0084440-74.2025.8.04.1000",
+#         "chave_de_pesquisa": "CHAVE_GERADA_PELO_DW_LAW",
+#         "tribunal": "TJAC",
+#         "sistema": "PJE",
+#         "instancia": "1ª Instância"
+#       }
+#     ],
+#     "retorno": "SUCESSO",
+#     "obs": "Processos inseridos com sucesso"
+#   }
+# }
+#
+# ⚠️ IMPORTANTE: Copie a chave_de_pesquisa e atualize a variável @chaveDePesquisa
+
+
+### 2.2 Inserir múltiplos processos
+POST https://web-eprotocol-integration-cons-qa.azurewebsites.net/api/consulta_processual/INSERIR_PROCESSOS
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "chave_projeto": "{{dwLawChaveProjeto}}",
+  "processos": [
+    {
+      "numero_processo": "0545624-24.2023.8.04.0001",
+      "other_info_client1": "CODIGO_123",
+      "other_info_client2": "PASTA_456"
+    }
+  ]
+}
+
+
+###############################################################################
+# 3. API DW LAW - CONSULTAR PROCESSOS
+###############################################################################
+
+### 3.1 Consultar processo por chave de pesquisa
+POST https://web-eprotocol-integration-cons-qa.azurewebsites.net/api/consulta_processual/CONSULTAR_CHAVE_DE_PESQUISA
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "chave_de_pesquisa": "7453fd62-af19-4c1f-89f3-2a8b9a3f9708"
+}
+
+# Resposta esperada (Status 200):
+# [
+#   {
+#     "chave_de_pesquisa": "...",
+#     "numero_processo": "0084440-74.2025.8.04.1000",
+#     "status_pesquisa": "S",
+#     "descricao_status_pesquisa": "Sucesso",
+#     "classe_judicial": "Procedimento Comum",
+#     "polos": [...],
+#     "movimentacoes": [...]
+#   }
+# ]
+
+
+### 3.2 Consultar com chave_projeto adicional (teste)
+POST https://web-eprotocol-integration-cons-qa.azurewebsites.net/api/consulta_processual/CONSULTAR_CHAVE_DE_PESQUISA
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "chave_de_pesquisa": "{{chaveDePesquisa}}",
+  "chave_projeto": "{{dwLawChaveProjeto}}"
+}
+
+
+###############################################################################
+# 4. API DW LAW - EXCLUIR PROCESSOS
+###############################################################################
+
+### 4.1 Excluir processo
+POST https://web-eprotocol-integration-cons-qa.azurewebsites.net/api/consulta_processual/EXCLUIR_PROCESSO
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "chave_projeto": "{{dwLawChaveProjeto}}",
+  "lista_de_processos": [
+    {
+      "numero_processo": "{{numeroProcesso}}"
+    }
+  ]
+}
+
+
+###############################################################################
+# 5. WORKER API GATEWAY - HEALTH CHECKS
+###############################################################################
+
+### 5.1 Health Check - Servidor de Produção
+GET {{gatewayUrl}}/health
+Accept: application/json
+
+
+### 5.2 Health Check - Servidor Local
+GET {{gatewayUrlLocal}}/health
+Accept: application/json
+
+
+### 5.3 Health Check - DW LAW Router
+GET {{gatewayUrl}}/dw-law/health
+Accept: application/json
+
+
+###############################################################################
+# 6. WORKER API GATEWAY - DW LAW ENDPOINTS
+###############################################################################
+
+### 6.1 Inserir Processos via Gateway
+POST {{gatewayUrl}}/dw-law/inserir-processos
+Content-Type: application/json
+Accept: application/json
+
+{
+  "chave_projeto": "{{dwLawChaveProjeto}}",
+  "processos": [
+    {
+      "numero_processo": "{{numeroProcesso}}",
+      "chave_de_pesquisa": "{{numeroProcesso}}",
+      "other_info_client1": "TESTE_GATEWAY_001",
+      "other_info_client2": "PASTA_GATEWAY_001"
+    }
+  ],
+  "camunda_instance_id": "test_instance_123",
+  "camunda_business_key": "test_bk_001"
+}
+
+
+### 6.2 Consultar Processo via Gateway
+POST {{gatewayUrl}}/dw-law/consultar-processo
+Content-Type: application/json
+Accept: application/json
+
+{
+  "chave_de_pesquisa": "{{chaveDePesquisa}}",
+  "camunda_instance_id": "test_instance_123"
+}
+
+
+### 6.3 Excluir Processos via Gateway
+POST {{gatewayUrl}}/dw-law/excluir-processos
+Content-Type: application/json
+Accept: application/json
+
+{
+  "chave_projeto": "{{dwLawChaveProjeto}}",
+  "lista_de_processos": [
+    {
+      "numero_processo": "{{numeroProcesso}}"
+    }
+  ]
+}
+
+
+### 6.4 Testar Conexão DW LAW + Camunda
+GET {{gatewayUrl}}/dw-law/test-connection
+Accept: application/json
+
+
+###############################################################################
+# 7. WORKER API GATEWAY - SWAGGER UI
+###############################################################################
+
+### 7.1 Obter OpenAPI Schema
+GET {{gatewayUrl}}/openapi.json
+Accept: application/json
+
+
+### 7.2 Acessar Swagger UI
+# GET {{gatewayUrl}}/docs
+# Abra no navegador: http://201.23.69.65:8080/docs
+
+
+###############################################################################
+# 8. TESTES DE CORS
+###############################################################################
+
+### 8.1 CORS Preflight - Consultar Processo
+OPTIONS {{gatewayUrl}}/dw-law/consultar-processo
+Origin: http://201.23.69.65:8080
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: Content-Type
+
+
+### 8.2 POST com Origin (simular requisição do navegador)
+POST {{gatewayUrl}}/dw-law/consultar-processo
+Content-Type: application/json
+Origin: http://201.23.69.65:8080
+
+{
+  "chave_de_pesquisa": "{{chaveDePesquisa}}",
+  "camunda_instance_id": "test_cors"
+}
+
+
+###############################################################################
+# 9. EXEMPLOS DE CALLBACK (para documentação)
+###############################################################################
+
+### 9.1 Simular Callback do DW LAW
+# Este endpoint é chamado pelo DW LAW quando há atualizações
+POST {{gatewayUrl}}/dw-law/callback
+Content-Type: application/json
+
+{
+  "chave_de_pesquisa": "CHAVE_EXEMPLO_123",
+  "numero_processo": "0012205-60.2015.5.15.0077",
+  "status_pesquisa": "S",
+  "descricao_status_pesquisa": "Processo consultado com sucesso",
+  "classe_judicial": "Procedimento Comum",
+  "orgao_julgador": "1ª Vara Cível",
+  "data_distribuicao": "2015-08-20",
+  "ultima_atualizacao": "2025-11-12",
+  "movimentacoes": [
+    {
+      "data_movimentacao": "2025-11-10",
+      "descricao": "Juntada de petição"
+    }
+  ]
+}
+
+
+###############################################################################
+# 10. TESTES LOCAIS (se estiver rodando localmente)
+###############################################################################
+
+### 10.1 Health Check Local
+GET http://localhost:8080/health
+
+
+### 10.2 Consultar Processo Local
+POST http://localhost:8080/dw-law/consultar-processo
+Content-Type: application/json
+
+{
+  "chave_de_pesquisa": "{{chaveDePesquisa}}",
+  "camunda_instance_id": "local_test"
+}
+
+
+###############################################################################
+# 11. NOTAS E DICAS
+###############################################################################
+
+# FLUXO CORRETO DE USO:
+# 1. Autenticar na API DW LAW (seção 1.1)
+# 2. Copiar o token da resposta e atualizar a variável @token
+# 3. Inserir processo (seção 2.1)
+# 4. Copiar a chave_de_pesquisa da resposta e atualizar @chaveDePesquisa
+# 5. Consultar processo usando a chave_de_pesquisa (seção 3.1)
+#
+# ERROS COMUNS:
+# - "ERRO_CAMPOS_NAO_INFORMADOS": Chave de pesquisa não existe ou inválida
+# - "401 Unauthorized": Token expirado ou inválido (re-autentique)
+# - "Failed to fetch" no Swagger: Problema do navegador, use curl ou REST Client
+#
+# DURAÇÃO DO TOKEN:
+# - Token expira em 2 horas (120 minutos)
+# - Após expiração, execute novamente a requisição de autenticação
+#
+# AMBIENTES:
+# - QA: https://web-eprotocol-integration-cons-qa.azurewebsites.net
+# - Gateway Produção: http://201.23.69.65:8080
+# - Gateway Local: http://localhost:8080
