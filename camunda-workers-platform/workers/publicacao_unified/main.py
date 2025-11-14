@@ -493,7 +493,10 @@ class PublicacaoUnifiedWorker(BaseWorker):
                     timeout=90,
                 )
                 payload["teste_local"] = "teste_local"
-                return self.complete_task(task, payload, use_local_variables=True)
+
+                log_with_context(f"📋 Payload API GATEWAY: {payload}", log_context)
+
+                return payload
 
         except Exception as e:
             error_msg = f"Erro ao tratar publicação: {str(e)}"

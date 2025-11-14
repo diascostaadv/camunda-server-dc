@@ -523,7 +523,12 @@ class BaseWorker:
                         f"✅ Task {task_id} processed successfully via Gateway"
                     )
                     GATEWAY_TASKS.labels(topic=topic, status="success").inc()
-                    return self.complete_task(task, camunda_variables)
+                    self.logger.info(
+                        f"[PROCESS_VIA_GATEWAY] Completing task {task_id} with variables: {camunda_variables}"
+                    )
+                    return self.complete_task(
+                        task, camunda_variables, use_local_variables=True
+                    )
 
                 elif result.get("status") == "error":
                     # Gateway returned structured error in body
@@ -755,10 +760,16 @@ class BaseWorker:
             if use_local_variables:
                 # Use local_variables to prevent overwrites in loop iterations
                 # Pass empty dict for global_variables, all data goes to local_variables
+                self.logger.info(
+                    f"Completing task {task_id} with local variables: {variables}"
+                )
                 result = task.complete(global_variables={}, local_variables=variables)
             else:
                 # Use global variables (legacy behavior)
                 # Pass variables to global_variables parameter
+                self.logger.info(
+                    f"Completing task {task_id} with global variables: {variables}"
+                )
                 result = task.complete(global_variables=variables, local_variables={})
 
             self.logger.info(f"Task {task_id} completed successfully ({scope} scope)")
