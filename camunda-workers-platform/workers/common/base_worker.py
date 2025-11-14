@@ -519,7 +519,9 @@ class BaseWorker:
                         for k, v in result.items()
                         if k not in ["status", "message", "task_id", "timestamp"]
                     }
-                    self.logger.info(f"✅ Task {task_id} processed successfully via Gateway")
+                    self.logger.info(
+                        f"✅ Task {task_id} processed successfully via Gateway"
+                    )
                     GATEWAY_TASKS.labels(topic=topic, status="success").inc()
                     return self.complete_task(task, camunda_variables)
 
@@ -534,7 +536,11 @@ class BaseWorker:
 
                     if retry_allowed:
                         return self.fail_task(
-                            task, error_msg, error_details=error_code, retries=3, retry_timeout=30000
+                            task,
+                            error_msg,
+                            error_details=error_code,
+                            retries=3,
+                            retry_timeout=30000,
                         )
                     else:
                         return self.bpmn_error(
@@ -542,7 +548,9 @@ class BaseWorker:
                         )
                 else:
                     # Unexpected response format
-                    error_msg = result.get("message", "Unexpected Gateway response format")
+                    error_msg = result.get(
+                        "message", "Unexpected Gateway response format"
+                    )
                     self.logger.error(f"⚠️ Unexpected Gateway response: {result}")
                     GATEWAY_TASKS.labels(topic=topic, status="unexpected_format").inc()
                     return self.fail_task(task, error_msg, retries=3)
@@ -553,13 +561,26 @@ class BaseWorker:
                 try:
                     error_body = response.json()
                     error_msg = error_body.get("error_message", response.text[:200])
-                    error_code = error_body.get("error_code", f"HTTP_{response.status_code}")
+                    error_code = error_body.get(
+                        "error_code", f"HTTP_{response.status_code}"
+                    )
                     retry_allowed = error_body.get("retry_allowed", False)
                 except Exception:
                     # Failed to parse - use raw response
-                    error_msg = response.text[:200] if response.text else f"HTTP {response.status_code}"
+                    error_msg = (
+                        response.text[:200]
+                        if response.text
+                        else f"HTTP {response.status_code}"
+                    )
                     error_code = f"HTTP_{response.status_code}"
-                    retry_allowed = response.status_code in [408, 429, 500, 502, 503, 504]
+                    retry_allowed = response.status_code in [
+                        408,
+                        429,
+                        500,
+                        502,
+                        503,
+                        504,
+                    ]
 
                 # Log detailed error information
                 self.logger.error(f"❌ Gateway HTTP error: {response.status_code}")
@@ -706,7 +727,9 @@ class BaseWorker:
             )
             return default
 
-    def complete_task(self, task, variables: Dict[str, Any] = None, use_local_variables: bool = True) -> Any:
+    def complete_task(
+        self, task, variables: Dict[str, Any] = None, use_local_variables: bool = True
+    ) -> Any:
         """
         Complete a task with optional variables
 
@@ -724,7 +747,9 @@ class BaseWorker:
         variables = variables or {}
         task_id = task.get_task_id()
         scope = "local" if use_local_variables else "global"
-        self.logger.info(f"Completing task {task_id} with {scope} variables: {list(variables.keys())}")
+        self.logger.info(
+            f"Completing task {task_id} with {scope} variables: {list(variables.keys())}"
+        )
 
         try:
             if use_local_variables:
