@@ -526,8 +526,21 @@ class BaseWorker:
                     self.logger.info(
                         f"[PROCESS_VIA_GATEWAY] Completing task {task_id} with variables: {camunda_variables}"
                     )
+
+                    # Use global variables if the response contains collection variables
+                    # (needed for Multi-Instance patterns in BPMN)
+                    use_local = not any(
+                        key.endswith('_ids') or key.endswith('_list') or key.endswith('_collection')
+                        for key in camunda_variables.keys()
+                    )
+
+                    if not use_local:
+                        self.logger.info(
+                            f"[PROCESS_VIA_GATEWAY] Using GLOBAL variables (detected collection: {[k for k in camunda_variables.keys() if k.endswith('_ids') or k.endswith('_list') or k.endswith('_collection')]})"
+                        )
+
                     return self.complete_task(
-                        task, camunda_variables, use_local_variables=True
+                        task, camunda_variables, use_local_variables=use_local
                     )
 
                 elif result.get("status") == "error":

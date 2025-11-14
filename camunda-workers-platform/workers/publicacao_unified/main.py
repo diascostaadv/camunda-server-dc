@@ -487,16 +487,11 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 # Usar o helper para processar via Gateway
                 log_with_context("📤 Processando via Gateway", log_context)
 
-                payload = self.process_via_gateway(
+                return self.process_via_gateway(
                     task=task,
                     endpoint="/publicacoes/processar-task-publicacao",
                     timeout=90,
                 )
-                payload["teste_local"] = "teste_local"
-
-                log_with_context(f"📋 Payload API GATEWAY: {payload}", log_context)
-
-                return payload
 
         except Exception as e:
             error_msg = f"Erro ao tratar publicação: {str(e)}"
@@ -692,7 +687,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
 
             # LOG DETALHADO ANTES DE CHAMAR GATEWAY
             log_with_context(
-                f"📤 [GATEWAY] Enviando para endpoint: /publicacoes/verificar-processo-cnj",
+                "📤 [GATEWAY] Enviando para endpoint: /publicacoes/verificar-processo-cnj",
                 log_context,
             )
             log_with_context(
