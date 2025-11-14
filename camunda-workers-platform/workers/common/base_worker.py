@@ -527,20 +527,54 @@ class BaseWorker:
                         f"[PROCESS_VIA_GATEWAY] Completing task {task_id} with variables: {camunda_variables}"
                     )
 
-                    # Use global variables if the response contains collection variables
-                    # (needed for Multi-Instance patterns in BPMN)
-                    use_local = not any(
-                        key.endswith('_ids') or key.endswith('_list') or key.endswith('_collection')
-                        for key in camunda_variables.keys()
+                    # Topics that spawn Multi-Instance loops need global collections
+                    # All other topics (inside loops) use LOCAL only
+                    multi_instance_spawner_topics = [
+                        'buscar_publicacoes',
+                        'buscar_lote_por_id',
+                    ]
+
+                    if topic in multi_instance_spawner_topics:
+                        # These topics spawn Multi-Instance loops
+                        # Collections MUST be global for Multi-Instance to access them
+                        collection_vars = {
+                            k: v
+                            for k, v in camunda_variables.items()
+                            if k.endswith('_ids') or k.endswith('_list') or k.endswith('_collection')
+                        }
+
+                        if collection_vars:
+                            self.logger.info(
+                                f"[PROCESS_VIA_GATEWAY] Multi-Instance spawner topic: {topic}"
+                            )
+                            self.logger.info(
+                                f"[PROCESS_VIA_GATEWAY] Collections for Multi-Instance: {list(collection_vars.keys())}"
+                            )
+                            self.logger.info(
+                                f"[PROCESS_VIA_GATEWAY] Setting as LOCAL: {list(camunda_variables.keys())}"
+                            )
+                            self.logger.info(
+                                f"[PROCESS_VIA_GATEWAY] Setting as GLOBAL: {list(collection_vars.keys())}"
+                            )
+
+                            return self.complete_task(
+                                task,
+                                variables=camunda_variables,  # All as LOCAL
+                                use_local_variables=True,
+                                global_variables=collection_vars,  # Collections as GLOBAL
+                            )
+
+                    # All other topics use LOCAL only
+                    self.logger.info(
+                        f"[PROCESS_VIA_GATEWAY] Topic {topic}: Setting all variables as LOCAL only"
                     )
-
-                    if not use_local:
-                        self.logger.info(
-                            f"[PROCESS_VIA_GATEWAY] Using GLOBAL variables (detected collection: {[k for k in camunda_variables.keys() if k.endswith('_ids') or k.endswith('_list') or k.endswith('_collection')]})"
-                        )
-
+                    self.logger.info(
+                        f"[PROCESS_VIA_GATEWAY] LOCAL variables: {list(camunda_variables.keys())}"
+                    )
                     return self.complete_task(
-                        task, camunda_variables, use_local_variables=use_local
+                        task,
+                        variables=camunda_variables,
+                        use_local_variables=True,
                     )
 
                 elif result.get("status") == "error":
@@ -746,46 +780,54 @@ class BaseWorker:
             return default
 
     def complete_task(
-        self, task, variables: Dict[str, Any] = None, use_local_variables: bool = True
+        self,
+        task,
+        variables: Dict[str, Any] = None,
+        use_local_variables: bool = True,
+        global_variables: Dict[str, Any] = None,
     ) -> Any:
         """
         Complete a task with optional variables
 
         Args:
             task: Camunda external task
-            variables: Variables to return to the process
+            variables: Variables to return to the process (local or global based on use_local_variables)
             use_local_variables: If True (default), uses localVariables (isolated per iteration in loops)
                                If False, uses global variables (shared across process instance)
+            global_variables: Additional global variables to set (useful for Multi-Instance patterns)
 
         Note:
             In BPMN loops/multi-instance patterns, use_local_variables=True prevents
             one iteration from overwriting another's variables. This is the recommended
             default for most use cases.
+
+            You can pass both variables (local) and global_variables to set both scopes at once.
         """
         variables = variables or {}
+        global_variables = global_variables or {}
         task_id = task.get_task_id()
-        scope = "local" if use_local_variables else "global"
-        self.logger.info(
-            f"Completing task {task_id} with {scope} variables: {list(variables.keys())}"
-        )
 
         try:
             if use_local_variables:
-                # Use local_variables to prevent overwrites in loop iterations
-                # Pass empty dict for global_variables, all data goes to local_variables
+                # Use local_variables + optional global_variables
                 self.logger.info(
-                    f"Completing task {task_id} with local variables: {variables}"
+                    f"Completing task {task_id} with local variables: {list(variables.keys())}"
                 )
-                result = task.complete(global_variables={}, local_variables=variables)
+                if global_variables:
+                    self.logger.info(
+                        f"Also setting global variables: {list(global_variables.keys())}"
+                    )
+                result = task.complete(
+                    global_variables=global_variables, local_variables=variables
+                )
             else:
-                # Use global variables (legacy behavior)
-                # Pass variables to global_variables parameter
+                # Use global variables only (legacy behavior)
                 self.logger.info(
-                    f"Completing task {task_id} with global variables: {variables}"
+                    f"Completing task {task_id} with global variables: {list(variables.keys())}"
                 )
                 result = task.complete(global_variables=variables, local_variables={})
 
-            self.logger.info(f"Task {task_id} completed successfully ({scope} scope)")
+            self.logger.info(f"Task {task_id} completed successfully")
             return result
         except Exception as e:
             self.logger.error(f"Failed to complete task {task_id}: {str(e)}")
