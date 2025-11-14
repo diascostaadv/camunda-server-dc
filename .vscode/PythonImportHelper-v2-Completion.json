@@ -2437,6 +2437,14 @@
         "documentation": {}
     },
     {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "BaseModel",
         "importPath": "pydantic",
         "description": "pydantic",
@@ -6266,6 +6274,15 @@
         "documentation": {}
     },
     {
+        "label": "DEFAULT_LIMITE_PUBLICACOES",
+        "kind": 5,
+        "importPath": "camunda-worker-api-gateway.app.models.buscar_request",
+        "description": "camunda-worker-api-gateway.app.models.buscar_request",
+        "peekOfCode": "DEFAULT_LIMITE_PUBLICACOES = int(os.getenv(\"DEFAULT_LIMITE_PUBLICACOES\", \"1000\"))\nclass BuscarPublicacoesRequest(BaseModel):\n    \"\"\"Modelo para requisição de busca de publicações\"\"\"\n    # Parâmetros de busca\n    cod_grupo: int = Field(\n        default=5, description=\"Código do grupo para busca (grupo 5 tem dados históricos)\"\n    )\n    data_inicial: Optional[str] = Field(\n        None, description=\"Data inicial para busca (YYYY-MM-DD)\"\n    )",
+        "detail": "camunda-worker-api-gateway.app.models.buscar_request",
+        "documentation": {}
+    },
+    {
         "label": "ProcessoDWLawInput",
         "kind": 6,
         "importPath": "camunda-worker-api-gateway.app.models.dw_law",
@@ -9641,6 +9658,15 @@
         "documentation": {}
     },
     {
+        "label": "DEFAULT_LIMITE_PUBLICACOES",
+        "kind": 5,
+        "importPath": "camunda-workers-platform.workers.publicacao_unified.main",
+        "description": "camunda-workers-platform.workers.publicacao_unified.main",
+        "peekOfCode": "DEFAULT_LIMITE_PUBLICACOES = int(os.getenv(\"DEFAULT_LIMITE_PUBLICACOES\", \"1000\"))\nlogger = logging.getLogger(__name__)\nclass PublicacaoUnifiedWorker(BaseWorker):\n    \"\"\"\n    Worker unificado para processamento de publicações judiciais\n    RESPONSABILIDADES:\n    1. Processar movimentações judiciais individuais (nova_publicacao)\n    2. Orquestrar busca automatizada de publicações (BuscarPublicacoes)\n    PADRÃO ARQUITETURAL:\n    - Worker orquestrador (NÃO contém lógica de negócio)",
+        "detail": "camunda-workers-platform.workers.publicacao_unified.main",
+        "documentation": {}
+    },
+    {
         "label": "logger",
         "kind": 5,
         "importPath": "camunda-workers-platform.workers.publicacao_unified.main",
@@ -10340,6 +10366,33 @@
         "description": "run_tests",
         "peekOfCode": "def main():\n    parser = argparse.ArgumentParser(description=\"Executor de testes do projeto Camunda\")\n    parser.add_argument(\n        \"test_type\", \n        nargs=\"?\", \n        default=\"all\",\n        choices=[\"all\", \"unit\", \"integration\", \"e2e\", \"smoke\", \"worker\", \"api\", \"csrf\"],\n        help=\"Tipo de teste para executar\"\n    )\n    parser.add_argument(",
         "detail": "run_tests",
+        "documentation": {}
+    },
+    {
+        "label": "cadastrar_tarefa_cpj",
+        "kind": 2,
+        "importPath": "test_cadastrar_tarefa_cpj",
+        "description": "test_cadastrar_tarefa_cpj",
+        "peekOfCode": "def cadastrar_tarefa_cpj(pj: int, evento: str = \"evento_cpj\", texto: str = None,\n                         id_pessoa_solicitada: int = 1, id_pessoa_atribuida: int = None):\n    \"\"\"\n    Cadastra uma nova tarefa no CPJ via API Gateway\n    Args:\n        pj: Número do PJ do processo\n        evento: Código do evento (default: \"evento_cpj\")\n        texto: Descrição da tarefa\n        id_pessoa_solicitada: ID da pessoa solicitante\n        id_pessoa_atribuida: ID da pessoa atribuída (opcional)",
+        "detail": "test_cadastrar_tarefa_cpj",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "test_cadastrar_tarefa_cpj",
+        "description": "test_cadastrar_tarefa_cpj",
+        "peekOfCode": "def main():\n    \"\"\"\n    Função principal - Executa teste de cadastro de tarefa\n    \"\"\"\n    print(\"\\n🧪 TESTE: Cadastrar Tarefa CPJ\\n\")\n    # ===== CONFIGURAR AQUI OS DADOS DO TESTE =====\n    # Número do PJ do processo (OBRIGATÓRIO)\n    PJ_PROCESSO = 12345  # ⚠️ ALTERAR PARA UM PJ VÁLIDO!\n    # Código do evento (OBRIGATÓRIO)\n    EVENTO = \"evento_cpj\"",
+        "detail": "test_cadastrar_tarefa_cpj",
+        "documentation": {}
+    },
+    {
+        "label": "GATEWAY_URL",
+        "kind": 5,
+        "importPath": "test_cadastrar_tarefa_cpj",
+        "description": "test_cadastrar_tarefa_cpj",
+        "peekOfCode": "GATEWAY_URL = \"http://localhost:8000\"  # Ajustar conforme necessário\n# GATEWAY_URL = \"http://201.23.67.197:8080\"  # URL de produção\ndef cadastrar_tarefa_cpj(pj: int, evento: str = \"evento_cpj\", texto: str = None,\n                         id_pessoa_solicitada: int = 1, id_pessoa_atribuida: int = None):\n    \"\"\"\n    Cadastra uma nova tarefa no CPJ via API Gateway\n    Args:\n        pj: Número do PJ do processo\n        evento: Código do evento (default: \"evento_cpj\")\n        texto: Descrição da tarefa",
+        "detail": "test_cadastrar_tarefa_cpj",
         "documentation": {}
     },
     {

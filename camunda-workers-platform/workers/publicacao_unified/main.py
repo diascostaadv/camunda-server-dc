@@ -17,6 +17,9 @@ from common.config import WorkerConfig, Topics
 from camunda.external_task.external_task import ExternalTask
 from camunda.utils.log_utils import log_with_context
 
+# Configuração padrão para limite de publicações (pode ser sobrescrita via env)
+DEFAULT_LIMITE_PUBLICACOES = int(os.getenv("DEFAULT_LIMITE_PUBLICACOES", "1000"))
+
 logger = logging.getLogger(__name__)
 
 
@@ -249,7 +252,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
             cod_grupo = int(variables.get("cod_grupo", 5))
             data_inicial = variables.get("data_inicial")
             data_final = variables.get("data_final")
-            limite_publicacoes = int(variables.get("limite_publicacoes", 1000))
+            limite_publicacoes = int(variables.get("limite_publicacoes", DEFAULT_LIMITE_PUBLICACOES))
             timeout_soap = int(variables.get("timeout_soap", 90))
 
             # Validações básicas

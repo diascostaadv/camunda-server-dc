@@ -706,15 +706,37 @@ class BaseWorker:
             )
             return default
 
-    def complete_task(self, task, variables: Dict[str, Any] = None) -> Any:
-        """Complete a task with optional variables (following official Camunda examples)"""
+    def complete_task(self, task, variables: Dict[str, Any] = None, use_local_variables: bool = True) -> Any:
+        """
+        Complete a task with optional variables
+
+        Args:
+            task: Camunda external task
+            variables: Variables to return to the process
+            use_local_variables: If True (default), uses localVariables (isolated per iteration in loops)
+                               If False, uses global variables (shared across process instance)
+
+        Note:
+            In BPMN loops/multi-instance patterns, use_local_variables=True prevents
+            one iteration from overwriting another's variables. This is the recommended
+            default for most use cases.
+        """
         variables = variables or {}
         task_id = task.get_task_id()
-        self.logger.info(f"Completing task {task_id} with variables: {variables}")
+        scope = "local" if use_local_variables else "global"
+        self.logger.info(f"Completing task {task_id} with {scope} variables: {list(variables.keys())}")
 
         try:
-            result = task.complete(variables)
-            self.logger.info(f"Task {task_id} completed successfully")
+            if use_local_variables:
+                # Use local_variables to prevent overwrites in loop iterations
+                # Pass empty dict for global_variables, all data goes to local_variables
+                result = task.complete(global_variables={}, local_variables=variables)
+            else:
+                # Use global variables (legacy behavior)
+                # Pass variables to global_variables parameter
+                result = task.complete(global_variables=variables, local_variables={})
+
+            self.logger.info(f"Task {task_id} completed successfully ({scope} scope)")
             return result
         except Exception as e:
             self.logger.error(f"Failed to complete task {task_id}: {str(e)}")
@@ -752,7 +774,19 @@ class BaseWorker:
         error_message: str = None,
         variables: Dict[str, Any] = None,
     ) -> Any:
-        """Report a BPMN error (following official Camunda examples)"""
+        """
+        Report a BPMN error
+
+        Args:
+            task: Camunda external task
+            error_code: BPMN error code (used for error handling in the process)
+            error_message: Human-readable error message
+            variables: Variables to pass with the error (always global scope)
+
+        Note:
+            Unlike complete(), bpmn_error() only supports global variables.
+            The Camunda Python client does not support local variables for BPMN errors.
+        """
         task_id = task.get_task_id()
         variables = variables or {}
 
@@ -761,11 +795,13 @@ class BaseWorker:
         )
 
         try:
+            # BPMN errors only support global variables in the Camunda Python client
             result = task.bpmn_error(
                 error_code=error_code,
                 error_message=error_message or error_code,
                 variables=variables,
             )
+
             self.logger.info(f"Task {task_id} reported BPMN error: {error_code}")
             return result
         except Exception as e:

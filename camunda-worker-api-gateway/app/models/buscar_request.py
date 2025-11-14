@@ -2,9 +2,13 @@
 Modelos para requisições de busca de publicações
 """
 
+import os
 from datetime import datetime, date
 from typing import Optional, Dict, Any, List, Literal
 from pydantic import BaseModel, Field, field_validator
+
+# Configuração padrão para limite de publicações (pode ser sobrescrita via env)
+DEFAULT_LIMITE_PUBLICACOES = int(os.getenv("DEFAULT_LIMITE_PUBLICACOES", "1000"))
 
 
 class BuscarPublicacoesRequest(BaseModel):
@@ -23,7 +27,7 @@ class BuscarPublicacoesRequest(BaseModel):
 
     # Configurações de processamento
     limite_publicacoes: int = Field(
-        default=1000, ge=1, description="Limite de publicações a processar (0 = sem limite)"
+        default=DEFAULT_LIMITE_PUBLICACOES, ge=1, description="Limite de publicações a processar (0 = sem limite)"
     )
     chunk_size: int = Field(
         default=200, ge=50, le=500, description="Tamanho dos chunks para processamento interno"
