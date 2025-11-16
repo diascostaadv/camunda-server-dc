@@ -527,54 +527,29 @@ class BaseWorker:
                         f"[PROCESS_VIA_GATEWAY] Completing task {task_id} with variables: {camunda_variables}"
                     )
 
-                    # Topics that spawn Multi-Instance loops need global collections
-                    # All other topics (inside loops) use LOCAL only
-                    multi_instance_spawner_topics = [
-                        'buscar_publicacoes',
-                        'buscar_lote_por_id',
-                    ]
-
-                    if topic in multi_instance_spawner_topics:
-                        # These topics spawn Multi-Instance loops
-                        # Collections MUST be global for Multi-Instance to access them
-                        collection_vars = {
-                            k: v
-                            for k, v in camunda_variables.items()
-                            if k.endswith('_ids') or k.endswith('_list') or k.endswith('_collection')
-                        }
-
-                        if collection_vars:
-                            self.logger.info(
-                                f"[PROCESS_VIA_GATEWAY] Multi-Instance spawner topic: {topic}"
-                            )
-                            self.logger.info(
-                                f"[PROCESS_VIA_GATEWAY] Collections for Multi-Instance: {list(collection_vars.keys())}"
-                            )
-                            self.logger.info(
-                                f"[PROCESS_VIA_GATEWAY] Setting as LOCAL: {list(camunda_variables.keys())}"
-                            )
-                            self.logger.info(
-                                f"[PROCESS_VIA_GATEWAY] Setting as GLOBAL: {list(collection_vars.keys())}"
-                            )
-
-                            return self.complete_task(
-                                task,
-                                variables=camunda_variables,  # All as LOCAL
-                                use_local_variables=True,
-                                global_variables=collection_vars,  # Collections as GLOBAL
-                            )
-
-                    # All other topics use LOCAL only
+                    # Use GLOBAL variables as default for all topics
+                    # This ensures variables are accessible across the entire process instance
                     self.logger.info(
-                        f"[PROCESS_VIA_GATEWAY] Topic {topic}: Setting all variables as LOCAL only"
+                        f"[PROCESS_VIA_GATEWAY] Topic {topic}: Setting all variables as GLOBAL (default)"
                     )
                     self.logger.info(
-                        f"[PROCESS_VIA_GATEWAY] LOCAL variables: {list(camunda_variables.keys())}"
+                        f"[PROCESS_VIA_GATEWAY] GLOBAL variables: {list(camunda_variables.keys())}"
                     )
+
+                    # Add delay for tratar_publicacao to allow variable propagation
+                    if topic == "tratar_publicacao":
+                        self.logger.info(
+                            f"⏱️ [tratar_publicacao] Aguardando 60 segundos antes de completar task {task_id}..."
+                        )
+                        time.sleep(60)
+                        self.logger.info(
+                            f"✅ [tratar_publicacao] Delay concluído, completando task {task_id}"
+                        )
+
                     return self.complete_task(
                         task,
                         variables=camunda_variables,
-                        use_local_variables=True,
+                        use_local_variables=False,  # Use GLOBAL variables
                     )
 
                 elif result.get("status") == "error":
