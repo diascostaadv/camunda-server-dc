@@ -1,0 +1,234 @@
+#!/usr/bin/env python3
+"""
+N8n Passthrough Worker - Worker Ultra Simples
+
+FILOSOFIA:
+- Worker é BURRO (apenas repassa)
+- n8n é INTELIGENTE (toda lógica de roteamento e processamento)
+
+FLUXO:
+1. Camunda cria task com topic="buscar_publicacoes"
+2. Worker recebe task
+3. Worker faz POST para n8n com TUDO (topic + todas variáveis)
+4. n8n decide o que fazer baseado no topic
+5. n8n retorna resultado
+6. Worker completa task no Camunda
+
+VANTAGENS:
+- Worker super simples (~100 linhas)
+- Toda lógica visual no n8n
+- 1 único webhook n8n
+- Fácil de modificar workflows (sem redeploy do worker)
+"""
+
+import sys
+import os
+import logging
+import requests
+from typing import Dict, Any
+
+# Add parent to path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from common.base_worker import BaseWorker
+
+logger = logging.getLogger(__name__)
+
+
+class N8nPassthroughWorker(BaseWorker):
+    """
+    Worker que apenas repassa tasks para n8n
+    
+    n8n faz TUDO:
+    - Roteamento por topic
+    - Validações
+    - Chamadas a APIs
+    - Processamento
+    - Retorno de variáveis
+    """
+
+    def __init__(self):
+        # URL do webhook n8n (ÚNICO ponto de entrada)
+        self.n8n_webhook_url = os.getenv(
+            "N8N_WEBHOOK_URL",
+            "N8N_WEBHOOK_URL_TEST",
+            "http://localhost:5678/webhook/camunda-tasks"
+        )
+        
+        # Topics que o worker escuta
+        # Se não especificado, o BaseWorker vai pegar QUALQUER topic que aparecer
+        topics_env = os.getenv("CAMUNDA_TOPICS", "")
+        
+        if topics_env:
+            # Lista específica de topics (separados por vírgula)
+            topics = [t.strip() for t in topics_env.split(",") if t.strip()]
+            logger.info(f"📋 Escutando topics específicos: {topics}")
+            
+            # Criar handler genérico para cada topic
+            topic_handlers = {topic: self._passthrough_handler for topic in topics}
+        else:
+            # Modo AUTO: Escuta QUALQUER topic que o Camunda enviar
+            # Estratégia: registrar handler para topics conhecidos + catch-all
+            logger.info("📋 Modo AUTO: escutando TODOS os topics do Camunda")
+            
+            # Lista de topics conhecidos (pode ser vazia se quiser descobrir dinamicamente)
+            known_topics = [
+                "buscar_publicacoes",
+                "tratar_publicacao", 
+                "nova_publicacao",
+                "classificar_publicacao",
+            ]
+            
+            # Mesmo handler para todos (n8n decide o que fazer)
+            topic_handlers = {topic: self._passthrough_handler for topic in known_topics}
+        
+        super().__init__(
+            worker_id="n8n-passthrough-worker"
+        )
+        
+        # Subscribe to topics AFTER BaseWorker initialization
+        self.subscribe_multiple(topic_handlers)
+        
+        logger.info("🚀 N8n Passthrough Worker iniciado")
+        logger.info(f"📡 n8n Webhook: {self.n8n_webhook_url}")
+        logger.info(f"📋 Topics registrados: {list(topic_handlers.keys())}")
+
+    def _passthrough_handler(self, task):
+        """
+        Handler genérico que apenas repassa task para n8n
+        
+        O topic é detectado DINAMICAMENTE da task,
+        então o mesmo handler serve para QUALQUER topic!
+        
+        Fluxo:
+        1. Recebe task
+        2. Detecta topic da task
+        3. Extrai TUDO (topic + variáveis + metadados)
+        4. POST para n8n
+        5. Retorna resultado
+        """
+        # Detectar topic DINAMICAMENTE da task
+        topic = task.get_topic_name()
+        
+        return self._passthrough_to_n8n(task, topic)
+
+    def _passthrough_to_n8n(self, task, topic: str) -> Dict[str, Any]:
+        """
+        Repassa task completa para n8n
+        
+        Payload enviado para n8n:
+        {
+          "topic": "buscar_publicacoes",
+          "task_id": "abc123",
+          "business_key": "lote-001",
+          "variables": { ... todas as variáveis ... }
+        }
+        
+        n8n decide o que fazer baseado no "topic"
+        """
+        task_id = task.get_task_id()
+        business_key = task.get_business_key()
+        variables = task.get_variables()
+        
+        logger.info(
+            f"📤 Repassando para n8n",
+            extra={
+                "task_id": task_id,
+                "topic": topic,
+                "business_key": business_key,
+            }
+        )
+        
+        try:
+            # Payload completo para n8n
+            payload = {
+                "topic": topic,
+                "task_id": task_id,
+                "business_key": business_key,
+                "variables": variables,
+            }
+            
+            # POST para n8n (único webhook)
+            logger.info(f"🔗 POST {self.n8n_webhook_url}")
+            
+            response = requests.post(
+                self.n8n_webhook_url,
+                json=payload,
+                timeout=180,  # 3 minutos
+                headers={
+                    "Content-Type": "application/json",
+                    "X-Worker-Version": "1.0",
+                }
+            )
+            
+            response.raise_for_status()
+            
+            # n8n retorna variáveis para completar a task
+            result = response.json()
+            
+            logger.info(
+                f"✅ n8n respondeu: {response.status_code}",
+                extra={
+                    "topic": topic,
+                    "task_id": task_id,
+                }
+            )
+            
+            # Retornar variáveis para Camunda
+            output_variables = result.get("variables", {})
+            
+            return output_variables
+            
+        except requests.Timeout:
+            logger.error(f"⏱️ Timeout ao chamar n8n: {topic}")
+            
+            return self.handle_bpmn_error(
+                task=task,
+                error_code="N8N_TIMEOUT",
+                error_message=f"n8n timeout para topic {topic}",
+                variables={}
+            )
+            
+        except requests.RequestException as e:
+            logger.error(
+                f"❌ Erro ao chamar n8n: {str(e)}",
+                extra={
+                    "topic": topic,
+                    "error_type": type(e).__name__,
+                }
+            )
+            
+            return self.handle_bpmn_error(
+                task=task,
+                error_code="N8N_ERROR",
+                error_message=f"Erro ao chamar n8n: {str(e)}",
+                variables={"error_details": str(e)}
+            )
+        
+        except Exception as e:
+            logger.error(
+                f"💥 Erro inesperado: {str(e)}",
+                extra={"topic": topic}
+            )
+            
+            return self.handle_bpmn_error(
+                task=task,
+                error_code="WORKER_ERROR",
+                error_message=f"Erro interno: {str(e)}",
+                variables={"error_details": str(e)}
+            )
+
+
+def main():
+    """Entry point"""
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+    
+    worker = N8nPassthroughWorker()
+    worker.start()
+
+
+if __name__ == "__main__":
+    main()
