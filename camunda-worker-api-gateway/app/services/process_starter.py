@@ -50,7 +50,13 @@ class ProcessStarter:
             max_retries: Número máximo de tentativas em caso de erro
         """
         self.camunda_url = camunda_url.rstrip("/")
-        self.engine_rest_url = f"{self.camunda_url}/engine-rest"
+
+        # Se a URL já contém /engine-rest, não duplicar
+        if self.camunda_url.endswith("/engine-rest"):
+            self.engine_rest_url = self.camunda_url
+        else:
+            self.engine_rest_url = f"{self.camunda_url}/engine-rest"
+
         self.timeout = timeout
 
         # Configurar sessão HTTP com retry automático
@@ -439,12 +445,14 @@ def get_process_starter(
     global _process_starter_instance
 
     if _process_starter_instance is None:
-        import os
+        from core.config import get_settings
 
-        # Usar valores padrão do ambiente se não fornecidos
-        camunda_url = camunda_url or os.getenv("CAMUNDA_URL", "http://localhost:8080")
-        username = username or os.getenv("CAMUNDA_USERNAME")
-        password = password or os.getenv("CAMUNDA_PASSWORD")
+        settings = get_settings()
+
+        # Usar valores do settings (que lê do .env) se não fornecidos
+        camunda_url = camunda_url or settings.CAMUNDA_REST_URL
+        username = username or settings.CAMUNDA_REST_USER
+        password = password or settings.CAMUNDA_REST_PASSWORD
 
         _process_starter_instance = ProcessStarter(
             camunda_url=camunda_url, username=username, password=password

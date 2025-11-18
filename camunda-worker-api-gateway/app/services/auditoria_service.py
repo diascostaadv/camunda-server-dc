@@ -154,25 +154,30 @@ class AuditoriaService:
                 detalhes=detalhes or {},
             )
 
-            # Atualizar log
-            update_data = {
+            # Atualizar log - separar $set e $push
+            set_data = {
                 "total_tentativas": numero_tentativa,
                 "timestamp_ultima_tentativa": datetime.now(),
                 "status_atual": status.value,
-                "$push": {"tentativas": tentativa.model_dump()},
             }
 
             # Se foi sucesso, registrar timestamp de sucesso
             if status == StatusMarcacao.SUCESSO:
-                update_data["marcada_com_sucesso"] = True
-                update_data["timestamp_sucesso"] = datetime.now()
+                set_data["marcada_com_sucesso"] = True
+                set_data["timestamp_sucesso"] = datetime.now()
 
             # Calcular duração total (garantir que não seja None)
             if duracao_ms:
                 duracao_total_atual = log_doc.get("duracao_total_ms") or 0
-                update_data["duracao_total_ms"] = duracao_total_atual + duracao_ms
+                set_data["duracao_total_ms"] = duracao_total_atual + duracao_ms
 
-            self.col_logs_marcacao.update_one({"_id": ObjectId(log_id)}, {"$set": update_data})
+            # Montar operação de atualização com operadores separados
+            update_operation = {
+                "$set": set_data,
+                "$push": {"tentativas": tentativa.model_dump()},
+            }
+
+            self.col_logs_marcacao.update_one({"_id": ObjectId(log_id)}, update_operation)
 
             logger.debug(
                 f"Tentativa {numero_tentativa} registrada para log {log_id}: {status.value}"

@@ -1,0 +1,619 @@
+###
+### Worker API Gateway - Manual Testing
+### Use with REST Client extension (VS Code) or similar HTTP clients
+###
+
+### ============================================
+### VARIÁVEIS DE AMBIENTE
+### ============================================
+
+# Desenvolvimento Local
+@baseUrl = http://localhost:8080
+@apiKey = your-api-key-here
+
+# Produção
+# @baseUrl = http://201.23.69.65:8080
+# @apiKey = production-api-key
+
+### ============================================
+### HEALTH & STATUS
+### ============================================
+
+### Health Check - Verifica se API está saudável
+GET {{baseUrl}}/health
+Accept: application/json
+
+### Root - Informações da API
+GET {{baseUrl}}/
+Accept: application/json
+
+### ============================================
+### BUSCAR PUBLICAÇÕES (WEBJUR)
+### ============================================
+
+### 🧪 TEST - Buscar Publicações (RECOMENDADO PARA TESTES MANUAIS)
+# Simula uma tarefa do Camunda sem precisar dos campos técnicos
+# IMPORTANTE: Com DEFAULT_LIMITE_PUBLICACOES=0, busca TODAS as publicações
+POST {{baseUrl}}/buscar-publicacoes/test-camunda
+Content-Type: application/json
+Accept: application/json
+
+{
+  "cod_grupo": 5,
+  "data_inicial": "2025-11-01",
+  "data_final": "2025-11-17",
+  "limite_publicacoes": 0,
+  "timeout_soap": 90,
+  "marcar_automaticamente": true
+}
+
+### Processar Task - Buscar Publicações do WebJur (V2 - Usado pelo Worker)
+# Este endpoint é chamado automaticamente pelo Worker do Camunda
+# Requer campos adicionais (process_instance_id, topic_name, worker_id)
+POST {{baseUrl}}/buscar-publicacoes/processar-task-v2
+Content-Type: application/json
+Accept: application/json
+
+{
+  "task_id": "test-task-{{$timestamp}}",
+  "process_instance_id": "test-process-{{$timestamp}}",
+  "business_key": "test-business-key",
+  "topic_name": "BUSCAR_PUBLICACOES",
+  "worker_id": "manual-test-worker",
+  "variables": {
+    "cod_grupo": 5,
+    "data_inicial": "2025-11-01",
+    "data_final": "2025-11-17",
+    "limite_publicacoes": 0,
+    "timeout_soap": 90,
+    "marcar_automaticamente": true
+  }
+}
+
+### Buscar Status de Operação Específica
+GET {{baseUrl}}/buscar-publicacoes/status/test-task-1234
+Accept: application/json
+
+### Listar Todas as Operações de Busca
+GET {{baseUrl}}/buscar-publicacoes/status
+Accept: application/json
+
+### Deletar Status de Operação
+DELETE {{baseUrl}}/buscar-publicacoes/status/test-task-1234
+
+### Test SOAP - Testar Conexão com WebJur
+# Testa apenas a conexão SOAP sem processar publicações
+POST {{baseUrl}}/buscar-publicacoes/test-soap
+Content-Type: application/json
+Accept: application/json
+
+{
+  "cod_grupo": 5,
+  "data_inicial": "2025-11-17",
+  "data_final": "2025-11-17"
+}
+
+### ============================================
+### PUBLICAÇÕES - PROCESSAMENTO
+### ============================================
+
+### Processar Lote de Publicações (Bronze → Prata)
+# Processa publicações brutas (bronze) para camada prata
+POST {{baseUrl}}/publicacoes/processar-lote
+Content-Type: application/json
+Accept: application/json
+
+{
+  "lote_id": "lote-{{$timestamp}}",
+  "task_id": "task-{{$timestamp}}",
+  "publicacoes": [
+    {
+      "cod_publicacao": 123456,
+      "numero_processo": "1234567-89.2025.8.26.0100",
+      "data_publicacao": "2025-11-17",
+      "conteudo": "Texto da publicação judicial...",
+      "tipo_publicacao": "Intimação",
+      "tribunal": "TJSP"
+    }
+  ]
+}
+
+### Processar Publicação Individual
+POST {{baseUrl}}/publicacoes/processar-publicacao
+Content-Type: application/json
+Accept: application/json
+
+{
+  "cod_publicacao": 123456,
+  "numero_processo": "1234567-89.2025.8.26.0100",
+  "data_publicacao": "2025-11-17",
+  "conteudo": "Texto da publicação...",
+  "task_id": "task-individual-{{$timestamp}}"
+}
+
+### Verificar Duplicata por CNJ
+POST {{baseUrl}}/publicacoes/verificar-duplicata
+Content-Type: application/json
+Accept: application/json
+
+{
+  "numero_cnj": "1234567-89.2025.8.26.0100",
+  "data_publicacao": "2025-11-17"
+}
+
+### Buscar Lote por ID
+GET {{baseUrl}}/publicacoes/buscar-lote/lote-123
+Accept: application/json
+
+### Processar Task Lote (via Camunda)
+POST {{baseUrl}}/publicacoes/processar-task-lote
+Content-Type: application/json
+Accept: application/json
+
+{
+  "task_id": "camunda-task-{{$timestamp}}",
+  "lote_id": "lote-123",
+  "retry_count": 0
+}
+
+### Processar Task Publicação Individual
+POST {{baseUrl}}/publicacoes/processar-task-publicacao
+Content-Type: application/json
+Accept: application/json
+
+{
+  "task_id": "task-pub-{{$timestamp}}",
+  "publicacao_id": "507f1f77bcf86cd799439011",
+  "retry_count": 0
+}
+
+### Classificar Publicação (N8N LLM)
+POST {{baseUrl}}/publicacoes/classificar
+Content-Type: application/json
+Accept: application/json
+
+{
+  "publicacao_id": "507f1f77bcf86cd799439011",
+  "conteudo": "Texto completo da publicação para classificação..."
+}
+
+### Estatísticas de Publicações
+GET {{baseUrl}}/publicacoes/estatisticas
+Accept: application/json
+
+### Verificar Processo por CNJ
+POST {{baseUrl}}/publicacoes/verificar-processo-cnj
+Content-Type: application/json
+Accept: application/json
+
+{
+  "numero_cnj": "1234567-89.2025.8.26.0100"
+}
+
+### ============================================
+### MARCAR PUBLICAÇÕES (WEBJUR)
+### ============================================
+
+### Marcar Publicação Individual como Exportada
+POST {{baseUrl}}/marcar-publicacoes/marcar-individual
+Content-Type: application/json
+Accept: application/json
+
+{
+  "cod_publicacao": 123456,
+  "cod_grupo": 5,
+  "data_inicial": "2025-11-17",
+  "data_final": "2025-11-17"
+}
+
+### Marcar Lote de Publicações como Exportadas
+POST {{baseUrl}}/marcar-publicacoes/marcar-lote
+Content-Type: application/json
+Accept: application/json
+
+{
+  "task_id": "task-marcar-{{$timestamp}}",
+  "publicacoes": [
+    {
+      "cod_publicacao": 123456,
+      "cod_grupo": 5,
+      "data_inicial": "2025-11-17",
+      "data_final": "2025-11-17"
+    },
+    {
+      "cod_publicacao": 123457,
+      "cod_grupo": 5,
+      "data_inicial": "2025-11-17",
+      "data_final": "2025-11-17"
+    }
+  ]
+}
+
+### Processar Task - Marcar Publicações
+POST {{baseUrl}}/marcar-publicacoes/processar-task
+Content-Type: application/json
+Accept: application/json
+
+{
+  "task_id": "camunda-marcar-{{$timestamp}}",
+  "publicacao_ids": ["507f1f77bcf86cd799439011", "507f1f77bcf86cd799439012"]
+}
+
+### Buscar Status da Marcação
+GET {{baseUrl}}/marcar-publicacoes/status/task-marcar-123
+Accept: application/json
+
+### ============================================
+### AUDITORIA
+### ============================================
+
+### Consultar Logs de Auditoria
+GET {{baseUrl}}/auditoria/logs?data_inicio=2025-11-01&data_fim=2025-11-17&status=sucesso
+Accept: application/json
+
+### Estatísticas de Auditoria
+GET {{baseUrl}}/auditoria/estatisticas?data_inicio=2025-11-01&data_fim=2025-11-17
+Accept: application/json
+
+### ============================================
+### CPJ - PUBLICAÇÕES
+### ============================================
+
+### Criar Publicação no CPJ
+POST {{baseUrl}}/cpj/publicacoes
+Content-Type: application/json
+Accept: application/json
+
+{
+  "numero_processo": "1234567-89.2025.8.26.0100",
+  "data_publicacao": "2025-11-17",
+  "tipo": "Intimação",
+  "conteudo": "Texto da publicação...",
+  "tribunal": "TJSP"
+}
+
+### Listar Publicações CPJ
+GET {{baseUrl}}/cpj/publicacoes?processo_id=123
+Accept: application/json
+
+### Buscar Publicação Específica
+GET {{baseUrl}}/cpj/publicacoes/507f1f77bcf86cd799439011
+Accept: application/json
+
+### Atualizar Publicação
+PUT {{baseUrl}}/cpj/publicacoes/507f1f77bcf86cd799439011
+Content-Type: application/json
+Accept: application/json
+
+{
+  "conteudo": "Texto atualizado...",
+  "observacoes": "Atualizado via API"
+}
+
+### Deletar Publicação
+DELETE {{baseUrl}}/cpj/publicacoes/507f1f77bcf86cd799439011
+
+### ============================================
+### CPJ - PROCESSOS
+### ============================================
+
+### Criar Processo no CPJ
+POST {{baseUrl}}/cpj/processos
+Content-Type: application/json
+Accept: application/json
+
+{
+  "numero_cnj": "1234567-89.2025.8.26.0100",
+  "tribunal": "TJSP",
+  "vara": "1ª Vara Cível",
+  "comarca": "São Paulo",
+  "valor_causa": 10000.00,
+  "classe_processual": "Ação de Cobrança",
+  "assunto": "Cobrança de honorários",
+  "cliente_id": 123
+}
+
+### Buscar Processo por Número CNJ
+GET {{baseUrl}}/cpj/processos/cnj/1234567-89.2025.8.26.0100
+Accept: application/json
+
+### Listar Processos
+GET {{baseUrl}}/cpj/processos?cliente_id=123
+Accept: application/json
+
+### Atualizar Processo
+PUT {{baseUrl}}/cpj/processos/456
+Content-Type: application/json
+Accept: application/json
+
+{
+  "valor_causa": 15000.00,
+  "observacoes": "Valor atualizado"
+}
+
+### ============================================
+### CPJ - PESSOAS (CLIENTES)
+### ============================================
+
+### Criar Pessoa no CPJ
+POST {{baseUrl}}/cpj/pessoas
+Content-Type: application/json
+Accept: application/json
+
+{
+  "nome": "João da Silva",
+  "cpf": "123.456.789-00",
+  "email": "joao@example.com",
+  "telefone": "(11) 98765-4321",
+  "tipo": "cliente"
+}
+
+### Listar Pessoas
+GET {{baseUrl}}/cpj/pessoas?tipo=cliente
+Accept: application/json
+
+### Buscar Pessoa por ID
+GET {{baseUrl}}/cpj/pessoas/123
+Accept: application/json
+
+### Buscar Pessoa por CPF/CNPJ
+GET {{baseUrl}}/cpj/pessoas/documento/123.456.789-00
+Accept: application/json
+
+### Atualizar Pessoa
+PUT {{baseUrl}}/cpj/pessoas/123
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "joao.silva@example.com",
+  "telefone": "(11) 91234-5678"
+}
+
+### ============================================
+### CPJ - ENVOLVIDOS (PARTES DO PROCESSO)
+### ============================================
+
+### Adicionar Envolvido ao Processo
+POST {{baseUrl}}/cpj/envolvidos
+Content-Type: application/json
+Accept: application/json
+
+{
+  "processo_id": 456,
+  "pessoa_id": 123,
+  "polo": "ativo",
+  "tipo": "autor"
+}
+
+### Listar Envolvidos do Processo
+GET {{baseUrl}}/cpj/envolvidos?processo_id=456
+Accept: application/json
+
+### ============================================
+### CPJ - TRAMITAÇÃO
+### ============================================
+
+### Registrar Movimentação Processual
+POST {{baseUrl}}/cpj/tramitacao
+Content-Type: application/json
+Accept: application/json
+
+{
+  "processo_id": 456,
+  "data_movimento": "2025-11-17",
+  "tipo_movimento": "Publicação",
+  "descricao": "Intimação publicada no DJE",
+  "prazo_dias": 15,
+  "prazo_fatal": "2025-12-02"
+}
+
+### Listar Tramitações do Processo
+GET {{baseUrl}}/cpj/tramitacao?processo_id=456
+Accept: application/json
+
+### ⭐ Cadastrar Tarefa no CPJ (AGENDAMENTO)
+# Cria uma tarefa/agendamento vinculada a um processo
+# pj = ID do processo no CPJ (numérico)
+POST {{baseUrl}}/cpj/tramitacao/tarefa/cadastrar/456
+Content-Type: application/json
+Accept: application/json
+
+{
+  "evento": "CPC",
+  "texto": "Apresentar contestação - Prazo intimação publicação DJE",
+  "id_pessoa_solicitada": 1,
+  "id_pessoa_atribuida": 1,
+  "ag_data_hora": "2025-12-02T10:00:00"
+}
+
+### Cadastrar Andamento no CPJ
+# Registra um andamento processual (sem agendamento)
+POST {{baseUrl}}/cpj/tramitacao/andamento/cadastrar/456
+Content-Type: application/json
+Accept: application/json
+
+{
+  "evento": "PUB",
+  "texto": "Publicação de intimação no Diário Oficial",
+  "data_hora_lan": "2025-11-17T14:30:00",
+  "interno": 0
+}
+
+### Atualizar Tarefa no CPJ
+# Atualiza status de uma tarefa existente
+POST {{baseUrl}}/cpj/tramitacao/tarefa/atualizar/123
+Content-Type: application/json
+Accept: application/json
+
+{
+  "update_data_hora": "2025-11-17T15:00:00",
+  "update_usuario": 1,
+  "id_tramitacao_motivo": 1,
+  "id_tramitacao_situacao": 2
+}
+
+### ============================================
+### CPJ - DOCUMENTOS
+### ============================================
+
+### Upload de Documento (Multipart)
+# Note: Ajuste conforme necessário para multipart/form-data
+POST {{baseUrl}}/cpj/documentos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="processo_id"
+
+456
+------WebKitFormBoundary
+Content-Disposition: form-data; name="tipo"
+
+Publicação
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="publicacao.pdf"
+Content-Type: application/pdf
+
+<@publicacao.pdf
+------WebKitFormBoundary--
+
+### Listar Documentos do Processo
+GET {{baseUrl}}/cpj/documentos?processo_id=456
+Accept: application/json
+
+### ============================================
+### DW LAW - e-Protocol
+### ============================================
+
+### Inserir Processo no DW LAW
+POST {{baseUrl}}/dw-law/inserir-processo
+Content-Type: application/json
+Accept: application/json
+
+{
+  "task_id": "dw-task-{{$timestamp}}",
+  "numero_processo": "1234567-89.2025.8.26.0100",
+  "dados_processo": {
+    "tribunal": "TJSP",
+    "vara": "1ª Vara Cível",
+    "cliente": "João da Silva"
+  }
+}
+
+### Excluir Processo do DW LAW
+POST {{baseUrl}}/dw-law/excluir-processo
+Content-Type: application/json
+Accept: application/json
+
+{
+  "task_id": "dw-excluir-{{$timestamp}}",
+  "numero_processo": "1234567-89.2025.8.26.0100"
+}
+
+### Consultar Processo no DW LAW
+POST {{baseUrl}}/dw-law/consultar-processo
+Content-Type: application/json
+Accept: application/json
+
+{
+  "task_id": "dw-consultar-{{$timestamp}}",
+  "numero_processo": "1234567-89.2025.8.26.0100"
+}
+
+### Callback DW LAW (Webhook recebido do DW LAW)
+POST {{baseUrl}}/dw-law/callback
+Content-Type: application/json
+Accept: application/json
+
+{
+  "task_id": "dw-task-123",
+  "status": "sucesso",
+  "mensagem": "Processo inserido com sucesso",
+  "dados": {}
+}
+
+### ============================================
+### TASKS - GERENCIAMENTO ASSÍNCRONO
+### ============================================
+
+### Submeter Task Genérica
+POST {{baseUrl}}/tasks/submit
+Content-Type: application/json
+Accept: application/json
+
+{
+  "task_type": "buscar_publicacoes",
+  "payload": {
+    "cod_grupo": 5,
+    "data_inicial": "2025-11-17",
+    "data_final": "2025-11-17"
+  },
+  "priority": "high",
+  "callback_url": "http://camunda-worker/callback"
+}
+
+### Consultar Status de Task
+GET {{baseUrl}}/tasks/task-123/status
+Accept: application/json
+
+### Retry de Task Falhada
+POST {{baseUrl}}/tasks/task-123/retry
+Content-Type: application/json
+Accept: application/json
+
+{}
+
+### Listar Tasks
+GET {{baseUrl}}/tasks?status=pending&limit=50
+Accept: application/json
+
+### ============================================
+### EXEMPLOS DE USO COMPLETO
+### ============================================
+
+### FLUXO COMPLETO: Buscar Publicações → Processar → Marcar
+# 1. Buscar publicações (executa automaticamente)
+# 2. Verificar status
+# 3. Marcar como exportadas
+
+### Passo 1: Buscar Publicações do Dia
+POST {{baseUrl}}/buscar-publicacoes/processar-task-v2
+Content-Type: application/json
+
+{
+  "task_id": "busca-diaria-{{$timestamp}}",
+  "cod_grupo": 5,
+  "data_inicial": "2025-11-17",
+  "data_final": "2025-11-17",
+  "limite_publicacoes": 0,
+  "marcar_automaticamente": true
+}
+
+### Passo 2: Verificar Estatísticas
+GET {{baseUrl}}/publicacoes/estatisticas
+
+### Passo 3: Consultar Auditoria
+GET {{baseUrl}}/auditoria/estatisticas?data_inicio=2025-11-17&data_fim=2025-11-17
+
+### ============================================
+### TROUBLESHOOTING
+### ============================================
+
+### Verificar Conectividade MongoDB
+GET {{baseUrl}}/health
+
+### Testar SOAP WebJur
+POST {{baseUrl}}/buscar-publicacoes/test-soap
+Content-Type: application/json
+
+{
+  "cod_grupo": 5,
+  "data_inicial": "2025-11-17",
+  "data_final": "2025-11-17"
+}
+
+### Ver Estatísticas Gerais
+GET {{baseUrl}}/publicacoes/estatisticas
+
+### Logs de Auditoria (últimas 24h)
+GET {{baseUrl}}/auditoria/logs?limit=100

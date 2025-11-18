@@ -452,6 +452,9 @@ class PublicacaoUnifiedWorker(BaseWorker):
         - executar_classificacao: Se deve classificar (default: True)
         - executar_deduplicacao: Se deve verificar duplicatas (default: True)
         """
+        # ⏱️ MEDIÇÃO DE TEMPO - INÍCIO
+        start_time = datetime.now()
+
         log_context = {
             "WORKER_ID": task.get_worker_id(),
             "TASK_ID": task.get_task_id(),
@@ -460,7 +463,10 @@ class PublicacaoUnifiedWorker(BaseWorker):
             "HANDLER": "tratar_publicacao",
         }
 
-        log_with_context("🧹 Iniciando tratamento de publicação", log_context)
+        log_with_context(
+            f"🧹 ⏱️ [TIMER] Iniciando tratamento de publicação - {start_time.isoformat()}",
+            log_context
+        )
 
         try:
             variables = task.get_variables()
@@ -487,15 +493,36 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 # Usar o helper para processar via Gateway
                 log_with_context("📤 Processando via Gateway", log_context)
 
-                return self.process_via_gateway(
+                result = self.process_via_gateway(
                     task=task,
                     endpoint="/publicacoes/processar-task-publicacao",
                     timeout=90,
                 )
 
+                # ⏱️ MEDIÇÃO DE TEMPO - FIM
+                end_time = datetime.now()
+                duration = (end_time - start_time).total_seconds()
+
+                log_with_context(
+                    f"✅ ⏱️ [TIMER] Tratamento concluído - Publicação: {publicacao_id} | "
+                    f"Duração: {duration:.3f}s ({duration:.0f}ms) | "
+                    f"Início: {start_time.strftime('%H:%M:%S.%f')[:-3]} | "
+                    f"Fim: {end_time.strftime('%H:%M:%S.%f')[:-3]}",
+                    log_context
+                )
+
+                return result
+
         except Exception as e:
+            # ⏱️ MEDIÇÃO DE TEMPO - FIM (com erro)
+            end_time = datetime.now()
+            duration = (end_time - start_time).total_seconds()
+
             error_msg = f"Erro ao tratar publicação: {str(e)}"
-            log_with_context(f"❌ {error_msg}", log_context)
+            log_with_context(
+                f"❌ ⏱️ [TIMER] Erro após {duration:.3f}s - {error_msg}",
+                log_context
+            )
             return self.bpmn_error(
                 task, error_code="ERRO_TRATAMENTO_PUBLICACAO", error_message=error_msg
             )

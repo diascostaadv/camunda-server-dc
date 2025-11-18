@@ -489,7 +489,13 @@ class BaseWorker:
                     "variables": task.get_variables(),
                 }
 
-            self.logger.info(f"📤 Calling Gateway: {gateway_url}")
+            # ⏱️ MEDIÇÃO DE TEMPO - Chamada ao Gateway
+            from datetime import datetime
+            gateway_start = datetime.now()
+
+            self.logger.info(
+                f"📤 ⏱️ [TIMER] Calling Gateway: {gateway_url} - {gateway_start.strftime('%H:%M:%S.%f')[:-3]}"
+            )
 
             # Make request WITHOUT raise_for_status() - we'll handle errors manually
             response = requests.post(
@@ -497,6 +503,14 @@ class BaseWorker:
                 json=payload,
                 timeout=timeout,
                 headers={"Content-Type": "application/json"},
+            )
+
+            gateway_end = datetime.now()
+            gateway_duration = (gateway_end - gateway_start).total_seconds()
+
+            self.logger.info(
+                f"📥 ⏱️ [TIMER] Gateway response received - "
+                f"Duration: {gateway_duration:.3f}s | Status: {response.status_code}"
             )
 
             # SUCCESS PATH (2xx)
@@ -538,12 +552,17 @@ class BaseWorker:
 
                     # Add delay for tratar_publicacao to allow variable propagation
                     if topic == "tratar_publicacao":
+                        delay_start = datetime.now()
                         self.logger.info(
-                            f"⏱️ [tratar_publicacao] Aguardando 60 segundos antes de completar task {task_id}..."
+                            f"⏱️ [TIMER] [tratar_publicacao] Aguardando 60 segundos antes de completar task {task_id}... - "
+                            f"Início delay: {delay_start.strftime('%H:%M:%S.%f')[:-3]}"
                         )
                         time.sleep(60)
+                        delay_end = datetime.now()
+                        delay_duration = (delay_end - delay_start).total_seconds()
                         self.logger.info(
-                            f"✅ [tratar_publicacao] Delay concluído, completando task {task_id}"
+                            f"✅ ⏱️ [TIMER] [tratar_publicacao] Delay concluído ({delay_duration:.3f}s), completando task {task_id} - "
+                            f"Fim delay: {delay_end.strftime('%H:%M:%S.%f')[:-3]}"
                         )
 
                     return self.complete_task(

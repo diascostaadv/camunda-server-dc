@@ -488,12 +488,10 @@ async def processar_task_tratar_publicacao(
                 result.inserted_id
             ),  # ID da publicação prata para próximos processos
             "publicacao_prata_id": str(result.inserted_id),
-            "status_publicacao": pub_prata.status,
-            "score_similaridade": pub_prata.score_similaridade,
-            "classificacao": pub_prata.classificacao,
-            "publicacoes_similares": pub_prata.publicacoes_similares,
+            f"{publicacao_id}_status_publicacao": pub_prata.status,
+            f"{publicacao_id}_score_similaridade": pub_prata.score_similaridade,
             "message": f"Publicação processada com status: {pub_prata.status}",
-            "numero_processo": numero_processo_final,
+            f"{publicacao_id}_numero_processo": numero_processo_final,
         }
 
     except Exception as e:
