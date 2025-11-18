@@ -82,7 +82,9 @@ class PublicacaoUnifiedWorker(BaseWorker):
             f"  • {Topics.CLASSIFICAR_PUBLICACAO} - Classificação de publicações"
         )
         self.logger.info(f"  • {Topics.VERIFICAR_PROCESSO_CNJ} - Verificação no CPJ")
-        self.logger.info(f"  • {Topics.MARCAR_PUBLICACAO_EXPORTADA_WEBJUR} - Marcação Webjur")
+        self.logger.info(
+            f"  • {Topics.MARCAR_PUBLICACAO_EXPORTADA_WEBJUR} - Marcação Webjur"
+        )
 
     def handle_nova_publicacao(self, task: ExternalTask):
         """
@@ -134,7 +136,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 return self.bpmn_error(
                     task,
                     error_code="ERRO_VALIDACAO_NOVA_PUBLICACAO",
-                    error_message=error_msg
+                    error_message=error_msg,
                 )
 
             # Validação de formato básico
@@ -147,7 +149,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 return self.bpmn_error(
                     task,
                     error_code="ERRO_VALIDACAO_NOVA_PUBLICACAO",
-                    error_message=error_msg
+                    error_message=error_msg,
                 )
 
             # Validação básica de data (formato)
@@ -160,7 +162,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 return self.bpmn_error(
                     task,
                     error_code="ERRO_VALIDACAO_NOVA_PUBLICACAO",
-                    error_message=error_msg
+                    error_message=error_msg,
                 )
 
             log_with_context(
@@ -204,7 +206,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
             return self.bpmn_error(
                 task,
                 error_code="ERRO_ORQUESTRACAO_NOVA_PUBLICACAO",
-                error_message=error_msg
+                error_message=error_msg,
             )
 
     def handle_buscar_publicacoes(self, task: ExternalTask):
@@ -252,7 +254,9 @@ class PublicacaoUnifiedWorker(BaseWorker):
             cod_grupo = int(variables.get("cod_grupo", 5))
             data_inicial = variables.get("data_inicial")
             data_final = variables.get("data_final")
-            limite_publicacoes = int(variables.get("limite_publicacoes", DEFAULT_LIMITE_PUBLICACOES))
+            limite_publicacoes = int(
+                variables.get("limite_publicacoes", DEFAULT_LIMITE_PUBLICACOES)
+            )
             timeout_soap = int(variables.get("timeout_soap", 90))
 
             # Validações básicas
@@ -265,9 +269,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 log_with_context(f"❌ Validação falhou: {error_msg}", log_context)
 
                 return self.bpmn_error(
-                    task,
-                    error_code="ERRO_VALIDACAO_BUSCA",
-                    error_message=error_msg
+                    task, error_code="ERRO_VALIDACAO_BUSCA", error_message=error_msg
                 )
 
             # 2. Log dos parâmetros validados
@@ -318,9 +320,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
             log_with_context(f"💥 Exceção no worker: {error_msg}", log_context)
 
             return self.bpmn_error(
-                task,
-                error_code="ERRO_BUSCA_PUBLICACOES",
-                error_message=error_msg
+                task, error_code="ERRO_BUSCA_PUBLICACOES", error_message=error_msg
             )
 
     def _validate_busca_parameters(
@@ -411,9 +411,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 error_msg = "lote_id não fornecido nas variáveis"
                 log_with_context(f"❌ {error_msg}", log_context)
                 return self.bpmn_error(
-                    task,
-                    error_code="ERRO_VALIDACAO_LOTE",
-                    error_message=error_msg
+                    task, error_code="ERRO_VALIDACAO_LOTE", error_message=error_msg
                 )
 
             log_with_context(f"📦 Buscando lote {lote_id}", log_context)
@@ -442,9 +440,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
             error_msg = f"Erro ao buscar lote: {str(e)}"
             log_with_context(f"❌ {error_msg}", log_context)
             return self.bpmn_error(
-                task,
-                error_code="ERRO_BUSCA_LOTE",
-                error_message=error_msg
+                task, error_code="ERRO_BUSCA_LOTE", error_message=error_msg
             )
 
     def handle_tratar_publicacao(self, task: ExternalTask):
@@ -456,6 +452,9 @@ class PublicacaoUnifiedWorker(BaseWorker):
         - executar_classificacao: Se deve classificar (default: True)
         - executar_deduplicacao: Se deve verificar duplicatas (default: True)
         """
+        # ⏱️ MEDIÇÃO DE TEMPO - INÍCIO
+        start_time = datetime.now()
+
         log_context = {
             "WORKER_ID": task.get_worker_id(),
             "TASK_ID": task.get_task_id(),
@@ -464,7 +463,10 @@ class PublicacaoUnifiedWorker(BaseWorker):
             "HANDLER": "tratar_publicacao",
         }
 
-        log_with_context("🧹 Iniciando tratamento de publicação", log_context)
+        log_with_context(
+            f"🧹 ⏱️ [TIMER] Iniciando tratamento de publicação - {start_time.isoformat()}",
+            log_context
+        )
 
         try:
             variables = task.get_variables()
@@ -476,7 +478,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 return self.bpmn_error(
                     task,
                     error_code="ERRO_VALIDACAO_TRATAMENTO",
-                    error_message=error_msg
+                    error_message=error_msg,
                 )
 
             executar_classificacao = variables.get("executar_classificacao", True)
@@ -490,31 +492,39 @@ class PublicacaoUnifiedWorker(BaseWorker):
             if self.gateway_enabled:
                 # Usar o helper para processar via Gateway
                 log_with_context("📤 Processando via Gateway", log_context)
-                return self.process_via_gateway(
+
+                result = self.process_via_gateway(
                     task=task,
                     endpoint="/publicacoes/processar-task-publicacao",
                     timeout=90,
                 )
-            # else:
-            #     # Modo direto - apenas simula
-            #     result = {
-            #         "status": "success",
-            #         # "numero_processo": variables.get("numero_processo"),
-            #         "publicacao_id": publicacao_id,
-            #         "status_publicacao": "nova_publicacao_inedita",
-            #         "score_similaridade": 0.0,
-            #         "modo": "direto",
-            #         "message": "Tratamento simulado em modo direto",
-            #     }
-            #     return self.complete_task(task, result)
+
+                # ⏱️ MEDIÇÃO DE TEMPO - FIM
+                end_time = datetime.now()
+                duration = (end_time - start_time).total_seconds()
+
+                log_with_context(
+                    f"✅ ⏱️ [TIMER] Tratamento concluído - Publicação: {publicacao_id} | "
+                    f"Duração: {duration:.3f}s ({duration:.0f}ms) | "
+                    f"Início: {start_time.strftime('%H:%M:%S.%f')[:-3]} | "
+                    f"Fim: {end_time.strftime('%H:%M:%S.%f')[:-3]}",
+                    log_context
+                )
+
+                return result
 
         except Exception as e:
+            # ⏱️ MEDIÇÃO DE TEMPO - FIM (com erro)
+            end_time = datetime.now()
+            duration = (end_time - start_time).total_seconds()
+
             error_msg = f"Erro ao tratar publicação: {str(e)}"
-            log_with_context(f"❌ {error_msg}", log_context)
+            log_with_context(
+                f"❌ ⏱️ [TIMER] Erro após {duration:.3f}s - {error_msg}",
+                log_context
+            )
             return self.bpmn_error(
-                task,
-                error_code="ERRO_TRATAMENTO_PUBLICACAO",
-                error_message=error_msg
+                task, error_code="ERRO_TRATAMENTO_PUBLICACAO", error_message=error_msg
             )
 
     def handle_classificar_publicacao(self, task: ExternalTask):
@@ -667,7 +677,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 return self.bpmn_error(
                     task,
                     error_code="ERRO_VALIDACAO_VERIFICACAO_CPJ",
-                    error_message=error_msg
+                    error_message=error_msg,
                 )
 
             # Validação de valores inválidos/placeholder
@@ -677,26 +687,34 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 "nao identificado",
                 "nao informado",
             ]
-            if numero_cnj.strip().lower() in valores_invalidos or numero_cnj.strip() == "":
+            if (
+                numero_cnj.strip().lower() in valores_invalidos
+                or numero_cnj.strip() == ""
+            ):
                 error_msg = f"numero_cnj inválido ou não identificado: '{numero_cnj}'"
-                log_with_context(f"⚠️ {error_msg} - completando task sem verificação", log_context)
+                log_with_context(
+                    f"⚠️ {error_msg} - completando task sem verificação", log_context
+                )
 
                 # NÃO falha a task - retorna sucesso com indicação de que não foi possível verificar
-                return self.complete_task(task, {
-                    "status": "success",
-                    "numero_cnj": numero_cnj,
-                    "processos": [],
-                    "existe": False,
-                    "total_encontradas": 0,
-                    "mensagem": "Número do processo não identificado - verificação não realizada",
-                    "verificacao_realizada": False,
-                })
+                return self.complete_task(
+                    task,
+                    {
+                        "status": "success",
+                        "numero_cnj": numero_cnj,
+                        "processos": [],
+                        "existe": False,
+                        "total_encontradas": 0,
+                        "mensagem": "Número do processo não identificado - verificação não realizada",
+                        "verificacao_realizada": False,
+                    },
+                )
 
             log_with_context(f"📋 Buscando processo {numero_cnj} no CPJ", log_context)
 
             # LOG DETALHADO ANTES DE CHAMAR GATEWAY
             log_with_context(
-                f"📤 [GATEWAY] Enviando para endpoint: /publicacoes/verificar-processo-cnj",
+                "📤 [GATEWAY] Enviando para endpoint: /publicacoes/verificar-processo-cnj",
                 log_context,
             )
             log_with_context(
@@ -742,9 +760,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
             error_msg = f"Erro ao verificar processo CPJ: {str(e)}"
             log_with_context(f"❌ {error_msg}", log_context)
             return self.bpmn_error(
-                task,
-                error_code="ERRO_VERIFICACAO_CPJ",
-                error_message=error_msg
+                task, error_code="ERRO_VERIFICACAO_CPJ", error_message=error_msg
             )
 
     def handle_marcar_publicacao_exportada(self, task: ExternalTask):
@@ -786,9 +802,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 log_with_context(f"❌ {error_msg}", log_context)
 
                 return self.bpmn_error(
-                    task,
-                    error_code="ERRO_VALIDACAO_MARCACAO",
-                    error_message=error_msg
+                    task, error_code="ERRO_VALIDACAO_MARCACAO", error_message=error_msg
                 )
 
             # Validar tipo
@@ -801,9 +815,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
                 log_with_context(f"❌ {error_msg}", log_context)
 
                 return self.bpmn_error(
-                    task,
-                    error_code="ERRO_VALIDACAO_MARCACAO",
-                    error_message=error_msg
+                    task, error_code="ERRO_VALIDACAO_MARCACAO", error_message=error_msg
                 )
 
             log_with_context(
@@ -837,9 +849,7 @@ class PublicacaoUnifiedWorker(BaseWorker):
             log_with_context(f"💥 {error_msg}", log_context)
 
             return self.bpmn_error(
-                task,
-                error_code="ERRO_MARCACAO_EXPORTACAO",
-                error_message=error_msg
+                task, error_code="ERRO_MARCACAO_EXPORTACAO", error_message=error_msg
             )
 
 

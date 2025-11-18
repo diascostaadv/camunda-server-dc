@@ -13,8 +13,22 @@ SCP := scp $(SCP_FLAGS)
 .PHONY: deploy
 deploy: copy-files
 	@echo "🚀 Deploying Workers Platform..."
+	@echo "⏹️  Stopping existing containers..."
+	$(SSH) "cd $(REMOTE_DIR) && docker compose -f docker-compose.yml down"
+	@echo "🔨 Rebuilding images (no cache)..."
+	$(SSH) "cd $(REMOTE_DIR) && docker compose -f docker-compose.yml build --no-cache"
+	@echo "🚀 Starting services..."
 	$(SSH) "cd $(REMOTE_DIR) && docker compose -f docker-compose.yml up -d"
-	@echo "✅ Workers Platform deployed"
+	@echo "✅ Workers Platform deployed and restarted with fresh images"
+
+.PHONY: deploy-fast
+deploy-fast: copy-files
+	@echo "⚡ Fast deploying Workers Platform (reusing cached images)..."
+	@echo "⏹️  Stopping existing containers..."
+	$(SSH) "cd $(REMOTE_DIR) && docker compose -f docker-compose.yml down"
+	@echo "🚀 Starting services..."
+	$(SSH) "cd $(REMOTE_DIR) && docker compose -f docker-compose.yml up -d"
+	@echo "✅ Workers Platform deployed (fast mode)"
 
 .PHONY: copy-files
 copy-files:
@@ -38,6 +52,12 @@ restart:
 	@echo "🔄 Restarting Workers Platform..."
 	$(SSH) "cd $(REMOTE_DIR) && docker compose down && docker compose up -d"
 	@echo "✅ Workers Platform restarted"
+
+.PHONY: rebuild
+rebuild:
+	@echo "🔨 Rebuilding Workers Platform (no cache)..."
+	$(SSH) "cd $(REMOTE_DIR) && docker compose down && docker compose build --no-cache && docker compose up -d"
+	@echo "✅ Workers Platform rebuilt and restarted"
 
 .PHONY: stop
 stop:

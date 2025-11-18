@@ -489,7 +489,13 @@ class BaseWorker:
                     "variables": task.get_variables(),
                 }
 
-            self.logger.info(f"📤 Calling Gateway: {gateway_url}")
+            # ⏱️ MEDIÇÃO DE TEMPO - Chamada ao Gateway
+            from datetime import datetime
+            gateway_start = datetime.now()
+
+            self.logger.info(
+                f"📤 ⏱️ [TIMER] Calling Gateway: {gateway_url} - {gateway_start.strftime('%H:%M:%S.%f')[:-3]}"
+            )
 
             # Make request WITHOUT raise_for_status() - we'll handle errors manually
             response = requests.post(
@@ -497,6 +503,14 @@ class BaseWorker:
                 json=payload,
                 timeout=timeout,
                 headers={"Content-Type": "application/json"},
+            )
+
+            gateway_end = datetime.now()
+            gateway_duration = (gateway_end - gateway_start).total_seconds()
+
+            self.logger.info(
+                f"📥 ⏱️ [TIMER] Gateway response received - "
+                f"Duration: {gateway_duration:.3f}s | Status: {response.status_code}"
             )
 
             # SUCCESS PATH (2xx)
@@ -519,9 +533,43 @@ class BaseWorker:
                         for k, v in result.items()
                         if k not in ["status", "message", "task_id", "timestamp"]
                     }
-                    self.logger.info(f"✅ Task {task_id} processed successfully via Gateway")
+                    self.logger.info(
+                        f"✅ Task {task_id} processed successfully via Gateway"
+                    )
                     GATEWAY_TASKS.labels(topic=topic, status="success").inc()
-                    return self.complete_task(task, camunda_variables)
+                    self.logger.info(
+                        f"[PROCESS_VIA_GATEWAY] Completing task {task_id} with variables: {camunda_variables}"
+                    )
+
+                    # Use GLOBAL variables as default for all topics
+                    # This ensures variables are accessible across the entire process instance
+                    self.logger.info(
+                        f"[PROCESS_VIA_GATEWAY] Topic {topic}: Setting all variables as GLOBAL (default)"
+                    )
+                    self.logger.info(
+                        f"[PROCESS_VIA_GATEWAY] GLOBAL variables: {list(camunda_variables.keys())}"
+                    )
+
+                    # Add delay for tratar_publicacao to allow variable propagation
+                    if topic == "tratar_publicacao":
+                        delay_start = datetime.now()
+                        self.logger.info(
+                            f"⏱️ [TIMER] [tratar_publicacao] Aguardando 60 segundos antes de completar task {task_id}... - "
+                            f"Início delay: {delay_start.strftime('%H:%M:%S.%f')[:-3]}"
+                        )
+                        time.sleep(60)
+                        delay_end = datetime.now()
+                        delay_duration = (delay_end - delay_start).total_seconds()
+                        self.logger.info(
+                            f"✅ ⏱️ [TIMER] [tratar_publicacao] Delay concluído ({delay_duration:.3f}s), completando task {task_id} - "
+                            f"Fim delay: {delay_end.strftime('%H:%M:%S.%f')[:-3]}"
+                        )
+
+                    return self.complete_task(
+                        task,
+                        variables=camunda_variables,
+                        use_local_variables=False,  # Use GLOBAL variables
+                    )
 
                 elif result.get("status") == "error":
                     # Gateway returned structured error in body
@@ -534,7 +582,11 @@ class BaseWorker:
 
                     if retry_allowed:
                         return self.fail_task(
-                            task, error_msg, error_details=error_code, retries=3, retry_timeout=30000
+                            task,
+                            error_msg,
+                            error_details=error_code,
+                            retries=3,
+                            retry_timeout=30000,
                         )
                     else:
                         return self.bpmn_error(
@@ -542,7 +594,9 @@ class BaseWorker:
                         )
                 else:
                     # Unexpected response format
-                    error_msg = result.get("message", "Unexpected Gateway response format")
+                    error_msg = result.get(
+                        "message", "Unexpected Gateway response format"
+                    )
                     self.logger.error(f"⚠️ Unexpected Gateway response: {result}")
                     GATEWAY_TASKS.labels(topic=topic, status="unexpected_format").inc()
                     return self.fail_task(task, error_msg, retries=3)
@@ -553,13 +607,26 @@ class BaseWorker:
                 try:
                     error_body = response.json()
                     error_msg = error_body.get("error_message", response.text[:200])
-                    error_code = error_body.get("error_code", f"HTTP_{response.status_code}")
+                    error_code = error_body.get(
+                        "error_code", f"HTTP_{response.status_code}"
+                    )
                     retry_allowed = error_body.get("retry_allowed", False)
                 except Exception:
                     # Failed to parse - use raw response
-                    error_msg = response.text[:200] if response.text else f"HTTP {response.status_code}"
+                    error_msg = (
+                        response.text[:200]
+                        if response.text
+                        else f"HTTP {response.status_code}"
+                    )
                     error_code = f"HTTP_{response.status_code}"
-                    retry_allowed = response.status_code in [408, 429, 500, 502, 503, 504]
+                    retry_allowed = response.status_code in [
+                        408,
+                        429,
+                        500,
+                        502,
+                        503,
+                        504,
+                    ]
 
                 # Log detailed error information
                 self.logger.error(f"❌ Gateway HTTP error: {response.status_code}")
@@ -706,37 +773,55 @@ class BaseWorker:
             )
             return default
 
-    def complete_task(self, task, variables: Dict[str, Any] = None, use_local_variables: bool = True) -> Any:
+    def complete_task(
+        self,
+        task,
+        variables: Dict[str, Any] = None,
+        use_local_variables: bool = True,
+        global_variables: Dict[str, Any] = None,
+    ) -> Any:
         """
         Complete a task with optional variables
 
         Args:
             task: Camunda external task
-            variables: Variables to return to the process
+            variables: Variables to return to the process (local or global based on use_local_variables)
             use_local_variables: If True (default), uses localVariables (isolated per iteration in loops)
                                If False, uses global variables (shared across process instance)
+            global_variables: Additional global variables to set (useful for Multi-Instance patterns)
 
         Note:
             In BPMN loops/multi-instance patterns, use_local_variables=True prevents
             one iteration from overwriting another's variables. This is the recommended
             default for most use cases.
+
+            You can pass both variables (local) and global_variables to set both scopes at once.
         """
         variables = variables or {}
+        global_variables = global_variables or {}
         task_id = task.get_task_id()
-        scope = "local" if use_local_variables else "global"
-        self.logger.info(f"Completing task {task_id} with {scope} variables: {list(variables.keys())}")
 
         try:
             if use_local_variables:
-                # Use local_variables to prevent overwrites in loop iterations
-                # Pass empty dict for global_variables, all data goes to local_variables
-                result = task.complete(global_variables={}, local_variables=variables)
+                # Use local_variables + optional global_variables
+                self.logger.info(
+                    f"Completing task {task_id} with local variables: {list(variables.keys())}"
+                )
+                if global_variables:
+                    self.logger.info(
+                        f"Also setting global variables: {list(global_variables.keys())}"
+                    )
+                result = task.complete(
+                    global_variables=global_variables, local_variables=variables
+                )
             else:
-                # Use global variables (legacy behavior)
-                # Pass variables to global_variables parameter
+                # Use global variables only (legacy behavior)
+                self.logger.info(
+                    f"Completing task {task_id} with global variables: {list(variables.keys())}"
+                )
                 result = task.complete(global_variables=variables, local_variables={})
 
-            self.logger.info(f"Task {task_id} completed successfully ({scope} scope)")
+            self.logger.info(f"Task {task_id} completed successfully")
             return result
         except Exception as e:
             self.logger.error(f"Failed to complete task {task_id}: {str(e)}")

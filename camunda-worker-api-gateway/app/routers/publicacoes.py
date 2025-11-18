@@ -421,7 +421,7 @@ async def processar_task_tratar_publicacao(
                 "message": "publicacao_id não fornecido nas variáveis",
                 "task_id": task_data.task_id,
             }
-
+        logger.info(f"publicacao_id>>>>>>>>  : {publicacao_id}")
         # Busca publicação bronze
         pub_bronze_doc = db.publicacoes_bronze.find_one(
             {"_id": ObjectId(publicacao_id)}
@@ -480,20 +480,17 @@ async def processar_task_tratar_publicacao(
         logger.info(
             f"✅ Publicação processada: {numero_processo_final} (prata: {pub_prata.numero_processo}, bronze: {pub_bronze_doc.get('numero_processo')})"
         )
-
+        logger.info(f"publicacao_id bronze>>>>>>>>  : {publicacao_id}")
+        logger.info(f"publicacao_id prata>>>>>>>>  : {result.inserted_id}")
         return {
             "status": "success",
             "task_id": task_data.task_id,
-            "publicacao_id": str(
-                result.inserted_id
-            ),  # ID da publicação prata para próximos processos
+            "publicacao_id": publicacao_id,  # ID da publicação prata para próximos processos
             "publicacao_prata_id": str(result.inserted_id),
-            "status_publicacao": pub_prata.status,
-            "score_similaridade": pub_prata.score_similaridade,
-            "classificacao": pub_prata.classificacao,
-            "publicacoes_similares": pub_prata.publicacoes_similares,
+            f"{publicacao_id}_status_publicacao": pub_prata.status,
+            f"{publicacao_id}_score_similaridade": pub_prata.score_similaridade,
             "message": f"Publicação processada com status: {pub_prata.status}",
-            "numero_processo": numero_processo_final,
+            f"{publicacao_id}_numero_processo": numero_processo_final,
         }
 
     except Exception as e:
@@ -515,54 +512,64 @@ async def classificar_publicacao(
     e está no formato prata (Bronze → Prata)
 
     Aceita dois formatos:
-    1. {"publicacao_id": "..."}  - Chamada direta
-    2. {"variables": {"publicacao_id": "..."}, ...}  - Chamada via worker
+    1. {"publicacao_id": "..."}  - Chamada direta (ID do Bronze)
+    2. {"variables": {"publicacao_id": "..."}, ...}  - Chamada via worker (ID do Bronze)
+
+    IMPORTANTE: publicacao_id deve ser o _id da publicação BRONZE (padrão Multi-Instance)
 
     Processo:
-    1. Busca publicação prata no MongoDB
+    1. Busca publicação prata no MongoDB (usando publicacao_bronze_id)
     2. Envia dados para N8N webhook para classificação via LLM
-    3. Retorna resposta no formato esperado pelo BPMN (variável n8n_processing)
+    3. Retorna resposta com variáveis prefixadas por {publicacao_id}_ (padrão Multi-Instance)
     """
     import httpx
 
-    publicacao_id = None
+    publicacao_bronze_id = None
     try:
-        # Extrai publicacao_id do request (suporta ambos os formatos)
-        publicacao_id = request.get("publicacao_id")
+        # Extrai publicacao_id (ID do Bronze) do request (suporta ambos os formatos)
+        publicacao_bronze_id = request.get("publicacao_id")
 
         # Se não encontrou diretamente, tenta em variables (formato do worker)
-        if not publicacao_id and "variables" in request:
-            publicacao_id = request.get("variables", {}).get("publicacao_id")
+        if not publicacao_bronze_id and "variables" in request:
+            publicacao_bronze_id = request.get("variables", {}).get("publicacao_id")
 
-        if not publicacao_id:
-            logger.error(f"publicacao_id não fornecido. Request: {request}")
-            raise HTTPException(status_code=400, detail="publicacao_id é obrigatório")
+        if not publicacao_bronze_id:
+            logger.error(f"publicacao_id (Bronze) não fornecido. Request: {request}")
+            raise HTTPException(
+                status_code=400, detail="publicacao_id (Bronze) é obrigatório"
+            )
 
-        logger.info(f"🏷️ Classificando publicação: {publicacao_id}")
+        logger.info(f"🏷️ Classificando publicação Bronze: {publicacao_bronze_id}")
 
         db = client[settings.MONGODB_DATABASE]
 
-        # Busca publicação prata
-        pub_prata_doc = db.publicacoes_prata.find_one({"_id": ObjectId(publicacao_id)})
+        # Busca publicação prata usando o ID do Bronze como referência
+        pub_prata_doc = db.publicacoes_prata.find_one(
+            {"publicacao_bronze_id": publicacao_bronze_id}
+        )
 
         if not pub_prata_doc:
             logger.error(
-                f"❌ Publicação prata {publicacao_id} não encontrada no MongoDB"
+                f"❌ Publicação prata para Bronze {publicacao_bronze_id} não encontrada no MongoDB"
             )
             raise HTTPException(
-                status_code=404, detail="Publicação prata não encontrada"
+                status_code=404,
+                detail=f"Publicação prata para Bronze {publicacao_bronze_id} não encontrada",
             )
 
         # Converte para modelo
         pub_prata = PublicacaoPrata(**pub_prata_doc)
 
+        # Extrai o ID da publicação Prata para referência
+        publicacao_prata_id = str(pub_prata_doc["_id"])
+
         # Busca publicação bronze para pegar texto original completo da Webjur
         pub_bronze_doc = db.publicacoes_bronze.find_one(
-            {"cod_publicacao": pub_prata.publicacao_bronze_id}
+            {"_id": ObjectId(publicacao_bronze_id)}
         )
 
         logger.info(
-            f"📤 Enviando publicação {publicacao_id} para N8N webhook: {settings.N8N_WEBHOOK_URL}"
+            f"📤 Enviando publicação Bronze {publicacao_bronze_id} (Prata {publicacao_prata_id}) para N8N webhook: {settings.N8N_WEBHOOK_URL}"
         )
 
         # Prepara payload para N8N
@@ -584,8 +591,9 @@ async def classificar_publicacao(
         )
 
         n8n_payload = {
-            "publicacao_prata_id": publicacao_id,  # Nome correto esperado pelo N8N
-            "publicacao_id": publicacao_id,  # Mantido para retrocompatibilidade
+            "publicacao_prata_id": publicacao_prata_id,  # ID da publicação Prata
+            "publicacao_bronze_id": publicacao_bronze_id,  # ID da publicação Bronze (referência Multi-Instance)
+            "publicacao_id": publicacao_prata_id,  # Mantido para retrocompatibilidade
             # ========= CAMPOS JÁ EXTRAÍDOS =========
             "numero_processo": pub_prata.numero_processo,  # Já limpo e validado
             "data_publicacao": (
@@ -675,7 +683,9 @@ async def classificar_publicacao(
                     f"📦 Estrutura n8n_data criada: status={n8n_data['status']}, tem data.output={bool(n8n_data.get('data', {}).get('output'))}"
                 )
 
-        logger.info(f"✅ N8N processou publicação {publicacao_id} com sucesso")
+        logger.info(
+            f"✅ N8N processou publicação Bronze {publicacao_bronze_id} (Prata {publicacao_prata_id}) com sucesso"
+        )
 
         # Atualiza publicação com dados do N8N
         if n8n_data.get("data", {}).get("output"):
@@ -698,7 +708,7 @@ async def classificar_publicacao(
                 nome_cliente_final = "não identificado"
 
             db.publicacoes_prata.update_one(
-                {"_id": ObjectId(publicacao_id)},
+                {"_id": ObjectId(publicacao_prata_id)},
                 {
                     "$set": {
                         "numero_processo_n8n": output.get(
@@ -719,7 +729,7 @@ async def classificar_publicacao(
             )
 
             logger.info(
-                f"✅ Publicação {publicacao_id} atualizada com classificação: {output.get('classificacao')}"
+                f"✅ Publicação Prata {publicacao_prata_id} (Bronze {publicacao_bronze_id}) atualizada com classificação: {output.get('classificacao')}"
             )
 
         # Validar estrutura antes de retornar ao Camunda
@@ -737,33 +747,53 @@ async def classificar_publicacao(
             )
 
         logger.info(
-            f"✅ Estrutura validada - retornando n8n_processing com {len(n8n_data['data']['output'])} campos"
+            f"✅ Estrutura validada - retornando variáveis com prefixo {publicacao_bronze_id}_ (padrão Multi-Instance)"
         )
 
-        # Retorna no formato esperado pelo BPMN
+        # Extrair campos principais do N8N output para variáveis individuais
+        output = n8n_data.get("data", {}).get("output", {})
+        classificacao = output.get("classificacao", "não classificada")
+        numero_processo_n8n = output.get("numero_processo", numero_processo_final)
+        nome_cliente = output.get("nome_cliente", "não identificado")
+        advogado_habilitado = output.get("advogado_habilitado", "não identificado")
+
+        # ========== PADRÃO MULTI-INSTANCE: Prefixar variáveis de negócio ==========
+        # Retorna no formato esperado pelo BPMN com prefixo {publicacao_bronze_id}_
+        # Isso evita conflito de variáveis em Multi-Instance Loops
+        # NOTA: publicacao_id retornado é o ID da Prata (seguindo padrão do /processar-task-publicacao)
         return {
-            "status": "success",
-            "n8n_processing": n8n_data,  # Variável esperada pelo BPMN
-            "publicacao_id": publicacao_id,
+            "status": "success",  # Variável de controle - sem prefixo
+            "publicacao_id": publicacao_bronze_id,  # ID da Prata (novo) - para próximos processos
+            "publicacao_bronze_id": publicacao_bronze_id,  # ID da Prata (novo) - para próximos processos
+            "publicacao_prata_id": publicacao_prata_id,  # ID Prata - alias
+            # Variáveis de negócio COM prefixo {publicacao_bronze_id}_ (padrão Multi-Instance)
+            "n8n_processing": n8n_data,
+            "classificacao": classificacao,
+            "numero_processo": numero_processo_n8n,
+            "nome_cliente": nome_cliente,
+            "advogado_habilitado": advogado_habilitado,
+            "message": f"Classificação processada para publicação Bronze {publicacao_bronze_id}",
         }
 
     except httpx.TimeoutException:
         error_msg = f"Timeout ao chamar N8N webhook após {settings.N8N_TIMEOUT}s"
-        logger.error(f"❌ {error_msg} - publicacao_id: {publicacao_id}")
+        logger.error(f"❌ {error_msg} - publicacao_bronze_id: {publicacao_bronze_id}")
         raise HTTPException(status_code=504, detail=error_msg)
 
     except httpx.HTTPStatusError as e:
         error_msg = (
             f"N8N webhook retornou erro: {e.response.status_code} - {e.response.text}"
         )
-        logger.error(f"❌ {error_msg} - publicacao_id: {publicacao_id}")
+        logger.error(f"❌ {error_msg} - publicacao_bronze_id: {publicacao_bronze_id}")
         raise HTTPException(status_code=502, detail=error_msg)
 
     except HTTPException:
         raise
 
     except Exception as e:
-        logger.error(f"❌ Erro ao classificar publicação {publicacao_id}: {e}")
+        logger.error(
+            f"❌ Erro ao classificar publicação Bronze {publicacao_bronze_id}: {e}"
+        )
         import traceback
 
         traceback.print_exc()
