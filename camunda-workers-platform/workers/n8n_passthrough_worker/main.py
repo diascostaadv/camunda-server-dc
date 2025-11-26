@@ -35,6 +35,9 @@ class N8nPassthroughWorker:
 
         # Auto-discovery: busca TODOS os topics do Camunda
         self.topics = self._discover_all_topics()
+
+        #topics de variáveis globais (salvas no processo)
+        self.topic_global_variables = os.getenv("TOPICS_GLOBAIS_VARIABLES", "buscar_publicacoes,nova_publicacao").split(",")
         
         if not self.topics:
             logger.warning("⚠️ Nenhum topic descoberto! Usando fallback...")
@@ -50,7 +53,7 @@ class N8nPassthroughWorker:
             "maxTasks": int(os.getenv("MAX_TASKS", "300")),
             "lockDuration": 60000,
             "asyncResponseTimeout": 30000,
-            "retries": 3,
+            "retries": 2,
             "retryTimeout": 5000,
             "sleepSeconds": 10,
             "auth_basic": {
@@ -151,15 +154,26 @@ class N8nPassthroughWorker:
             
             # n8n deve retornar {"variables": {...}}
             # Se não tiver, retorna vazio mas completa a task
-            output_variables = result.get("variables", {})
+            logger.info("====== DEBUG N8N → CAMUNDA ======")
+            logger.info(f"Raw result recebido do n8n: {result}")
+            logger.info(f"Tipo do result: {type(result)}")
 
-            logger.info(f"[DEBUG] result recebido do n8n: {result}")
-            logger.info(f"[DEBUG] tipo do result: {type(result)}")
+            try:
+                output_variables = result.get("variables", {})
+                logger.info(f"Variáveis extraídas: {output_variables}")
+            except Exception as e:
+                logger.error(f"Erro ao acessar result.get('variables'): {e}")
+                raise
             
             if not output_variables:
                 logger.warning(f"⚠️ n8n não retornou 'variables' no response. Completando task sem variáveis.")
             
-            return task.complete(global_variables={}, local_variables=output_variables)
+            logger.info(f"⚠️ [PROCESS_VIA_N8N] Salvando variáveis no processo: {output_variables}")
+
+            if topic in self.topic_global_variables:
+                return task.complete(global_variables=output_variables, local_variables={})
+            else:
+                return task.complete(global_variables={}, local_variables=output_variables)
             
         except requests.Timeout:
             logger.error(f"⏱️ n8n timeout para topic: {topic}")
